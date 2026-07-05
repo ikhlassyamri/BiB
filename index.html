@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiB — Belajar Menghasilkan Uang di Internet dengan AI</title>
+<meta name="description" content="BiB (Bisnis in a Box) adalah sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, prompt AI siap pakai, dan mentor yang bisa kamu hubungi langsung, seumur hidup.">
+<meta name="theme-color" content="#0B0C0E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BiB — Belajar Menghasilkan Uang di Internet dengan AI">
+<meta property="og:description" content="Sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, prompt AI siap pakai, dan mentor seumur hidup.">
+<meta property="og:image" content="og.jpg">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0C0E;
+  --panel:#14161A;
+  --panel-2:#101216;
+  --line:#26292F;
+  --line-soft:#1A1D22;
+  --text:#F4F5F6;
+  --muted:#9AA1A9;
+  --paper:#FFFFFF;
+  --nv:#76B900;
+  --wa:#25D366;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:1.0625rem;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+::selection{background:#fff;color:#0B0C0E}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.narrow{max-width:720px;margin:0 auto;padding:0 22px}
+section{padding:clamp(72px,10vw,120px) 0;position:relative}
+.sect-line{border-top:1px solid var(--line-soft)}
+
+/* ---------- square motif ---------- */
+.sq{display:inline-block;width:10px;height:10px;background:#fff;flex:none}
+h2{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.65rem,4.6vw,2.35rem);
+  line-height:1.2;letter-spacing:-.01em;
+  margin-bottom:28px;
+}
+h2::before{content:"";display:block;width:11px;height:11px;background:#fff;margin-bottom:18px}
+.center h2::before{margin-left:auto;margin-right:auto}
+
+p+p{margin-top:1.15em}
+strong{color:#fff;font-weight:600}
+.muted{color:var(--muted)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--paper);color:var(--ink);
+  font-family:var(--disp);font-weight:700;font-size:1.05rem;
+  padding:17px 32px;border-radius:var(--r);
+  text-decoration:none;border:1.5px solid var(--paper);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.14)}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.btn-big{flex-direction:column;gap:2px;padding:18px 44px;line-height:1.25}
+.btn-big small{font-family:var(--body);font-weight:600;font-size:.85rem;opacity:.72;letter-spacing:.02em}
+.btn-sm{padding:10px 20px;font-size:.92rem;border-radius:10px}
+
+/* ---------- header ---------- */
+.hdr{
+  position:fixed;inset:0 0 auto 0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;
+  background:transparent;border-bottom:1px solid transparent;
+  transition:background .3s,border-color .3s;
+}
+.hdr.on{background:rgba(11,12,14,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--line-soft)}
+.brand img{height:26px;width:auto}
+.brand{display:flex;align-items:center;text-decoration:none}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:78vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding-top:120px;overflow:hidden;
+}
+.hero-mark{
+  position:absolute;right:-8%;top:50%;transform:translateY(-50%);
+  width:min(600px,72vw);opacity:.05;pointer-events:none;user-select:none;
+}
+.hero h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.05rem,6.6vw,3.7rem);
+  line-height:1.16;letter-spacing:-.02em;
+  max-width:920px;margin:0 auto;
+}
+.hl-inv{
+  background:var(--paper);color:var(--ink);
+  padding:.04em .18em;border-radius:.14em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.cue{margin:64px auto 0;width:10px;height:10px;background:#fff;animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:1}55%{transform:translateY(16px);opacity:.25}}
+
+/* ---------- quote ---------- */
+.quote{background:#07080A;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);overflow:hidden;padding:0}
+.quote::after{
+  content:"";position:absolute;right:-10%;top:0;bottom:0;width:70%;
+  background:radial-gradient(ellipse at 70% 45%,rgba(118,185,0,.09),transparent 62%);
+  pointer-events:none;
+}
+.q-grid{
+  display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);
+  align-items:center;gap:0 24px;max-width:1160px;margin:0 auto;padding:0 22px;
+  position:relative;z-index:1;
+}
+.q-left{padding:clamp(70px,9vw,110px) 0}
+.q-intro{color:var(--muted);font-size:1rem;margin-bottom:22px}
+blockquote{
+  font-family:var(--disp);font-weight:600;
+  font-size:clamp(1.45rem,3.6vw,2.15rem);
+  line-height:1.38;letter-spacing:-.01em;
+}
+blockquote strong{
+  font-weight:700;color:#fff;
+  box-shadow:inset 0 -.34em rgba(118,185,0,.4);
+}
+.q-attr{
+  display:flex;align-items:center;gap:14px;margin-top:30px;
+  border-left:2px solid var(--nv);padding-left:16px;
+}
+.q-attr img{height:20px;width:auto}
+.q-attr b{display:block;font-family:var(--disp);font-weight:600;font-size:.98rem;line-height:1.35}
+.q-attr span{color:var(--muted);font-size:.86rem}
+.q-more{margin-top:26px;color:var(--muted);font-size:1rem;max-width:46ch}
+.q-more em{color:var(--text);font-style:italic}
+.q-photo{align-self:stretch;display:flex;align-items:flex-end;justify-content:center;min-height:100%}
+.q-photo img{
+  width:min(560px,100%);height:100%;object-fit:cover;object-position:top;
+  -webkit-mask-image:linear-gradient(to left,#000 58%,transparent 100%);
+          mask-image:linear-gradient(to left,#000 58%,transparent 100%);
+}
+
+/* ---------- story ---------- */
+.q-card{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.25rem,3.2vw,1.65rem);line-height:1.4;
+  padding:30px 34px;border-radius:16px;margin:34px 0;
+  letter-spacing:-.01em;
+}
+.lead-end{font-size:1.15em}
+
+/* ---------- testimonials ---------- */
+.t-intro{font-size:clamp(1.2rem,3vw,1.5rem);font-weight:600;color:#fff;font-family:var(--disp);margin-bottom:34px}
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:56px}
+.t-grid img{
+  width:100%;height:100%;object-fit:cover;
+  border:1px solid var(--line);border-radius:14px;
+  cursor:zoom-in;transition:transform .3s ease,border-color .3s;
+}
+.t-grid img:hover{transform:translateY(-3px);border-color:#3A3F47}
+.t-wide{grid-column:1/-1}
+.ask{font-family:var(--disp);font-weight:700;color:#fff;font-size:1.3em;margin-top:1.3em!important}
+
+/* ---------- about / fase ---------- */
+.proof{margin:40px 0}
+.proof img{border:1px solid var(--line);border-radius:14px;cursor:zoom-in}
+.proof figcaption{color:var(--muted);font-size:.9rem;margin-top:12px;font-style:italic}
+.fase{list-style:none;margin-top:44px;border-left:2px solid var(--line);padding-left:0}
+.fase li{position:relative;padding:0 0 40px 34px}
+.fase li:last-child{padding-bottom:0}
+.fase li::before{
+  content:"";position:absolute;left:-6px;top:10px;
+  width:10px;height:10px;background:#fff;
+}
+.fase .f-num{
+  font-family:var(--disp);font-weight:600;color:var(--muted);
+  font-size:.86rem;letter-spacing:.16em;
+}
+.fase h3{font-family:var(--disp);font-weight:700;font-size:1.3rem;margin:4px 0 10px}
+.fase p{color:var(--muted)}
+.fase p strong,.fase p b{color:var(--text)}
+
+/* ---------- facilities ---------- */
+.fac{display:grid;grid-template-columns:70px 1fr;gap:8px 22px;padding:38px 0;border-bottom:1px solid var(--line-soft)}
+.fac:last-of-type{border-bottom:none}
+.fac .f-no{
+  font-family:var(--disp);font-weight:700;font-size:2.7rem;line-height:1;
+  color:transparent;-webkit-text-stroke:1.2px #3A4048;
+}
+.fac h3{font-family:var(--disp);font-weight:700;font-size:clamp(1.2rem,2.8vw,1.5rem);line-height:1.35;margin-bottom:10px}
+.fac p{color:var(--muted)}
+.fac p strong{color:var(--text)}
+.fac-hi{
+  border:1.5px solid #fff;border-radius:18px;background:var(--panel-2);
+  padding:34px 30px;margin-top:38px;border-bottom:1.5px solid #fff;
+}
+.fac-hi .f-no{-webkit-text-stroke:1.2px #fff}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px}
+.m-grid img{
+  border-radius:10px;border:1px solid var(--line);
+  cursor:zoom-in;transition:transform .3s ease;
+}
+.m-grid img:hover{transform:scale(1.03)}
+
+/* ---------- bonus ---------- */
+.b-row{
+  display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:center;
+  padding:20px 0;border-bottom:1px solid var(--line-soft);
+}
+.b-row img{border-radius:10px;border:1px solid var(--line);cursor:zoom-in}
+.b-row .b-name{font-family:var(--disp);font-weight:600;font-size:1.08rem;line-height:1.45}
+.b-row .val{display:block;color:var(--muted);font-family:var(--body);font-weight:400;font-size:.92rem;margin-top:4px}
+.shelf-title{font-family:var(--disp);font-weight:600;font-size:1.08rem;margin:34px 0 6px}
+.shelf-title .val{color:var(--muted);font-family:var(--body);font-weight:400;font-size:.92rem}
+.shelf{
+  display:flex;gap:12px;overflow-x:auto;padding:16px 0 18px;
+  scroll-snap-type:x mandatory;border-bottom:1px solid var(--line-soft);
+  -webkit-overflow-scrolling:touch;
+}
+.shelf img{
+  height:210px;width:auto;border-radius:8px;border:1px solid var(--line);
+  scroll-snap-align:start;cursor:zoom-in;flex:none;
+  transition:transform .3s ease;
+}
+.shelf img:hover{transform:translateY(-4px)}
+.shelf::-webkit-scrollbar{height:6px}
+.shelf::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.b-total{margin-top:34px;font-size:1.1rem}
+.b-total strong{font-family:var(--disp)}
+
+/* ---------- price ---------- */
+.price-card{
+  max-width:560px;margin:0 auto;text-align:center;
+  background:var(--panel-2);border:1px solid #2C3138;border-radius:22px;
+  padding:clamp(34px,6vw,50px) clamp(24px,5vw,44px);
+}
+.price-card .p-logo{height:30px;width:auto;margin:0 auto 26px}
+.p-label{
+  font-family:var(--disp);font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;font-size:.8rem;color:var(--muted);
+}
+.p-old{margin-top:18px;color:var(--muted);font-size:1.05rem}
+.p-old s{text-decoration-thickness:2px}
+.p-old .tag{
+  display:inline-block;margin-left:8px;font-size:.72rem;letter-spacing:.08em;
+  border:1px solid var(--line);border-radius:99px;padding:2px 10px;vertical-align:middle;
+}
+.p-now{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.7rem,8vw,3.6rem);letter-spacing:-.02em;line-height:1.1;
+  margin:6px 0 10px;color:#fff;
+}
+.p-sub{color:var(--muted);font-size:1rem}
+.p-list{list-style:none;text-align:left;margin:32px 0;border-top:1px solid var(--line-soft);padding-top:28px}
+.p-list li{display:flex;gap:14px;align-items:flex-start;padding:9px 0;color:var(--text)}
+.p-check{
+  flex:none;width:20px;height:20px;margin-top:5px;
+  border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;
+  font-size:12px;line-height:1;color:#fff;font-weight:700;
+}
+.price-card .btn{width:100%}
+
+/* ---------- qualification ---------- */
+.qual-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+.qual{border-radius:18px;padding:32px 30px}
+.qual h3{font-family:var(--disp);font-weight:700;font-size:1.2rem;margin-bottom:20px;line-height:1.4}
+.qual ul{list-style:none}
+.qual li{display:flex;gap:14px;align-items:flex-start;padding:9px 0;line-height:1.65}
+.qual .mark{flex:none;width:20px;height:20px;margin-top:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.qual-no{background:#0F1114;border:1px solid var(--line)}
+.qual-no li{color:var(--muted)}
+.qual-no .mark{border:1.5px solid #4A505A;color:#7C8894}
+.qual-yes{background:var(--paper);color:var(--ink)}
+.qual-yes li{color:#26282C}
+.qual-yes li strong,.qual-yes h3{color:var(--ink)}
+.qual-yes .mark{background:var(--ink);color:#fff}
+
+/* ---------- faq ---------- */
+.faq details{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
+  margin-bottom:12px;overflow:hidden;
+}
+.faq summary{
+  cursor:pointer;list-style:none;padding:20px 54px 20px 22px;
+  font-family:var(--disp);font-weight:600;font-size:1.05rem;position:relative;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-family:var(--disp);font-weight:500;font-size:1.5rem;color:var(--muted);
+  transition:transform .3s;
+}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{padding:0 22px 22px;color:var(--muted)}
+.faq details p strong{color:var(--text)}
+
+/* ---------- penutup ---------- */
+.penutup{text-align:center}
+.eyebrow{
+  font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:34px;
+}
+.eyebrow::before,.eyebrow::after{content:"";width:8px;height:8px;background:var(--muted)}
+.penutup p{max-width:640px;margin-left:auto;margin-right:auto;font-size:1.1rem}
+.penutup .btn-big{margin-top:44px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
+.f-grid{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.f-brand{display:flex;align-items:center;gap:14px}
+.f-brand img{height:22px;width:auto}
+.f-brand span{color:var(--muted);font-size:.92rem}
+.f-meta{color:var(--muted);font-size:.88rem;text-align:right}
+.f-meta a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line)}
+.f-meta a:hover{border-color:#fff}
+
+/* ---------- WA fab ---------- */
+.wa-fab{
+  position:fixed;right:18px;bottom:18px;z-index:70;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--wa);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+  transition:transform .25s ease;
+}
+.wa-fab:hover{transform:scale(1.08)}
+.wa-fab svg{width:30px;height:30px;fill:#fff}
+
+/* ---------- lightbox ---------- */
+.lb{
+  position:fixed;inset:0;z-index:100;background:rgba(5,6,7,.93);
+  display:none;align-items:center;justify-content:center;padding:22px;
+  cursor:zoom-out;
+}
+.lb.open{display:flex}
+.lb img{max-width:94vw;max-height:88vh;width:auto;height:auto;border-radius:12px}
+.lb-x{
+  position:absolute;top:16px;right:16px;width:44px;height:44px;
+  background:rgba(255,255,255,.1);border:1px solid var(--line);border-radius:50%;
+  color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;
+}
+
+/* ---------- reveal ---------- */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+  .q-grid{grid-template-columns:1fr;gap:0}
+  .q-left{padding-bottom:12px}
+  .q-photo{margin-top:8px}
+  .q-photo img{
+    width:100%;max-height:420px;object-position:top;
+    -webkit-mask-image:linear-gradient(to top,#000 62%,transparent 100%);
+            mask-image:linear-gradient(to top,#000 62%,transparent 100%);
+  }
+  .qual-grid{grid-template-columns:1fr}
+  .fac{grid-template-columns:52px 1fr}
+  .fac .f-no{font-size:2.1rem}
+}
+@media (max-width:600px){
+  .t-grid{grid-template-columns:1fr}
+  .t-wide{grid-column:auto}
+  .m-grid{grid-template-columns:1fr 1fr}
+  .b-row{grid-template-columns:110px 1fr;gap:14px}
+  .shelf img{height:180px}
+  .f-grid{flex-direction:column;align-items:flex-start}
+  .f-meta{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <a class="brand" href="#top" aria-label="BiB — Bisnis in a Box">
+    <img src="logo-white.png" alt="Logo BiB" width="640" height="514">
+  </a>
+  <a class="btn btn-sm" href="#harga">Join BiB</a>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <img class="hero-mark" src="logo-white.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <h1 class="reveal">Belajar Menghasilkan Uang di&nbsp;Internet <span class="hl-inv">dengan Artificial Intelligence&nbsp;(AI)</span></h1>
+      <div class="cue" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ================= QUOTE ================= -->
+  <section class="quote">
+    <div class="q-grid">
+      <div class="q-left reveal">
+        <p class="q-intro">CEO Nvidia, Jensen Huang, pernah berkata:</p>
+        <blockquote>"Kamu tidak akan kehilangan pekerjaan karena AI. Kamu akan kehilangan pekerjaan karena <strong>orang yang menggunakan AI</strong>."</blockquote>
+        <div class="q-attr">
+          <img src="nvidia.png" alt="Logo NVIDIA" width="224" height="166">
+          <div>
+            <b>Jensen Huang — CEO Nvidia</b>
+            <span>Milken Institute Global Conference, 2025</span>
+          </div>
+        </div>
+        <p class="q-more">Bahkan di forum yang sama, dia menambahkan: <em>"Setiap pekerjaan akan terdampak, dan segera."</em></p>
+      </div>
+      <div class="q-photo">
+        <img src="jensen.webp" alt="Jensen Huang, CEO Nvidia, berbicara di atas panggung" width="1100" height="877">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="story">
+    <div class="narrow reveal">
+      <p>Di dunia kerja, kalimat itu <strong>peringatan</strong>.</p>
+      <p>Di internet, kalimat itu <strong>kenyataan sehari-hari</strong>, karena semua orang memperebutkan perhatian dan pembeli yang sama.</p>
+      <p>Dulu, jualan online sendirian itu wajar. Sekarang, kamu bersaing dengan orang-orang yang punya "tim": AI yang nulisin skrip mereka, mendesain promosi mereka, dan membalas chat calon pembeli mereka.</p>
+      <p>Makanya, pertanyaan "gimana cara menghasilkan uang di internet?" udah ketinggalan zaman.</p>
+      <p>Pertanyaan yang tepat sekarang:</p>
+      <div class="q-card">"Gimana cara satu orang menjalankan semuanya, produk, konten, promosi, closing, tanpa harus jago semuanya sendiri?"</div>
+      <p class="lead-end">Jawabannya: <strong>jadikan AI sebagai tim kamu.</strong></p>
+      <p class="lead-end">Dan itu persis yang diajarkan di <strong>BiB</strong>.</p>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONI ================= -->
+  <section id="testimoni" class="sect-line">
+    <div class="narrow">
+      <p class="t-intro reveal">Ini hasil beberapa member dalam 1 bulan pertama setelah join BiB 👇</p>
+    </div>
+    <div class="wrap">
+      <div class="t-grid reveal">
+        <img class="t-wide" src="testi-1.webp" data-zoom alt="Testimoni member BiB — Kak Fadil: 7 bulan gak menghasilkan dari produk digital, 1 bulan setelah join BiB mulai menghasilkan lagi" width="1240" height="827" loading="lazy" decoding="async">
+        <img class="t-wide" src="testi-2.webp" data-zoom alt="Testimoni member BiB — Kak Renaldi: 1 bulan join BiB, berhasil cuan dari clipper" width="1240" height="827" loading="lazy" decoding="async">
+        <img src="testi-3.webp" data-zoom alt="Testimoni member BiB — Kak Baim: 1 bulan join BiB, tembus komisi 1 juta per hari dari TikTok Affiliate" width="900" height="1350" loading="lazy" decoding="async">
+        <img src="testi-5.webp" data-zoom alt="Testimoni member BiB — Kak Mahendra: omzet penjualan tembus 20 juta lebih di bulan pertama bergabung" width="900" height="1350" loading="lazy" decoding="async">
+        <img class="t-wide" src="testi-4.webp" data-zoom alt="Testimoni member BiB — Kak Begawan: deal 1 unit rumah dan cuan 3 juta rupiah hanya dengan AI dan praktek di BiB" width="1240" height="827" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="narrow reveal">
+      <p>Perhatikan satu hal, hasilnya datang dari jalur yang berbeda-beda.</p>
+      <p>Ada yang cuan dari <strong>clipper</strong>. Ada yang dari <strong>produk digital</strong>. Ada yang dapat <strong>1 juta sehari dari TikTok Affiliate</strong>. Ada yang tembus <strong>omzet 25 juta dari jualan pakaian</strong>.</p>
+      <p class="ask">Kok bisa beda-beda?</p>
+      <p>Karena BiB gak ngajarin satu trik. BiB ngajarin <strong>sistemnya</strong>, dan sistem yang sama bisa dipakai untuk hampir semua jenis produk.</p>
+    </div>
+  </section>
+
+  <!-- ================= APA ITU BIB ================= -->
+  <section id="tentang" class="sect-line">
+    <div class="narrow">
+      <h2 class="reveal">Apa itu BiB?</h2>
+      <div class="reveal">
+        <p><strong>BiB (Bisnis in a Box)</strong> adalah sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, prompt AI siap pakai, dan mentor yang bisa kamu hubungi langsung, seumur hidup.</p>
+        <figure class="proof">
+          <img src="proof-153jt.webp" data-zoom alt="Dashboard penjualan Lynk.id milik Ikhlas Syamri — lifetime sales Rp153.070.630" width="960" height="469" loading="lazy" decoding="async">
+          <figcaption>Penjualan produk digital saya sendiri — dari sistem yang sama yang diajarkan di BiB.</figcaption>
+        </figure>
+        <p>Materinya tersusun dalam <strong>3 fase</strong> yang urut, jadi kamu selalu tahu sedang ada di mana dan selanjutnya harus ngapain:</p>
+      </div>
+      <ol class="fase">
+        <li class="reveal">
+          <span class="f-num">FASE 01</span>
+          <h3>Fase 1 — Produksi.</h3>
+          <p>Membangun fondasi, kerangka kerja menghasilkan uang di internet dari nol, menentukan niche potensial, membuat produk digital (dibantu AI), sampai menentukan harga jual.</p>
+        </li>
+        <li class="reveal">
+          <span class="f-num">FASE 02</span>
+          <h3>Fase 2 — Distribusi.</h3>
+          <p>Membuat orang tahu kamu ada, strategi konten, ide, skrip, hook, editing (faceless maupun on-cam), sampai rutinitas posting yang realistis untuk orang kerja.</p>
+        </li>
+        <li class="reveal">
+          <span class="f-num">FASE 03</span>
+          <h3>Fase 3 — Konversi.</h3>
+          <p>Mengubah penonton jadi pembeli, WhatsApp marketing, Telegram marketing, copywriting, soft selling, hard selling, dan teknik closing.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= FASILITAS ================= -->
+  <section id="fasilitas" class="sect-line">
+    <div class="narrow">
+      <h2 class="reveal">Yang kamu dapatkan di dalam BiB:</h2>
+
+      <div class="fac reveal">
+        <div class="f-no">1</div>
+        <div>
+          <h3>40+ video materi, 10–20 menit per video.</h3>
+          <p>Bukan teori berjam-jam. Satu video = satu skill yang langsung bisa dipraktikkan malam itu juga, dari bikin cover e-book pakai AI sampai teknik closing di chat.</p>
+          <div class="m-grid">
+            <img src="thumb-01.webp" data-zoom alt="Materi BiB: Cara Menentukan Niche Bisnis Potensial (Metode BiB & AI Prompting)" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-02.webp" data-zoom alt="Materi BiB: Bikin Ebook Gratis Hitungan Detik dengan Gemini AI" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-03.webp" data-zoom alt="Materi BiB: Cara Bikin Cover E-Book Premium Pakai AI Cuma dari HP" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-04.webp" data-zoom alt="Materi BiB: Rumus Pasti Rp1 Juta Pertama — Hitungan Matematika & Strategi Funneling Bisnis" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-05.webp" data-zoom alt="Materi BiB: Rahasia Meracik Hook Konten Berkualitas Tinggi Menggunakan Bantuan AI" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-06.webp" data-zoom alt="Materi BiB: Bongkar Anatomi Skrip TikTok & Reels" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-07.webp" data-zoom alt="Materi BiB: Rahasia Menciptakan Ide Konten Potensial Tanpa Batas" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-08.webp" data-zoom alt="Materi BiB: Panduan Awal Membangun Personal Branding & Menjangkau Audiens" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-09.webp" data-zoom alt="Materi BiB: Bongkar Strategi WhatsApp Marketing — Teknik Sharing & Balas Chat Pakai AI" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-10.webp" data-zoom alt="Materi BiB: Cara Ampuh Jualan di Telegram — Rahasia Soft Selling & Hard Selling" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-11.webp" data-zoom alt="Materi BiB: Rahasia Atasi Pelanggan Ragu & Batal Beli Pakai Teknik Chat AI" width="640" height="360" loading="lazy" decoding="async">
+            <img src="thumb-12.webp" data-zoom alt="Materi BiB: Strategi Funneling Lengkap — Cara Praktis Mengubah Traffic Menjadi Pembeli Setia" width="640" height="360" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+
+      <div class="fac reveal">
+        <div class="f-no">2</div>
+        <div>
+          <h3>30 produk digital siap jual.</h3>
+          <p>Kamu gak mulai dari nol. Dari hari pertama, kamu udah punya produk untuk dijual, sambil belajar membangun produkmu sendiri.</p>
+        </div>
+      </div>
+
+      <div class="fac reveal">
+        <div class="f-no">3</div>
+        <div>
+          <h3>Puluhan prompt AI siap pakai.</h3>
+          <p>Untuk riset niche, nulis skrip, copywriting, sampai membalas chat calon pembeli. Inilah yang bikin kamu bisa kerja sendirian dengan output selevel tim.</p>
+        </div>
+      </div>
+
+      <div class="fac fac-hi reveal">
+        <div class="f-no">4</div>
+        <div>
+          <h3>Mentoring langsung, seumur hidup, bisa telepon.</h3>
+          <p>Pembeda terbesar BiB dari kelas online biasa: kamu gak dilepas setelah bayar. Stuck di materi mana pun, tanya langsung. <strong>Bukan 30 hari. Bukan 6 bulan. Seumur hidup.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BONUS ================= -->
+  <section id="bonus" class="sect-line">
+    <div class="narrow">
+      <h2 class="reveal">Bonus kalau kamu join sekarang:</h2>
+
+      <div class="b-row reveal">
+        <img src="kelas-berpikir.webp" data-zoom alt="Banner Kelas Cara Berpikir — 7 materi kelas" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="b-name">Kelas Cara Berpikir — 7 modul <span class="val">(senilai Rp99.000)</span></div>
+      </div>
+      <div class="b-row reveal">
+        <img src="kelas-editing.webp" data-zoom alt="Banner Kelas Basic Editing — 23 materi lengkap" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="b-name">Kelas Editing — 23 modul <span class="val">(senilai Rp250.000)</span></div>
+      </div>
+      <div class="b-row reveal">
+        <img src="kelas-skrip.webp" data-zoom alt="Banner Kelas Menulis Skrip — 14 materi kelas" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="b-name">Kelas Menulis Skrip — 14 modul <span class="val">(senilai Rp145.000)</span></div>
+      </div>
+      <div class="b-row reveal">
+        <img src="kelas-creator.webp" data-zoom alt="Banner Kelas Creator Pemula — 14 materi lengkap" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="b-name">Kelas Creator Pemula — 14 modul <span class="val">(senilai Rp145.000)</span></div>
+      </div>
+      <div class="b-row reveal">
+        <img src="kelas-marketing.webp" data-zoom alt="Banner Kelas Basic Marketing — 8 materi pembelajaran" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="b-name">Kelas Basic Marketing — 8 modul <span class="val">(senilai Rp75.000)</span></div>
+      </div>
+
+      <p class="shelf-title reveal">10 e-book yang saya tulis sendiri <span class="val">(senilai Rp1.500.000)</span></p>
+      <div class="shelf reveal">
+        <img src="ebook-01.webp" data-zoom alt="E-book: Teknik Closing Cuan Bertubi-Tubi — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-02.webp" data-zoom alt="E-book: Blueprint 100JT Pertama — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-03.webp" data-zoom alt="E-book: Cara Menulis untuk Pemula — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-04.webp" data-zoom alt="E-book: Membuat dan Menghasilkan Ide Konten Tanpa Batas — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-05.webp" data-zoom alt="E-book: WhatsApp Marketing — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-06.webp" data-zoom alt="E-book: Anatomi Branding — Menciptakan Personal Branding — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-07.webp" data-zoom alt="E-book: Bikin Hook yang Menghipnotis — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-08.webp" data-zoom alt="E-book: Asset Digital — Meningkatkan Performa Konten & Menaikkan Penjualan — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-09.webp" data-zoom alt="E-book: Anatomi Copywriting — Ilmu Nulis, NLP, Hipnotic, Persuasif — Ikhlas Syamri" width="420" height="630" loading="lazy" decoding="async">
+        <img src="ebook-10.webp" data-zoom alt="E-book: 1JT Pertama dari Produk Digital — Ikhlas Syamri" width="420" height="656" loading="lazy" decoding="async">
+      </div>
+
+      <div class="reveal">
+        <p class="b-total"><strong>Nilai bonusnya aja: Rp2.214.000</strong>, itu belum termasuk 40+ video materi, 30 produk siap jual, prompt AI, dan mentoring seumur hidupnya.</p>
+        <p>Tapi kamu gak perlu bayar segitu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HARGA ================= -->
+  <section id="harga" class="sect-line">
+    <div class="wrap">
+      <div class="price-card reveal">
+        <img class="p-logo" src="logo-white.png" alt="BiB" width="640" height="514">
+        <div class="p-label">Investasi join BiB:</div>
+        <div class="p-old"><s>Rp2.214.000</s><span class="tag">NILAI BONUS</span></div>
+        <div class="p-now">Rp499.000</div>
+        <p class="p-sub">Sekali bayar. Akses dan mentoring seumur hidup.</p>
+        <ul class="p-list">
+          <li><span class="p-check">✓</span>40+ video materi, 10–20 menit per video</li>
+          <li><span class="p-check">✓</span>30 produk digital siap jual</li>
+          <li><span class="p-check">✓</span>Puluhan prompt AI siap pakai</li>
+          <li><span class="p-check">✓</span>Mentoring langsung, seumur hidup, bisa telepon</li>
+          <li><span class="p-check">✓</span>Semua bonus di atas — senilai Rp2.214.000</li>
+        </ul>
+        <a class="btn" href="https://lynk.id/ikhlassyamri/6jp3xo1ezp78/checkout">Join BiB Sekarang →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KUALIFIKASI ================= -->
+  <section id="kualifikasi" class="sect-line">
+    <div class="wrap" style="max-width:900px">
+      <h2 class="reveal">Jujur aja... BiB bukan untuk semua orang.</h2>
+      <div class="qual-grid">
+        <div class="qual qual-no reveal">
+          <h3>BiB bukan buat kamu, kalau:</h3>
+          <ul>
+            <li><span class="mark">✕</span>Kamu nyari cara cepat kaya tanpa kerja. Gak ada itu di sini.</li>
+            <li><span class="mark">✕</span>Kamu cuma mau nonton materi tanpa praktik. Sistem sebagus apa pun gak jalan sendiri.</li>
+          </ul>
+        </div>
+        <div class="qual qual-yes reveal">
+          <h3>BiB cocok buat kamu, kalau:</h3>
+          <ul>
+            <li><span class="mark">✓</span>Kamu pekerja dengan waktu terbatas, tapi serius mau bangun penghasilan dari internet.</li>
+            <li><span class="mark">✓</span>Kamu mau sistem yang jelas dan urut, bukan motivasi kosong.</li>
+            <li><span class="mark">✓</span>Kamu mau dibimbing, dan gak malu bertanya saat stuck.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="sect-line">
+    <div class="narrow faq">
+      <h2 class="reveal">Pertanyaan yang sering muncul</h2>
+      <details class="reveal">
+        <summary>"Saya gaptek. Bisa ngikutin?"</summary>
+        <p>Bisa. Materi dimulai dari nol, langkah demi langkah, dan justru AI yang menutup kekurangan skill teknismu. Kalau tetap stuck, tanya mentor langsung, termasuk lewat telepon.</p>
+      </details>
+      <details class="reveal">
+        <summary>"Saya kerja full-time. Sempat gak?"</summary>
+        <p>BiB memang dirancang untuk itu: video pendek 10–20 menit, dan AI yang memangkas pekerjaan berjam-jam jadi hitungan menit. Yang dibutuhkan bukan waktu luang banyak, tapi konsistensi.</p>
+      </details>
+      <details class="reveal">
+        <summary>"Saya pernah beli kelas lain dan gak jalan. Apa bedanya?"</summary>
+        <p>Kemungkinan besar, yang kamu beli dulu cuma materi, setelah bayar, kamu jalan sendirian. Di BiB, ada mentor seumur hidup yang bisa kamu tanya kapan pun. Itu bedanya.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= PENUTUP ================= -->
+  <section class="penutup sect-line">
+    <div class="narrow reveal">
+      <div class="eyebrow">Penutup</div>
+      <p>Setahun dari sekarang, AI makin pintar, makin murah, dan makin banyak dipakai orang yang mengincar pembeli yang sama dengan kamu.</p>
+      <p>Kata Jensen Huang: <strong>yang kalah bukan yang digantikan AI, tapi yang kalah dari orang yang pakai AI.</strong></p>
+      <p>Pilihan itu sekarang ada di tangan kamu.</p>
+      <a class="btn btn-big" href="https://lynk.id/ikhlassyamri/6jp3xo1ezp78/checkout">Join BiB Sekarang<small>Rp499.000</small></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap f-grid">
+    <div class="f-brand">
+      <img src="logo-white.png" alt="Logo BiB" width="640" height="514">
+      <span>Bisnis in a Box</span>
+    </div>
+    <div class="f-meta">
+      <a href="https://wa.me/62895411449962?text=Halo%20bang%20Ikhlas%2C%20saya%20mau%20tanya%20soal%20BiB">WhatsApp: +62 895-4114-49962</a><br>
+      © 2026 BiB — Ikhlas Syamri
+    </div>
+  </div>
+</footer>
+
+<a class="wa-fab" href="https://wa.me/62895411449962?text=Halo%20bang%20Ikhlas%2C%20saya%20mau%20tanya%20soal%20BiB" aria-label="Chat lewat WhatsApp" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.46 0-2.89-.39-4.14-1.12l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.19-8.27m-3.16 4.4c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.39 1 2.56.13.17 1.76 2.67 4.25 3.73 2.07.88 2.49.7 2.94.66.45-.03 1.44-.59 1.65-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.47-.28-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.78.97-.15.17-.29.19-.53.06-.25-.12-1.05-.38-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.13-.55-1.35-.77-1.84-.2-.48-.4-.42-.56-.42l-.42-.03z"/></svg>
+</a>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Perbesar gambar">
+  <img src="" alt="">
+  <button class="lb-x" aria-label="Tutup">✕</button>
+</div>
+
+<script>
+document.documentElement.classList.add('js');
+
+// header
+var hdr=document.getElementById('hdr');
+addEventListener('scroll',function(){hdr.classList.toggle('on',scrollY>10)},{passive:true});
+
+// reveal on scroll
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+// lightbox
+var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
+function openLb(src,alt){lbi.src=src;lbi.alt=alt||'';lb.classList.add('open');document.body.style.overflow='hidden'}
+function closeLb(){lb.classList.remove('open');lbi.src='';document.body.style.overflow=''}
+document.querySelectorAll('[data-zoom]').forEach(function(el){
+  el.addEventListener('click',function(){openLb(el.currentSrc||el.src,el.alt)});
+});
+lb.addEventListener('click',closeLb);
+addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
+</script>
+</body>
+</html>
