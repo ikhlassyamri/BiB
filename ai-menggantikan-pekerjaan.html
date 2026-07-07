@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tidak Akan Mengambil Pekerjaanmu. Orang yang Pakai AI yang Akan Mengambilnya. — BiB</title>
+<meta name="description" content="Apakah AI akan menggantikan pekerjaan manusia? Sejarah singkat AI dari Alan Turing sampai hari ini, kenapa yang berhenti belajar pelan-pelan tergeser, dan cara beradaptasi mulai sekarang.">
+<meta name="theme-color" content="#0B0C0E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI Tidak Akan Mengambil Pekerjaanmu. Orang yang Pakai AI yang Akan Mengambilnya.">
+<meta property="og:description" content="Sejarah singkat AI dari Alan Turing sampai hari ini — dan kenapa yang berhenti belajar pelan-pelan tergeser.">
+<meta property="og:image" content="https://joinbib.id/og-ai-pekerjaan.jpg">
+<meta property="og:url" content="https://joinbib.id/ai-menggantikan-pekerjaan.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://joinbib.id/ai-menggantikan-pekerjaan.html">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "AI Tidak Akan Mengambil Pekerjaanmu. Orang yang Pakai AI yang Akan Mengambilnya.",
+ "description": "Sejarah singkat AI dari Alan Turing sampai hari ini, kenapa yang berhenti belajar pelan-pelan tergeser, dan cara beradaptasi mulai sekarang.",
+ "image": "https://joinbib.id/og-ai-pekerjaan.jpg",
+ "author": {"@type": "Person", "name": "Ikhlas Syamri", "url": "https://joinbib.id/",
+   "sameAs": ["https://www.instagram.com/ikhlassyamri"]},
+ "publisher": {"@type": "Organization", "name": "BiB — Bisnis in a Box",
+   "logo": {"@type": "ImageObject", "url": "https://joinbib.id/logo-white.png"}},
+ "datePublished": "2026-07-07",
+ "dateModified": "2026-07-07",
+ "mainEntityOfPage": "https://joinbib.id/ai-menggantikan-pekerjaan.html",
+ "inLanguage": "id"
+}
+</script>
+<style>
+:root{
+  --ink:#0B0C0E;--panel:#14161A;--panel-2:#101216;--line:#26292F;--line-soft:#1A1D22;
+  --text:#F4F5F6;--muted:#9AA1A9;--paper:#FFFFFF;--ink-draw:#14161A;--wa:#25D366;
+  --disp:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:1.0625rem;line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:#fff;color:#0B0C0E}
+
+.progress{position:fixed;top:0;left:0;height:3px;background:#fff;width:0;z-index:80}
+
+.hdr{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:transparent;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+.hdr.on{background:rgba(11,12,14,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:var(--line-soft)}
+.brand img{height:26px;width:auto}
+.brand{display:flex;align-items:center;text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--paper);color:var(--ink);font-family:var(--disp);font-weight:700;font-size:1.02rem;padding:16px 30px;border-radius:12px;text-decoration:none;border:1.5px solid var(--paper);transition:transform .25s ease,box-shadow .25s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.14)}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.btn-sm{padding:10px 20px;font-size:.92rem;border-radius:10px}
+.btn-ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-ink:hover{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+.a-head{padding:140px 0 30px}
+.eyebrow{font-family:var(--disp);font-weight:600;font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.eyebrow::before{content:"";width:8px;height:8px;background:#fff}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.8rem,5.6vw,2.8rem);line-height:1.2;letter-spacing:-.02em}
+.a-sub{color:var(--muted);font-size:1.15rem;margin-top:18px;line-height:1.7}
+.a-meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:.88rem;margin-top:26px;padding-top:22px;border-top:1px solid var(--line-soft)}
+.a-meta b{color:var(--text);font-weight:600}
+.a-meta a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line)}
+.a-meta a:hover{border-color:#fff}
+
+/* terminal typewriter card (contrast) */
+.term{margin:40px 0 8px;background:var(--paper);border-radius:16px;padding:34px 30px;color:var(--ink-draw)}
+.term .t-bar{display:flex;gap:7px;margin-bottom:22px}
+.term .t-bar span{width:11px;height:11px;border-radius:50%;background:#D6D9DE}
+.term .t-q{font-family:var(--disp);font-weight:700;font-size:clamp(1.3rem,4.5vw,1.9rem);min-height:1.4em}
+.term .t-q::after{content:"";display:inline-block;width:.55em;height:1.05em;background:var(--ink-draw);margin-left:4px;vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.term .t-by{margin-top:14px;color:#5A616B;font-size:.92rem}
+
+article p+p{margin-top:1.15em}
+article p{color:#C9CDD2}
+article strong{color:#fff;font-weight:600}
+.sec{padding:44px 0 8px}
+.s-num{font-family:var(--disp);font-weight:600;font-size:.8rem;letter-spacing:.2em;color:var(--muted);display:block;margin-bottom:12px}
+h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.35rem,4vw,1.75rem);line-height:1.3;letter-spacing:-.01em;margin-bottom:14px}
+
+/* high-contrast illustration cards */
+.ill{margin:22px 0 24px;background:var(--paper);border-radius:14px;padding:28px 24px}
+.ill svg{stroke:var(--ink-draw)}
+.ill text{fill:#5A616B}
+
+/* ---------- timeline + walking robot ---------- */
+.tl{position:relative;margin:26px 0 10px}
+.bot-track{position:sticky;top:76px;z-index:5;background:var(--paper);border-radius:14px;padding:18px 20px 12px;margin-bottom:26px}
+.bot-lane{position:relative;height:64px}
+.bot-ground{position:absolute;left:0;right:0;bottom:6px;border-bottom:2px dashed #C9CDD2}
+#bot{position:absolute;bottom:8px;left:0;width:44px;will-change:transform}
+#bot .leg{transform-origin:top center}
+.walking #bot .legL{animation:stepL .4s steps(2) infinite}
+.walking #bot .legR{animation:stepR .4s steps(2) infinite}
+@keyframes stepL{0%,100%{transform:rotate(14deg)}50%{transform:rotate(-14deg)}}
+@keyframes stepR{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+.bot-cap{font-family:var(--disp);font-weight:600;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#5A616B;margin-top:8px}
+.tl-item{position:relative;padding:0 0 30px 34px;border-left:2px solid var(--line-soft)}
+.tl-item:last-child{border-left-color:transparent}
+.tl-item::before{content:"";position:absolute;left:-8px;top:6px;width:14px;height:14px;background:var(--ink);border:2px solid var(--muted)}
+.tl-item.big::before{background:#fff;border-color:#fff}
+.tl-year{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:#fff}
+.tl-item p{font-size:.99rem;margin-top:6px}
+
+.callout{margin:52px 0 8px;border:1px solid var(--line);border-left:4px solid #fff;border-radius:14px;background:var(--panel-2);padding:26px 26px}
+.callout .c-label{font-family:var(--disp);font-weight:600;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px}
+.callout p{color:var(--text)}
+
+.cta{margin:64px 0 20px;border:1.5px solid #fff;border-radius:20px;background:var(--panel-2);padding:clamp(30px,5vw,44px)}
+.cta .eyebrow{margin-bottom:18px}
+.cta h2{font-size:clamp(1.4rem,4.4vw,1.9rem)}
+.cta .btn{margin-top:26px}
+.cta .p-sub{color:var(--muted);font-size:.9rem;margin-top:14px}
+
+/* ---------- contrast slide-in promo (white) ---------- */
+.pop{position:fixed;left:16px;right:16px;bottom:92px;z-index:75;max-width:460px;margin-left:auto;
+  background:var(--paper);border-radius:16px;padding:22px 22px 20px;color:var(--ink-draw);
+  box-shadow:0 18px 50px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .45s ease,transform .45s ease}
+.pop.show{opacity:1;transform:none;pointer-events:auto}
+.pop .p-label{font-family:var(--disp);font-weight:600;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#5A616B;display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.pop .p-label::before{content:"";width:7px;height:7px;background:var(--ink-draw)}
+.pop p{font-size:.96rem;line-height:1.65;color:#3A3E44}
+.pop p strong{color:var(--ink-draw)}
+.pop .p-row{display:flex;align-items:center;gap:14px;margin-top:16px}
+.pop .btn{padding:11px 20px;font-size:.92rem;border-radius:10px}
+.pop .p-note{color:#5A616B;font-size:.78rem}
+.pop-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border:none;background:transparent;color:#5A616B;font-size:1.5rem;line-height:1;cursor:pointer;border-radius:8px}
+.pop-x:hover{color:var(--ink-draw);background:#EEF0F2}
+
+footer{border-top:1px solid var(--line-soft);padding:44px 0 110px;margin-top:70px}
+.f-grid{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1080px;margin:0 auto;padding:0 22px}
+.f-brand{display:flex;align-items:center;gap:14px}
+.f-brand img{height:22px;width:auto}
+.f-brand span{color:var(--muted);font-size:.92rem}
+.f-meta{color:var(--muted);font-size:.88rem;text-align:right}
+.f-meta a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line)}
+.f-meta a:hover{border-color:#fff}
+.wa-fab{position:fixed;right:18px;bottom:18px;z-index:70;width:56px;height:56px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.45);transition:transform .25s ease}
+.wa-fab:hover{transform:scale(1.08)}
+.wa-fab svg{width:30px;height:30px;fill:#fff}
+
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:640px){
+  .f-grid{flex-direction:column;align-items:flex-start}
+  .f-meta{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none}
+  .term .t-q::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="pbar"></div>
+
+<header class="hdr" id="hdr">
+  <a class="brand" href="/" aria-label="BiB — Bisnis in a Box">
+    <img src="/logo-white.png" alt="Logo BiB">
+  </a>
+  <a class="btn btn-sm" href="/#harga">Join BiB</a>
+</header>
+
+<main>
+<article class="wrap">
+
+  <header class="a-head">
+    <div class="eyebrow">Edukasi · AI</div>
+    <h1>AI Tidak Akan Mengambil Pekerjaanmu. Orang yang Pakai AI yang Akan Mengambilnya.</h1>
+    <p class="a-sub">Sejarah singkat kecerdasan buatan dari Alan Turing sampai hari ini — dan kenapa yang berhenti belajar pelan-pelan tergeser.</p>
+    <div class="a-meta">
+      <span>Ditulis oleh <b>Ikhlas Syamri</b></span>
+      <span><a href="https://www.instagram.com/ikhlassyamri" target="_blank" rel="noopener">IG @ikhlassyamri</a></span>
+      <span>Juli 2026</span>
+      <span>Baca ±6 menit</span>
+    </div>
+
+    <div class="term" aria-label="Kutipan Alan Turing">
+      <div class="t-bar"><span></span><span></span><span></span></div>
+      <div class="t-q"><span id="type"></span></div>
+      <p class="t-by">— Alan Turing, matematikawan, tahun 1950</p>
+    </div>
+  </header>
+
+  <div class="reveal">
+    <p>Tahun 1950, jauh sebelum ada smartphone, seorang matematikawan Inggris bernama Alan Turing nulis satu pertanyaan yang kedengarannya gila di zamannya: bisakah mesin berpikir?</p>
+    <p>Dari satu pertanyaan itu, sebuah benih ditanam. Benih yang hari ini kamu kenal sebagai <strong>AI — kecerdasan buatan</strong> — yang lagi ngetik email kolegamu, ngedit video kompetitormu, dan bikin resah grup WhatsApp kantormu. Ceritanya panjang, jatuh-bangun, dan kalau kamu ngerti alurnya, kamu bakal ngerti kenapa tahun-tahun ini adalah titik yang menentukan buat kariermu sendiri.</p>
+  </div>
+
+  <!-- ========== timeline + robot ========== -->
+  <section class="sec reveal" id="sejarah">
+    <span class="s-num">BAGIAN 01</span>
+    <h2>76 Tahun dari Pertanyaan ke Kenyataan</h2>
+    <p>Scroll pelan-pelan — temenin robotnya jalan dari 1950 sampai hari ini.</p>
+
+    <div class="tl" id="tl">
+      <div class="bot-track">
+        <div class="bot-lane">
+          <div class="bot-ground"></div>
+          <svg id="bot" viewBox="0 0 44 60" fill="none" stroke="#14161A" stroke-width="2" aria-hidden="true">
+            <path d="M22 2 L22 10" />
+            <rect x="19" y="0" width="6" height="6" fill="#14161A" stroke="none"/>
+            <rect x="8" y="10" width="28" height="20" rx="3"/>
+            <rect x="15" y="17" width="5" height="5" fill="#14161A" stroke="none"/>
+            <rect x="25" y="17" width="5" height="5" fill="#14161A" stroke="none"/>
+            <rect x="12" y="30" width="20" height="14" rx="3"/>
+            <rect x="20" y="34" width="4" height="4" fill="#14161A" stroke="none"/>
+            <g class="leg legL"><path d="M16 44 L16 56 L21 56" stroke-width="2.5"/></g>
+            <g class="leg legR"><path d="M28 44 L28 56 L33 56" stroke-width="2.5"/></g>
+          </svg>
+        </div>
+        <div class="bot-cap" id="botcap">1950 · AWAL PERJALANAN</div>
+      </div>
+
+      <div class="tl-item big" data-cap="1950 · PERTANYAAN ITU DITULIS">
+        <div class="tl-year">1950 — Pertanyaan itu ditulis</div>
+        <p>Alan Turing menerbitkan makalah yang memuat pertanyaan besarnya. Belum ada komputer yang sanggup menjawab. Baru benih.</p>
+      </div>
+      <div class="tl-item" data-cap="1956 · AI RESMI LAHIR">
+        <div class="tl-year">1956 — AI resmi punya nama</div>
+        <p>Sekelompok ilmuwan berkumpul di Dartmouth College dengan mimpi kelewat berani: bikin mesin yang bisa berbahasa dan memecahkan masalah. Optimismenya setinggi langit — mereka pikir beberapa dekade lagi beres.</p>
+      </div>
+      <div class="tl-item" data-cap="1970-80AN · MUSIM DINGIN AI">
+        <div class="tl-year">1970–80an — Musim dingin AI</div>
+        <p>Realita menampar. Data kurang, komputer lemot, dana dicabut, dan ide "mesin pintar" dicemooh sebagai omong kosong fiksi ilmiah. Tapi di bawah permukaan es, benihnya terus merambat.</p>
+      </div>
+      <div class="tl-item" data-cap="1997 · MESIN NGALAHIN JUARA CATUR">
+        <div class="tl-year">1997 — Deep Blue vs Kasparov</div>
+        <p>Komputer IBM menundukkan juara dunia catur, Garry Kasparov. Dunia terhenyak: ternyata mesin bisa ngalahin otak terbaik manusia — setidaknya di papan 64 kotak.</p>
+      </div>
+      <div class="tl-item" data-cap="2016 · MESIN MULAI PUNYA INTUISI">
+        <div class="tl-year">2016 — AlphaGo vs Lee Sedol</div>
+        <p>AI mengalahkan juara dunia Go, permainan kuno yang katanya mustahil dimenangkan lewat hitungan doang — butuh intuisi. Mesin berhenti sekadar menghitung. Mesin mulai memahami.</p>
+      </div>
+      <div class="tl-item big" data-cap="HARI INI · AI ADA DI KANTONGMU">
+        <div class="tl-year">Hari ini — AI ada di kantongmu</div>
+        <p>Internet ngasih miliaran data sebagai makanan, cip modern ngasih otak yang buas. Hasilnya: AI yang bisa nulis, melukis, merangkum dokumen, sampai nyusun strategi bisnis dalam hitungan detik. Dan pertanyaannya berubah — bukan lagi "bisakah mesin berpikir", tapi <strong>"kamu mau ngapain sekarang?"</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== bahaya sunyi ========== -->
+  <section class="sec reveal" id="bahaya">
+    <span class="s-num">BAGIAN 02</span>
+    <h2>Bahaya Sunyi Buat yang Berhenti Tumbuh</h2>
+    <p>Hollywood nakut-nakutin kita pakai Terminator — robot bermata merah yang datang bawa senjata. Padahal ancaman AI yang beneran itu <strong>gak bersuara, gak berdarah, dan gak meledak.</strong> Dia nyelinap lewat satu pintu: rasa nyaman.</p>
+    <p>AI cuma mematikan buat satu spesies spesifik: <strong>orang yang merasa sudah tahu segalanya dan menolak belajar.</strong></p>
+
+    <div class="ill" aria-hidden="true">
+      <svg viewBox="0 0 640 200" fill="none" stroke-width="2">
+        <!-- worker A: static, crossed -->
+        <rect x="86" y="34" width="26" height="26" stroke="#14161A"/>
+        <rect x="79" y="66" width="40" height="52" rx="4" stroke="#14161A"/>
+        <path d="M60 150 L140 150" stroke="#14161A"/>
+        <path d="M62 40 L138 128" stroke="#C0392B" stroke-width="3"/>
+        <path d="M138 40 L62 128" stroke="#C0392B" stroke-width="3"/>
+        <text x="52" y="182" font-family="Space Grotesk,sans-serif" font-size="13" stroke="none">"AI CUMA MAINAN"</text>
+        <!-- divider -->
+        <path d="M320 24 L320 176" stroke="#D6D9DE" stroke-dasharray="4 6"/>
+        <!-- worker B: with AI square, arrow up -->
+        <rect x="446" y="34" width="26" height="26" stroke="#14161A"/>
+        <rect x="439" y="66" width="40" height="52" rx="4" stroke="#14161A"/>
+        <rect x="492" y="76" width="30" height="30" fill="#14161A" stroke="none"/>
+        <text x="498" y="97" font-family="Space Grotesk,sans-serif" font-size="14" fill="#FFFFFF" stroke="none">AI</text>
+        <path d="M420 150 L560 150" stroke="#14161A"/>
+        <path d="M545 120 L575 90 M575 90 L575 112 M575 90 L553 90" stroke="#14161A" stroke-width="2.5"/>
+        <text x="412" y="182" font-family="Space Grotesk,sans-serif" font-size="13" stroke="none">"AI MOTONG WAKTU RISET GUA"</text>
+      </svg>
+    </div>
+
+    <p>Bayangin dua pekerja, sama-sama berpengalaman 10 tahun. Yang pertama yakin pengalamannya adalah perisai absolut — dia nyebut AI "mainan anak muda" dan "mesin penjiplak". Yang kedua sadar gelombang pasang lagi datang, dan daripada ngelawan arus, dia belajar berselancar: risetnya yang dulu makan berhari-hari sekarang kelar dalam hitungan menit, tugas repetitifnya dia serahin ke mesin, dan waktunya dia pakai buat hal yang gak bisa dikerjain mesin — mikir strategis.</p>
+    <p>Tiga tahun kemudian, yang pertama gak digantikan robot. <strong>Dia digantikan pekerja kedua.</strong> Itulah kalimat yang jadi judul artikel ini — dan itu bukan slogan, itu pola yang lagi kejadian di mana-mana pelan-pelan.</p>
+  </section>
+
+  <!-- ========== kaca pembesar ========== -->
+  <section class="sec reveal">
+    <span class="s-num">BAGIAN 03</span>
+    <h2>Kaca Pembesar Keusangan</h2>
+
+    <div class="ill" aria-hidden="true">
+      <svg viewBox="0 0 640 170" fill="none" stroke-width="2">
+        <circle cx="250" cy="75" r="52" stroke="#14161A" stroke-width="3"/>
+        <path d="M288 113 L340 165" stroke="#14161A" stroke-width="6"/>
+        <rect x="228" y="58" width="16" height="16" stroke="#14161A"/>
+        <path d="M244 74 L262 92 M252 62 L268 78 M232 78 L248 94" stroke="#C0392B"/>
+        <path d="M420 60 L580 60" stroke="#D6D9DE" stroke-dasharray="3 5"/>
+        <path d="M420 90 L580 90" stroke="#14161A" stroke-width="3"/>
+        <text x="420" y="46" font-family="Space Grotesk,sans-serif" font-size="12" stroke="none">DULU: KETINGGALAN SELANGKAH</text>
+        <text x="420" y="118" font-family="Space Grotesk,sans-serif" font-size="12" stroke="none">SEKARANG: KETINGGALAN BER-BULAN²</text>
+      </svg>
+    </div>
+
+    <p>Buat yang nolak belajar, AI bekerja kayak kaca pembesar: dia memperjelas keusangan. Dulu, lambat beradaptasi artinya ketinggalan satu langkah — masih bisa dikejar sambil jalan. Sekarang sifat AI yang eksponensial bikin jarak itu melebar ribuan kilometer cuma dalam hitungan bulan.</p>
+    <p>Dan ini bagian yang paling perih: keterampilan teknis dasar yang dulu dibanggakan dan dibayar mahal, sekarang bisa dieksekusi mesin dengan biaya langganan beberapa ratus ribu rupiah sebulan. Bukan karena kamu jadi lebih bodoh — <strong>standarnya yang naik, diam-diam, tiap bulan.</strong></p>
+  </section>
+
+  <!-- ========== pilihan ========== -->
+  <section class="sec reveal">
+    <span class="s-num">BAGIAN 04</span>
+    <h2>Gelombangnya Udah Pecah di Pantai</h2>
+    <p>Sejarah AI itu cermin kehebatan sekaligus keangkuhan manusia: kita berhasil menciptakan alat paling kuat dalam sejarah peradaban, dan alat ini minta bayaran yang adil — <strong>kemauan untuk terus beradaptasi.</strong></p>
+    <p>AI gak bisa dimatikan, sama kayak internet dan listrik gak bisa dimatikan. Jadi pilihannya tinggal dua: belajar jadi nakhoda yang mengendalikan mesin-mesin pintar ini, atau berpegang teguh pada cara lama dan pelan-pelan tenggelam ditelan arus. Masa depan gak berpihak ke yang paling kuat atau paling pintar di masa lalu — dia berpihak ke <strong>yang paling responsif terhadap perubahan.</strong></p>
+  </section>
+
+  <div class="callout reveal">
+    <span class="c-label">Catatan Penting</span>
+    <p>Kamu gak harus jadi programmer atau paham matematika buat selamat di era ini. Kamu cuma harus jadi orang yang <strong>mau mulai belajar hari ini</strong> — karena satu-satunya posisi yang benar-benar berbahaya adalah berdiri diam.</p>
+  </div>
+
+  <!-- ========== CTA ========== -->
+  <aside class="cta reveal">
+    <div class="eyebrow">Langkah Selanjutnya</div>
+    <h2>"Oke, terus mulai belajarnya dari mana?"</h2>
+    <p style="margin-top:14px">Itu pertanyaan yang tepat — dan jawabannya jangan yang muluk. Cara belajar AI paling nempel bukan lewat teori, tapi lewat <strong>proyek nyata yang ada hasilnya:</strong> pakai AI buat bikin produk, bikin konten, dan jualan. Skill-nya kepake, hasilnya kelihatan, motivasinya awet.</p>
+    <p>Itu persis format belajarnya <strong>BiB (Bisnis in a Box)</strong>: sistem membangun penghasilan dari internet dengan bantuan AI — dari nol, langkah demi langkah, dirancang buat pekerja yang waktunya terbatas.</p>
+    <p>Jujur dari awal: hasilnya gak instan dan butuh praktik. Tapi kalau artikel ini bikin kamu sadar harus mulai, ini pintu masuk yang paling masuk akal.</p>
+    <a class="btn" href="/">Pelajari BiB →</a>
+    <p class="p-sub">Sekali bayar Rp499.000 · Akses dan mentoring seumur hidup</p>
+  </aside>
+
+</article>
+</main>
+
+<!-- ========== contrast slide-in promo ========== -->
+<aside class="pop" id="pop" role="complementary" aria-label="Info BiB">
+  <button class="pop-x" id="popx" aria-label="Tutup">×</button>
+  <div class="p-label">Dari Penulis</div>
+  <p>Mau jadi <strong>pekerja kedua</strong> di cerita tadi? Belajar AI paling cepat lewat praktik yang menghasilkan — itu yang diajarkan di BiB.</p>
+  <div class="p-row">
+    <a class="btn btn-ink" href="/">Pelajari BiB →</a>
+    <span class="p-note">Bukan cuan instan.</span>
+  </div>
+</aside>
+
+<footer>
+  <div class="f-grid">
+    <div class="f-brand">
+      <img src="/logo-white.png" alt="Logo BiB">
+      <span>Bisnis in a Box</span>
+    </div>
+    <div class="f-meta">
+      <a href="https://www.instagram.com/ikhlassyamri" target="_blank" rel="noopener">Instagram: @ikhlassyamri</a><br>
+      <a href="https://wa.me/62895411449962?text=Halo%20bang%20Ikhlas%2C%20saya%20baca%20artikel%20AI%20di%20joinbib.id.%20Mau%20tanya%3A%20">WhatsApp: +62 895-4114-49962</a><br>
+      © 2026 BiB — Ikhlas Syamri
+    </div>
+  </div>
+</footer>
+
+<a class="wa-fab" href="https://wa.me/62895411449962?text=Halo%20bang%20Ikhlas%2C%20saya%20baca%20artikel%20AI%20di%20joinbib.id.%20Mau%20tanya%3A%20" aria-label="Chat lewat WhatsApp" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.46 0-2.89-.39-4.14-1.12l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.19-8.27m-3.16 4.4c-.16 0-.43.06-.66.31-.22.25-.87.85-.87 2.07 0 1.22.89 2.39 1 2.56.13.17 1.76 2.67 4.25 3.73 2.07.88 2.49.7 2.94.66.45-.03 1.44-.59 1.65-1.16.2-.57.2-1.05.14-1.16-.06-.1-.22-.16-.47-.28-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.78.97-.15.17-.29.19-.53.06-.25-.12-1.05-.38-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.13-.55-1.35-.77-1.84-.2-.48-.4-.42-.56-.42l-.42-.03z"/></svg>
+</a>
+
+<script>
+document.documentElement.classList.add('js');
+var hdr=document.getElementById('hdr'),pbar=document.getElementById('pbar');
+
+/* typewriter */
+(function(){
+  var q='Bisakah mesin berpikir?',el=document.getElementById('type'),i=0;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=q;return}
+  (function t(){if(i<=q.length){el.textContent=q.slice(0,i++);setTimeout(t,i<4?400:70)}})();
+})();
+
+/* scroll: header, progress bar, robot walk */
+var tl=document.getElementById('tl'),bot=document.getElementById('bot'),
+    lane=document.querySelector('.bot-lane'),cap=document.getElementById('botcap'),
+    track=document.querySelector('.bot-track'),items=[].slice.call(document.querySelectorAll('.tl-item')),
+    walkTimer=null,ticking=false;
+function onScroll(){
+  hdr.classList.toggle('on',scrollY>10);
+  var h=document.documentElement.scrollHeight-innerHeight;
+  pbar.style.width=(h>0?(scrollY/h*100):0)+'%';
+  if(tl&&bot&&lane){
+    var r=tl.getBoundingClientRect();
+    var total=r.height-innerHeight*.6;
+    var prog=Math.min(1,Math.max(0,(-r.top+innerHeight*.35)/(total>0?total:1)));
+    var maxX=lane.clientWidth-48;
+    bot.style.transform='translateX('+(prog*maxX)+'px)';
+    var idx=Math.min(items.length-1,Math.floor(prog*items.length));
+    if(items[idx]&&cap.textContent!==items[idx].dataset.cap)cap.textContent=items[idx].dataset.cap;
+    track.classList.add('walking');
+    clearTimeout(walkTimer);
+    walkTimer=setTimeout(function(){track.classList.remove('walking')},160);
+  }
+  ticking=false;
+}
+addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+onScroll();
+
+/* reveals */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+},{threshold:.08,rootMargin:'0px 0px -5% 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+/* slide-in promo at mid-article */
+var pop=document.getElementById('pop'),mid=document.getElementById('bahaya'),popShown=false;
+if(pop&&mid){
+  var po=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&!popShown){popShown=true;pop.classList.add('show');po.disconnect()}
+    });
+  },{threshold:.25});
+  po.observe(mid);
+}
+document.getElementById('popx').addEventListener('click',function(){pop.classList.remove('show')});
+</script>
+</body>
+</html>
