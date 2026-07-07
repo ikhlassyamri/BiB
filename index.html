@@ -812,6 +812,16 @@ if(fab&&harga){
   fo.observe(harga);
 }else if(fab){fab.classList.add('show')}
 
+// exclusive video playback
+var videos = Array.prototype.slice.call(document.querySelectorAll('video'));
+videos.forEach(function(video){
+  video.addEventListener('play', function(){
+    videos.forEach(function(other){
+      if (other !== video && !other.paused) other.pause();
+    });
+  });
+});
+
 // lightbox
 var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
 function openLb(src,alt){lbi.src=src;lbi.alt=alt||'';lb.classList.add('open');document.body.style.overflow='hidden'}
