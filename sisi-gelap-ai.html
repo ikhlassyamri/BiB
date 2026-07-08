@@ -35,7 +35,7 @@ body {
 
 /* === NAVBAR === */
 nav {
-  padding: 20px 24px;
+  padding: 16px 24px;
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -48,15 +48,19 @@ nav {
 }
 .brand {
   font-family: var(--disp);
-  font-weight: 800;
-  font-size: 1.2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   color: #fff;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
-.brand-dot { width: 8px; height: 8px; background: var(--nv); border-radius: 50%; box-shadow: 0 0 10px var(--nv); }
+.brand img {
+  height: 24px; /* Menyesuaikan tinggi logo */
+  width: auto;
+  object-fit: contain;
+}
 
 /* === ARTICLE LAYOUT === */
 .container { max-width: 720px; margin: 0 auto; padding: 60px 24px 120px; }
@@ -76,6 +80,8 @@ nav {
 }
 h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 24px; color: #fff; }
 .meta { font-size: 0.95rem; color: var(--muted); }
+.meta a { color: #fff; text-decoration: none; border-bottom: 1px dashed var(--nv); transition: color 0.2s; }
+.meta a:hover { color: var(--nv); }
 
 /* === ARTICLE BODY === */
 .content h2 { font-family: var(--disp); font-size: 1.8rem; font-weight: 700; color: #fff; margin: 50px 0 20px; display: flex; align-items: center; gap: 12px;}
@@ -154,7 +160,7 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   width: 30px;
   height: 60px;
   z-index: 999;
-  pointer-events: none; /* Agar tidak menghalangi klik */
+  pointer-events: none; 
   transition: left 0.1s linear, transform 0.3s ease;
   transform-origin: bottom center;
 }
@@ -191,7 +197,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 .guy-leg { top: 38px; left: 14px; }
 
 /* States Karakter Si Neon */
-/* 1. Ngintip (Peeking) */
 .state-peeking { bottom: 20px !important; }
 .state-peeking .guy-head { transform: translateX(-15px) rotate(-20deg); }
 .state-peeking .guy-eye { left: 4px; }
@@ -199,7 +204,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 .state-peeking .guy-arm { transform: rotate(90deg); left: 20px;}
 .state-peeking .guy-leg { opacity: 0; }
 
-/* 2. Jalan (Walking) */
 .state-walking .guy-leg.left { animation: w-l 0.4s infinite alternate ease-in-out; }
 .state-walking .guy-leg.right { animation: w-r 0.4s infinite alternate ease-in-out; }
 .state-walking .guy-arm.left { animation: w-r 0.4s infinite alternate ease-in-out; }
@@ -209,7 +213,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 @keyframes w-l { from { transform: rotate(35deg); } to { transform: rotate(-35deg); } }
 @keyframes w-r { from { transform: rotate(-35deg); } to { transform: rotate(35deg); } }
 
-/* 3. Duduk (Sitting) */
 .state-sitting { bottom: 15px !important; }
 .state-sitting .guy-body { transform: translateY(12px); }
 .state-sitting .guy-head { transform: translateY(12px); }
@@ -218,11 +221,9 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 .state-sitting .guy-leg.left { transform: translateY(12px) rotate(70deg); }
 .state-sitting .guy-leg.right { transform: translateY(12px) rotate(-70deg); }
 
-/* Arah Mata saat Duduk */
 .state-looking-down .guy-eye { top: 9px; left: 6px; }
 .state-looking-front .guy-eye { top: 5px; left: 10px; }
 
-/* 4. Jalan ke Kiri (Walking Left) */
 .state-walking-left { transform: scaleX(-1); }
 </style>
 </head>
@@ -230,7 +231,10 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 
 <!-- NAVBAR -->
 <nav>
-  <a href="/" class="brand"><div class="brand-dot"></div> BiB Blog</a>
+  <a href="/" class="brand">
+    <img src="logo-white.png" alt="BiB Logo">
+    BiB Blog
+  </a>
 </nav>
 
 <!-- ARTIKEL -->
@@ -238,7 +242,7 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   <div class="article-header">
     <div class="tag">Strategi Clipper</div>
     <h1>Terlalu Percaya AI Bikin Akun Clipper-mu Mati</h1>
-    <div class="meta">Oleh <strong>IkhlasClip</strong> • Waktu baca: 4 menit</div>
+    <div class="meta">Oleh <a href="https://instagram.com/ikhlassyamri" target="_blank"><strong>@ikhlassyamri</strong></a> • Waktu baca: 4 menit</div>
   </div>
 
   <div class="content">
@@ -307,8 +311,8 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   <div class="guy-leg right"></div>
 </div>
 
-<footer style="text-align: center; padding: 40px 20px 80px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem;">
-  <p>© 2026 IkhlasClip — Bagian dari BiB (Bisnis in a Box).</p>
+<footer style="text-align: center; padding: 40px 20px 80px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem;">
+  <p>© 2026 <a href="https://instagram.com/ikhlassyamri" target="_blank" style="color: var(--nv); text-decoration: none; font-weight: 600;">@ikhlassyamri</a> — Bagian dari BiB (Bisnis in a Box).</p>
 </footer>
 
 <!-- JAVASCRIPT: LOGIKA ANIMASI & POPUP -->
@@ -337,37 +341,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // STATE MACHINE SI NEON BERDASARKAN SCROLL (0.0 sampai 1.0)
     let state = '';
-    let leftPosition = '100%'; // Default di luar layar kanan
+    let leftPosition = '100%'; 
 
     if (scrollPct < 0.05) {
-      // Hilang
       leftPosition = '100%';
       state = '';
     } 
     else if (scrollPct >= 0.05 && scrollPct < 0.15) {
-      // Ngintip dari kanan
       leftPosition = 'calc(100% - 25px)';
       state = 'peeking';
     } 
     else if (scrollPct >= 0.15 && scrollPct < 0.45) {
-      // Jalan ke tengah
       let progress = (scrollPct - 0.15) / 0.30; 
       leftPosition = `calc(${100 - (progress * 50)}%)`;
       state = 'walking';
     } 
     else if (scrollPct >= 0.45 && scrollPct < 0.80) {
-      // Duduk di tengah (interaktif lihat atas/bawah)
       leftPosition = '50%';
       state = isScrollingDown ? 'sitting looking-down' : 'sitting looking-front';
     } 
     else if (scrollPct >= 0.80 && scrollPct < 0.95) {
-      // Berdiri dan lanjut jalan ke kiri
       let progress = (scrollPct - 0.80) / 0.15; 
       leftPosition = `calc(${50 - (progress * 60)}%)`;
       state = 'walking walking-left';
     } 
     else if (scrollPct >= 0.95) {
-      // Menghilang di kiri
       leftPosition = '-50px';
       state = 'walking walking-left';
     }
