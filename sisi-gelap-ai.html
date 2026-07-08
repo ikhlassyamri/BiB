@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terlalu Percaya AI Bikin Akun Clipper-mu Mati | BiB x IkhlasClip</title>
+
+<!-- META TAGS UNTUK PREVIEW WHATSAPP / SOSMED -->
+<meta name="description" content="Jangan salah paham, saya tidak anti-AI. Tapi menggunakan AI mentah-mentah justru bikin akunmu mentok 200 views. Ini rahasianya.">
+<meta property="og:title" content="Terlalu Percaya AI Bikin Akun Clipper-mu Mati | BiB x IkhlasClip">
+<meta property="og:description" content="Bongkar sisi gelap AI untuk clipper. Jangan biarkan algoritma mendeteksi kontenmu sebagai sampah. Baca selengkapnya.">
+<meta property="og:image" content="https://joinbib.id/sisigelapai.jpg">
+<meta property="og:url" content="https://joinbib.id/sisi-gelap-ai.html">
+<meta property="og:type" content="article">
+
 <meta name="theme-color" content="#0B0C0E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +45,7 @@ body {
 /* === CINEMATIC FADE OVERLAY (SANGAT HALUS) === */
 .fade-top {
   position: fixed;
-  top: 60px; /* Mulai tepat di bawah Navbar */
+  top: 60px; 
   left: 0; right: 0;
   height: 15vh; 
   background: linear-gradient(to bottom, var(--ink) 0%, rgba(11,12,14,0.3) 50%, transparent 100%);
@@ -188,7 +197,7 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weigh
 /* === ANIMASI "SI NEON" & GARIS TRAIL (DI ATAS) === */
 #neon-guy {
   position: fixed;
-  top: 70px; /* Posisi tepat di bawah Navbar */
+  top: 70px; 
   width: 30px; height: 60px;
   z-index: 49;
   pointer-events: none; 
@@ -197,7 +206,7 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weigh
 }
 #neon-trail {
   position: fixed;
-  top: 128px; /* Tepat menempel di kaki si Neon */
+  top: 128px; 
   right: 0;
   height: 2px;
   background: var(--nv);
@@ -215,10 +224,8 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weigh
 .guy-arm { top: 18px; left: 14px; }
 .guy-leg { top: 38px; left: 14px; }
 
-/* Mengarahkan Karakter ke Kiri */
 .facing-left { transform: scaleX(-1); }
 
-/* States Karakter Si Neon */
 .state-peeking .guy-head { transform: translateX(-10px) rotate(-20deg); }
 .state-peeking .guy-eye { left: 4px; }
 .state-peeking .guy-body { opacity: 0; }
@@ -269,7 +276,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weigh
     <div class="tag">Strategi Clipper</div>
     <h1>Terlalu Percaya AI Bikin Akun Clipper-mu Mati</h1>
     
-    <!-- Meta Tanggal dan Penulis Dikembalikan ke Atas -->
     <div class="meta">Oleh <a href="https://instagram.com/ikhlassyamri" target="_blank"><strong>@ikhlassyamri</strong></a> • 8 Juli 2026 • Waktu baca: 4 menit</div>
   </div>
 
@@ -382,50 +388,43 @@ document.addEventListener("DOMContentLoaded", function() {
     let isScrollingDown = window.scrollY > lastScrollY;
     lastScrollY = window.scrollY;
 
-    // Munculkan Pop-up BiB
     if (scrollPct > 0.20 && !popupShown) {
       popup.classList.add('show');
       popupShown = true;
     }
 
-    // STATE MACHINE SI NEON BERDASARKAN PERSENTASE SCROLL
     let state = '';
-    let guyLeftPct = 100; // Posisi X si Neon dalam Persen
+    let guyLeftPct = 100;
 
     if (scrollPct < 0.05) {
       guyLeftPct = 110; 
       state = '';
     } 
     else if (scrollPct >= 0.05 && scrollPct < 0.15) {
-      guyLeftPct = 95; // Ngintip di pinggir layar kanan
+      guyLeftPct = 95; 
       state = 'peeking';
     } 
     else if (scrollPct >= 0.15 && scrollPct < 0.45) {
       let progress = (scrollPct - 0.15) / 0.30; 
-      guyLeftPct = 95 - (progress * 45); // Jalan ke kiri menuju 50%
+      guyLeftPct = 95 - (progress * 45); 
       state = 'walking';
     } 
     else if (scrollPct >= 0.45 && scrollPct < 0.75) {
-      guyLeftPct = 50; // Duduk di tengah layar
+      guyLeftPct = 50; 
       state = isScrollingDown ? 'sitting looking-down' : 'sitting looking-front';
     } 
     else if (scrollPct >= 0.75 && scrollPct < 0.95) {
       let progress = (scrollPct - 0.75) / 0.20; 
-      guyLeftPct = 50 - (progress * 60); // Lanjut jalan ke kiri layar (-10%)
+      guyLeftPct = 50 - (progress * 60); 
       state = 'walking';
     } 
     else if (scrollPct >= 0.95) {
-      guyLeftPct = -10; // Menghilang
+      guyLeftPct = -10; 
       state = 'walking';
     }
 
-    // Terapkan Class Status Gerakan (Tetap menghadap kiri .facing-left)
     guy.className = 'guy-container facing-left state-' + state.replace(/ /g, ' state-');
-    
-    // Set Posisi Si Neon
     guy.style.left = guyLeftPct + '%';
-
-    // Set Posisi Garis Ekor (Trail)
     trail.style.left = `calc(${guyLeftPct}% + 40px)`;
     
     if(state === 'peeking' || state === '') {
