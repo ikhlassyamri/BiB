@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Book Ngeclip Cuan - Strategi Rahasia Clipper Profesional</title>
+<meta name="theme-color" content="#0B0C0E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B0C0E;
+  --surface: #14161A;
+  --surface-alt: #1A1D22;
+  --border: #26292F;
+  --text: #F4F5F6;
+  --muted: #9AA1A9;
+  --neon: #76B900;
+  --neon-dim: rgba(118, 185, 0, 0.15);
+  
+  --disp: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* === LAYOUT & SPACING (Gaya MedVi) === */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+section { padding: 80px 0; }
+.text-center { text-align: center; }
+
+/* === TYPOGRAPHY === */
+.eyebrow {
+  font-family: var(--disp);
+  color: var(--neon);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: inline-block;
+  background: var(--neon-dim);
+  padding: 6px 14px;
+  border-radius: 100px;
+}
+h1 {
+  font-family: var(--disp);
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+h2 {
+  font-family: var(--disp);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.highlight { color: var(--neon); }
+
+/* === BUTTONS === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--neon);
+  color: #000;
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  padding: 18px 36px;
+  border-radius: 100px; /* Pil shape */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(118, 185, 0, 0.35);
+}
+.btn-block { width: 100%; }
+
+/* === HERO SECTION === */
+.hero {
+  padding-top: 100px;
+  padding-bottom: 60px;
+  background: radial-gradient(circle at 50% -20%, #1a2a0a 0%, var(--bg) 60%);
+}
+.hero-img-wrapper {
+  margin: 40px auto;
+  max-width: 500px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  position: relative;
+}
+
+/* === CARDS (Gaya Sudut Membulat MedVi) === */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 40px;
+  margin-bottom: 30px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* === AGITATION SECTION === */
+.agitation-flex {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.analytics-img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  margin: 0 auto;
+}
+.pain-list {
+  list-style: none;
+  margin-top: 20px;
+}
+.pain-list li {
+  position: relative;
+  padding-left: 34px;
+  margin-bottom: 16px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+.pain-list li::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: #FF5F56;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.pain-list li strong { color: #fff; }
+
+/* === FEATURES (VALUE PROP) === */
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+.feature-card:hover { border-color: var(--neon); }
+.icon-neon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 20px;
+  object-fit: contain;
+  /* MAGIC TRICK: Menghilangkan background hitam dari ikon, menyisakan neonnya saja */
+  mix-blend-mode: screen; 
+  filter: drop-shadow(0 0 10px rgba(118,185,0,0.5));
+}
+.feature-title {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.feature-desc { font-size: 0.95rem; line-height: 1.5; margin-bottom: 0; }
+
+/* === TESTIMONIALS === */
+.testi-card {
+  background: var(--surface-alt);
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.stars { color: var(--neon); font-size: 1.2rem; margin-bottom: 16px; letter-spacing: 2px; }
+.testi-text { font-size: 1.05rem; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.7;}
+.testi-user { display: flex; align-items: center; gap: 16px; }
+.testi-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+.testi-name { font-family: var(--disp); font-weight: 700; color: #fff; font-size: 1rem;}
+.testi-role { font-size: 0.85rem; color: var(--muted); }
+
+/* === ANTI-POSITIONING === */
+.honest-box {
+  border-left: 4px solid var(--neon);
+  background: var(--surface);
+  padding: 30px;
+  border-radius: 0 20px 20px 0;
+  margin: 40px 0;
+}
+.honest-box blockquote {
+  font-family: var(--disp);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* === PRICING === */
+.pricing-section { padding-bottom: 120px; }
+.price-box {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 32px;
+  padding: 50px 40px;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.strike { text-decoration: line-through; color: var(--muted); font-size: 1.2rem; font-weight: 600;}
+.price-tag {
+  font-family: var(--disp);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--neon);
+  line-height: 1;
+  margin: 10px 0 30px;
+}
+.price-note { font-size: 0.85rem; margin-top: 16px; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  h1 { font-size: 2.3rem; }
+  .card-grid { grid-template-columns: 1fr; gap: 16px; }
+  .agitation-flex { flex-direction: column; text-align: center; }
+  .pain-list li { text-align: left; }
+  .price-box { padding: 40px 20px; border-radius: 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO SECTION -->
+<section class="hero text-center">
+  <div class="container">
+    <div class="eyebrow">Edukasi · Strategi Clipper</div>
+    <h1>Cara Realistis Hasilkan Cuan Menjadi <span class="highlight">Clipper</span></h1>
+    <p style="max-width: 600px; margin: 0 auto;">Bongkar blueprint rahasia akun clipper. Dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan jadi uang.</p>
+    
+    <div class="hero-img-wrapper">
+      <img src="file_000000002bf4722fa54b4684fbebf7e0.png" alt="Mockup E-Book Ngeclip Cuan">
+    </div>
+    
+    <a href="#pricing" class="btn">Amankan E-Book Sekarang</a>
+  </div>
+</section>
+
+<!-- AGITATION SECTION (MASALAH) -->
+<section style="background-color: #08090a;">
+  <div class="container">
+    <div class="card">
+      <div class="agitation-flex">
+        <div style="flex: 1;">
+          <img src="file_000000004300722fb3826e48d50bc129.png" alt="Analytics Mentok" class="analytics-img">
+        </div>
+        <div style="flex: 1.2;">
+          <h2>Sering melihat akun anonim lewat di FYP kamu?</h2>
+          <p>Mereka hanya mengunggah potongan video podcast, wawancara, atau motivasi tokoh terkenal, tapi bisa menghasilkan cuan jutaan rupiah hanya dari views.</p>
+          <p>Kelihatannya gampang. Tinggal download, potong, lalu upload. Tapi saat kamu mencobanya sendiri:</p>
+          <ul class="pain-list">
+            <li>View selalu mentok di angka 200 (terjebak di tier bawah).</li>
+            <li>Video sering di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</li>
+            <li>Akun terkena shadowban (video tidak pernah masuk FYP lagi).</li>
+            <li><strong>Jangankan mencapai target views, yang komen pun tidak ada.</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION & VALUE PROP -->
+<section>
+  <div class="container">
+    <div class="text-center" style="max-width: 660px; margin: 0 auto 50px;">
+      <h2>Sistemnya Udah Ada. <br>Tinggal Kamu Contek.</h2>
+      <p>Clipper yang berhasil tidak asal potong. Mereka menggunakan <strong>teknik editing dan formula retensi teruji</strong> untuk mengelabui algoritma. Semuanya sudah saya rangkum dalam <strong>E-Book Ngeclip Cuan</strong>.</p>
+    </div>
+
+    <div class="card-grid">
+      <!-- Card 1 -->
+      <div class="feature-card">
+        <img src="IMG_20260708_152105.jpg" alt="Riset" class="icon-neon">
+        <div class="feature-title">Riset Materi Potensial</div>
+        <p class="feature-desc">Di mana mencari video panjang (sumber mentah) yang memiliki peluang viral tinggi dan disukai audiens saat ini.</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="feature-card">
+        <img src="IMG_20260708_152117.jpg" alt="Editing" class="icon-neon">
+        <div class="feature-title">Editing Anti-Copyright</div>
+        <p class="feature-desc">Teknik memotong, memanipulasi rasio, dan mengedit manual secara aman agar terhindar dari pelanggaran hak cipta.</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="feature-card">
+        <img src="IMG_20260708_152127.jpg" alt="Hook" class="icon-neon">
+        <div class="feature-title">Formula Hook & Retensi</div>
+        <p class="feature-desc">Cara menyusun potongan awal agar penonton tidak men-skip video kamu (kunci utama agar video disebar masif).</p>
+      </div>
+      <!-- Card 4 -->
+      <div class="feature-card">
+        <img src="IMG_20260708_152137.jpg" alt="Monetisasi" class="icon-neon">
+        <div class="feature-title">Strategi Monetisasi Views</div>
+        <p class="feature-desc">Alur sebenarnya untuk mengubah ratusan ribu hingga jutaan views yang kamu kumpulkan menjadi uang (cuan).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF (TESTIMONI) -->
+<section style="background-color: #08090a;">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 40px;">
+      <h2>Apa Kata Mereka?</h2>
+      <p>Bukti nyata dari mereka yang sudah mempraktikkan sistem ini.</p>
+    </div>
+
+    <!-- Testimoni 1 -->
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Gila, pantesan selama ini video saya mentok di 200 views. Ternyata ada teknik hook retensi yang salah. Terapin trik di e-book ini, video ketiga langsung tembus 100k views!"</p>
+      <div class="testi-user">
+        <img src="IMG_20260708_152022.jpg" alt="Rendi P." class="testi-avatar">
+        <div>
+          <div class="testi-name">Rendi P.</div>
+          <div class="testi-role">Pekerja Kantoran & Clipper Pemula</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimoni 2 -->
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Dulu paling males ngedit karena takut kena copyright strike. Setelah baca bagian trik editing manual anti-copyright, akun saya sekarang aman dan stabil pertumbuhannya."</p>
+      <div class="testi-user">
+        <img src="IMG_20260708_152037.jpg" alt="Dimas A." class="testi-avatar">
+        <div>
+          <div class="testi-name">Dimas A.</div>
+          <div class="testi-role">Mahasiswa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimoni 3 -->
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Jujur beli karena harganya murah banget dibanding trial-error sendiri berbulan-bulan. Modalnya cuma HP sama kuota, bulan ini akhirnya pecah telor dapet cuan dari monetisasi views!"</p>
+      <div class="testi-user">
+        <img src="IMG_20260708_152051.jpg" alt="Siska M." class="testi-avatar">
+        <div>
+          <div class="testi-name">Siska M.</div>
+          <div class="testi-role">Ibu Rumah Tangga</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HONESTY FILTER & PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    
+    <div class="honest-box">
+      <h3 style="color: #fff; font-family: var(--disp); margin-bottom: 10px;">Jujur Saja, Ini BUKAN Skema Cepat Kaya.</h3>
+      <p style="margin-bottom: 0;">Kalau kamu mencari cara mendapatkan uang miliaran hanya dengan asal upload 1-2 video lalu ditinggal tidur, silakan tutup halaman ini. Tapi, kalau kamu siap meluangkan waktu 1-2 jam sehari, mengasah insting editing, dan berhenti membuang waktu pada cara yang selalu gagal... maka panduan ini adalah jalan tolmu.</p>
+      <blockquote>"Skip coba-cobanya, pelajari polanya."</blockquote>
+    </div>
+
+    <div class="price-box">
+      <h2 style="margin-bottom: 10px;">Mulai Hasilkan Cuan Hari Ini</h2>
+      <p>Investasi sekali bayar. Baca kapan saja dari HP-mu.</p>
+      
+      <div class="strike">Rp 150.000</div>
+      <div class="price-tag">Rp 49.000</div>
+      
+      <!-- GANTI TANDA # DENGAN LINK CHECKOUT/PEMBAYARAN KAMU -->
+      <a href="#" class="btn btn-block">Beli E-Book Sekarang 👉</a>
+      
+      <p class="price-note muted">🔒 Pembayaran aman. Akses instan via PDF.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer style="text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem;">
+  <p>© 2026 IkhlasClip — Bagian dari BiB (Bisnis in a Box).</p>
+</footer>
+
+</body>
+</html>
