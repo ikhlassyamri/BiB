@@ -5,452 +5,321 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-Book Ngeclip Cuan — Blueprint Clipper Profesional</title>
 <meta name="description" content="Bongkar blueprint akun clipper: riset materi, editing anti-copyright, formula hook & retensi, sampai monetisasi views jadi cuan. Sekali bayar, akses instan PDF.">
-<meta name="theme-color" content="#12301D">
+<meta name="theme-color" content="#0B0C0E">
 <link rel="icon" href="/favicon.png">
 <meta property="og:title" content="E-Book Ngeclip Cuan — Blueprint Clipper Profesional">
 <meta property="og:description" content="Cara realistis hasilkan cuan jadi clipper. Skip coba-cobanya, pelajari polanya.">
 <meta property="og:image" content="https://joinbib.id/clipper/file_000000002bf4722fa54b4684fbebf7e0.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink: #17251C;
-  --muted: #55635A;
-  --faint: #7C8A81;
-  --bg: #FBFBF7;
-  --card: #FFFFFF;
-  --line: #E7EAE2;
-
-  --forest: #12301D;
-  --forest-2: #0D2416;
-  --lime: #76B900;
-  --lime-soft: #A9E05C;
-  --mint: #EDF5E4;
-  --mint-deep: #E2EFD3;
-  --cream: #F7F3EA;
-  --blush: #FBEFE9;
+:root{
+  --ink:#0B0C0E;
+  --panel:#14161A;
+  --panel-2:#101216;
+  --line:#26292F;
+  --line-soft:#1A1D22;
+  --text:#F4F5F6;
+  --muted:#9AA1A9;
+  --paper:#FFFFFF;
+  --nv:#76B900;
+  --nv-soft:rgba(118,185,0,.4);
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --r:12px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:1.0625rem;
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+::selection{background:var(--nv);color:#0B0C0E}
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+section{padding:clamp(72px,10vw,110px) 0;position:relative}
+.center{text-align:center}
 
-img { max-width: 100%; height: auto; display: block; }
+/* ---------- type ---------- */
+.eyebrow{
+  font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+  display:block;margin-bottom:20px;
+}
+h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.1rem,6.6vw,3.7rem);
+  line-height:1.16;letter-spacing:-.02em;
+}
+h2{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.7rem,4.8vw,2.5rem);
+  line-height:1.22;letter-spacing:-.01em;
+  margin-bottom:22px;
+}
+h2::before{content:"";display:block;width:11px;height:11px;background:var(--nv);margin-bottom:18px}
+.center h2::before{margin-left:auto;margin-right:auto}
+p{color:var(--muted)}
+p strong,li strong{color:#fff;font-weight:600}
+.lead{font-size:1.1rem}
+.hl{color:var(--nv)}
+.hl-inv{
+  background:var(--nv);color:var(--ink);
+  padding:.04em .18em;border-radius:.14em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.u-nv{box-shadow:inset 0 -.34em var(--nv-soft)}
 
-.container { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
-section { padding: 88px 0; }
-.text-center { text-align: center; }
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--nv);color:var(--ink);
+  font-family:var(--disp);font-weight:700;font-size:1.05rem;
+  padding:17px 34px;border-radius:var(--r);
+  text-decoration:none;border:1.5px solid var(--nv);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(118,185,0,.3)}
+.btn:focus-visible{outline:2px solid var(--nv);outline-offset:4px}
+.btn-ghost{
+  background:transparent;color:var(--text);border:1.5px solid var(--line);
+}
+.btn-ghost:hover{border-color:#3A3F47;box-shadow:0 10px 26px rgba(0,0,0,.4)}
 
-/* === TYPE === */
-.eyebrow {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin-bottom: 18px;
+/* ---------- reveal ---------- */
+.reveal{
+  opacity:0;transform:translateY(26px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
 }
-h1 {
-  font-size: clamp(2.5rem, 7vw, 4rem);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-}
-h2 {
-  font-size: clamp(1.9rem, 5vw, 2.9rem);
-  font-weight: 800;
-  line-height: 1.18;
-  letter-spacing: -0.025em;
-  margin-bottom: 20px;
-}
-p { font-size: 1.06rem; color: var(--muted); }
-.lead { font-size: 1.13rem; }
-.hl { color: var(--lime); }
-.hl-dark { color: #4E8A1D; }
+.reveal.in-view{opacity:1;transform:translateY(0)}
+.d-1{transition-delay:.08s}
+.d-2{transition-delay:.16s}
+.d-3{transition-delay:.24s}
+.d-4{transition-delay:.32s}
 
-/* === BUTTONS === */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--lime);
-  color: #0C2010;
-  font-family: inherit;
-  font-weight: 800;
-  font-size: 0.92rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 19px 38px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  transition: transform .3s ease, box-shadow .3s ease, background-color .3s ease;
+/* ---------- hero ---------- */
+.hero{
+  background:#07080A;
+  border-bottom:1px solid var(--line-soft);
+  padding:0;position:relative;overflow:hidden;
 }
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 32px rgba(118, 185, 0, 0.35);
-  background: #82CC02;
+.hero::after{
+  content:"";position:absolute;left:50%;top:-10%;transform:translateX(-50%);
+  width:120%;height:80%;
+  background:radial-gradient(ellipse at 50% 0%,rgba(118,185,0,.13),transparent 62%);
+  pointer-events:none;
 }
-.btn-dark {
-  background: var(--forest);
-  color: #fff;
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;position:relative;z-index:2;
 }
-.btn-dark:hover {
-  background: #1A4029;
-  box-shadow: 0 16px 32px rgba(18, 48, 29, 0.25);
-}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-soft)}
+.brand span{font-family:var(--disp);font-weight:700;font-size:1.02rem}
+.nav .btn{padding:10px 20px;font-size:.92rem;border-radius:10px}
 
-/* === REVEAL === */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+.hero-inner{text-align:center;padding:64px 0 0;position:relative;z-index:1}
+.hero-badge{
+  font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+  display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;
 }
-.reveal.in-view { opacity: 1; transform: translateY(0); }
-.d-1 { transition-delay: .08s; }
-.d-2 { transition-delay: .16s; }
-.d-3 { transition-delay: .24s; }
-.d-4 { transition-delay: .32s; }
-
-/* === HERO === */
-.hero {
-  background: linear-gradient(180deg, var(--forest-2) 0%, var(--forest) 55%, #16381F 100%);
-  color: #fff;
-  padding: 0 0 0;
-  border-radius: 0 0 34px 34px;
+.hero-badge::before,.hero-badge::after{content:"";width:9px;height:9px;background:var(--nv)}
+.hero h1{max-width:840px;margin:0 auto 24px}
+.hero .lead{max-width:640px;margin:0 auto 36px}
+.hero-book{margin:60px auto -150px;max-width:440px;padding:0 22px;position:relative}
+.hero-book::before{
+  content:"";position:absolute;inset:8% 6% -4%;
+  background:radial-gradient(ellipse at 50% 60%,rgba(118,185,0,.22),transparent 68%);
+  filter:blur(24px);pointer-events:none;
 }
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 0;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #fff;
-}
-.brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-}
-.brand span {
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-}
-.nav .btn { padding: 12px 22px; font-size: 0.78rem; }
-
-.hero-inner {
-  text-align: center;
-  padding: 56px 0 0;
-}
-.hero-badge {
-  display: inline-block;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #CFE3C6;
-  margin-bottom: 22px;
-}
-.hero-badge strong { color: #fff; font-weight: 800; }
-.hero h1 { max-width: 820px; margin: 0 auto 22px; }
-.hero .lead {
-  max-width: 640px;
-  margin: 0 auto 34px;
-  color: #C9D8C4;
-}
-.hero-book {
-  margin: 56px auto -140px;
-  max-width: 460px;
-  padding: 0 22px;
-}
-.hero-book img {
-  border-radius: 28px;
-  box-shadow: 0 40px 80px rgba(0,0,0,.45);
+.hero-book img{
+  position:relative;border-radius:18px;
+  border:1px solid var(--line);
+  box-shadow:0 44px 90px rgba(0,0,0,.75);
 }
 
-/* === TRUST STRIP === */
-.trust {
-  padding: 210px 0 40px;
+/* ---------- trust strip ---------- */
+.trust{padding:216px 0 46px}
+.trust-row{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 46px}
+.trust-item{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
 }
-.trust-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 18px 44px;
-}
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.trust-item svg { width: 20px; height: 20px; stroke: var(--ink); flex-shrink: 0; }
+.trust-item .sq{display:inline-block;width:9px;height:9px;background:var(--nv);flex:none}
 
-/* === PAIN === */
-.pain-list {
-  list-style: none;
-  max-width: 620px;
-  margin: 42px auto 0;
-  text-align: left;
+/* ---------- pain ---------- */
+.pain-list{list-style:none;max-width:640px;margin:44px auto 0;text-align:left}
+.pain-list li{
+  display:flex;align-items:flex-start;gap:16px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
+  padding:18px 22px;margin-bottom:12px;
+  font-size:1rem;line-height:1.6;color:var(--text);
 }
-.pain-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 18px 22px;
-  margin-bottom: 14px;
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.55;
-}
-.pain-x {
-  flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #FCE8E4;
-  color: #D24B34;
-  font-weight: 800;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2px;
+.pain-x{
+  flex:none;width:20px;height:20px;margin-top:5px;
+  border:1.5px solid #FF5F56;color:#FF5F56;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;font-family:var(--disp);line-height:1;
 }
 
-/* === SOLUTION === */
-.section-mint {
-  background: var(--mint);
-  border-radius: 34px;
-  margin: 0 12px;
+/* ---------- solution ---------- */
+.sect-panel{
+  background:var(--panel-2);
+  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
 }
-.grid-2x2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 56px;
+.sect-panel::after{
+  content:"";position:absolute;right:-10%;top:0;bottom:0;width:60%;
+  background:radial-gradient(ellipse at 80% 40%,rgba(118,185,0,.07),transparent 62%);
+  pointer-events:none;
 }
-.feature-card {
-  background: var(--card);
-  border-radius: 26px;
-  padding: 38px 34px;
-  transition: transform .35s ease, box-shadow .35s ease;
+.sect-panel .wrap{position:relative;z-index:1}
+.grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:52px}
+.feature-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:34px 30px;
+  transition:transform .3s ease,border-color .3s ease;
 }
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(23, 37, 28, 0.08);
+.feature-card:hover{transform:translateY(-3px);border-color:#3A3F47}
+.icon-tile{
+  width:64px;height:64px;border-radius:14px;
+  background:#050604;border:1px solid var(--line-soft);
+  overflow:hidden;margin-bottom:22px;
 }
-.icon-tile {
-  width: 68px;
-  height: 68px;
-  border-radius: 20px;
-  background: #0C1108;
-  overflow: hidden;
-  margin-bottom: 24px;
+.icon-tile img{
+  width:100%;height:100%;object-fit:cover;
+  filter:drop-shadow(0 0 12px rgba(118,185,0,.45));
 }
-.icon-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.feature-title{
+  font-family:var(--disp);font-weight:700;font-size:1.22rem;
+  color:#fff;margin-bottom:10px;line-height:1.35;
 }
-.feature-title {
-  font-weight: 800;
-  font-size: 1.22rem;
-  letter-spacing: -0.01em;
-  margin-bottom: 10px;
-}
-.feature-desc { font-size: 1rem; }
+.feature-desc{font-size:.98rem}
 
-/* === INSIDE (checklist + book) === */
-.inside-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
-  align-items: center;
+/* ---------- inside ---------- */
+.inside-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.book-card{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:20px;
+  padding:40px 36px 0;overflow:hidden;position:relative;
 }
-.book-card {
-  background: var(--cream);
-  border-radius: 30px;
-  padding: 44px 40px 0;
-  overflow: hidden;
+.book-card::before{
+  content:"";position:absolute;inset:auto 0 -30% 0;height:70%;
+  background:radial-gradient(ellipse at 50% 100%,rgba(118,185,0,.14),transparent 66%);
+  pointer-events:none;
 }
-.book-card img {
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 30px 60px rgba(23,37,28,.18);
+.book-card img{
+  position:relative;border-radius:12px 12px 0 0;
+  box-shadow:0 30px 60px rgba(0,0,0,.6);
 }
-.check-list { list-style: none; margin: 30px 0 36px; }
-.check-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 18px;
-  line-height: 1.55;
+.check-list{list-style:none;margin:30px 0 36px}
+.check-list li{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:9px 0;color:var(--text);line-height:1.65;font-size:1.02rem;
 }
-.check {
-  flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--mint-deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2px;
+.check{
+  flex:none;width:20px;height:20px;margin-top:5px;
+  border:1.5px solid var(--nv);
+  display:flex;align-items:center;justify-content:center;
 }
-.check svg { width: 14px; height: 14px; stroke: #3E7A14; }
+.check svg{width:11px;height:11px;stroke:var(--nv)}
 
-/* === TESTIMONIALS === */
-.testi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 18px;
-  margin-top: 56px;
+/* ---------- testimonials ---------- */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:52px}
+.testi-card{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:18px;
+  padding:30px 28px;display:flex;flex-direction:column;
+  transition:transform .3s ease,border-color .3s ease;
 }
-.testi-card {
-  background: #F1F7E8;
-  border-radius: 26px;
-  padding: 34px 30px;
-  display: flex;
-  flex-direction: column;
-}
-.testi-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-.testi-name { font-weight: 800; font-size: 1.05rem; }
-.stars { color: #4E8A1D; font-size: 0.95rem; letter-spacing: 2px; }
-.testi-text {
-  font-size: 1rem;
-  color: #3D4A40;
-  flex-grow: 1;
-  margin-bottom: 24px;
-}
-.testi-user { display: flex; align-items: center; gap: 13px; }
-.testi-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.testi-role { font-size: 0.85rem; color: var(--faint); font-weight: 600; }
+.testi-card:hover{transform:translateY(-3px);border-color:#3A3F47}
+.testi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.testi-name{font-family:var(--disp);font-weight:700;font-size:1.02rem;color:#fff}
+.stars{color:var(--nv);font-size:.9rem;letter-spacing:2px}
+.testi-text{font-size:.98rem;color:var(--muted);flex-grow:1;margin-bottom:22px}
+.testi-text strong{color:var(--text)}
+.testi-user{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line-soft);padding-top:18px}
+.testi-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.testi-role{font-size:.85rem;color:var(--muted)}
 
-/* === HONEST === */
-.honest {
-  background: var(--forest);
-  color: #fff;
-  border-radius: 34px;
-  margin: 0 12px;
+/* ---------- honest ---------- */
+.honest{
+  background:#07080A;
+  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+  overflow:hidden;
 }
-.honest .eyebrow { color: #8FB585; }
-.honest p { color: #C9D8C4; }
-.honest-quote {
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--lime-soft);
-  margin-top: 34px;
+.honest::after{
+  content:"";position:absolute;right:-10%;top:0;bottom:0;width:70%;
+  background:radial-gradient(ellipse at 70% 45%,rgba(118,185,0,.09),transparent 62%);
+  pointer-events:none;
+}
+.honest .wrap{position:relative;z-index:1;max-width:800px}
+.honest-quote{
+  font-family:var(--disp);font-weight:600;
+  font-size:clamp(1.35rem,3.4vw,1.9rem);
+  line-height:1.4;letter-spacing:-.01em;color:#fff;
+  margin-top:34px;border-left:2px solid var(--nv);padding-left:18px;
 }
 
-/* === PRICING === */
-.price-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 32px;
-  padding: 64px 40px;
-  max-width: 620px;
-  margin: 0 auto;
-  text-align: center;
-  box-shadow: 0 30px 60px rgba(23,37,28,.07);
+/* ---------- pricing ---------- */
+.price-card{
+  max-width:560px;margin:0 auto;text-align:center;
+  background:var(--panel-2);border:1px solid #2C3138;border-radius:22px;
+  padding:clamp(36px,6vw,52px) clamp(24px,5vw,44px);
 }
-.strike {
-  text-decoration: line-through;
-  color: var(--faint);
-  font-size: 1.1rem;
-  font-weight: 700;
+.p-label{
+  font-family:var(--disp);font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;font-size:.8rem;color:var(--muted);
 }
-.price-tag {
-  font-size: clamp(3.2rem, 9vw, 4.4rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-  color: var(--ink);
-  margin: 6px 0 8px;
+.price-card h2{margin:16px 0 8px}
+.price-card h2::before{margin-left:auto;margin-right:auto}
+.p-old{margin-top:22px;color:var(--muted);font-size:1.05rem}
+.p-old s{text-decoration-thickness:2px}
+.p-now{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.7rem,8vw,3.6rem);letter-spacing:-.02em;line-height:1.1;
+  margin:6px 0 8px;color:#fff;
 }
-.price-sub { font-size: 0.95rem; margin-bottom: 34px; }
-.price-note {
-  font-size: 0.9rem;
-  color: var(--faint);
-  margin-top: 20px;
+.p-now .hl{color:var(--nv)}
+.p-sub{color:var(--muted);font-size:.98rem;margin-bottom:32px}
+.price-card .btn{width:100%}
+.price-note{font-size:.9rem;color:var(--muted);margin-top:18px}
+.assure-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  max-width:560px;margin:20px auto 0;
 }
-.assure-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  max-width: 620px;
-  margin: 22px auto 0;
+.assure-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
+  padding:15px 18px;
+  font-family:var(--disp);font-weight:600;font-size:.9rem;color:var(--text);
 }
-.assure-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 16px 20px;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--ink);
-}
-.assure-item svg { width: 22px; height: 22px; stroke: #4E8A1D; flex-shrink: 0; }
+.assure-item svg{width:20px;height:20px;stroke:var(--nv);flex:none}
 
-/* === FOOTER === */
-footer {
-  text-align: center;
-  padding: 56px 22px 48px;
+/* ---------- footer ---------- */
+footer{
+  text-align:center;padding:56px 22px 48px;
+  border-top:1px solid var(--line-soft);
 }
-footer .brand { justify-content: center; color: var(--ink); margin-bottom: 14px; }
-footer p { font-size: 0.92rem; color: var(--faint); }
+footer .brand{justify-content:center;margin-bottom:14px}
+footer p{font-size:.9rem;color:var(--muted)}
 
-/* === RESPONSIVE === */
-@media (max-width: 820px) {
-  section { padding: 64px 0; }
-  .trust { padding: 190px 0 28px; }
-  .grid-2x2, .inside-grid, .assure-grid { grid-template-columns: 1fr; }
-  .inside-grid { gap: 40px; }
-  .section-mint, .honest { margin: 0 8px; border-radius: 26px; }
-  .hero-book { margin-bottom: -120px; }
-  .feature-card { padding: 32px 26px; }
-  .price-card { padding: 48px 26px; }
-  .nav .btn span { display: none; }
+/* ---------- responsive ---------- */
+@media (max-width:820px){
+  .trust{padding:196px 0 32px}
+  .grid-2x2,.inside-grid,.assure-grid{grid-template-columns:1fr}
+  .inside-grid{gap:40px}
+  .hero-book{margin-bottom:-130px}
+  .feature-card{padding:30px 24px}
+  .nav .btn{padding:9px 16px;font-size:.85rem}
 }
 </style>
 </head>
@@ -458,7 +327,7 @@ footer p { font-size: 0.92rem; color: var(--faint); }
 
 <!-- HERO -->
 <header class="hero">
-  <div class="container">
+  <div class="wrap">
     <nav class="nav">
       <a href="/" class="brand">
         <img src="ic-logo.png" alt="IkhlasClip">
@@ -468,8 +337,8 @@ footer p { font-size: 0.92rem; color: var(--faint); }
     </nav>
 
     <div class="hero-inner reveal in-view">
-      <div class="hero-badge">Blueprint <strong>Clipper Profesional</strong> — dari long video jadi cuan</div>
-      <h1>Cara realistis hasilkan cuan <span class="hl">jadi clipper.</span></h1>
+      <div class="hero-badge">Blueprint Clipper Profesional</div>
+      <h1>Cara realistis hasilkan cuan <span class="hl-inv">jadi clipper.</span></h1>
       <p class="lead">Bongkar blueprint akun clipper: dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan berubah jadi uang.</p>
       <a href="#harga" class="btn">Mulai Sekarang</a>
 
@@ -482,47 +351,38 @@ footer p { font-size: 0.92rem; color: var(--faint); }
 
 <!-- TRUST STRIP -->
 <div class="trust">
-  <div class="container">
+  <div class="wrap">
     <div class="trust-row reveal">
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
-        Modal HP + kuota
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 3"/></svg>
-        Akses instan PDF
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
-        Sekali bayar, punya selamanya
-      </div>
+      <div class="trust-item"><span class="sq"></span> Modal HP + kuota</div>
+      <div class="trust-item"><span class="sq"></span> Akses instan PDF</div>
+      <div class="trust-item"><span class="sq"></span> Sekali bayar, punya selamanya</div>
     </div>
   </div>
 </div>
 
 <!-- PAIN -->
 <section>
-  <div class="container text-center reveal" style="max-width: 760px;">
+  <div class="wrap center reveal" style="max-width: 760px;">
     <span class="eyebrow">Realita jadi clipper</span>
-    <h2>Kelihatannya gampang.<br>Sampai kamu <span class="hl-dark">coba sendiri.</span></h2>
+    <h2>Kelihatannya gampang.<br>Sampai kamu <span class="u-nv">coba sendiri.</span></h2>
     <p class="lead" style="max-width: 620px; margin: 0 auto;">Akun anonim di FYP kamu cuma mengunggah potongan podcast, wawancara, atau motivasi tokoh terkenal — tapi cuannya jutaan rupiah dari views. Lalu kamu ikutan: download, potong, upload. Hasilnya?</p>
 
     <ul class="pain-list">
-      <li><span class="pain-x">✕</span> Views selalu mentok di angka 200 — terjebak di tier bawah algoritma.</li>
-      <li><span class="pain-x">✕</span> Video di-takedown atau dibisukan karena masalah hak cipta (copyright).</li>
-      <li><span class="pain-x">✕</span> Akun kena shadowban, video tidak pernah masuk FYP lagi.</li>
-      <li><span class="pain-x">✕</span> Jangankan tembus target views — yang komen pun tidak ada.</li>
+      <li><span class="pain-x">✕</span><span>Views selalu mentok di angka 200 — terjebak di tier bawah algoritma.</span></li>
+      <li><span class="pain-x">✕</span><span>Video di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</span></li>
+      <li><span class="pain-x">✕</span><span>Akun kena shadowban, video tidak pernah masuk FYP lagi.</span></li>
+      <li><span class="pain-x">✕</span><span><strong>Jangankan tembus target views — yang komen pun tidak ada.</strong></span></li>
     </ul>
   </div>
 </section>
 
 <!-- SOLUTION -->
-<section class="section-mint">
-  <div class="container">
-    <div class="text-center reveal" style="max-width: 720px; margin: 0 auto;">
+<section class="sect-panel">
+  <div class="wrap">
+    <div class="center reveal" style="max-width: 720px; margin: 0 auto;">
       <span class="eyebrow">Blueprint Clipper Profesional</span>
-      <h2>Sistemnya udah ada.<br><span class="hl-dark">Tinggal kamu contek.</span></h2>
-      <p class="lead">Clipper yang berhasil tidak asal potong. Mereka pakai teknik editing dan formula retensi teruji untuk menjinakkan algoritma. Semuanya dirangkum di e-book ini.</p>
+      <h2>Sistemnya udah ada.<br><span class="hl">Tinggal kamu contek.</span></h2>
+      <p class="lead">Clipper yang berhasil tidak asal potong. Mereka pakai <strong>teknik editing dan formula retensi teruji</strong> untuk menjinakkan algoritma. Semuanya dirangkum di e-book ini.</p>
     </div>
 
     <div class="grid-2x2">
@@ -552,22 +412,22 @@ footer p { font-size: 0.92rem; color: var(--faint); }
 
 <!-- INSIDE -->
 <section>
-  <div class="container">
+  <div class="wrap">
     <div class="inside-grid">
       <div class="book-card reveal">
         <img src="file_000000002bf4722fa54b4684fbebf7e0.png" alt="Isi E-Book Ngeclip Cuan" width="920" height="1150">
       </div>
       <div class="reveal d-1">
         <span class="eyebrow">Apa yang kamu dapat</span>
-        <h2>Semua yang kamu butuh — <span class="hl-dark">lengkap.</span></h2>
+        <h2>Semua yang kamu butuh — <span class="hl">lengkap.</span></h2>
         <ul class="check-list">
-          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Blueprint lengkap alur kerja clipper dari nol</li>
-          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Daftar sumber materi mentah berpeluang viral</li>
-          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Teknik editing manual anti copyright-strike</li>
-          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Formula hook &amp; retensi agar video tidak di-skip</li>
-          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Jalur monetisasi: dari views jadi transferan</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Blueprint lengkap alur kerja clipper dari nol</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Daftar sumber materi mentah berpeluang viral</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Teknik editing manual anti copyright-strike</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Formula hook &amp; retensi agar video tidak di-skip</li>
+          <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> Jalur monetisasi: dari views jadi transferan</li>
         </ul>
-        <a href="#harga" class="btn btn-dark">Pelajari Sekarang</a>
+        <a href="#harga" class="btn btn-ghost">Pelajari Sekarang</a>
       </div>
     </div>
   </div>
@@ -575,10 +435,10 @@ footer p { font-size: 0.92rem; color: var(--faint); }
 
 <!-- TESTIMONIALS -->
 <section style="padding-top: 0;">
-  <div class="container">
-    <div class="text-center reveal" style="max-width: 680px; margin: 0 auto;">
+  <div class="wrap">
+    <div class="center reveal" style="max-width: 680px; margin: 0 auto;">
       <span class="eyebrow">Mereka yang sudah praktik</span>
-      <h2>Ada alasan kenapa mereka <span class="hl-dark">merekomendasikannya.</span></h2>
+      <h2>Ada alasan kenapa mereka <span class="u-nv">merekomendasikannya.</span></h2>
       <p class="lead">Bukti nyata dari pembaca yang langsung mempraktikkan sistem di dalamnya.</p>
     </div>
 
@@ -588,7 +448,7 @@ footer p { font-size: 0.92rem; color: var(--faint); }
           <div class="testi-name">Rendi P.</div>
           <div class="stars">★★★★★</div>
         </div>
-        <p class="testi-text">"Gila, pantesan selama ini video saya mentok di 200 views. Ternyata teknik hook retensinya yang salah. Terapin trik di e-book ini, video ketiga langsung tembus 100k views!"</p>
+        <p class="testi-text">"Gila, pantesan selama ini video saya mentok di 200 views. Ternyata teknik hook retensinya yang salah. Terapin trik di e-book ini, <strong>video ketiga langsung tembus 100k views!</strong>"</p>
         <div class="testi-user">
           <img src="IMG_20260708_152022.png" alt="Foto Rendi P." class="testi-avatar">
           <div class="testi-role">Pekerja Kantoran</div>
@@ -599,7 +459,7 @@ footer p { font-size: 0.92rem; color: var(--faint); }
           <div class="testi-name">Dimas A.</div>
           <div class="stars">★★★★★</div>
         </div>
-        <p class="testi-text">"Dulu paling males ngedit karena takut kena copyright strike. Setelah baca bagian trik editing manual anti-copyright, akun saya sekarang aman dan stabil pertumbuhannya."</p>
+        <p class="testi-text">"Dulu paling males ngedit karena takut kena copyright strike. Setelah baca bagian trik editing manual anti-copyright, <strong>akun saya sekarang aman dan stabil</strong> pertumbuhannya."</p>
         <div class="testi-user">
           <img src="IMG_20260708_152037.png" alt="Foto Dimas A." class="testi-avatar">
           <div class="testi-role">Mahasiswa</div>
@@ -610,7 +470,7 @@ footer p { font-size: 0.92rem; color: var(--faint); }
           <div class="testi-name">Siska M.</div>
           <div class="stars">★★★★★</div>
         </div>
-        <p class="testi-text">"Jujur beli karena harganya murah banget dibanding trial-error sendiri berbulan-bulan. Modal cuma HP sama kuota, bulan ini akhirnya pecah telor dapet cuan dari monetisasi views!"</p>
+        <p class="testi-text">"Jujur beli karena harganya murah banget dibanding trial-error sendiri berbulan-bulan. Modal cuma HP sama kuota, <strong>bulan ini akhirnya pecah telor dapet cuan</strong> dari monetisasi views!"</p>
         <div class="testi-user">
           <img src="IMG_20260708_152051.png" alt="Foto Siska M." class="testi-avatar">
           <div class="testi-role">Ibu Rumah Tangga</div>
@@ -622,25 +482,25 @@ footer p { font-size: 0.92rem; color: var(--faint); }
 
 <!-- HONEST -->
 <section class="honest">
-  <div class="container reveal" style="max-width: 780px;">
+  <div class="wrap reveal">
     <span class="eyebrow">Filter kejujuran</span>
     <h2>Jujur saja, ini BUKAN skema cepat kaya.</h2>
-    <p class="lead">Kalau kamu mencari cara dapat miliaran dengan asal upload 1–2 video lalu ditinggal tidur, silakan tutup halaman ini. Tapi kalau kamu siap meluangkan 1–2 jam sehari, mengasah insting editing, dan berhenti buang waktu pada cara yang selalu gagal — panduan ini jalan tolmu.</p>
-    <div class="honest-quote">"Skip coba-cobanya, pelajari polanya."</div>
+    <p class="lead">Kalau kamu mencari cara dapat miliaran dengan asal upload 1–2 video lalu ditinggal tidur, silakan tutup halaman ini. Tapi kalau kamu siap meluangkan <strong>1–2 jam sehari</strong>, mengasah insting editing, dan berhenti buang waktu pada cara yang selalu gagal — panduan ini jalan tolmu.</p>
+    <div class="honest-quote">"Skip coba-cobanya, <span class="u-nv">pelajari polanya.</span>"</div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section id="harga">
-  <div class="container">
+  <div class="wrap">
     <div class="price-card reveal">
-      <span class="eyebrow">Investasi sekali bayar</span>
-      <h2 style="margin-bottom: 10px;">Mulai hasilkan cuan hari ini.</h2>
-      <p class="price-sub">Baca kapan saja, langsung dari HP-mu.</p>
+      <span class="p-label">Investasi sekali bayar</span>
+      <h2>Mulai hasilkan cuan hari ini.</h2>
+      <p class="p-sub" style="margin-bottom:0;">Baca kapan saja, langsung dari HP-mu.</p>
 
-      <div class="strike">Rp 150.000</div>
-      <div class="price-tag">Rp 49<span style="font-size:.45em;">.000</span></div>
-      <p class="price-sub">sekali bayar — bukan langganan</p>
+      <div class="p-old"><s>Rp 150.000</s></div>
+      <div class="p-now">Rp <span class="hl">49.000</span></div>
+      <p class="p-sub">sekali bayar — bukan langganan</p>
 
       <!-- GANTI LINK DI BAWAH DENGAN LINK CHECKOUT/PEMBAYARAN KAMU -->
       <a href="https://wa.me/62895411449962?text=Halo%20bang%20Ikhlas%2C%20saya%20mau%20order%20E-Book%20Ngeclip%20Cuan" class="btn">Beli E-Book Sekarang</a>
