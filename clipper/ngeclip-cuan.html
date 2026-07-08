@@ -28,7 +28,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--body);
-  line-height: 1.7; /* Lebih renggang agar elegan */
+  line-height: 1.7; 
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -37,17 +37,17 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* === LAYOUT & SPACING === */
 .container {
-  max-width: 1080px; /* Lebih lebar dari sebelumnya */
+  max-width: 1080px; 
   margin: 0 auto;
   padding: 0 24px;
 }
-section { padding: 100px 0; }
+section { padding: 80px 0; }
 .text-center { text-align: center; }
 
-/* === TYPOGRAPHY (Ala MedVi) === */
+/* === TYPOGRAPHY === */
 h1 {
   font-family: var(--disp);
-  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -55,7 +55,7 @@ h1 {
 }
 h2 {
   font-family: var(--disp);
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -65,7 +65,6 @@ p {
   font-size: 1.15rem;
   color: var(--muted);
   margin-bottom: 24px;
-  max-width: 800px;
 }
 .highlight { color: var(--neon); }
 
@@ -95,7 +94,7 @@ p {
 /* === ANIMATIONS === */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.in-view {
@@ -107,73 +106,21 @@ p {
 .d-3 { transition-delay: 0.3s; }
 .d-4 { transition-delay: 0.4s; }
 
-@keyframes float {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-@keyframes float-tilt {
-  0% { transform: translateY(0px) rotate(-6deg); }
-  50% { transform: translateY(-12px) rotate(-4deg); }
-  100% { transform: translateY(0px) rotate(-6deg); }
-}
-
 /* === HERO SECTION === */
 .hero {
-  padding-top: 120px;
-  padding-bottom: 60px;
+  padding-top: 100px;
+  padding-bottom: 40px;
   background: radial-gradient(circle at 50% -10%, #17240c 0%, var(--bg) 60%);
 }
 .hero-img-wrapper {
-  margin: 60px auto 0;
+  margin: 50px auto 0;
   max-width: 500px;
   border-radius: 32px;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.9);
-  position: relative;
-  animation: float 6s ease-in-out infinite; 
+  box-shadow: 0 30px 60px rgba(0,0,0,0.7);
 }
 .hero-img-wrapper img { border-radius: 32px; }
 
-/* === AGITATION SECTION (UNBOXED - ELEGANT LAYOUT) === */
-.agitation-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-}
-.agitation-text {
-  flex: 1.2;
-}
-.agitation-visual {
-  flex: 0.8;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* Dekorasi Glow di Belakang Gambar 200 Views */
-.agitation-visual::before {
-  content: "";
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  background: var(--neon);
-  filter: blur(100px);
-  opacity: 0.15;
-  border-radius: 50%;
-}
-.img-decorative {
-  width: 100%;
-  max-width: 240px; /* Jauh lebih kecil, hanya sbeagai pajangan */
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-  transform: rotate(-6deg); /* Dimiringkan biar artistik */
-  animation: float-tilt 7s ease-in-out infinite; /* Melayang pelan */
-  position: relative;
-  z-index: 2;
-}
-
+/* === AGITATION SECTION (CLEAN TEXT) === */
 .pain-list {
   list-style: none;
   margin-top: 30px;
@@ -181,9 +128,10 @@ p {
 .pain-list li {
   position: relative;
   padding-left: 40px;
-  margin-bottom: 24px; /* Jarak antar list dilonggarkan */
+  margin-bottom: 20px; 
   color: var(--text);
-  font-size: 1.15rem; /* Font lebih besar & terbaca */
+  font-size: 1.15rem; 
+  line-height: 1.5;
 }
 .pain-list li::before {
   content: "✕";
@@ -216,21 +164,21 @@ p {
   border-color: #383D45;
 }
 .icon-neon {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   margin: 0 auto 30px;
   object-fit: contain;
   mix-blend-mode: screen; 
-  filter: drop-shadow(0 0 15px rgba(118,185,0,0.6));
+  filter: drop-shadow(0 0 15px rgba(118,185,0,0.5));
 }
 .feature-title {
   font-family: var(--disp);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #fff;
   margin-bottom: 16px;
 }
-.feature-desc { font-size: 1.1rem; line-height: 1.6; margin-bottom: 0; }
+.feature-desc { font-size: 1.05rem; line-height: 1.6; margin-bottom: 0; }
 
 /* === TESTIMONIALS === */
 .testi-grid {
@@ -242,19 +190,19 @@ p {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 36px;
-  padding: 48px;
+  padding: 40px;
 }
-.stars { color: var(--neon); font-size: 1.4rem; margin-bottom: 24px; letter-spacing: 3px; }
-.testi-text { font-size: 1.15rem; color: var(--text); margin-bottom: 40px; line-height: 1.7;}
-.testi-user { display: flex; align-items: center; gap: 20px; }
+.stars { color: var(--neon); font-size: 1.4rem; margin-bottom: 20px; letter-spacing: 3px; }
+.testi-text { font-size: 1.1rem; color: var(--text); margin-bottom: 30px; line-height: 1.7;}
+.testi-user { display: flex; align-items: center; gap: 16px; }
 .testi-avatar {
-  width: 70px;
-  height: 70px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
 }
-.testi-name { font-family: var(--disp); font-weight: 700; color: #fff; font-size: 1.15rem;}
-.testi-role { font-size: 0.95rem; color: var(--muted); }
+.testi-name { font-family: var(--disp); font-weight: 700; color: #fff; font-size: 1.1rem;}
+.testi-role { font-size: 0.9rem; color: var(--muted); }
 
 /* === ANTI-POSITIONING (QUOTE STYLE) === */
 .honest-section {
@@ -266,7 +214,7 @@ p {
 .honest-content h2 { color: #fff; margin-bottom: 20px;}
 .honest-quote {
   font-family: var(--disp);
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--neon);
   margin-top: 40px;
@@ -278,40 +226,34 @@ p {
 .price-box {
   background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
   border: 1px solid var(--border);
-  border-radius: 48px;
-  padding: 80px 40px;
+  border-radius: 40px;
+  padding: 70px 40px;
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
 }
-.strike { text-decoration: line-through; color: var(--muted); font-size: 1.3rem; font-weight: 600;}
+.strike { text-decoration: line-through; color: var(--muted); font-size: 1.2rem; font-weight: 600;}
 .price-tag {
   font-family: var(--disp);
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: 800;
   color: var(--neon);
   line-height: 1;
   margin: 10px 0 40px;
   letter-spacing: -0.03em;
 }
-.price-note { font-size: 1rem; margin-top: 24px; color: var(--muted); }
+.price-note { font-size: 0.95rem; margin-top: 24px; color: var(--muted); }
 
-/* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .agitation-flex { flex-direction: column-reverse; text-align: center; gap: 40px;}
-  .agitation-text { padding: 0; }
-  .agitation-visual { padding: 40px 0; }
-  .pain-list li { text-align: left; }
-  p { margin: 0 auto 24px; }
-}
-
+/* === RESPONSIVE SPACING TWEAKS === */
 @media (max-width: 768px) {
-  h1 { font-size: 2.8rem; }
-  h2 { font-size: 2.2rem; }
+  section { padding: 60px 0; }
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
   .grid-2x2 { grid-template-columns: 1fr; }
   .feature-card { padding: 40px 30px; border-radius: 32px; }
-  .price-box { padding: 60px 24px; border-radius: 32px; }
-  .price-tag { font-size: 3.8rem; }
+  .price-box { padding: 50px 24px; border-radius: 32px; }
+  .price-tag { font-size: 3.5rem; }
+  .pain-list li { font-size: 1.05rem; }
 }
 </style>
 </head>
@@ -321,7 +263,7 @@ p {
 <section class="hero text-center">
   <div class="container reveal">
     <h1 style="max-width: 900px; margin: 0 auto 24px;">Cara Realistis Hasilkan Cuan Menjadi <span class="highlight">Clipper</span></h1>
-    <p>Bongkar blueprint rahasia akun clipper. Dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan jadi uang.</p>
+    <p style="max-width: 700px; margin: 0 auto;">Bongkar blueprint rahasia akun clipper. Dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan jadi uang.</p>
     
     <div class="hero-img-wrapper">
       <img src="file_000000002bf4722fa54b4684fbebf7e0.png" alt="Mockup E-Book Ngeclip Cuan">
@@ -329,57 +271,46 @@ p {
   </div>
 </section>
 
-<!-- AGITATION SECTION (UNBOXED) -->
+<!-- AGITATION SECTION (CLEAN & CENTERED) -->
 <section>
-  <div class="container">
-    <div class="agitation-flex reveal">
-      <div class="agitation-text">
-        <h2>Sering melihat akun anonim lewat di FYP kamu?</h2>
-        <p>Mereka hanya mengunggah potongan video podcast, wawancara, atau motivasi tokoh terkenal, tapi bisa menghasilkan cuan jutaan rupiah hanya dari views.</p>
-        <p>Kelihatannya sangat gampang. Tinggal download, potong, lalu upload. Tapi saat kamu mencobanya sendiri:</p>
-        <ul class="pain-list">
-          <li>View selalu mentok di angka 200 (terjebak di tier bawah algoritma).</li>
-          <li>Video sering di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</li>
-          <li>Akun terkena shadowban sehingga video tidak pernah masuk FYP lagi.</li>
-          <li><strong>Jangankan mencapai target views, yang komen pun tidak ada.</strong></li>
-        </ul>
-      </div>
-      <div class="agitation-visual">
-        <!-- Gambar diperkecil, dimiringkan, dan melayang sbg dekorasi -->
-        <img src="file_000000004300722fb3826e48d50bc129.png" alt="Analytics Mentok" class="img-decorative">
-      </div>
-    </div>
+  <div class="container reveal text-center" style="max-width: 800px;">
+    <h2>Sering melihat akun anonim lewat di FYP kamu?</h2>
+    <p style="margin: 0 auto 20px;">Mereka hanya mengunggah potongan video podcast, wawancara, atau motivasi tokoh terkenal, tapi bisa menghasilkan cuan jutaan rupiah hanya dari views.</p>
+    <p style="margin: 0 auto 20px;">Kelihatannya sangat gampang. Tinggal download, potong, lalu upload. Tapi saat kamu mencobanya sendiri:</p>
+    
+    <ul class="pain-list" style="text-align: left; max-width: 650px; margin: 40px auto 0;">
+      <li>View selalu mentok di angka 200 (terjebak di tier bawah algoritma).</li>
+      <li>Video sering di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</li>
+      <li>Akun terkena shadowban sehingga video tidak pernah masuk FYP lagi.</li>
+      <li><strong>Jangankan mencapai target views, yang komen pun tidak ada.</strong></li>
+    </ul>
   </div>
 </section>
 
 <!-- SOLUTION & VALUE PROP -->
 <section>
   <div class="container">
-    <div class="text-center reveal" style="margin-bottom: 80px;">
+    <div class="text-center reveal" style="margin-bottom: 60px;">
       <h2>Sistemnya Udah Ada.<br>Tinggal Kamu Contek.</h2>
-      <p style="max-width: 700px;">Clipper yang berhasil tidak asal potong. Mereka menggunakan <strong>teknik editing dan formula retensi teruji</strong> untuk mengelabui algoritma. Semuanya sudah dirangkum dalam E-Book ini.</p>
+      <p style="max-width: 700px; margin: 0 auto;">Clipper yang berhasil tidak asal potong. Mereka menggunakan <strong>teknik editing dan formula retensi teruji</strong> untuk mengelabui algoritma. Semuanya sudah dirangkum dalam E-Book ini.</p>
     </div>
 
     <div class="grid-2x2">
-      <!-- Card 1 -->
       <div class="feature-card reveal d-1">
         <img src="IMG_20260708_152105.jpg" alt="Riset" class="icon-neon">
         <div class="feature-title">Riset Materi Potensial</div>
         <p class="feature-desc">Di mana mencari video panjang (sumber mentah) yang memiliki peluang viral tinggi dan disukai audiens saat ini.</p>
       </div>
-      <!-- Card 2 -->
       <div class="feature-card reveal d-2">
         <img src="IMG_20260708_152117.jpg" alt="Editing" class="icon-neon">
         <div class="feature-title">Editing Anti-Copyright</div>
         <p class="feature-desc">Teknik memotong, memanipulasi rasio, dan mengedit manual secara aman agar terhindar dari pelanggaran hak cipta.</p>
       </div>
-      <!-- Card 3 -->
       <div class="feature-card reveal d-3">
         <img src="IMG_20260708_152127.jpg" alt="Hook" class="icon-neon">
         <div class="feature-title">Formula Hook & Retensi</div>
         <p class="feature-desc">Cara menyusun potongan awal agar penonton tidak men-skip video kamu (kunci utama agar video disebar masif).</p>
       </div>
-      <!-- Card 4 -->
       <div class="feature-card reveal d-4">
         <img src="IMG_20260708_152137.jpg" alt="Monetisasi" class="icon-neon">
         <div class="feature-title">Strategi Monetisasi Views</div>
@@ -392,13 +323,12 @@ p {
 <!-- SOCIAL PROOF (TESTIMONI) -->
 <section>
   <div class="container">
-    <div class="text-center reveal" style="margin-bottom: 80px;">
+    <div class="text-center reveal" style="margin-bottom: 60px;">
       <h2>Apa Kata Mereka?</h2>
-      <p>Bukti nyata dari mereka yang sudah mempraktikkan sistem ini.</p>
+      <p style="margin: 0 auto;">Bukti nyata dari mereka yang sudah mempraktikkan sistem ini.</p>
     </div>
 
     <div class="testi-grid">
-      <!-- Testimoni 1 -->
       <div class="testi-card reveal d-1">
         <div class="stars">★★★★★</div>
         <p class="testi-text">"Gila, pantesan selama ini video saya mentok di 200 views. Ternyata ada teknik hook retensi yang salah. Terapin trik di e-book ini, video ketiga langsung tembus 100k views!"</p>
@@ -410,8 +340,6 @@ p {
           </div>
         </div>
       </div>
-
-      <!-- Testimoni 2 -->
       <div class="testi-card reveal d-2">
         <div class="stars">★★★★★</div>
         <p class="testi-text">"Dulu paling males ngedit karena takut kena copyright strike. Setelah baca bagian trik editing manual anti-copyright, akun saya sekarang aman dan stabil pertumbuhannya."</p>
@@ -423,8 +351,6 @@ p {
           </div>
         </div>
       </div>
-
-      <!-- Testimoni 3 -->
       <div class="testi-card reveal d-3">
         <div class="stars">★★★★★</div>
         <p class="testi-text">"Jujur beli karena harganya murah banget dibanding trial-error sendiri berbulan-bulan. Modalnya cuma HP sama kuota, bulan ini akhirnya pecah telor dapet cuan dari monetisasi views!"</p>
@@ -452,13 +378,13 @@ p {
 </section>
 
 <!-- PRICING -->
-<section style="padding-bottom: 120px;">
+<section style="padding-bottom: 100px;">
   <div class="container reveal">
     <div class="price-box">
       <h2 style="margin-bottom: 16px;">Mulai Hasilkan Cuan Hari Ini</h2>
-      <p>Investasi sekali bayar. Baca kapan saja dari HP-mu.</p>
+      <p style="margin: 0 auto;">Investasi sekali bayar. Baca kapan saja dari HP-mu.</p>
       
-      <div class="strike">Rp 150.000</div>
+      <div class="strike" style="margin-top: 30px;">Rp 150.000</div>
       <div class="price-tag">Rp 49.000</div>
       
       <!-- GANTI TANDA # DENGAN LINK CHECKOUT/PEMBAYARAN KAMU -->
@@ -469,11 +395,10 @@ p {
   </div>
 </section>
 
-<footer style="text-align: center; padding: 40px 20px 80px; color: var(--muted); font-size: 1rem;">
+<footer style="text-align: center; padding: 40px 20px; color: var(--muted); font-size: 1rem;">
   <p>© 2026 IkhlasClip — Bagian dari BiB (Bisnis in a Box).</p>
 </footer>
 
-<!-- SCRIPT UNTUK ANIMASI SCROLL REVEAL -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     var observer = new IntersectionObserver(function(entries) {
@@ -486,11 +411,8 @@ p {
       threshold: 0.1, 
       rootMargin: "0px 0px -50px 0px"
     });
-
     var revealElements = document.querySelectorAll(".reveal");
-    revealElements.forEach(function(el) {
-      observer.observe(el);
-    });
+    revealElements.forEach(function(el) { observer.observe(el); });
   });
 </script>
 
