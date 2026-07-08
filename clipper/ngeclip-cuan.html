@@ -12,7 +12,6 @@
 :root {
   --bg: #0B0C0E;
   --surface: #121418;
-  --surface-alt: #1A1D22;
   --border: #26292F;
   --text: #F4F5F6;
   --muted: #9AA1A9;
@@ -29,7 +28,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--body);
-  line-height: 1.6;
+  line-height: 1.7; /* Lebih renggang agar elegan */
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -38,17 +37,17 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* === LAYOUT & SPACING === */
 .container {
-  max-width: 1000px;
+  max-width: 1080px; /* Lebih lebar dari sebelumnya */
   margin: 0 auto;
   padding: 0 24px;
 }
-section { padding: 90px 0; }
+section { padding: 100px 0; }
 .text-center { text-align: center; }
 
-/* === TYPOGRAPHY === */
+/* === TYPOGRAPHY (Ala MedVi) === */
 h1 {
   font-family: var(--disp);
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -56,7 +55,7 @@ h1 {
 }
 h2 {
   font-family: var(--disp);
-  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -66,6 +65,7 @@ p {
   font-size: 1.15rem;
   color: var(--muted);
   margin-bottom: 24px;
+  max-width: 800px;
 }
 .highlight { color: var(--neon); }
 
@@ -80,7 +80,7 @@ p {
   font-weight: 700;
   font-size: 1.15rem;
   text-decoration: none;
-  padding: 20px 40px;
+  padding: 20px 42px;
   border-radius: 100px; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
@@ -92,7 +92,7 @@ p {
 }
 .btn-block { width: 100%; max-width: 400px; margin: 0 auto; display: flex; }
 
-/* === ANIMATIONS (SCROLL REVEAL & FLOATING) === */
+/* === ANIMATIONS === */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -102,93 +102,102 @@ p {
   opacity: 1;
   transform: translateY(0);
 }
-/* Delay untuk grid berjejer */
 .d-1 { transition-delay: 0.1s; }
 .d-2 { transition-delay: 0.2s; }
 .d-3 { transition-delay: 0.3s; }
 .d-4 { transition-delay: 0.4s; }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-18px); }
-  100% { transform: translateY(0px); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+@keyframes float-tilt {
+  0% { transform: translateY(0px) rotate(-6deg); }
+  50% { transform: translateY(-12px) rotate(-4deg); }
+  100% { transform: translateY(0px) rotate(-6deg); }
 }
 
 /* === HERO SECTION === */
 .hero {
-  padding-top: 100px;
-  padding-bottom: 40px;
-  background: radial-gradient(circle at 50% 0%, #17240c 0%, var(--bg) 60%);
+  padding-top: 120px;
+  padding-bottom: 60px;
+  background: radial-gradient(circle at 50% -10%, #17240c 0%, var(--bg) 60%);
 }
 .hero-img-wrapper {
-  margin: 50px auto 0;
-  max-width: 540px;
+  margin: 60px auto 0;
+  max-width: 500px;
   border-radius: 32px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.9);
   position: relative;
-  animation: float 6s ease-in-out infinite; /* Efek E-Book Mengambang */
+  animation: float 6s ease-in-out infinite; 
 }
 .hero-img-wrapper img { border-radius: 32px; }
 
-/* === CARDS (MedVi Style: Massive Rounded Corners) === */
-.card-large {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 40px;
-  overflow: hidden;
-  margin-bottom: 40px;
-}
-
-/* === AGITATION SECTION (SPLIT LAYOUT) === */
+/* === AGITATION SECTION (UNBOXED - ELEGANT LAYOUT) === */
 .agitation-flex {
   display: flex;
   align-items: center;
-  gap: 0;
+  justify-content: space-between;
+  gap: 60px;
 }
 .agitation-text {
-  padding: 60px;
   flex: 1.2;
 }
-.agitation-img-container {
-  flex: 1;
-  background: #08090B;
+.agitation-visual {
+  flex: 0.8;
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 40px;
-  height: 100%;
+  align-items: center;
 }
-.analytics-img {
+/* Dekorasi Glow di Belakang Gambar 200 Views */
+.agitation-visual::before {
+  content: "";
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: var(--neon);
+  filter: blur(100px);
+  opacity: 0.15;
+  border-radius: 50%;
+}
+.img-decorative {
   width: 100%;
-  max-width: 320px;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  max-width: 240px; /* Jauh lebih kecil, hanya sbeagai pajangan */
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  transform: rotate(-6deg); /* Dimiringkan biar artistik */
+  animation: float-tilt 7s ease-in-out infinite; /* Melayang pelan */
+  position: relative;
+  z-index: 2;
 }
+
 .pain-list {
   list-style: none;
-  margin-top: 24px;
+  margin-top: 30px;
 }
 .pain-list li {
   position: relative;
-  padding-left: 38px;
-  margin-bottom: 20px;
+  padding-left: 40px;
+  margin-bottom: 24px; /* Jarak antar list dilonggarkan */
   color: var(--text);
-  font-size: 1.1rem;
-  line-height: 1.5;
+  font-size: 1.15rem; /* Font lebih besar & terbaca */
 }
 .pain-list li::before {
   content: "✕";
   position: absolute;
   left: 0;
-  top: 0;
+  top: -2px;
   color: #FF5F56;
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-family: var(--disp);
 }
 .pain-list li strong { color: #fff; }
 
-/* === FEATURES GRID === */
+/* === FEATURES GRID (Rounded Cards) === */
 .grid-2x2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -197,18 +206,18 @@ p {
 .feature-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 36px;
-  padding: 48px 32px;
+  border-radius: 40px;
+  padding: 50px 40px;
   text-align: center;
   transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 .feature-card:hover { 
-  background: var(--surface-alt);
+  background: #181A1F;
   border-color: #383D45;
 }
 .icon-neon {
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto 30px;
   object-fit: contain;
   mix-blend-mode: screen; 
@@ -217,95 +226,92 @@ p {
 .feature-title {
   font-family: var(--disp);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: #fff;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
-.feature-desc { font-size: 1.05rem; line-height: 1.6; margin-bottom: 0; }
+.feature-desc { font-size: 1.1rem; line-height: 1.6; margin-bottom: 0; }
 
 /* === TESTIMONIALS === */
 .testi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
 }
 .testi-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 32px;
-  padding: 40px;
+  border-radius: 36px;
+  padding: 48px;
 }
-.stars { color: var(--neon); font-size: 1.4rem; margin-bottom: 20px; letter-spacing: 3px; }
-.testi-text { font-size: 1.1rem; color: var(--text); margin-bottom: 30px; line-height: 1.7;}
-.testi-user { display: flex; align-items: center; gap: 18px; }
+.stars { color: var(--neon); font-size: 1.4rem; margin-bottom: 24px; letter-spacing: 3px; }
+.testi-text { font-size: 1.15rem; color: var(--text); margin-bottom: 40px; line-height: 1.7;}
+.testi-user { display: flex; align-items: center; gap: 20px; }
 .testi-avatar {
-  width: 64px;
-  height: 64px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
 }
-.testi-name { font-family: var(--disp); font-weight: 700; color: #fff; font-size: 1.1rem;}
-.testi-role { font-size: 0.9rem; color: var(--muted); }
+.testi-name { font-family: var(--disp); font-weight: 700; color: #fff; font-size: 1.15rem;}
+.testi-role { font-size: 0.95rem; color: var(--muted); }
 
-/* === ANTI-POSITIONING & PRICING === */
-.honest-box {
-  background: var(--surface);
-  border-radius: 36px;
-  padding: 60px;
-  margin: 60px 0 40px;
-  border: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
+/* === ANTI-POSITIONING (QUOTE STYLE) === */
+.honest-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: radial-gradient(circle at 10% 50%, #12180b 0%, var(--bg) 70%);
 }
-.honest-box::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 6px;
-  height: 100%;
-  background: var(--neon);
-}
-.honest-box blockquote {
+.honest-content h2 { color: #fff; margin-bottom: 20px;}
+.honest-quote {
   font-family: var(--disp);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  color: #fff;
-  margin-top: 30px;
+  color: var(--neon);
+  margin-top: 40px;
+  border-left: 4px solid var(--neon);
+  padding-left: 24px;
 }
 
+/* === PRICING === */
 .price-box {
   background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
   border: 1px solid var(--border);
-  border-radius: 40px;
-  padding: 70px 40px;
+  border-radius: 48px;
+  padding: 80px 40px;
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .strike { text-decoration: line-through; color: var(--muted); font-size: 1.3rem; font-weight: 600;}
 .price-tag {
   font-family: var(--disp);
-  font-size: 4.5rem;
+  font-size: 5rem;
   font-weight: 800;
   color: var(--neon);
   line-height: 1;
   margin: 10px 0 40px;
+  letter-spacing: -0.03em;
 }
-.price-note { font-size: 0.95rem; margin-top: 20px; }
+.price-note { font-size: 1rem; margin-top: 24px; color: var(--muted); }
 
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
-  .agitation-flex { flex-direction: column; }
-  .agitation-text { padding: 40px 30px; }
-  .agitation-img-container { padding: 40px 20px; width: 100%; border-top: 1px solid var(--border); }
+  .agitation-flex { flex-direction: column-reverse; text-align: center; gap: 40px;}
+  .agitation-text { padding: 0; }
+  .agitation-visual { padding: 40px 0; }
+  .pain-list li { text-align: left; }
+  p { margin: 0 auto 24px; }
 }
 
 @media (max-width: 768px) {
-  h1 { font-size: 2.5rem; }
+  h1 { font-size: 2.8rem; }
   h2 { font-size: 2.2rem; }
   .grid-2x2 { grid-template-columns: 1fr; }
-  .feature-card { padding: 40px 24px; border-radius: 32px; }
-  .honest-box { padding: 40px 24px; border-radius: 28px; }
-  .price-box { padding: 50px 24px; border-radius: 32px; }
-  .price-tag { font-size: 3.5rem; }
+  .feature-card { padding: 40px 30px; border-radius: 32px; }
+  .price-box { padding: 60px 24px; border-radius: 32px; }
+  .price-tag { font-size: 3.8rem; }
 }
 </style>
 </head>
@@ -314,36 +320,33 @@ p {
 <!-- HERO SECTION -->
 <section class="hero text-center">
   <div class="container reveal">
-    <!-- Eyebrow label removed entirely -->
-    <h1 style="max-width: 800px; margin: 0 auto 24px;">Cara Realistis Hasilkan Cuan Menjadi <span class="highlight">Clipper</span></h1>
-    <p style="max-width: 640px; margin: 0 auto;">Bongkar blueprint rahasia akun clipper. Dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan jadi uang.</p>
+    <h1 style="max-width: 900px; margin: 0 auto 24px;">Cara Realistis Hasilkan Cuan Menjadi <span class="highlight">Clipper</span></h1>
+    <p>Bongkar blueprint rahasia akun clipper. Dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan jadi uang.</p>
     
     <div class="hero-img-wrapper">
-      <!-- Pastikan nama file gambarnya sesuai -->
       <img src="file_000000002bf4722fa54b4684fbebf7e0.png" alt="Mockup E-Book Ngeclip Cuan">
     </div>
   </div>
 </section>
 
-<!-- AGITATION SECTION (MASALAH - MEDVI SPLIT CARD STYLE) -->
+<!-- AGITATION SECTION (UNBOXED) -->
 <section>
   <div class="container">
-    <div class="card-large reveal">
-      <div class="agitation-flex">
-        <div class="agitation-text">
-          <h2>Sering melihat akun anonim lewat di FYP kamu?</h2>
-          <p>Mereka hanya mengunggah potongan video podcast, wawancara, atau motivasi tokoh terkenal, tapi bisa menghasilkan cuan jutaan rupiah hanya dari views.</p>
-          <p>Kelihatannya gampang. Tinggal download, potong, lalu upload. Tapi saat kamu mencobanya sendiri:</p>
-          <ul class="pain-list">
-            <li>View selalu mentok di angka 200 (terjebak di tier bawah).</li>
-            <li>Video sering di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</li>
-            <li>Akun terkena shadowban (video tidak pernah masuk FYP lagi).</li>
-            <li><strong>Jangankan mencapai target views, yang komen pun tidak ada.</strong></li>
-          </ul>
-        </div>
-        <div class="agitation-img-container">
-          <img src="file_000000004300722fb3826e48d50bc129.png" alt="Analytics Mentok" class="analytics-img">
-        </div>
+    <div class="agitation-flex reveal">
+      <div class="agitation-text">
+        <h2>Sering melihat akun anonim lewat di FYP kamu?</h2>
+        <p>Mereka hanya mengunggah potongan video podcast, wawancara, atau motivasi tokoh terkenal, tapi bisa menghasilkan cuan jutaan rupiah hanya dari views.</p>
+        <p>Kelihatannya sangat gampang. Tinggal download, potong, lalu upload. Tapi saat kamu mencobanya sendiri:</p>
+        <ul class="pain-list">
+          <li>View selalu mentok di angka 200 (terjebak di tier bawah algoritma).</li>
+          <li>Video sering di-takedown atau dibisukan karena masalah <strong>hak cipta (copyright)</strong>.</li>
+          <li>Akun terkena shadowban sehingga video tidak pernah masuk FYP lagi.</li>
+          <li><strong>Jangankan mencapai target views, yang komen pun tidak ada.</strong></li>
+        </ul>
+      </div>
+      <div class="agitation-visual">
+        <!-- Gambar diperkecil, dimiringkan, dan melayang sbg dekorasi -->
+        <img src="file_000000004300722fb3826e48d50bc129.png" alt="Analytics Mentok" class="img-decorative">
       </div>
     </div>
   </div>
@@ -352,9 +355,9 @@ p {
 <!-- SOLUTION & VALUE PROP -->
 <section>
   <div class="container">
-    <div class="text-center reveal" style="max-width: 700px; margin: 0 auto 60px;">
+    <div class="text-center reveal" style="margin-bottom: 80px;">
       <h2>Sistemnya Udah Ada.<br>Tinggal Kamu Contek.</h2>
-      <p>Clipper yang berhasil tidak asal potong. Mereka menggunakan <strong>teknik editing dan formula retensi teruji</strong> untuk mengelabui algoritma. Semuanya sudah saya rangkum dalam <strong>E-Book Ngeclip Cuan</strong>.</p>
+      <p style="max-width: 700px;">Clipper yang berhasil tidak asal potong. Mereka menggunakan <strong>teknik editing dan formula retensi teruji</strong> untuk mengelabui algoritma. Semuanya sudah dirangkum dalam E-Book ini.</p>
     </div>
 
     <div class="grid-2x2">
@@ -389,7 +392,7 @@ p {
 <!-- SOCIAL PROOF (TESTIMONI) -->
 <section>
   <div class="container">
-    <div class="text-center reveal" style="margin-bottom: 60px;">
+    <div class="text-center reveal" style="margin-bottom: 80px;">
       <h2>Apa Kata Mereka?</h2>
       <p>Bukti nyata dari mereka yang sudah mempraktikkan sistem ini.</p>
     </div>
@@ -403,7 +406,7 @@ p {
           <img src="IMG_20260708_152022.jpg" alt="Rendi P." class="testi-avatar">
           <div>
             <div class="testi-name">Rendi P.</div>
-            <div class="testi-role">Pekerja Kantoran & Clipper Pemula</div>
+            <div class="testi-role">Pekerja Kantoran</div>
           </div>
         </div>
       </div>
@@ -437,18 +440,22 @@ p {
   </div>
 </section>
 
-<!-- HONESTY FILTER & PRICING -->
-<section style="padding-bottom: 120px;">
-  <div class="container">
-    
-    <div class="honest-box reveal">
-      <h2 style="margin-bottom: 16px;">Jujur Saja, Ini BUKAN Skema Cepat Kaya.</h2>
+<!-- HONESTY FILTER -->
+<section class="honest-section">
+  <div class="container reveal">
+    <div class="honest-content" style="max-width: 860px; margin: 0 auto;">
+      <h2>Jujur Saja, Ini BUKAN Skema Cepat Kaya.</h2>
       <p style="margin-bottom: 0;">Kalau kamu mencari cara mendapatkan uang miliaran hanya dengan asal upload 1-2 video lalu ditinggal tidur, silakan tutup halaman ini. Tapi, kalau kamu siap meluangkan waktu 1-2 jam sehari, mengasah insting editing, dan berhenti membuang waktu pada cara yang selalu gagal... maka panduan ini adalah jalan tolmu.</p>
-      <blockquote>"Skip coba-cobanya, pelajari polanya."</blockquote>
+      <div class="honest-quote">"Skip coba-cobanya, pelajari polanya."</div>
     </div>
+  </div>
+</section>
 
-    <div class="price-box reveal">
-      <h2 style="margin-bottom: 12px;">Mulai Hasilkan Cuan Hari Ini</h2>
+<!-- PRICING -->
+<section style="padding-bottom: 120px;">
+  <div class="container reveal">
+    <div class="price-box">
+      <h2 style="margin-bottom: 16px;">Mulai Hasilkan Cuan Hari Ini</h2>
       <p>Investasi sekali bayar. Baca kapan saja dari HP-mu.</p>
       
       <div class="strike">Rp 150.000</div>
@@ -457,13 +464,12 @@ p {
       <!-- GANTI TANDA # DENGAN LINK CHECKOUT/PEMBAYARAN KAMU -->
       <a href="#" class="btn btn-block">Beli E-Book Sekarang 👉</a>
       
-      <p class="price-note muted">🔒 Pembayaran aman. Akses instan via PDF.</p>
+      <p class="price-note">🔒 Pembayaran aman. Akses instan via PDF.</p>
     </div>
-
   </div>
 </section>
 
-<footer style="text-align: center; padding: 40px 20px 60px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem;">
+<footer style="text-align: center; padding: 40px 20px 80px; color: var(--muted); font-size: 1rem;">
   <p>© 2026 IkhlasClip — Bagian dari BiB (Bisnis in a Box).</p>
 </footer>
 
@@ -474,12 +480,10 @@ p {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add("in-view");
-          // Optional: stop observing once revealed
-          // observer.unobserve(entry.target); 
         }
       });
     }, {
-      threshold: 0.15, 
+      threshold: 0.1, 
       rootMargin: "0px 0px -50px 0px"
     });
 
