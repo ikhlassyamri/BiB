@@ -15,7 +15,7 @@
   --line: #26292F;
   --text: #F4F5F6;
   --muted: #9AA1A9;
-  --nv: #76B900; /* Neon Green Clipper */
+  --nv: #76B900; 
   --nv-dim: rgba(118, 185, 0, 0.15);
   --disp: 'Space Grotesk', sans-serif;
   --body: 'Inter', sans-serif;
@@ -31,6 +31,24 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* === CINEMATIC FADE OVERLAY === */
+.fade-top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 40vh; 
+  background: linear-gradient(to bottom, var(--ink) 0%, rgba(11,12,14,0.8) 15%, transparent 100%);
+  z-index: 40;
+  pointer-events: none;
+}
+.fade-bottom {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 20vh;
+  background: linear-gradient(to top, var(--ink) 0%, transparent 100%);
+  z-index: 40;
+  pointer-events: none;
 }
 
 /* === NAVBAR === */
@@ -56,14 +74,10 @@ nav {
   align-items: center;
   gap: 12px;
 }
-.brand img {
-  height: 24px; /* Menyesuaikan tinggi logo */
-  width: auto;
-  object-fit: contain;
-}
+.brand img { height: 24px; width: auto; object-fit: contain; }
 
 /* === ARTICLE LAYOUT === */
-.container { max-width: 720px; margin: 0 auto; padding: 60px 24px 120px; }
+.container { max-width: 720px; margin: 0 auto; padding: 100px 24px 200px; position: relative; z-index: 10; }
 .article-header { margin-bottom: 50px; text-align: center; }
 .tag {
   display: inline-block;
@@ -78,13 +92,10 @@ nav {
   text-transform: uppercase;
   margin-bottom: 20px;
 }
-h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 24px; color: #fff; }
-.meta { font-size: 0.95rem; color: var(--muted); }
-.meta a { color: #fff; text-decoration: none; border-bottom: 1px dashed var(--nv); transition: color 0.2s; }
-.meta a:hover { color: var(--nv); }
+h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 24px; color: #fff; }
 
 /* === ARTICLE BODY === */
-.content h2 { font-family: var(--disp); font-size: 1.8rem; font-weight: 700; color: #fff; margin: 50px 0 20px; display: flex; align-items: center; gap: 12px;}
+.content h2 { font-family: var(--disp); font-size: 1.8rem; font-weight: 700; color: #fff; margin: 60px 0 20px; display: flex; align-items: center; gap: 12px;}
 .content h2::before { content: ""; display: block; width: 12px; height: 12px; background: var(--nv); }
 .content p { font-size: 1.15rem; color: #D1D5DB; margin-bottom: 24px; }
 .content p strong { color: #fff; }
@@ -102,49 +113,67 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 }
 .highlight-box p { margin-bottom: 0; font-family: var(--disp); font-size: 1.3rem; font-weight: 600; color: #fff; line-height: 1.5;}
 
+/* === AUTHOR INFO BOX === */
+.author-box {
+  background: rgba(20, 22, 26, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 32px;
+  margin: 80px 0 60px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.author-avatar {
+  width: 70px; height: 70px;
+  background: var(--nv-dim);
+  color: var(--nv);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--disp); font-size: 1.8rem; font-weight: 800;
+  flex-shrink: 0;
+  border: 2px solid var(--nv);
+}
+.author-details h4 { font-family: var(--disp); font-size: 1.3rem; margin-bottom: 8px; color: #fff; }
+.author-contacts { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; font-size: 0.95rem; color: var(--muted); }
+.author-contacts a { color: var(--nv); text-decoration: none; font-weight: 500; }
+.author-contacts a:hover { text-decoration: underline; }
+.btn-wa {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25D366; color: #fff; text-decoration: none;
+  padding: 12px 24px; border-radius: 100px;
+  font-weight: 600; font-family: var(--disp); font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); }
+
 /* === CTA BOX === */
 .cta-box {
-  margin-top: 80px;
-  padding: 50px 40px;
+  padding: 60px 40px;
   background: radial-gradient(circle at 50% 0%, #15220c 0%, var(--panel) 80%);
   border: 1px solid var(--line);
   border-radius: 32px;
   text-align: center;
 }
+.cta-img { max-width: 180px; margin: 0 auto 30px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
 .cta-box h3 { font-family: var(--disp); font-size: 2rem; color: #fff; margin-bottom: 16px; }
 .cta-box p { font-size: 1.1rem; color: var(--muted); margin-bottom: 30px; }
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--nv);
-  color: #000;
-  font-family: var(--disp);
-  font-weight: 700;
-  font-size: 1.15rem;
-  text-decoration: none;
-  padding: 18px 36px;
-  border-radius: 100px; 
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--nv); color: #000;
+  font-family: var(--disp); font-weight: 700; font-size: 1.15rem;
+  text-decoration: none; padding: 18px 36px; border-radius: 100px; 
+  transition: transform 0.2s, box-shadow 0.2s; border: none;
 }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(118, 185, 0, 0.4); }
 
 /* === POP-UP BIB === */
 .bib-popup {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 320px;
-  background: rgba(20, 22, 26, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-  transform: translateX(120%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1000;
+  position: fixed; bottom: 24px; right: 24px; width: 320px;
+  background: rgba(20, 22, 26, 0.95); backdrop-filter: blur(10px);
+  border: 1px solid var(--line); border-radius: 20px; padding: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8); transform: translateX(120%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000;
 }
 .bib-popup.show { transform: translateX(0); }
 .bib-close { position: absolute; top: 12px; right: 16px; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.2rem; }
@@ -153,51 +182,37 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 .bib-popup p { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
 .bib-popup a { color: var(--nv); font-size: 0.95rem; font-weight: 600; text-decoration: none; }
 
-/* === ANIMASI "SI NEON" === */
+/* === ANIMASI "SI NEON" & GARIS TRAIL (DITENGAH LAYAR) === */
 #neon-guy {
   position: fixed;
-  bottom: 0px; 
-  width: 30px;
-  height: 60px;
-  z-index: 999;
+  top: calc(50vh - 60px); /* Tepat duduk di garis tengah 50% */
+  width: 30px; height: 60px;
+  z-index: 49;
   pointer-events: none; 
   transition: left 0.1s linear, transform 0.3s ease;
   transform-origin: bottom center;
 }
-.guy-head {
-  width: 16px; height: 16px;
-  border: 2px solid var(--nv);
-  border-radius: 50%;
-  position: absolute; top: 0; left: 7px;
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 8px var(--nv), inset 0 0 4px var(--nv);
-}
-.guy-eye {
-  width: 3px; height: 3px; background: #fff;
-  border-radius: 50%; position: absolute;
-  top: 5px; left: 8px;
-  transition: top 0.3s, left 0.3s;
-  box-shadow: 0 0 5px #fff;
-}
-.guy-body {
-  width: 2px; height: 22px;
+#neon-trail {
+  position: fixed;
+  top: 50vh; /* Tepat di kaki si neon */
+  right: 0;
+  height: 2px;
   background: var(--nv);
-  position: absolute; top: 16px; left: 14px;
-  box-shadow: 0 0 6px var(--nv);
+  box-shadow: 0 0 10px var(--nv);
+  z-index: 48;
+  pointer-events: none;
+  transition: left 0.1s linear, opacity 0.3s ease;
+  opacity: 0;
 }
-.guy-arm, .guy-leg {
-  width: 2px; height: 16px;
-  background: var(--nv);
-  position: absolute;
-  transform-origin: top center;
-  box-shadow: 0 0 6px var(--nv);
-  transition: transform 0.3s ease;
-}
+
+.guy-head { width: 16px; height: 16px; border: 2px solid var(--nv); border-radius: 50%; position: absolute; top: 0; left: 7px; transition: transform 0.3s ease; box-shadow: 0 0 8px var(--nv), inset 0 0 4px var(--nv); }
+.guy-eye { width: 3px; height: 3px; background: #fff; border-radius: 50%; position: absolute; top: 5px; left: 8px; transition: top 0.3s, left 0.3s; box-shadow: 0 0 5px #fff; }
+.guy-body { width: 2px; height: 22px; background: var(--nv); position: absolute; top: 16px; left: 14px; box-shadow: 0 0 6px var(--nv); }
+.guy-arm, .guy-leg { width: 2px; height: 16px; background: var(--nv); position: absolute; transform-origin: top center; box-shadow: 0 0 6px var(--nv); transition: transform 0.3s ease; }
 .guy-arm { top: 18px; left: 14px; }
 .guy-leg { top: 38px; left: 14px; }
 
 /* States Karakter Si Neon */
-.state-peeking { bottom: 20px !important; }
 .state-peeking .guy-head { transform: translateX(-15px) rotate(-20deg); }
 .state-peeking .guy-eye { left: 4px; }
 .state-peeking .guy-body { opacity: 0; }
@@ -213,7 +228,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 @keyframes w-l { from { transform: rotate(35deg); } to { transform: rotate(-35deg); } }
 @keyframes w-r { from { transform: rotate(-35deg); } to { transform: rotate(35deg); } }
 
-.state-sitting { bottom: 15px !important; }
 .state-sitting .guy-body { transform: translateY(12px); }
 .state-sitting .guy-head { transform: translateY(12px); }
 .state-sitting .guy-arm { transform: translateY(12px) rotate(15deg); }
@@ -223,11 +237,18 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
 
 .state-looking-down .guy-eye { top: 9px; left: 6px; }
 .state-looking-front .guy-eye { top: 5px; left: 10px; }
-
 .state-walking-left { transform: scaleX(-1); }
+
+@media (max-width: 768px) {
+  .author-box { flex-direction: column; text-align: center; gap: 16px; padding: 30px 20px; }
+}
 </style>
 </head>
 <body>
+
+<!-- MASKING FADES -->
+<div class="fade-top"></div>
+<div class="fade-bottom"></div>
 
 <!-- NAVBAR -->
 <nav>
@@ -242,7 +263,6 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   <div class="article-header">
     <div class="tag">Strategi Clipper</div>
     <h1>Terlalu Percaya AI Bikin Akun Clipper-mu Mati</h1>
-    <div class="meta">Oleh <a href="https://instagram.com/ikhlassyamri" target="_blank"><strong>@ikhlassyamri</strong></a> • Waktu baca: 4 menit</div>
   </div>
 
   <div class="content">
@@ -284,8 +304,28 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
     <h2>Berhenti Menebak-nebak Algoritma</h2>
     <p>Mengetahui tools AI apa yang dipakai itu baru 10% dari pekerjaan seorang clipper. 90% sisanya adalah soal eksekusi: Bagaimana cara membuat hook manual yang mematikan? Bagaimana meretas algoritma agar video disebar masif? Dan yang terpenting, bagaimana mengubah jutaan views itu menjadi uang?</p>
 
-    <!-- CTA SECTION -->
+    <!-- AUTHOR BOX -->
+    <div class="author-box">
+      <div class="author-avatar">IS</div>
+      <div class="author-details">
+        <h4>Oleh: Ikhlas Syamri</h4>
+        <div class="author-contacts">
+          <span>Instagram: <a href="https://instagram.com/ikhlassyamri" target="_blank">@ikhlassyamri</a></span>
+          <span>WhatsApp: <a href="https://wa.me/62895411449962" target="_blank">+62895411449962</a></span>
+        </div>
+        <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.052 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+          Join Saluran WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- CTA SECTION (DENGAN GAMBAR BUKU) -->
     <div class="cta-box">
+      <!-- Gambar Buku CTA tidak terlalu besar -->
+      <img src="file_000000002bf4722fa54b4684fbebf7e0_2.png" alt="E-Book Ngeclip Cuan" class="cta-img">
       <h3>Contek Sistemnya. Skip Coba-cobanya.</h3>
       <p>Kalau kamu capek akunmu cuma jalan di tempat, saya sudah merangkum SOP lengkap riset, editing anti-copyright, hingga monetisasi di satu tempat.</p>
       <a href="/clipper/ngeclip-cuan" class="btn">Pelajari Ngeclip Cuan 👉</a>
@@ -301,7 +341,8 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   <a href="/">Pelajari BiB Sekarang →</a>
 </div>
 
-<!-- CONTAINER SI NEON -->
+<!-- CONTAINER SI NEON & TRAIL GARIS -->
+<div id="neon-trail"></div>
 <div id="neon-guy" class="guy-container">
   <div class="guy-head"><div class="guy-eye"></div></div>
   <div class="guy-arm left"></div>
@@ -311,20 +352,15 @@ h1 { font-family: var(--disp); font-size: clamp(2.2rem, 5vw, 3rem); font-weight:
   <div class="guy-leg right"></div>
 </div>
 
-<footer style="text-align: center; padding: 40px 20px 80px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem;">
-  <p>© 2026 <a href="https://instagram.com/ikhlassyamri" target="_blank" style="color: var(--nv); text-decoration: none; font-weight: 600;">@ikhlassyamri</a> — Bagian dari BiB (Bisnis in a Box).</p>
-</footer>
-
 <!-- JAVASCRIPT: LOGIKA ANIMASI & POPUP -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   
-  // 1. Logika Pop-up BiB
   const popup = document.getElementById('bibPopup');
   let popupShown = false;
 
-  // 2. Logika Animasi Si Neon
   const guy = document.getElementById('neon-guy');
+  const trail = document.getElementById('neon-trail');
   let lastScrollY = window.scrollY;
 
   window.addEventListener('scroll', () => {
@@ -333,46 +369,59 @@ document.addEventListener("DOMContentLoaded", function() {
     let isScrollingDown = window.scrollY > lastScrollY;
     lastScrollY = window.scrollY;
 
-    // Munculkan Pop-up jika scroll lewat 20%
+    // Munculkan Pop-up BiB
     if (scrollPct > 0.20 && !popupShown) {
       popup.classList.add('show');
       popupShown = true;
     }
 
-    // STATE MACHINE SI NEON BERDASARKAN SCROLL (0.0 sampai 1.0)
+    // STATE MACHINE SI NEON BERDASARKAN PERSENTASE SCROLL
     let state = '';
-    let leftPosition = '100%'; 
+    let guyLeftPct = 100; // Posisi X si Neon dalam Persen (100 = paling kanan)
 
     if (scrollPct < 0.05) {
-      leftPosition = '100%';
+      guyLeftPct = 110; 
       state = '';
     } 
     else if (scrollPct >= 0.05 && scrollPct < 0.15) {
-      leftPosition = 'calc(100% - 25px)';
+      guyLeftPct = 95; // Ngintip di pinggir layar
       state = 'peeking';
     } 
     else if (scrollPct >= 0.15 && scrollPct < 0.45) {
       let progress = (scrollPct - 0.15) / 0.30; 
-      leftPosition = `calc(${100 - (progress * 50)}%)`;
+      guyLeftPct = 100 - (progress * 50); // Jalan pelan-pelan ke tengah (50%)
       state = 'walking';
     } 
     else if (scrollPct >= 0.45 && scrollPct < 0.80) {
-      leftPosition = '50%';
+      guyLeftPct = 50; // Diam di tengah
       state = isScrollingDown ? 'sitting looking-down' : 'sitting looking-front';
     } 
     else if (scrollPct >= 0.80 && scrollPct < 0.95) {
       let progress = (scrollPct - 0.80) / 0.15; 
-      leftPosition = `calc(${50 - (progress * 60)}%)`;
+      guyLeftPct = 50 - (progress * 60); // Jalan ke kiri layar (-10%)
       state = 'walking walking-left';
     } 
     else if (scrollPct >= 0.95) {
-      leftPosition = '-50px';
+      guyLeftPct = -10; // Menghilang
       state = 'walking walking-left';
     }
 
-    // Terapkan Class & Posisi
+    // Terapkan Class Status Gerakan
     guy.className = 'guy-container state-' + state.replace(/ /g, ' state-');
-    guy.style.left = leftPosition;
+    
+    // Set Posisi Si Neon
+    guy.style.left = guyLeftPct + '%';
+
+    // Set Posisi Garis Ekor (Trail)
+    // Garis selalu berawal dari ujung kanan (right:0), dan ujung kirinya mengikuti jarak 30px (+gap 10px = 40px) dari badan si Neon.
+    trail.style.left = `calc(${guyLeftPct}% + 40px)`;
+    
+    // Sembunyikan garis ekor kalau dia baru ngintip atau ngilang
+    if(state === 'peeking' || state === '') {
+        trail.style.opacity = '0';
+    } else {
+        trail.style.opacity = '1';
+    }
   });
 });
 </script>
