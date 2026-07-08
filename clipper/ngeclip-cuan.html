@@ -110,11 +110,10 @@ p strong,li strong{color:#fff;font-weight:600}
 .hero{
   background:#07080A;
   border-bottom:1px solid var(--line-soft);
-  padding:0;position:relative;overflow:hidden;
+  padding:0;position:relative;
 }
 .hero::after{
-  content:"";position:absolute;left:50%;top:-10%;transform:translateX(-50%);
-  width:120%;height:80%;
+  content:"";position:absolute;left:0;right:0;top:0;height:80%;
   background:radial-gradient(ellipse at 50% 0%,rgba(118,185,0,.13),transparent 62%);
   pointer-events:none;
 }
@@ -148,17 +147,8 @@ p strong,li strong{color:#fff;font-weight:600}
   box-shadow:0 44px 90px rgba(0,0,0,.75);
 }
 
-/* ---------- trust strip ---------- */
-.trust{padding:216px 0 46px}
-.trust-row{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 46px}
-.trust-item{
-  display:flex;align-items:center;gap:12px;
-  font-family:var(--disp);font-weight:600;font-size:.78rem;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
-}
-.trust-item .sq{display:inline-block;width:9px;height:9px;background:var(--nv);flex:none}
-
 /* ---------- pain ---------- */
+.pain-sect{padding-top:200px}
 .pain-list{list-style:none;max-width:640px;margin:44px auto 0;text-align:left}
 .pain-list li{
   display:flex;align-items:flex-start;gap:16px;
@@ -314,7 +304,7 @@ footer p{font-size:.9rem;color:var(--muted)}
 
 /* ---------- responsive ---------- */
 @media (max-width:820px){
-  .trust{padding:196px 0 32px}
+  .pain-sect{padding-top:175px}
   .grid-2x2,.inside-grid,.assure-grid{grid-template-columns:1fr}
   .inside-grid{gap:40px}
   .hero-book{margin-bottom:-130px}
@@ -338,7 +328,7 @@ footer p{font-size:.9rem;color:var(--muted)}
 
     <div class="hero-inner reveal in-view">
       <div class="hero-badge">Blueprint Clipper Profesional</div>
-      <h1>Cara realistis hasilkan cuan <span class="hl-inv">jadi clipper.</span></h1>
+      <h1>Cara realistis hasilkan cuan <span class="hl-inv">dari clipper.</span></h1>
       <p class="lead">Bongkar blueprint akun clipper: dari cara mencari materi mentah, teknik editing manual anti-copyright, hingga meretas algoritma agar views meledak dan berubah jadi uang.</p>
       <a href="#harga" class="btn">Mulai Sekarang</a>
 
@@ -349,19 +339,8 @@ footer p{font-size:.9rem;color:var(--muted)}
   </div>
 </header>
 
-<!-- TRUST STRIP -->
-<div class="trust">
-  <div class="wrap">
-    <div class="trust-row reveal">
-      <div class="trust-item"><span class="sq"></span> Modal HP + kuota</div>
-      <div class="trust-item"><span class="sq"></span> Akses instan PDF</div>
-      <div class="trust-item"><span class="sq"></span> Sekali bayar, punya selamanya</div>
-    </div>
-  </div>
-</div>
-
 <!-- PAIN -->
-<section>
+<section class="pain-sect">
   <div class="wrap center reveal" style="max-width: 760px;">
     <span class="eyebrow">Realita jadi clipper</span>
     <h2>Kelihatannya gampang.<br>Sampai kamu <span class="u-nv">coba sendiri.</span></h2>
