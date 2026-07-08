@@ -1,1 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@ikhlasclip — Belajar Cuan dari Konten Video Pendek</title>
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0B0C0E;
+  --panel: #14161A;
+  --line: #26292F;
+  --text: #F4F5F6;
+  --muted: #9AA1A9;
+  --accent: #76B900;
+  --wa: #25D366;
+  --disp: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image: radial-gradient(circle at 50% 0%, #1a2310 0%, var(--ink) 60%);
+}
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 60px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Profile Section */
+.profile {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--line);
+  padding: 4px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.username {
+  font-family: var(--disp);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.bio {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
 
+/* Links Section */
+.links-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.link-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px 24px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.link-btn:hover {
+  transform: translateY(-3px);
+  border-color: #4A505A;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Primary Highlighted Button (E-Book) */
+.btn-primary {
+  background: #fff;
+  color: var(--ink);
+  border-color: #fff;
+}
+.btn-primary:hover {
+  border-color: #fff;
+  box-shadow: 0 10px 30px rgba(255,255,255,0.15);
+}
+.btn-primary .title { color: var(--ink); }
+.btn-primary .sub { color: #5A616B; }
+
+/* Styling for Text inside buttons */
+.title {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+.sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Social/Footer */
+.footer {
+  margin-top: auto;
+  padding-top: 60px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.footer img {
+  height: 18px;
+  opacity: 0.7;
+}
+
+/* Badge Highlight */
+.badge {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 0 0 8px 8px;
+  font-family: var(--disp);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="profile">
+    <!-- Pastikan nama file gambarnya ic-logo.png dan diletakkan di folder yang sama -->
+    <img src="ic-logo.png" alt="IkhlasClip Logo" class="avatar">
+    <h1 class="username">@ikhlasclip</h1>
+    <p class="bio">Membangun aset digital dari potongan video. Curi strategi dan sistem saya di bawah 👇</p>
+  </div>
+
+  <div class="links-wrapper">
+    
+    <!-- Tombol 1: Jualan PDF -->
+    <!-- Ganti tanda # dengan link pembayaran atau link download PDF kamu -->
+    <a href="#" class="link-btn btn-primary">
+      <div class="badge">Terbaru</div>
+      <span class="title">E-Book: Ngeclip Cuan 🚀</span>
+      <span class="sub">Panduan lengkap hasilkan uang dari nol</span>
+    </a>
+
+    <!-- Tombol 2: Funneling ke Bisnis Utama (BiB) -->
+    <a href="/" class="link-btn">
+      <span class="title">Sistem BiB (Bisnis in a Box)</span>
+      <span class="sub">Sistem lengkap bangun bisnis digital & AI</span>
+    </a>
+
+    <!-- Tombol 3: WhatsApp Channel -->
+    <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" class="link-btn">
+      <span class="title" style="color: var(--wa);">Gabung WA Channel</span>
+      <span class="sub">Update tren AI & insight harian gratis</span>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    <span>Powered by</span>
+    <img src="/logo-white.png" alt="BiB Logo">
+  </div>
+
+</div>
+
+</body>
+  </html>
