@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Timecode Logger — BiB Tools</title>
+<meta name="description" content="Catat momen emas dari video panjang tanpa download 1GB. Tandai detiknya sambil nonton, lalu salin perintah download potongannya — gratis, dari HP kamu sendiri.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="/favicon.png">
+<meta property="og:title" content="Timecode Logger — BiB Tools">
+<meta property="og:description" content="Tandai momen emas sambil nonton, download cuma potongannya. Gratis, tanpa server, dari HP kamu sendiri.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0C0E;
+  --panel:#14161A;
+  --panel-2:#101216;
+  --line:#26292F;
+  --line-soft:#1A1D22;
+  --text:#F4F5F6;
+  --muted:#9AA1A9;
+  --nv:#76B900;
+  --nv-hi:#9BDC2E;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--text);
+  font-family:var(--body);font-size:1rem;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--nv);color:var(--ink)}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+
+/* header */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;border-bottom:1px solid var(--line-soft);
+  background:#07080A;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand .sq{width:10px;height:10px;background:var(--nv)}
+.brand b{font-family:var(--disp);font-weight:700;font-size:1rem}
+.brand small{color:var(--muted);font-weight:400;font-size:.85rem}
+.hdr a.back{font-size:.85rem;color:var(--muted);text-decoration:none}
+.hdr a.back:hover{color:#fff}
+
+/* hero mini */
+.hero{padding:40px 0 28px;text-align:center;position:relative}
+.hero::after{
+  content:"";position:absolute;left:0;right:0;top:-60px;height:220px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(118,185,0,.1),transparent 65%);
+  pointer-events:none;
+}
+.eyebrow{
+  font-family:var(--disp);font-weight:600;font-size:.74rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.eyebrow::before,.eyebrow::after{content:"";width:8px;height:8px;background:var(--nv)}
+h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.7rem,6vw,2.4rem);line-height:1.2;letter-spacing:-.01em;
+  margin-bottom:12px;position:relative;z-index:1;
+}
+.hero p{color:var(--muted);max-width:560px;margin:0 auto;font-size:.98rem}
+.hl{color:var(--nv)}
+
+/* cards */
+.card{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:16px;
+  padding:20px;margin-bottom:16px;
+}
+.card h2{
+  font-family:var(--disp);font-weight:700;font-size:1.05rem;
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.step-no{
+  flex:none;width:24px;height:24px;border:1.5px solid var(--nv);color:var(--nv);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700;
+}
+
+/* inputs */
+input[type=text],input[type=number],select,textarea{
+  width:100%;background:var(--ink);border:1px solid var(--line);border-radius:10px;
+  color:var(--text);font-family:var(--body);font-size:.95rem;
+  padding:12px 14px;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--nv)}
+label{font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--nv);color:var(--ink);
+  font-family:var(--disp);font-weight:700;font-size:.95rem;
+  padding:12px 22px;border-radius:10px;border:1.5px solid var(--nv);
+  cursor:pointer;text-decoration:none;white-space:nowrap;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(118,185,0,.28)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn-ghost:hover{border-color:#3A3F47;box-shadow:none}
+.btn-sm{padding:8px 14px;font-size:.85rem}
+
+/* player */
+.player-shell{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:#050604;border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;
+}
+.player-shell iframe{position:absolute;inset:0;width:100%;height:100%}
+.player-empty{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;color:var(--muted);
+  font-size:.9rem;text-align:center;padding:20px;
+}
+.player-empty .big{font-size:2rem}
+
+/* capture */
+.now{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--disp);font-size:.9rem;color:var(--muted);
+  margin:14px 0 10px;
+}
+.now b{color:#fff;font-size:1.15rem;letter-spacing:.04em}
+.tags{display:flex;gap:10px}
+.tag-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  color:var(--text);font-family:var(--disp);font-weight:700;font-size:.9rem;
+  padding:14px 8px;cursor:pointer;
+  transition:transform .15s ease,border-color .15s ease;
+}
+.tag-btn span{font-size:1.5rem;line-height:1}
+.tag-btn:active{transform:scale(.95)}
+.tag-btn:hover{border-color:var(--nv)}
+.tag-btn:disabled{opacity:.4;cursor:not-allowed}
+.hint{font-size:.8rem;color:var(--muted);margin-top:10px;text-align:center}
+
+/* log */
+.log-item{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:10px 12px;margin-bottom:8px;
+}
+.log-tag{
+  flex:none;font-size:1.15rem;width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ink);border:1px solid var(--line-soft);border-radius:8px;
+}
+.log-times{display:flex;align-items:center;gap:6px;flex:none}
+.log-times input{
+  width:86px;padding:8px 6px;text-align:center;
+  font-family:var(--disp);font-size:.88rem;
+}
+.log-times .dash{color:var(--muted)}
+.log-note{flex:1;min-width:120px}
+.log-note input{padding:8px 10px;font-size:.88rem}
+.log-act{display:flex;gap:6px;flex:none}
+.icon-btn{
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:var(--ink);border:1px solid var(--line);border-radius:8px;
+  color:var(--muted);cursor:pointer;font-size:.9rem;
+}
+.icon-btn:hover{color:#fff;border-color:#3A3F47}
+.log-empty{color:var(--muted);font-size:.9rem;text-align:center;padding:16px 0}
+
+/* settings */
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.settings .full{grid-column:1/-1}
+
+/* output */
+textarea.cmd{
+  font-family:ui-monospace,'Cascadia Mono',Menlo,monospace;
+  font-size:.82rem;line-height:1.6;min-height:120px;resize:vertical;
+  white-space:pre;overflow-x:auto;color:var(--nv-hi);
+}
+.out-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+
+/* termux guide */
+details{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
+  margin-bottom:12px;overflow:hidden;
+}
+summary{
+  cursor:pointer;list-style:none;padding:16px 46px 16px 18px;
+  font-family:var(--disp);font-weight:600;font-size:.95rem;position:relative;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  font-family:var(--disp);font-size:1.3rem;color:var(--muted);transition:transform .25s;
+}
+details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+details .inner{padding:0 18px 18px;color:var(--muted);font-size:.92rem}
+details .inner ol{padding-left:20px;margin:8px 0}
+details .inner li{margin-bottom:10px}
+details .inner code,
+.codebox{
+  font-family:ui-monospace,'Cascadia Mono',Menlo,monospace;font-size:.82rem;
+  background:var(--ink);border:1px solid var(--line);border-radius:8px;
+  color:var(--nv-hi);
+}
+details .inner code{padding:2px 6px}
+.codebox{display:block;padding:12px;margin:8px 0;white-space:pre;overflow-x:auto}
+details .inner strong{color:var(--text)}
+
+/* toast */
+#toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);
+  background:var(--nv);color:var(--ink);font-family:var(--disp);font-weight:700;
+  font-size:.9rem;padding:10px 22px;border-radius:99px;
+  transition:transform .3s ease;z-index:99;pointer-events:none;
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* funnel cta */
+.funnel{
+  background:#07080A;border:1px solid var(--line);border-radius:16px;
+  padding:24px 20px;text-align:center;margin:28px 0 0;
+  position:relative;overflow:hidden;
+}
+.funnel::after{
+  content:"";position:absolute;right:-20%;top:0;bottom:0;width:70%;
+  background:radial-gradient(ellipse at 80% 50%,rgba(118,185,0,.1),transparent 62%);
+  pointer-events:none;
+}
+.funnel p{color:var(--muted);font-size:.92rem;margin-bottom:14px;position:relative;z-index:1}
+.funnel .btn{position:relative;z-index:1}
+footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:560px){
+  .log-times input{width:76px}
+  .settings{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a href="/" class="brand"><span class="sq"></span><b>BiB <small>Tools</small></b></a>
+  <a href="/" class="back">← joinbib.id</a>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Gratis · Tanpa Login · Data di HP Kamu</span>
+    <h1>Timecode <span class="hl">Logger</span></h1>
+    <p>Nonton video panjang, tandai momen emasnya <strong>satu tap</strong>, lalu salin perintah untuk download <strong>cuma potongannya</strong> — bukan 1GB video utuhnya.</p>
+  </div>
+</div>
+
+<main class="wrap" style="padding-bottom:20px;">
+
+  <!-- STEP 1: LOAD VIDEO -->
+  <div class="card">
+    <h2><span class="step-no">1</span> Tempel link YouTube</h2>
+    <div class="row">
+      <input type="text" id="url" placeholder="https://youtube.com/watch?v=..." inputmode="url" autocomplete="off">
+      <button class="btn" id="load" style="flex:0 0 auto;">Muat</button>
+    </div>
+    <div class="player-shell" style="margin-top:14px;">
+      <div id="player"></div>
+      <div class="player-empty" id="playerEmpty">
+        <div class="big">▶</div>
+        <div>Tempel link video panjang (podcast, wawancara, dll)<br>lalu tekan <strong>Muat</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: CAPTURE -->
+  <div class="card">
+    <h2><span class="step-no">2</span> Tandai momen sambil nonton</h2>
+    <div class="now">posisi sekarang <b id="nowTime">00:00</b></div>
+    <div class="tags">
+      <button class="tag-btn cap" data-tag="😂" disabled><span>😂</span>LUCU</button>
+      <button class="tag-btn cap" data-tag="🔥" disabled><span>🔥</span>EPIC</button>
+      <button class="tag-btn cap" data-tag="💡" disabled><span>💡</span>AHA</button>
+    </div>
+    <div class="hint">Satu tap = satu calon klip. Log tersimpan otomatis di HP kamu (localStorage).</div>
+
+    <div id="log" style="margin-top:16px;"></div>
+  </div>
+
+  <!-- STEP 3: SETTINGS + OUTPUT -->
+  <div class="card">
+    <h2><span class="step-no">3</span> Salin perintah download</h2>
+    <div class="settings" style="margin-bottom:14px;">
+      <div>
+        <label>Mundur dari tap (detik)</label>
+        <input type="number" id="pre" value="5" min="0" max="120" inputmode="numeric">
+      </div>
+      <div>
+        <label>Durasi klip (detik)</label>
+        <input type="number" id="dur" value="30" min="5" max="600" inputmode="numeric">
+      </div>
+      <div>
+        <label>Kualitas maksimal</label>
+        <select id="q">
+          <option value="1080" selected>1080p</option>
+          <option value="720">720p</option>
+          <option value="best">Terbaik yang ada</option>
+        </select>
+      </div>
+      <div>
+        <label>Folder simpan (Termux)</label>
+        <input type="text" id="path" value="/sdcard/Movies/BiB-Clips">
+      </div>
+    </div>
+
+    <textarea class="cmd" id="cmd" readonly spellcheck="false" placeholder="Perintah yt-dlp muncul di sini setelah kamu menandai minimal satu momen."></textarea>
+    <div class="out-actions">
+      <button class="btn" id="copyCmd">Salin Perintah</button>
+      <button class="btn btn-ghost btn-sm" id="copyLog">Salin Log Teks</button>
+      <button class="btn btn-ghost btn-sm" id="reset">Mulai Ulang</button>
+    </div>
+  </div>
+
+  <!-- TERMUX GUIDE -->
+  <details>
+    <summary>📱 Setup sekali di HP Android (Termux) — 5 menit</summary>
+    <div class="inner">
+      <ol>
+        <li>Install <strong>Termux</strong> dari <strong>F-Droid</strong> (bukan Play Store — versi Play Store sudah usang): <code>f-droid.org/packages/com.termux</code></li>
+        <li>Buka Termux, izinkan akses penyimpanan:
+          <span class="codebox">termux-setup-storage</span>
+        </li>
+        <li>Install semua yang dibutuhkan (sekali saja):
+          <span class="codebox">pkg update -y &amp;&amp; pkg install -y python ffmpeg &amp;&amp; pip install -U yt-dlp</span>
+          <button class="btn btn-ghost btn-sm" data-copy="pkg update -y && pkg install -y python ffmpeg && pip install -U yt-dlp">Salin</button>
+        </li>
+        <li>Selesai! Selanjutnya tinggal <strong>tempel perintah dari langkah 3</strong> di atas, tekan Enter, dan potongan videonya masuk ke galeri kamu.</li>
+      </ol>
+      <p><strong>Catatan:</strong> proses download terjadi 100% di HP kamu sendiri, langsung dari YouTube — bukan lewat server siapa-siapa. Hormati hak cipta: gunakan untuk konten yang boleh kamu pakai ulang sesuai aturan platform &amp; pemilik konten.</p>
+    </div>
+  </details>
+
+  <!-- FUNNEL -->
+  <div class="funnel">
+    <p>Tool ini cuma <strong>satu bab kecil</strong> dari sistemnya. Riset materi, hook 3 detik, anti-copyright, sampai cara cairin views jadi uang:</p>
+    <a href="/clipper/ngeclip-cuan" class="btn">Pelajari di E-Book Ngeclip Cuan →</a>
+  </div>
+
+</main>
+
+<footer>© 2026 BiB (Bisnis in a Box) · Tool gratis dari <a href="/">joinbib.id</a></footer>
+
+<div id="toast">Tersalin ✓</div>
+
+<script>
+(function(){
+  "use strict";
+  var LS_KEY = "bib-timecode-logger";
+  var player = null, ready = false, videoId = "", videoUrl = "", ticker = null;
+  var entries = []; // {id, tag, start, end, note}
+
+  var $ = function(s){ return document.querySelector(s); };
+  var $$ = function(s){ return document.querySelectorAll(s); };
+
+  /* ---------- utils ---------- */
+  function fmt(sec){
+    sec = Math.max(0, Math.round(sec));
+    var h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
+    var mm = (h ? String(m).padStart(2,"0") : String(m));
+    var ss = String(s).padStart(2,"0");
+    return h ? h+":"+mm+":"+ss : mm+":"+ss;
+  }
+  function parseTime(str){
+    if(!str) return null;
+    str = String(str).trim();
+    if(/^\d+$/.test(str)) return parseInt(str,10);
+    var p = str.split(":").map(function(x){ return parseInt(x,10); });
+    if(p.some(isNaN)) return null;
+    if(p.length===2) return p[0]*60+p[1];
+    if(p.length===3) return p[0]*3600+p[1]*60+p[2];
+    return null;
+  }
+  function parseYouTubeId(url){
+    if(!url) return null;
+    url = url.trim();
+    if(/^[\w-]{11}$/.test(url)) return url;
+    var m = url.match(/(?:youtu\.be\/|v=|shorts\/|live\/|embed\/)([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+  function toast(msg){
+    var t = $("#toast");
+    t.textContent = msg || "Tersalin ✓";
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 1600);
+  }
+  function copyText(txt){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ toast(); }, function(){ fallbackCopy(txt); });
+    } else fallbackCopy(txt);
+  }
+  function fallbackCopy(txt){
+    var ta = document.createElement("textarea");
+    ta.value = txt; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta); toast();
+  }
+
+  /* ---------- persistence ---------- */
+  function save(){
+    try{
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        videoId: videoId, url: videoUrl, entries: entries,
+        settings: { pre:$("#pre").value, dur:$("#dur").value, q:$("#q").value, path:$("#path").value }
+      }));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var d = JSON.parse(localStorage.getItem(LS_KEY) || "null");
+      if(!d) return;
+      entries = d.entries || [];
+      if(d.settings){
+        $("#pre").value = d.settings.pre || 5;
+        $("#dur").value = d.settings.dur || 30;
+        $("#q").value = d.settings.q || "1080";
+        $("#path").value = d.settings.path || "/sdcard/Movies/BiB-Clips";
+      }
+      if(d.videoId){ videoId = d.videoId; videoUrl = d.url; $("#url").value = d.url || ""; loadPlayer(videoId); }
+    }catch(e){}
+  }
+
+  /* ---------- player ---------- */
+  window.onYouTubeIframeAPIReady = function(){
+    if(videoId) loadPlayer(videoId);
+  };
+  function loadPlayer(id){
+    if(!window.YT || !window.YT.Player){ videoId = id; return; }
+    $("#playerEmpty").style.display = "none";
+    if(player){ player.loadVideoById(id); return; }
+    player = new YT.Player("player", {
+      videoId: id,
+      playerVars: { playsinline:1, rel:0 },
+      events: {
+        onReady: function(){
+          ready = true;
+          $$(".cap").forEach(function(b){ b.disabled = false; });
+          if(ticker) clearInterval(ticker);
+          ticker = setInterval(function(){
+            if(ready && player.getCurrentTime) $("#nowTime").textContent = fmt(player.getCurrentTime());
+          }, 400);
+        }
+      }
+    });
+  }
+
+  /* ---------- log ---------- */
+  function addMoment(tag){
+    if(!ready) return;
+    var t = player.getCurrentTime();
+    var pre = parseInt($("#pre").value,10) || 0;
+    var dur = parseInt($("#dur").value,10) || 30;
+    var start = Math.max(0, Math.round(t - pre));
+    entries.push({ id: Date.now(), tag: tag, start: start, end: start + dur, note: "" });
+    entries.sort(function(a,b){ return a.start - b.start; });
+    render(); save();
+    toast("Momen " + tag + " " + fmt(start) + " ✓");
+  }
+  function render(){
+    var box = $("#log");
+    if(!entries.length){
+      box.innerHTML = '<div class="log-empty">Belum ada momen. Play videonya, pas ada momen bagus — tap salah satu tombol di atas.</div>';
+    } else {
+      box.innerHTML = entries.map(function(e){
+        return '<div class="log-item" data-id="'+e.id+'">'
+          + '<span class="log-tag">'+e.tag+'</span>'
+          + '<span class="log-times">'
+          + '<input type="text" class="t-start" value="'+fmt(e.start)+'" inputmode="numeric">'
+          + '<span class="dash">–</span>'
+          + '<input type="text" class="t-end" value="'+fmt(e.end)+'" inputmode="numeric">'
+          + '</span>'
+          + '<span class="log-note"><input type="text" class="t-note" placeholder="catatan…" value="'+e.note.replace(/"/g,"&quot;")+'"></span>'
+          + '<span class="log-act">'
+          + '<button class="icon-btn seek" title="Putar dari sini">▶</button>'
+          + '<button class="icon-btn del" title="Hapus">✕</button>'
+          + '</span></div>';
+      }).join("");
+    }
+    buildCmd();
+  }
+  $("#log").addEventListener("click", function(ev){
+    var item = ev.target.closest(".log-item"); if(!item) return;
+    var e = entries.find(function(x){ return x.id == item.dataset.id; }); if(!e) return;
+    if(ev.target.closest(".del")){
+      entries = entries.filter(function(x){ return x.id !== e.id; });
+      render(); save();
+    } else if(ev.target.closest(".seek")){
+      if(ready){ player.seekTo(Math.max(0, e.start), true); player.playVideo(); }
+    }
+  });
+  $("#log").addEventListener("change", function(ev){
+    var item = ev.target.closest(".log-item"); if(!item) return;
+    var e = entries.find(function(x){ return x.id == item.dataset.id; }); if(!e) return;
+    if(ev.target.classList.contains("t-start")){
+      var v = parseTime(ev.target.value);
+      if(v !== null) e.start = v;
+      ev.target.value = fmt(e.start);
+    } else if(ev.target.classList.contains("t-end")){
+      var v2 = parseTime(ev.target.value);
+      if(v2 !== null) e.end = v2;
+      ev.target.value = fmt(e.end);
+    } else if(ev.target.classList.contains("t-note")){
+      e.note = ev.target.value;
+    }
+    buildCmd(); save();
+  });
+
+  /* ---------- command ---------- */
+  function pad(sec){
+    var h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
+    return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  }
+  function buildCmd(){
+    var out = $("#cmd");
+    if(!entries.length || !videoId){ out.value = ""; return; }
+    var q = $("#q").value;
+    var path = ($("#path").value || "").trim();
+    var parts = ["yt-dlp", "--no-playlist", "--force-keyframes-at-cuts"];
+    if(q !== "best") parts.push('-S "res:'+q+'"');
+    entries.forEach(function(e){
+      if(e.end > e.start) parts.push('--download-sections "*'+pad(e.start)+"-"+pad(e.end)+'"');
+    });
+    if(path) parts.push('-P "'+path+'"');
+    parts.push('-o "%(title).40s [%(section_start)d].%(ext)s"');
+    parts.push('"https://youtu.be/'+videoId+'"');
+    out.value = parts.join(" ");
+  }
+  ["pre","dur","q","path"].forEach(function(id){
+    $("#"+id).addEventListener("change", function(){ buildCmd(); save(); });
+  });
+
+  /* ---------- actions ---------- */
+  $("#load").addEventListener("click", function(){
+    var id = parseYouTubeId($("#url").value);
+    if(!id){ toast("Link YouTube tidak valid"); return; }
+    if(id !== videoId && entries.length){
+      if(!confirm("Ganti video? Log momen video sebelumnya akan dihapus.")) return;
+      entries = [];
+    }
+    videoId = id; videoUrl = $("#url").value.trim();
+    loadPlayer(id); render(); save();
+  });
+  $("#url").addEventListener("keydown", function(e){ if(e.key==="Enter") $("#load").click(); });
+
+  $$(".cap").forEach(function(b){
+    b.addEventListener("click", function(){ addMoment(b.dataset.tag); });
+  });
+  document.addEventListener("keydown", function(e){
+    if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    var map = {"1":"😂","2":"🔥","3":"💡"};
+    if(map[e.key]) addMoment(map[e.key]);
+  });
+
+  $("#copyCmd").addEventListener("click", function(){
+    if(!$("#cmd").value){ toast("Belum ada momen ditandai"); return; }
+    copyText($("#cmd").value);
+  });
+  $("#copyLog").addEventListener("click", function(){
+    if(!entries.length){ toast("Log masih kosong"); return; }
+    var txt = "Timecode Log — https://youtu.be/"+videoId+"\n"
+      + entries.map(function(e){
+          return e.tag+" "+fmt(e.start)+"–"+fmt(e.end)+(e.note ? "  "+e.note : "");
+        }).join("\n");
+    copyText(txt);
+  });
+  $("#reset").addEventListener("click", function(){
+    if(!confirm("Hapus semua log momen?")) return;
+    entries = []; render(); save();
+  });
+  $$("[data-copy]").forEach(function(b){
+    b.addEventListener("click", function(){ copyText(b.dataset.copy); });
+  });
+
+  /* ---------- init ---------- */
+  load(); render();
+  var tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+})();
+</script>
+
+</body>
+</html>
