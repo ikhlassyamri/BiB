@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Timecode Logger — BiB Tools</title>
-<meta name="description" content="Catat momen emas dari video panjang tanpa download 1GB. Tandai detiknya sambil nonton, lalu salin perintah download potongannya — gratis, dari HP kamu sendiri.">
+<title>AI Momen Finder — BiB Tools</title>
+<meta name="description" content="Tempel transkrip video panjang, AI langsung menandai momen lucu, epic, dan aha lengkap dengan timestamp + saran hook. Gratis, tanpa install, tanpa login.">
 <meta name="theme-color" content="#0B0C0E">
 <link rel="icon" href="/favicon.png">
-<meta property="og:title" content="Timecode Logger — BiB Tools">
-<meta property="og:description" content="Tandai momen emas sambil nonton, download cuma potongannya. Gratis, tanpa server, dari HP kamu sendiri.">
+<meta property="og:title" content="AI Momen Finder — BiB Tools">
+<meta property="og:description" content="AI nemuin momen viral dari podcast 2 jam dalam 20 detik — gratis.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -25,7 +25,6 @@
   --nv-hi:#9BDC2E;
   --disp:'Space Grotesk',sans-serif;
   --body:'Inter',sans-serif;
-  --r:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -36,13 +35,12 @@ body{
 }
 ::selection{background:var(--nv);color:var(--ink)}
 a{color:inherit}
-.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
 
 /* header */
 .hdr{
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 18px;border-bottom:1px solid var(--line-soft);
-  background:#07080A;
+  padding:16px 18px;border-bottom:1px solid var(--line-soft);background:#07080A;
 }
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand .sq{width:10px;height:10px;background:var(--nv)}
@@ -51,8 +49,8 @@ a{color:inherit}
 .hdr a.back{font-size:.85rem;color:var(--muted);text-decoration:none}
 .hdr a.back:hover{color:#fff}
 
-/* hero mini */
-.hero{padding:40px 0 28px;text-align:center;position:relative}
+/* hero */
+.hero{padding:40px 0 26px;text-align:center;position:relative}
 .hero::after{
   content:"";position:absolute;left:0;right:0;top:-60px;height:220px;
   background:radial-gradient(ellipse at 50% 0%,rgba(118,185,0,.1),transparent 65%);
@@ -75,20 +73,21 @@ h1{
 /* cards */
 .card{
   background:var(--panel-2);border:1px solid var(--line);border-radius:16px;
-  padding:20px;margin-bottom:16px;
+  padding:20px;margin-bottom:14px;
 }
 .card h2{
-  font-family:var(--disp);font-weight:700;font-size:1.05rem;
-  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-family:var(--disp);font-weight:700;font-size:1.02rem;
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
 }
 .step-no{
   flex:none;width:24px;height:24px;border:1.5px solid var(--nv);color:var(--nv);
   display:inline-flex;align-items:center;justify-content:center;
   font-size:.8rem;font-weight:700;
 }
+.ok{color:var(--nv);font-size:.82rem;font-weight:600}
 
 /* inputs */
-input[type=text],input[type=number],select,textarea{
+input[type=text],input[type=password],select,textarea{
   width:100%;background:var(--ink);border:1px solid var(--line);border-radius:10px;
   color:var(--text);font-family:var(--body);font-size:.95rem;
   padding:12px 14px;outline:none;
@@ -96,106 +95,88 @@ input[type=text],input[type=number],select,textarea{
 input:focus,select:focus,textarea:focus{border-color:var(--nv)}
 label{font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px}
 .row{display:flex;gap:10px}
-.row>*{flex:1}
+textarea#tr{min-height:180px;resize:vertical;font-size:.88rem;line-height:1.6}
+.muted-note{font-size:.8rem;color:var(--muted);margin-top:8px}
+
+/* chips */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--ink);border:1px solid var(--line);border-radius:99px;
+  padding:8px 16px;font-family:var(--disp);font-weight:600;font-size:.85rem;
+  cursor:pointer;user-select:none;color:var(--muted);
+  transition:border-color .15s,color .15s;
+}
+.chip.on{border-color:var(--nv);color:#fff}
+.chip.on::before{content:"✓";color:var(--nv);font-weight:700}
 
 /* buttons */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   background:var(--nv);color:var(--ink);
   font-family:var(--disp);font-weight:700;font-size:.95rem;
-  padding:12px 22px;border-radius:10px;border:1.5px solid var(--nv);
+  padding:13px 24px;border-radius:10px;border:1.5px solid var(--nv);
   cursor:pointer;text-decoration:none;white-space:nowrap;
   transition:transform .2s ease,box-shadow .2s ease;
 }
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(118,185,0,.28)}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-ghost{background:transparent;color:var(--text);border-color:var(--line)}
 .btn-ghost:hover{border-color:#3A3F47;box-shadow:none}
 .btn-sm{padding:8px 14px;font-size:.85rem}
+.btn-block{width:100%;padding:16px;font-size:1.02rem}
 
-/* player */
-.player-shell{
-  position:relative;width:100%;aspect-ratio:16/9;
-  background:#050604;border:1px solid var(--line);border-radius:12px;
-  overflow:hidden;
+/* spinner */
+.spin{
+  width:16px;height:16px;border:2px solid rgba(11,12,14,.3);border-top-color:var(--ink);
+  border-radius:50%;animation:sp 1s linear infinite;display:none;
 }
-.player-shell iframe{position:absolute;inset:0;width:100%;height:100%}
-.player-empty{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:8px;color:var(--muted);
-  font-size:.9rem;text-align:center;padding:20px;
-}
-.player-empty .big{font-size:2rem}
+.busy .spin{display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
 
-/* capture */
-.now{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  font-family:var(--disp);font-size:.9rem;color:var(--muted);
-  margin:14px 0 10px;
+/* results */
+.result-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:24px 0 12px;
 }
-.now b{color:#fff;font-size:1.15rem;letter-spacing:.04em}
-.tags{display:flex;gap:10px}
-.tag-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
-  background:var(--panel);border:1px solid var(--line);border-radius:12px;
-  color:var(--text);font-family:var(--disp);font-weight:700;font-size:.9rem;
-  padding:14px 8px;cursor:pointer;
-  transition:transform .15s ease,border-color .15s ease;
+.result-head h3{font-family:var(--disp);font-weight:700;font-size:1.1rem}
+.m-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:16px;margin-bottom:10px;
 }
-.tag-btn span{font-size:1.5rem;line-height:1}
-.tag-btn:active{transform:scale(.95)}
-.tag-btn:hover{border-color:var(--nv)}
-.tag-btn:disabled{opacity:.4;cursor:not-allowed}
-.hint{font-size:.8rem;color:var(--muted);margin-top:10px;text-align:center}
+.m-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.m-tag{
+  font-size:1.05rem;background:var(--ink);border:1px solid var(--line-soft);
+  border-radius:8px;padding:4px 8px;
+}
+.m-time{
+  font-family:var(--disp);font-weight:700;font-size:.95rem;color:var(--nv-hi);
+  letter-spacing:.03em;
+}
+.m-hook{font-family:var(--disp);font-weight:700;font-size:1.02rem;color:#fff;line-height:1.4;margin-bottom:6px}
+.m-quote{
+  font-size:.88rem;color:var(--muted);font-style:italic;
+  border-left:2px solid var(--nv);padding-left:10px;margin:8px 0;
+}
+.m-why{font-size:.86rem;color:var(--muted)}
+.m-why b{color:var(--text)}
+.m-act{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 
-/* log */
-.log-item{
-  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
-  background:var(--panel);border:1px solid var(--line);border-radius:12px;
-  padding:10px 12px;margin-bottom:8px;
+/* error */
+.err{
+  display:none;background:#1A0E0C;border:1px solid #4A2620;border-radius:12px;
+  color:#F0A899;font-size:.88rem;padding:12px 16px;margin-top:12px;
 }
-.log-tag{
-  flex:none;font-size:1.15rem;width:34px;height:34px;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--ink);border:1px solid var(--line-soft);border-radius:8px;
-}
-.log-times{display:flex;align-items:center;gap:6px;flex:none}
-.log-times input{
-  width:86px;padding:8px 6px;text-align:center;
-  font-family:var(--disp);font-size:.88rem;
-}
-.log-times .dash{color:var(--muted)}
-.log-note{flex:1;min-width:120px}
-.log-note input{padding:8px 10px;font-size:.88rem}
-.log-act{display:flex;gap:6px;flex:none}
-.icon-btn{
-  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-  background:var(--ink);border:1px solid var(--line);border-radius:8px;
-  color:var(--muted);cursor:pointer;font-size:.9rem;
-}
-.icon-btn:hover{color:#fff;border-color:#3A3F47}
-.log-empty{color:var(--muted);font-size:.9rem;text-align:center;padding:16px 0}
+.err.show{display:block}
 
-/* settings */
-.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.settings .full{grid-column:1/-1}
-
-/* output */
-textarea.cmd{
-  font-family:ui-monospace,'Cascadia Mono',Menlo,monospace;
-  font-size:.82rem;line-height:1.6;min-height:120px;resize:vertical;
-  white-space:pre;overflow-x:auto;color:var(--nv-hi);
-}
-.out-actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-
-/* termux guide */
+/* details */
 details{
   background:var(--panel-2);border:1px solid var(--line);border-radius:14px;
   margin-bottom:12px;overflow:hidden;
 }
 summary{
-  cursor:pointer;list-style:none;padding:16px 46px 16px 18px;
-  font-family:var(--disp);font-weight:600;font-size:.95rem;position:relative;
+  cursor:pointer;list-style:none;padding:15px 46px 15px 18px;
+  font-family:var(--disp);font-weight:600;font-size:.92rem;position:relative;
 }
 summary::-webkit-details-marker{display:none}
 summary::after{
@@ -203,29 +184,22 @@ summary::after{
   font-family:var(--disp);font-size:1.3rem;color:var(--muted);transition:transform .25s;
 }
 details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
-details .inner{padding:0 18px 18px;color:var(--muted);font-size:.92rem}
-details .inner ol{padding-left:20px;margin:8px 0}
-details .inner li{margin-bottom:10px}
-details .inner code,
-.codebox{
-  font-family:ui-monospace,'Cascadia Mono',Menlo,monospace;font-size:.82rem;
-  background:var(--ink);border:1px solid var(--line);border-radius:8px;
-  color:var(--nv-hi);
-}
-details .inner code{padding:2px 6px}
-.codebox{display:block;padding:12px;margin:8px 0;white-space:pre;overflow-x:auto}
+details .inner{padding:0 18px 16px;color:var(--muted);font-size:.9rem}
+details .inner ol{padding-left:20px;margin:6px 0}
+details .inner li{margin-bottom:8px}
 details .inner strong{color:var(--text)}
+details .inner a{color:var(--nv-hi)}
 
 /* toast */
 #toast{
-  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(90px);
   background:var(--nv);color:var(--ink);font-family:var(--disp);font-weight:700;
   font-size:.9rem;padding:10px 22px;border-radius:99px;
-  transition:transform .3s ease;z-index:99;pointer-events:none;
+  transition:transform .3s ease;z-index:99;pointer-events:none;max-width:90vw;text-align:center;
 }
 #toast.show{transform:translateX(-50%) translateY(0)}
 
-/* funnel cta */
+/* funnel */
 .funnel{
   background:#07080A;border:1px solid var(--line);border-radius:16px;
   padding:24px 20px;text-align:center;margin:28px 0 0;
@@ -239,11 +213,6 @@ details .inner strong{color:var(--text)}
 .funnel p{color:var(--muted);font-size:.92rem;margin-bottom:14px;position:relative;z-index:1}
 .funnel .btn{position:relative;z-index:1}
 footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
-
-@media (max-width:560px){
-  .log-times input{width:76px}
-  .settings{grid-template-columns:1fr 1fr}
-}
 </style>
 </head>
 <body>
@@ -255,100 +224,91 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
 
 <div class="hero">
   <div class="wrap">
-    <span class="eyebrow">Gratis · Tanpa Login · Data di HP Kamu</span>
-    <h1>Timecode <span class="hl">Logger</span></h1>
-    <p>Nonton video panjang, tandai momen emasnya <strong>satu tap</strong>, lalu salin perintah untuk download <strong>cuma potongannya</strong> — bukan 1GB video utuhnya.</p>
+    <span class="eyebrow">Gratis · Tanpa Install · Tanpa Login</span>
+    <h1>AI Momen <span class="hl">Finder</span></h1>
+    <p>Tempel transkrip video panjang — AI langsung nemuin <strong>momen lucu, epic, dan aha</strong> lengkap dengan timestamp + saran hook. Podcast 2 jam, beres 20 detik.</p>
   </div>
 </div>
 
 <main class="wrap" style="padding-bottom:20px;">
 
-  <!-- STEP 1: LOAD VIDEO -->
-  <div class="card">
-    <h2><span class="step-no">1</span> Tempel link YouTube</h2>
+  <!-- STEP 1: API KEY -->
+  <div class="card" id="keyCard">
+    <h2><span class="step-no">1</span> Pasang kunci AI gratis kamu <span class="ok" id="keyOk" style="display:none;">tersimpan ✓</span></h2>
     <div class="row">
-      <input type="text" id="url" placeholder="https://youtube.com/watch?v=..." inputmode="url" autocomplete="off">
-      <button class="btn" id="load" style="flex:0 0 auto;">Muat</button>
+      <input type="password" id="key" placeholder="Tempel API key Gemini di sini (gratis)" autocomplete="off">
+      <button class="btn btn-sm" id="saveKey" style="flex:0 0 auto;">Simpan</button>
     </div>
-    <div class="player-shell" style="margin-top:14px;">
-      <div id="player"></div>
-      <div class="player-empty" id="playerEmpty">
-        <div class="big">▶</div>
-        <div>Tempel link video panjang (podcast, wawancara, dll)<br>lalu tekan <strong>Muat</strong></div>
+    <div class="muted-note">Sekali pasang, tersimpan di HP kamu sendiri — bukan di server kami.</div>
+    <details style="margin-top:12px;border-radius:10px;">
+      <summary>🔑 Cara dapat key gratis (2 menit, tanpa kartu kredit)</summary>
+      <div class="inner">
+        <ol>
+          <li>Buka <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"><strong>aistudio.google.com/apikey</strong></a> lalu login pakai akun Google biasa.</li>
+          <li>Tekan <strong>"Create API key"</strong>.</li>
+          <li>Salin key yang muncul, tempel di kolom di atas, tekan <strong>Simpan</strong>. Selesai — gratis selamanya untuk pemakaian wajar.</li>
+        </ol>
       </div>
-    </div>
+    </details>
   </div>
 
-  <!-- STEP 2: CAPTURE -->
+  <!-- STEP 2: TRANSCRIPT -->
   <div class="card">
-    <h2><span class="step-no">2</span> Tandai momen sambil nonton</h2>
-    <div class="now">posisi sekarang <b id="nowTime">00:00</b></div>
-    <div class="tags">
-      <button class="tag-btn cap" data-tag="😂" disabled><span>😂</span>LUCU</button>
-      <button class="tag-btn cap" data-tag="🔥" disabled><span>🔥</span>EPIC</button>
-      <button class="tag-btn cap" data-tag="💡" disabled><span>💡</span>AHA</button>
+    <h2><span class="step-no">2</span> Tempel transkrip videonya</h2>
+    <textarea id="tr" placeholder="Tempel transkrip YouTube di sini (lengkap dengan angka waktunya, contoh:&#10;12:34&#10;terus gua bilang ke dia...)"></textarea>
+    <div style="margin-top:12px;">
+      <label>Link video (opsional — biar tiap momen bisa langsung dibuka)</label>
+      <input type="text" id="url" placeholder="https://youtube.com/watch?v=..." inputmode="url">
     </div>
-    <div class="hint">Satu tap = satu calon klip. Log tersimpan otomatis di HP kamu (localStorage).</div>
-
-    <div id="log" style="margin-top:16px;"></div>
+    <details style="margin-top:12px;border-radius:10px;">
+      <summary>📋 Cara copy transkrip dari YouTube (30 detik)</summary>
+      <div class="inner">
+        <ol>
+          <li>Buka videonya di <strong>app YouTube</strong> → tap judul/deskripsi → scroll ke bawah → tap <strong>"Tampilkan transkrip"</strong>.</li>
+          <li>Tekan-tahan di teks transkrip → <strong>Pilih semua</strong> → <strong>Salin</strong>.</li>
+          <li>Kalau di app susah: buka videonya di <strong>Chrome</strong> (mode desktop), transkripnya bisa diblok dan disalin biasa.</li>
+          <li>Tempel di kolom atas. Pastikan <strong>angka waktunya ikut kesalin</strong> (12:34 dst) — itu yang dipakai AI buat nunjukin lokasi momen.</li>
+        </ol>
+      </div>
+    </details>
   </div>
 
-  <!-- STEP 3: SETTINGS + OUTPUT -->
+  <!-- STEP 3: OPTIONS + RUN -->
   <div class="card">
-    <h2><span class="step-no">3</span> Salin perintah download</h2>
-    <div class="settings" style="margin-bottom:14px;">
-      <div>
-        <label>Mundur dari tap (detik)</label>
-        <input type="number" id="pre" value="5" min="0" max="120" inputmode="numeric">
-      </div>
-      <div>
-        <label>Durasi klip (detik)</label>
-        <input type="number" id="dur" value="30" min="5" max="600" inputmode="numeric">
-      </div>
-      <div>
-        <label>Kualitas maksimal</label>
-        <select id="q">
-          <option value="1080" selected>1080p</option>
-          <option value="720">720p</option>
-          <option value="best">Terbaik yang ada</option>
+    <h2><span class="step-no">3</span> Cari momen emasnya</h2>
+    <label>Jenis momen yang dicari</label>
+    <div class="chips" id="chips">
+      <span class="chip on" data-v="LUCU">😂 Lucu</span>
+      <span class="chip on" data-v="EPIC">🔥 Epic</span>
+      <span class="chip on" data-v="AHA">💡 Aha / Insight</span>
+      <span class="chip" data-v="KONTROVERSIAL">⚡ Kontroversial</span>
+    </div>
+    <div class="row" style="margin-top:10px;">
+      <div style="flex:1;">
+        <label>Jumlah momen</label>
+        <select id="n">
+          <option value="5">5 momen</option>
+          <option value="7" selected>7 momen</option>
+          <option value="10">10 momen</option>
         </select>
       </div>
-      <div>
-        <label>Folder simpan (Termux)</label>
-        <input type="text" id="path" value="/sdcard/Movies/BiB-Clips">
+      <div style="flex:2;">
+        <label>Konteks niche (opsional)</label>
+        <input type="text" id="niche" placeholder="mis. bisnis, gaming, religi…">
       </div>
     </div>
-
-    <textarea class="cmd" id="cmd" readonly spellcheck="false" placeholder="Perintah yt-dlp muncul di sini setelah kamu menandai minimal satu momen."></textarea>
-    <div class="out-actions">
-      <button class="btn" id="copyCmd">Salin Perintah</button>
-      <button class="btn btn-ghost btn-sm" id="copyLog">Salin Log Teks</button>
-      <button class="btn btn-ghost btn-sm" id="reset">Mulai Ulang</button>
-    </div>
+    <button class="btn btn-block" id="run" style="margin-top:16px;">
+      <span class="spin"></span><span id="runLabel">🔍 Cari Momen Emas</span>
+    </button>
+    <div class="err" id="err"></div>
   </div>
 
-  <!-- TERMUX GUIDE -->
-  <details>
-    <summary>📱 Setup sekali di HP Android (Termux) — 5 menit</summary>
-    <div class="inner">
-      <ol>
-        <li>Install <strong>Termux</strong> dari <strong>F-Droid</strong> (bukan Play Store — versi Play Store sudah usang): <code>f-droid.org/packages/com.termux</code></li>
-        <li>Buka Termux, izinkan akses penyimpanan:
-          <span class="codebox">termux-setup-storage</span>
-        </li>
-        <li>Install semua yang dibutuhkan (sekali saja):
-          <span class="codebox">pkg update -y &amp;&amp; pkg install -y python ffmpeg &amp;&amp; pip install -U yt-dlp</span>
-          <button class="btn btn-ghost btn-sm" data-copy="pkg update -y && pkg install -y python ffmpeg && pip install -U yt-dlp">Salin</button>
-        </li>
-        <li>Selesai! Selanjutnya tinggal <strong>tempel perintah dari langkah 3</strong> di atas, tekan Enter, dan potongan videonya masuk ke galeri kamu.</li>
-      </ol>
-      <p><strong>Catatan:</strong> proses download terjadi 100% di HP kamu sendiri, langsung dari YouTube — bukan lewat server siapa-siapa. Hormati hak cipta: gunakan untuk konten yang boleh kamu pakai ulang sesuai aturan platform &amp; pemilik konten.</p>
-    </div>
-  </details>
+  <!-- RESULTS -->
+  <div id="results"></div>
 
   <!-- FUNNEL -->
   <div class="funnel">
-    <p>Tool ini cuma <strong>satu bab kecil</strong> dari sistemnya. Riset materi, hook 3 detik, anti-copyright, sampai cara cairin views jadi uang:</p>
+    <p>Nemu momennya = baru <strong>20% kerjaan</strong>. Hook 3 detik, editing anti-copyright, sampai cairin views jadi uang:</p>
     <a href="/clipper/ngeclip-cuan" class="btn">Pelajari di E-Book Ngeclip Cuan →</a>
   </div>
 
@@ -361,43 +321,18 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
 <script>
 (function(){
   "use strict";
-  var LS_KEY = "bib-timecode-logger";
-  var player = null, ready = false, videoId = "", videoUrl = "", ticker = null;
-  var entries = []; // {id, tag, start, end, note}
+  var KEY_LS = "bib-gemini-key";
+  var MODELS = ["gemini-2.5-flash","gemini-2.0-flash","gemini-1.5-flash"];
+  var lastMoments = [];
 
   var $ = function(s){ return document.querySelector(s); };
   var $$ = function(s){ return document.querySelectorAll(s); };
 
-  /* ---------- utils ---------- */
-  function fmt(sec){
-    sec = Math.max(0, Math.round(sec));
-    var h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
-    var mm = (h ? String(m).padStart(2,"0") : String(m));
-    var ss = String(s).padStart(2,"0");
-    return h ? h+":"+mm+":"+ss : mm+":"+ss;
-  }
-  function parseTime(str){
-    if(!str) return null;
-    str = String(str).trim();
-    if(/^\d+$/.test(str)) return parseInt(str,10);
-    var p = str.split(":").map(function(x){ return parseInt(x,10); });
-    if(p.some(isNaN)) return null;
-    if(p.length===2) return p[0]*60+p[1];
-    if(p.length===3) return p[0]*3600+p[1]*60+p[2];
-    return null;
-  }
-  function parseYouTubeId(url){
-    if(!url) return null;
-    url = url.trim();
-    if(/^[\w-]{11}$/.test(url)) return url;
-    var m = url.match(/(?:youtu\.be\/|v=|shorts\/|live\/|embed\/)([\w-]{11})/);
-    return m ? m[1] : null;
-  }
   function toast(msg){
     var t = $("#toast");
     t.textContent = msg || "Tersalin ✓";
     t.classList.add("show");
-    setTimeout(function(){ t.classList.remove("show"); }, 1600);
+    setTimeout(function(){ t.classList.remove("show"); }, 1800);
   }
   function copyText(txt){
     if(navigator.clipboard && navigator.clipboard.writeText){
@@ -410,187 +345,186 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
     ta.select(); document.execCommand("copy");
     document.body.removeChild(ta); toast();
   }
-
-  /* ---------- persistence ---------- */
-  function save(){
-    try{
-      localStorage.setItem(LS_KEY, JSON.stringify({
-        videoId: videoId, url: videoUrl, entries: entries,
-        settings: { pre:$("#pre").value, dur:$("#dur").value, q:$("#q").value, path:$("#path").value }
-      }));
-    }catch(e){}
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
   }
-  function load(){
-    try{
-      var d = JSON.parse(localStorage.getItem(LS_KEY) || "null");
-      if(!d) return;
-      entries = d.entries || [];
-      if(d.settings){
-        $("#pre").value = d.settings.pre || 5;
-        $("#dur").value = d.settings.dur || 30;
-        $("#q").value = d.settings.q || "1080";
-        $("#path").value = d.settings.path || "/sdcard/Movies/BiB-Clips";
-      }
-      if(d.videoId){ videoId = d.videoId; videoUrl = d.url; $("#url").value = d.url || ""; loadPlayer(videoId); }
-    }catch(e){}
+  function parseYouTubeId(url){
+    if(!url) return null;
+    var m = String(url).match(/(?:youtu\.be\/|v=|shorts\/|live\/|embed\/)([\w-]{11})/);
+    return m ? m[1] : (/^[\w-]{11}$/.test(url.trim()) ? url.trim() : null);
+  }
+  function toSec(t){
+    var p = String(t||"").trim().split(":").map(Number);
+    if(p.some(isNaN)) return 0;
+    if(p.length===3) return p[0]*3600+p[1]*60+p[2];
+    if(p.length===2) return p[0]*60+p[1];
+    return p[0]||0;
   }
 
-  /* ---------- player ---------- */
-  window.onYouTubeIframeAPIReady = function(){
-    if(videoId) loadPlayer(videoId);
-  };
-  function loadPlayer(id){
-    if(!window.YT || !window.YT.Player){ videoId = id; return; }
-    $("#playerEmpty").style.display = "none";
-    if(player){ player.loadVideoById(id); return; }
-    player = new YT.Player("player", {
-      videoId: id,
-      playerVars: { playsinline:1, rel:0 },
-      events: {
-        onReady: function(){
-          ready = true;
-          $$(".cap").forEach(function(b){ b.disabled = false; });
-          if(ticker) clearInterval(ticker);
-          ticker = setInterval(function(){
-            if(ready && player.getCurrentTime) $("#nowTime").textContent = fmt(player.getCurrentTime());
-          }, 400);
-        }
-      }
+  /* ---------- key ---------- */
+  function refreshKeyUI(){
+    var k = localStorage.getItem(KEY_LS) || "";
+    $("#keyOk").style.display = k ? "inline" : "none";
+    if(k) $("#key").placeholder = "••••••••" + k.slice(-4);
+  }
+  $("#saveKey").addEventListener("click", function(){
+    var k = $("#key").value.trim();
+    if(!k){ toast("Key masih kosong"); return; }
+    localStorage.setItem(KEY_LS, k);
+    $("#key").value = "";
+    refreshKeyUI(); toast("Key tersimpan ✓");
+  });
+  refreshKeyUI();
+
+  /* ---------- chips ---------- */
+  $("#chips").addEventListener("click", function(e){
+    var c = e.target.closest(".chip");
+    if(c) c.classList.toggle("on");
+  });
+
+  /* ---------- AI call ---------- */
+  function buildPrompt(transcript, kinds, n, niche){
+    return "Kamu adalah editor senior akun clipper Indonesia yang jago menemukan momen viral dari video panjang.\n\n"
+      + "TUGAS: Baca transkrip YouTube berikut (ada timestamp-nya), lalu temukan " + n + " momen paling berpotensi viral untuk dijadikan klip pendek TikTok/Shorts (durasi ideal 20-60 detik).\n"
+      + "Jenis momen yang dicari: " + kinds.join(", ") + ".\n"
+      + (niche ? "Konteks niche audiens: " + niche + ".\n" : "")
+      + "\nATURAN:\n"
+      + "- Gunakan timestamp yang benar-benar ada di transkrip untuk field start (format persis seperti di transkrip, mis. 12:34 atau 1:02:45).\n"
+      + "- end = perkiraan akhir momen (start + 20 sampai 60 detik).\n"
+      + "- tag harus salah satu dari: " + kinds.join(", ") + ".\n"
+      + "- hook = saran kalimat hook 3 detik pertama dalam bahasa Indonesia gaul yang bikin orang berhenti scroll (bukan clickbait bohong).\n"
+      + "- quote = kutipan singkat kalimat kunci dari transkrip di momen itu.\n"
+      + "- alasan = 1 kalimat kenapa momen ini berpotensi viral.\n"
+      + "- Urutkan dari yang paling berpotensi viral.\n"
+      + "- Jawab HANYA dengan JSON array valid, tanpa teks lain, dengan struktur: [{\"start\":\"12:34\",\"end\":\"13:05\",\"tag\":\"LUCU\",\"hook\":\"...\",\"quote\":\"...\",\"alasan\":\"...\"}]\n"
+      + "\nTRANSKRIP:\n" + transcript;
+  }
+
+  function callGemini(key, prompt, modelIdx){
+    modelIdx = modelIdx || 0;
+    if(modelIdx >= MODELS.length) return Promise.reject(new Error("Semua model gagal dihubungi."));
+    var url = "https://generativelanguage.googleapis.com/v1beta/models/" + MODELS[modelIdx] + ":generateContent?key=" + encodeURIComponent(key);
+    return fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.4, responseMimeType: "application/json" }
+      })
+    }).then(function(res){
+      if(res.status === 404) return callGemini(key, prompt, modelIdx + 1);
+      if(res.status === 400 || res.status === 403) throw new Error("API key ditolak. Cek lagi key kamu di aistudio.google.com/apikey lalu simpan ulang.");
+      if(res.status === 429) throw new Error("Kena limit gratis untuk sementara. Tunggu 1-2 menit lalu coba lagi.");
+      if(!res.ok) throw new Error("Server AI error (" + res.status + "). Coba lagi sebentar lagi.");
+      return res.json();
     });
   }
 
-  /* ---------- log ---------- */
-  function addMoment(tag){
-    if(!ready) return;
-    var t = player.getCurrentTime();
-    var pre = parseInt($("#pre").value,10) || 0;
-    var dur = parseInt($("#dur").value,10) || 30;
-    var start = Math.max(0, Math.round(t - pre));
-    entries.push({ id: Date.now(), tag: tag, start: start, end: start + dur, note: "" });
-    entries.sort(function(a,b){ return a.start - b.start; });
-    render(); save();
-    toast("Momen " + tag + " " + fmt(start) + " ✓");
+  function extractJSON(data){
+    var txt = "";
+    try { txt = data.candidates[0].content.parts[0].text; } catch(e){}
+    if(!txt) throw new Error("AI tidak mengembalikan jawaban. Coba lagi.");
+    txt = txt.replace(/^```json\s*/i, "").replace(/^```\s*/,"").replace(/```\s*$/,"").trim();
+    var arr = JSON.parse(txt);
+    if(!Array.isArray(arr) || !arr.length) throw new Error("AI tidak menemukan momen. Pastikan transkripnya lengkap dengan timestamp.");
+    return arr;
   }
-  function render(){
-    var box = $("#log");
-    if(!entries.length){
-      box.innerHTML = '<div class="log-empty">Belum ada momen. Play videonya, pas ada momen bagus — tap salah satu tombol di atas.</div>';
-    } else {
-      box.innerHTML = entries.map(function(e){
-        return '<div class="log-item" data-id="'+e.id+'">'
-          + '<span class="log-tag">'+e.tag+'</span>'
-          + '<span class="log-times">'
-          + '<input type="text" class="t-start" value="'+fmt(e.start)+'" inputmode="numeric">'
-          + '<span class="dash">–</span>'
-          + '<input type="text" class="t-end" value="'+fmt(e.end)+'" inputmode="numeric">'
-          + '</span>'
-          + '<span class="log-note"><input type="text" class="t-note" placeholder="catatan…" value="'+e.note.replace(/"/g,"&quot;")+'"></span>'
-          + '<span class="log-act">'
-          + '<button class="icon-btn seek" title="Putar dari sini">▶</button>'
-          + '<button class="icon-btn del" title="Hapus">✕</button>'
-          + '</span></div>';
-      }).join("");
-    }
-    buildCmd();
-  }
-  $("#log").addEventListener("click", function(ev){
-    var item = ev.target.closest(".log-item"); if(!item) return;
-    var e = entries.find(function(x){ return x.id == item.dataset.id; }); if(!e) return;
-    if(ev.target.closest(".del")){
-      entries = entries.filter(function(x){ return x.id !== e.id; });
-      render(); save();
-    } else if(ev.target.closest(".seek")){
-      if(ready){ player.seekTo(Math.max(0, e.start), true); player.playVideo(); }
-    }
-  });
-  $("#log").addEventListener("change", function(ev){
-    var item = ev.target.closest(".log-item"); if(!item) return;
-    var e = entries.find(function(x){ return x.id == item.dataset.id; }); if(!e) return;
-    if(ev.target.classList.contains("t-start")){
-      var v = parseTime(ev.target.value);
-      if(v !== null) e.start = v;
-      ev.target.value = fmt(e.start);
-    } else if(ev.target.classList.contains("t-end")){
-      var v2 = parseTime(ev.target.value);
-      if(v2 !== null) e.end = v2;
-      ev.target.value = fmt(e.end);
-    } else if(ev.target.classList.contains("t-note")){
-      e.note = ev.target.value;
-    }
-    buildCmd(); save();
-  });
 
-  /* ---------- command ---------- */
-  function pad(sec){
-    var h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60;
-    return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-  }
-  function buildCmd(){
-    var out = $("#cmd");
-    if(!entries.length || !videoId){ out.value = ""; return; }
-    var q = $("#q").value;
-    var path = ($("#path").value || "").trim();
-    var parts = ["yt-dlp", "--no-playlist", "--force-keyframes-at-cuts"];
-    if(q !== "best") parts.push('-S "res:'+q+'"');
-    entries.forEach(function(e){
-      if(e.end > e.start) parts.push('--download-sections "*'+pad(e.start)+"-"+pad(e.end)+'"');
+  /* ---------- render ---------- */
+  var TAG_EMOJI = { LUCU:"😂", EPIC:"🔥", AHA:"💡", KONTROVERSIAL:"⚡" };
+  function render(moments, videoId){
+    lastMoments = moments;
+    var html = '<div class="result-head"><h3>🏆 ' + moments.length + ' Momen Emas</h3>'
+      + '<button class="btn btn-ghost btn-sm" id="copyAll">Salin Semua</button></div>';
+    html += moments.map(function(m, i){
+      var emoji = TAG_EMOJI[(m.tag||"").toUpperCase()] || "⭐";
+      var link = videoId ? 'https://youtu.be/' + videoId + '?t=' + toSec(m.start) : null;
+      return '<div class="m-card">'
+        + '<div class="m-top">'
+        + '<span class="m-tag">' + emoji + '</span>'
+        + '<span class="m-time">' + esc(m.start) + ' – ' + esc(m.end) + '</span>'
+        + '</div>'
+        + '<div class="m-hook">' + esc(m.hook) + '</div>'
+        + (m.quote ? '<div class="m-quote">"' + esc(m.quote) + '"</div>' : '')
+        + '<div class="m-why"><b>Kenapa viral:</b> ' + esc(m.alasan) + '</div>'
+        + '<div class="m-act">'
+        + (link ? '<a class="btn btn-ghost btn-sm" href="' + link + '" target="_blank" rel="noopener">▶ Tonton momennya</a>' : '')
+        + '<button class="btn btn-ghost btn-sm copy-one" data-i="' + i + '">Salin</button>'
+        + '</div></div>';
+    }).join("");
+    $("#results").innerHTML = html;
+
+    $("#copyAll").addEventListener("click", function(){
+      copyText(momentsToText(moments, videoId));
     });
-    if(path) parts.push('-P "'+path+'"');
-    parts.push('-o "%(title).40s [%(section_start)d].%(ext)s"');
-    parts.push('"https://youtu.be/'+videoId+'"');
-    out.value = parts.join(" ");
+    $$(".copy-one").forEach(function(b){
+      b.addEventListener("click", function(){
+        var m = moments[parseInt(b.dataset.i,10)];
+        copyText(momentToText(m, videoId));
+      });
+    });
+    $("#results").scrollIntoView({ behavior:"smooth", block:"start" });
   }
-  ["pre","dur","q","path"].forEach(function(id){
-    $("#"+id).addEventListener("change", function(){ buildCmd(); save(); });
-  });
+  function momentToText(m, videoId){
+    var emoji = TAG_EMOJI[(m.tag||"").toUpperCase()] || "⭐";
+    return emoji + " " + m.start + "–" + m.end
+      + "\nHook: " + m.hook
+      + (m.quote ? '\nQuote: "' + m.quote + '"' : "")
+      + "\nKenapa: " + m.alasan
+      + (videoId ? "\nLink: https://youtu.be/" + videoId + "?t=" + toSec(m.start) : "");
+  }
+  function momentsToText(moments, videoId){
+    return "🏆 Momen Emas — via joinbib.id/tools\n\n"
+      + moments.map(function(m){ return momentToText(m, videoId); }).join("\n\n");
+  }
 
-  /* ---------- actions ---------- */
-  $("#load").addEventListener("click", function(){
-    var id = parseYouTubeId($("#url").value);
-    if(!id){ toast("Link YouTube tidak valid"); return; }
-    if(id !== videoId && entries.length){
-      if(!confirm("Ganti video? Log momen video sebelumnya akan dihapus.")) return;
-      entries = [];
-    }
-    videoId = id; videoUrl = $("#url").value.trim();
-    loadPlayer(id); render(); save();
-  });
-  $("#url").addEventListener("keydown", function(e){ if(e.key==="Enter") $("#load").click(); });
+  /* ---------- run ---------- */
+  function setBusy(b){
+    var btn = $("#run");
+    btn.disabled = b;
+    btn.classList.toggle("busy", b);
+    $("#runLabel").textContent = b ? "AI lagi baca transkripnya…" : "🔍 Cari Momen Emas";
+  }
+  function showErr(msg){
+    var e = $("#err");
+    e.textContent = msg;
+    e.classList.add("show");
+  }
 
-  $$(".cap").forEach(function(b){
-    b.addEventListener("click", function(){ addMoment(b.dataset.tag); });
-  });
-  document.addEventListener("keydown", function(e){
-    if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
-    var map = {"1":"😂","2":"🔥","3":"💡"};
-    if(map[e.key]) addMoment(map[e.key]);
-  });
+  $("#run").addEventListener("click", function(){
+    $("#err").classList.remove("show");
 
-  $("#copyCmd").addEventListener("click", function(){
-    if(!$("#cmd").value){ toast("Belum ada momen ditandai"); return; }
-    copyText($("#cmd").value);
-  });
-  $("#copyLog").addEventListener("click", function(){
-    if(!entries.length){ toast("Log masih kosong"); return; }
-    var txt = "Timecode Log — https://youtu.be/"+videoId+"\n"
-      + entries.map(function(e){
-          return e.tag+" "+fmt(e.start)+"–"+fmt(e.end)+(e.note ? "  "+e.note : "");
-        }).join("\n");
-    copyText(txt);
-  });
-  $("#reset").addEventListener("click", function(){
-    if(!confirm("Hapus semua log momen?")) return;
-    entries = []; render(); save();
-  });
-  $$("[data-copy]").forEach(function(b){
-    b.addEventListener("click", function(){ copyText(b.dataset.copy); });
-  });
+    var key = localStorage.getItem(KEY_LS) || $("#key").value.trim();
+    if(!key){ showErr("Pasang dulu API key gratis kamu di langkah 1 (cuma 2 menit)."); return; }
 
-  /* ---------- init ---------- */
-  load(); render();
-  var tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.head.appendChild(tag);
+    var tr = $("#tr").value.trim();
+    if(tr.length < 200){ showErr("Transkripnya masih kosong / kependekan. Copy transkrip lengkap dari YouTube dulu (langkah 2)."); return; }
+    if(!/\d+:\d{2}/.test(tr)){ showErr("Tidak ada timestamp (mis. 12:34) di transkrip. Copy ulang — pastikan angka waktunya ikut kesalin."); return; }
+
+    var kinds = [];
+    $$("#chips .chip.on").forEach(function(c){ kinds.push(c.dataset.v); });
+    if(!kinds.length){ showErr("Pilih minimal satu jenis momen."); return; }
+
+    var n = $("#n").value;
+    var niche = $("#niche").value.trim();
+    var videoId = parseYouTubeId($("#url").value);
+    // batasi transkrip super panjang (aman untuk free tier)
+    if(tr.length > 400000) tr = tr.slice(0, 400000);
+
+    setBusy(true);
+    callGemini(key, buildPrompt(tr, kinds, n, niche))
+      .then(function(data){
+        // handle recursive model fallback resolving to array already
+        var arr = Array.isArray(data) ? data : extractJSON(data);
+        render(arr, videoId);
+      })
+      .catch(function(e){
+        showErr(e.message || "Terjadi error. Coba lagi.");
+      })
+      .then(function(){ setBusy(false); });
+  });
 })();
 </script>
 
