@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>AI Momen Finder — BiB Tools</title>
-<meta name="description" content="Tempel transkrip video panjang, AI langsung menandai momen lucu, epic, dan aha lengkap dengan timestamp + saran hook. Gratis, tanpa install, tanpa login.">
+<meta name="description" content="Tempel link YouTube, AI nonton videonya dan langsung menandai momen lucu, epic, dan aha lengkap dengan timestamp + saran hook. Gratis, tanpa install, tanpa login.">
 <meta name="theme-color" content="#0B0C0E">
 <link rel="icon" href="/favicon.png">
 <meta property="og:title" content="AI Momen Finder — BiB Tools">
-<meta property="og:description" content="AI nemuin momen viral dari podcast 2 jam dalam 20 detik — gratis.">
+<meta property="og:description" content="Tempel link YouTube — AI nemuin momen viralnya buat kamu. Gratis.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -226,7 +226,7 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
   <div class="wrap">
     <span class="eyebrow">Gratis · Tanpa Install · Tanpa Login</span>
     <h1>AI Momen <span class="hl">Finder</span></h1>
-    <p>Tempel transkrip video panjang — AI langsung nemuin <strong>momen lucu, epic, dan aha</strong> lengkap dengan timestamp + saran hook. Podcast 2 jam, beres 20 detik.</p>
+    <p>Tempel link YouTube — AI <strong>nonton videonya</strong> dan nemuin <strong>momen lucu, epic, dan aha</strong> lengkap dengan timestamp + saran hook. Tanpa download, tanpa ribet.</p>
   </div>
 </div>
 
@@ -252,25 +252,35 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
     </details>
   </div>
 
-  <!-- STEP 2: TRANSCRIPT -->
+  <!-- STEP 2: VIDEO -->
   <div class="card">
-    <h2><span class="step-no">2</span> Tempel transkrip videonya</h2>
-    <textarea id="tr" placeholder="Tempel transkrip YouTube di sini (lengkap dengan angka waktunya, contoh:&#10;12:34&#10;terus gua bilang ke dia...)"></textarea>
-    <div style="margin-top:12px;">
-      <label>Link video (opsional — biar tiap momen bisa langsung dibuka)</label>
-      <input type="text" id="url" placeholder="https://youtube.com/watch?v=..." inputmode="url">
+    <h2><span class="step-no">2</span> Kasih videonya</h2>
+    <label>Link video YouTube</label>
+    <input type="text" id="url" placeholder="https://youtube.com/watch?v=..." inputmode="url" autocomplete="off">
+
+    <div class="chips" style="margin-top:14px;">
+      <span class="chip mtab on" data-m="link">🤖 Otomatis — AI nonton videonya</span>
+      <span class="chip mtab" data-m="tr">📋 Manual — tempel transkrip</span>
     </div>
-    <details style="margin-top:12px;border-radius:10px;">
-      <summary>📋 Cara copy transkrip dari YouTube (30 detik)</summary>
-      <div class="inner">
-        <ol>
-          <li>Buka videonya di <strong>app YouTube</strong> → tap judul/deskripsi → scroll ke bawah → tap <strong>"Tampilkan transkrip"</strong>.</li>
-          <li>Tekan-tahan di teks transkrip → <strong>Pilih semua</strong> → <strong>Salin</strong>.</li>
-          <li>Kalau di app susah: buka videonya di <strong>Chrome</strong> (mode desktop), transkripnya bisa diblok dan disalin biasa.</li>
-          <li>Tempel di kolom atas. Pastikan <strong>angka waktunya ikut kesalin</strong> (12:34 dst) — itu yang dipakai AI buat nunjukin lokasi momen.</li>
-        </ol>
-      </div>
-    </details>
+
+    <div id="paneLink">
+      <div class="muted-note">Videonya harus <strong>publik</strong>. Proses ±1 menit. Kalau videonya super panjang (&gt;2 jam) dan gagal, ganti ke mode manual.</div>
+    </div>
+
+    <div id="paneTr" style="display:none;">
+      <textarea id="tr" style="margin-top:10px;" placeholder="Tempel transkrip YouTube di sini (lengkap dengan angka waktunya, contoh:&#10;12:34&#10;terus gua bilang ke dia...)"></textarea>
+      <details style="margin-top:12px;border-radius:10px;">
+        <summary>📋 Cara copy transkrip dari YouTube (30 detik)</summary>
+        <div class="inner">
+          <ol>
+            <li>Buka videonya di <strong>app YouTube</strong> → tap judul/deskripsi → scroll ke bawah → tap <strong>"Tampilkan transkrip"</strong>.</li>
+            <li>Tekan-tahan di teks transkrip → <strong>Pilih semua</strong> → <strong>Salin</strong>.</li>
+            <li>Kalau di app susah: buka videonya di <strong>Chrome</strong> (mode desktop), transkripnya bisa diblok dan disalin biasa.</li>
+            <li>Tempel di kolom atas. Pastikan <strong>angka waktunya ikut kesalin</strong> (12:34 dst) — itu yang dipakai AI buat nunjukin lokasi momen.</li>
+          </ol>
+        </div>
+      </details>
+    </div>
   </div>
 
   <!-- STEP 3: OPTIONS + RUN -->
@@ -378,47 +388,83 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
   });
   refreshKeyUI();
 
-  /* ---------- chips ---------- */
+  /* ---------- chips & mode ---------- */
+  var mode = "link";
   $("#chips").addEventListener("click", function(e){
     var c = e.target.closest(".chip");
     if(c) c.classList.toggle("on");
   });
+  $$(".mtab").forEach(function(t){
+    t.addEventListener("click", function(){
+      $$(".mtab").forEach(function(x){ x.classList.remove("on"); });
+      t.classList.add("on");
+      mode = t.dataset.m;
+      $("#paneLink").style.display = mode === "link" ? "block" : "none";
+      $("#paneTr").style.display = mode === "tr" ? "block" : "none";
+      t.classList.add("on");
+    });
+  });
 
   /* ---------- AI call ---------- */
-  function buildPrompt(transcript, kinds, n, niche){
-    return "Kamu adalah editor senior akun clipper Indonesia yang jago menemukan momen viral dari video panjang.\n\n"
-      + "TUGAS: Baca transkrip YouTube berikut (ada timestamp-nya), lalu temukan " + n + " momen paling berpotensi viral untuk dijadikan klip pendek TikTok/Shorts (durasi ideal 20-60 detik).\n"
+  function promptRules(kinds, n, niche){
+    return "TUGAS: Temukan " + n + " momen paling berpotensi viral untuk dijadikan klip pendek TikTok/Shorts (durasi ideal 20-60 detik).\n"
       + "Jenis momen yang dicari: " + kinds.join(", ") + ".\n"
       + (niche ? "Konteks niche audiens: " + niche + ".\n" : "")
       + "\nATURAN:\n"
-      + "- Gunakan timestamp yang benar-benar ada di transkrip untuk field start (format persis seperti di transkrip, mis. 12:34 atau 1:02:45).\n"
+      + "- start = timestamp asli momen itu di video (format 12:34 atau 1:02:45).\n"
       + "- end = perkiraan akhir momen (start + 20 sampai 60 detik).\n"
       + "- tag harus salah satu dari: " + kinds.join(", ") + ".\n"
       + "- hook = saran kalimat hook 3 detik pertama dalam bahasa Indonesia gaul yang bikin orang berhenti scroll (bukan clickbait bohong).\n"
-      + "- quote = kutipan singkat kalimat kunci dari transkrip di momen itu.\n"
+      + "- quote = kutipan singkat kalimat kunci yang diucapkan di momen itu.\n"
       + "- alasan = 1 kalimat kenapa momen ini berpotensi viral.\n"
       + "- Urutkan dari yang paling berpotensi viral.\n"
-      + "- Jawab HANYA dengan JSON array valid, tanpa teks lain, dengan struktur: [{\"start\":\"12:34\",\"end\":\"13:05\",\"tag\":\"LUCU\",\"hook\":\"...\",\"quote\":\"...\",\"alasan\":\"...\"}]\n"
+      + "- Jawab HANYA dengan JSON array valid, tanpa teks lain, dengan struktur: [{\"start\":\"12:34\",\"end\":\"13:05\",\"tag\":\"LUCU\",\"hook\":\"...\",\"quote\":\"...\",\"alasan\":\"...\"}]";
+  }
+  function buildPartsFromTranscript(transcript, kinds, n, niche){
+    var p = "Kamu adalah editor senior akun clipper Indonesia yang jago menemukan momen viral dari video panjang.\n\n"
+      + "Baca transkrip YouTube berikut (ada timestamp-nya).\n"
+      + promptRules(kinds, n, niche)
+      + "\n- Gunakan timestamp yang benar-benar ada di transkrip untuk field start.\n"
       + "\nTRANSKRIP:\n" + transcript;
+    return [{ text: p }];
+  }
+  function buildPartsFromVideo(videoUrl, kinds, n, niche){
+    var p = "Kamu adalah editor senior akun clipper Indonesia yang jago menemukan momen viral dari video panjang.\n\n"
+      + "Tonton video YouTube terlampir dari awal sampai akhir.\n"
+      + promptRules(kinds, n, niche);
+    return [
+      { file_data: { file_uri: videoUrl } },
+      { text: p }
+    ];
   }
 
-  function callGemini(key, prompt, modelIdx){
+  function callGemini(key, parts, lowRes, modelIdx){
     modelIdx = modelIdx || 0;
     if(modelIdx >= MODELS.length) return Promise.reject(new Error("Semua model gagal dihubungi."));
+    var gen = { temperature: 0.4, responseMimeType: "application/json" };
+    if(lowRes) gen.mediaResolution = "MEDIA_RESOLUTION_LOW";
     var url = "https://generativelanguage.googleapis.com/v1beta/models/" + MODELS[modelIdx] + ":generateContent?key=" + encodeURIComponent(key);
     return fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, responseMimeType: "application/json" }
-      })
+      body: JSON.stringify({ contents: [{ parts: parts }], generationConfig: gen })
     }).then(function(res){
-      if(res.status === 404) return callGemini(key, prompt, modelIdx + 1);
-      if(res.status === 400 || res.status === 403) throw new Error("API key ditolak. Cek lagi key kamu di aistudio.google.com/apikey lalu simpan ulang.");
-      if(res.status === 429) throw new Error("Kena limit gratis untuk sementara. Tunggu 1-2 menit lalu coba lagi.");
-      if(!res.ok) throw new Error("Server AI error (" + res.status + "). Coba lagi sebentar lagi.");
-      return res.json();
+      if(res.status === 404) return callGemini(key, parts, lowRes, modelIdx + 1);
+      if(res.ok) return res.json();
+      return res.json().catch(function(){ return {}; }).then(function(j){
+        var msg = (j && j.error && j.error.message) || "";
+        if(lowRes && res.status === 400 && /media.?resolution|unknown name/i.test(msg))
+          return callGemini(key, parts, false, modelIdx); // ulangi tanpa opsi resolusi
+        if(/api key|api_key/i.test(msg) || res.status === 403 || (res.status === 400 && /key/i.test(msg)))
+          throw new Error("API key ditolak. Cek lagi key kamu di aistudio.google.com/apikey lalu simpan ulang.");
+        if(res.status === 429)
+          throw new Error("Kena limit gratis untuk sementara. Tunggu 1-2 menit lalu coba lagi.");
+        if(/token|context|too long|exceeds|duration/i.test(msg))
+          throw new Error("Videonya kepanjangan untuk mode otomatis. Ganti ke mode 📋 Manual (tempel transkrip) — itu pasti jalan.");
+        if(/not found|unsupported|private|unavailable/i.test(msg) && res.status !== 404)
+          throw new Error("Video tidak bisa diakses AI. Pastikan videonya publik (bukan private/membership), atau pakai mode manual.");
+        throw new Error("Server AI error (" + res.status + ")" + (msg ? ": " + msg.slice(0,140) : "") + ". Coba lagi.");
+      });
     });
   }
 
@@ -485,7 +531,9 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
     var btn = $("#run");
     btn.disabled = b;
     btn.classList.toggle("busy", b);
-    $("#runLabel").textContent = b ? "AI lagi baca transkripnya…" : "🔍 Cari Momen Emas";
+    $("#runLabel").textContent = b
+      ? (mode === "link" ? "AI lagi nonton videonya… (±1 menit)" : "AI lagi baca transkripnya…")
+      : "🔍 Cari Momen Emas";
   }
   function showErr(msg){
     var e = $("#err");
@@ -499,10 +547,6 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
     var key = localStorage.getItem(KEY_LS) || $("#key").value.trim();
     if(!key){ showErr("Pasang dulu API key gratis kamu di langkah 1 (cuma 2 menit)."); return; }
 
-    var tr = $("#tr").value.trim();
-    if(tr.length < 200){ showErr("Transkripnya masih kosong / kependekan. Copy transkrip lengkap dari YouTube dulu (langkah 2)."); return; }
-    if(!/\d+:\d{2}/.test(tr)){ showErr("Tidak ada timestamp (mis. 12:34) di transkrip. Copy ulang — pastikan angka waktunya ikut kesalin."); return; }
-
     var kinds = [];
     $$("#chips .chip.on").forEach(function(c){ kinds.push(c.dataset.v); });
     if(!kinds.length){ showErr("Pilih minimal satu jenis momen."); return; }
@@ -510,13 +554,23 @@ footer{text-align:center;padding:36px 18px;color:var(--muted);font-size:.85rem}
     var n = $("#n").value;
     var niche = $("#niche").value.trim();
     var videoId = parseYouTubeId($("#url").value);
-    // batasi transkrip super panjang (aman untuk free tier)
-    if(tr.length > 400000) tr = tr.slice(0, 400000);
+    var parts, lowRes = false;
+
+    if(mode === "link"){
+      if(!videoId){ showErr("Tempel dulu link YouTube yang valid di langkah 2."); return; }
+      parts = buildPartsFromVideo("https://www.youtube.com/watch?v=" + videoId, kinds, n, niche);
+      lowRes = true; // hemat kapasitas biar video panjang tetap muat
+    } else {
+      var tr = $("#tr").value.trim();
+      if(tr.length < 200){ showErr("Transkripnya masih kosong / kependekan. Copy transkrip lengkap dari YouTube dulu (langkah 2)."); return; }
+      if(!/\d+:\d{2}/.test(tr)){ showErr("Tidak ada timestamp (mis. 12:34) di transkrip. Copy ulang — pastikan angka waktunya ikut kesalin."); return; }
+      if(tr.length > 400000) tr = tr.slice(0, 400000);
+      parts = buildPartsFromTranscript(tr, kinds, n, niche);
+    }
 
     setBusy(true);
-    callGemini(key, buildPrompt(tr, kinds, n, niche))
+    callGemini(key, parts, lowRes)
       .then(function(data){
-        // handle recursive model fallback resolving to array already
         var arr = Array.isArray(data) ? data : extractJSON(data);
         render(arr, videoId);
       })
