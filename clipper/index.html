@@ -142,9 +142,9 @@ body {
   opacity: 0.7;
 }
 
-/* Lampu Gantung */
+/* Lampu Gantung — tetap menggantung (fixed), tidak ikut ter-scroll */
 .lamp {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 26px;
   width: 40px;
@@ -161,7 +161,8 @@ body {
   width: 2px;
   height: 72px;
   margin: 0 auto;
-  background: linear-gradient(#3A3F47, #2A2E35);
+  background: #F4F5F6;               /* tali putih */
+  box-shadow: 0 0 2px rgba(255,255,255,0.35);
 }
 .lamp-shade {
   width: 38px;
@@ -173,27 +174,34 @@ body {
   clip-path: polygon(26% 0, 74% 0, 100% 100%, 0 100%);
 }
 .lamp-bulb {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  margin: -6px auto 0;
+  margin: -5px auto 0;              /* nempel di mulut kap lampu */
   background: #1A1D22;
   border: 1px solid #2A2E35;
+  position: relative;
+  z-index: 2;
   transition: background 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
 }
+/* cahaya keluar PERSIS dari titik bulb — dipusatkan absolut ke sumbu lampu */
 .lamp-cone {
-  width: 90px;
-  height: 150px;
-  margin: -6px auto 0;
-  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
-  background: linear-gradient(180deg, rgba(118,185,0,0.22), rgba(118,185,0,0));
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 116px;
+  height: 168px;
+  clip-path: polygon(49% 0, 51% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(118,185,0,0.30) 0%, rgba(118,185,0,0) 82%);
   opacity: 0;
+  filter: blur(0.6px);
   transition: opacity 0.6s ease;
 }
 .lamp.lit .lamp-bulb {
-  background: radial-gradient(circle at 40% 35%, #ECFFC0, #76B900);
+  background: radial-gradient(circle at 42% 36%, #ECFFC0, #76B900);
   border-color: #9BDC2E;
-  box-shadow: 0 0 12px #9BDC2E, 0 0 28px rgba(118,185,0,0.75), 0 0 46px rgba(118,185,0,0.4);
+  box-shadow: 0 0 10px #9BDC2E, 0 0 24px rgba(118,185,0,0.8), 0 0 44px rgba(118,185,0,0.45);
 }
 .lamp.lit .lamp-cone { opacity: 1; }
 
