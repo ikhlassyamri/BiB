@@ -278,6 +278,16 @@ footer a{color:var(--muted)}
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
 
+  /* ============================================================
+     GANTI baris di bawah dengan URL Cloudflare Worker kamu setelah
+     deploy (lihat folder workers/pinterest/README.md). Contoh:
+       var WORKER = "https://pinterest-downloader.ikhlas.workers.dev";
+     Selama masih berisi "GANTI-INI", situs otomatis pakai proxy publik
+     sebagai cadangan (best-effort).
+     ============================================================ */
+  var WORKER = "https://pinterest-downloader.GANTI-INI.workers.dev";
+  var WORKER_ON = WORKER.indexOf("GANTI-INI") === -1;
+
   /* ---------- util ---------- */
   function setStatus(msg, type){
     var el = $("#status");
@@ -292,7 +302,10 @@ footer a{color:var(--muted)}
     $("#goLabel").textContent = b ? "Mengambil…" : "Download";
   }
   function isPinterest(u){
-    return /(^|\.)pinterest\.[a-z.]+\//i.test(u) || /(^|\.)pin\.it\//i.test(u);
+    try {
+      var h = new URL(u).hostname.toLowerCase();
+      return /(^|\.)pinterest\.[a-z.]+$/.test(h) || /(^|\.)pin\.it$/.test(h);
+    } catch(e){ return false; }
   }
 
   /* ---------- proxy fetch (situs statis butuh proxy CORS) ---------- */
@@ -335,6 +348,32 @@ footer a{color:var(--muted)}
 
   var currentMp4 = "";
 
+  /* ---------- resolve: Worker dulu (andal), fallback proxy publik ---------- */
+  function resolveVideo(url){
+    if(WORKER_ON){
+      return fetch(WORKER + "/resolve?url=" + encodeURIComponent(url))
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if(d && d.ok && d.video) return d.video;
+          throw new Error(d && d.error ? d.error : "gagal");
+        })
+        .catch(function(){
+          // Worker bermasalah -> coba proxy publik
+          return fetchText(url).then(function(html){
+            var mp4 = extractMp4(html);
+            if(!mp4) throw new Error("Video tidak ditemukan.");
+            return mp4;
+          });
+        });
+    }
+    // Worker belum di-set -> proxy publik
+    return fetchText(url).then(function(html){
+      var mp4 = extractMp4(html);
+      if(!mp4) throw new Error("Video tidak ditemukan.");
+      return mp4;
+    });
+  }
+
   function handle(){
     clearStatus();
     $("#result").className = "result";
@@ -346,33 +385,39 @@ footer a{color:var(--muted)}
     setBusy(true);
     setStatus("Mengambil data video dari Pinterest…", "info");
 
-    fetchText(url).then(function(html){
-      var mp4 = extractMp4(html);
-      if(!mp4){
-        setStatus("Video tidak ditemukan. Pastikan link-nya benar-benar pin VIDEO (bukan gambar), dan coba lagi.", "err");
-        setBusy(false);
-        return;
-      }
+    resolveVideo(url).then(function(mp4){
       currentMp4 = mp4;
       clearStatus();
-      var v = $("#preview");
-      v.src = mp4;
+      $("#preview").src = mp4;
       $("#openTab").onclick = function(){ window.open(mp4, "_blank"); };
       $("#download").onclick = function(e){ e.preventDefault(); saveVideo(mp4); };
       $("#download").href = mp4;
       $("#result").className = "result show";
       $("#result").scrollIntoView({ behavior:"smooth", block:"center" });
       setBusy(false);
-    }).catch(function(){
-      setStatus("Gagal mengambil video. Server pengunduh sedang sibuk — tunggu sebentar lalu coba lagi, atau coba link lain.", "err");
+    }).catch(function(err){
+      var msg = (err && err.message) ? err.message : "Gagal mengambil video.";
+      if(/tidak ditemukan/i.test(msg)){
+        setStatus("Video tidak ditemukan. Pastikan link-nya benar-benar pin VIDEO (bukan gambar).", "err");
+      } else {
+        setStatus("Gagal mengambil video. Coba lagi sebentar, atau pastikan link-nya benar.", "err");
+      }
       setBusy(false);
     });
   }
 
   /* ---------- simpan video ---------- */
   function saveVideo(mp4){
+    // Jalur andal: Worker /download memaksa "save as" langsung (paling mulus di HP)
+    if(WORKER_ON){
+      var a = document.createElement("a");
+      a.href = WORKER + "/download?name=pinterest-video&url=" + encodeURIComponent(mp4);
+      a.setAttribute("download", "pinterest-video.mp4");
+      document.body.appendChild(a); a.click(); a.remove();
+      return;
+    }
+    // Tanpa Worker: coba blob langsung, lalu proxy, terakhir buka tab
     setStatus("Menyiapkan file… (video besar mungkin butuh beberapa detik)", "info");
-    // coba unduh langsung sebagai blob; kalau CORS memblokir, lewat proxy; kalau tetap gagal, buka tab
     fetch(mp4).then(function(r){ if(!r.ok) throw 0; return r.blob(); })
       .catch(function(){
         return fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(mp4)).then(function(r){ return r.blob(); });

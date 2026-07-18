@@ -1,0 +1,7 @@
+name = "pinterest-downloader"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Setelah `wrangler deploy`, Worker akan tersedia di:
+#   https://pinterest-downloader.<subdomain-kamu>.workers.dev
+# Salin URL itu ke konstanta WORKER di /pinterest-downloader/index.html
