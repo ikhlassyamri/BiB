@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pinterest Video Downloader — Download Video Pinterest Gratis | BiB</title>
+<meta name="description" content="Download video Pinterest gratis tanpa watermark. Tempel link videonya, klik download, selesai. Cepat, tanpa install, langsung dari HP.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="/favicon.png">
+<meta property="og:title" content="Pinterest Video Downloader — Gratis, Tanpa Install">
+<meta property="og:description" content="Tempel link video Pinterest, klik download, selesai. Gratis dari HP kamu.">
+<meta property="og:image" content="https://joinbib.id/pinterest-downloader/og-pinterest-downloader.jpg">
+<meta property="og:url" content="https://joinbib.id/pinterest-downloader">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0C0E;
+  --panel:#141013;
+  --panel-2:#0F0C0E;
+  --line:#2A2226;
+  --line-soft:#1C1619;
+  --text:#F4F5F6;
+  --muted:#A79AA0;
+  --red:#E60023;
+  --red-hi:#FF3355;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--text);
+  font-family:var(--body);font-size:1rem;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--red);color:#fff}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* header */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--line-soft);background:#08060700;
+  position:relative;z-index:10;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:22px;width:auto;opacity:.92}
+.brand b{font-family:var(--disp);font-weight:700;font-size:1rem}
+.hdr a.back{font-size:.85rem;color:var(--muted);text-decoration:none}
+.hdr a.back:hover{color:#fff}
+
+/* hero */
+.hero{padding:44px 0 20px;text-align:center;position:relative}
+.hero::after{
+  content:"";position:absolute;left:0;right:0;top:-40px;height:280px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(230,0,35,.16),transparent 62%);
+  pointer-events:none;
+}
+.pin-logo{
+  width:72px;height:72px;margin:0 auto 20px;position:relative;z-index:1;
+  filter:drop-shadow(0 8px 24px rgba(230,0,35,.4));
+}
+h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.7rem,6vw,2.3rem);line-height:1.18;letter-spacing:-.02em;
+  position:relative;z-index:1;
+}
+h1 .r{color:var(--red-hi)}
+.hero p{color:var(--muted);max-width:440px;margin:14px auto 0;font-size:.98rem;position:relative;z-index:1}
+
+/* downloader box */
+.box{
+  background:var(--panel);border:1px solid var(--line);border-radius:20px;
+  padding:22px;margin:28px 0 16px;
+}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{
+  flex:1;min-width:180px;background:var(--ink);border:1px solid var(--line);
+  border-radius:12px;color:var(--text);font-family:var(--body);font-size:.98rem;
+  padding:15px 16px;outline:none;
+}
+input[type=text]:focus{border-color:var(--red)}
+input[type=text]::placeholder{color:#6E6169}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--red);color:#fff;
+  font-family:var(--disp);font-weight:700;font-size:1rem;
+  padding:15px 26px;border-radius:12px;border:none;cursor:pointer;white-space:nowrap;
+  transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(230,0,35,.35);background:#FF0A2E}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-block{width:100%;margin-top:12px}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{background:var(--panel-2);border-color:#3A2E33;box-shadow:none}
+.hint{font-size:.82rem;color:var(--muted);margin-top:12px;text-align:center}
+.paste-row{display:flex;justify-content:center;margin-top:12px}
+.link-btn{
+  background:none;border:none;color:var(--red-hi);font-family:var(--disp);
+  font-weight:600;font-size:.86rem;cursor:pointer;
+}
+
+/* spinner */
+.spin{
+  width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  border-radius:50%;animation:sp 1s linear infinite;display:none;
+}
+.loading .spin{display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* status / error */
+.status{
+  display:none;margin-top:14px;border-radius:12px;padding:13px 16px;font-size:.9rem;
+}
+.status.show{display:block}
+.status.err{background:#20090C;border:1px solid #4A1620;color:#F2A9B3}
+.status.info{background:#0E1418;border:1px solid #223038;color:#9CC6D6}
+
+/* result */
+.result{display:none;margin-top:16px}
+.result.show{display:block}
+.result video{
+  width:100%;border-radius:14px;border:1px solid var(--line);
+  background:#000;max-height:420px;
+}
+.res-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.res-actions .btn{flex:1}
+
+/* steps */
+.steps{margin:30px 0}
+.steps h2{
+  font-family:var(--disp);font-weight:700;font-size:1.1rem;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.steps h2::before{content:"";width:10px;height:10px;background:var(--red)}
+.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.step .n{
+  flex:none;width:26px;height:26px;border-radius:50%;
+  background:var(--red);color:#fff;font-family:var(--disp);font-weight:700;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.step p{color:var(--muted);font-size:.94rem;margin:0}
+.step p strong{color:#fff}
+
+/* section title */
+.sec-title{
+  font-family:var(--disp);font-weight:700;font-size:1.15rem;margin:36px 0 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::before{content:"";width:10px;height:10px;background:var(--red)}
+
+/* articles */
+.articles{display:grid;gap:12px}
+.article{
+  display:flex;align-items:center;gap:14px;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;text-decoration:none;
+  transition:border-color .2s ease,transform .2s ease;
+}
+.article:hover{border-color:var(--red);transform:translateY(-1px)}
+.article .a-ic{
+  flex:none;width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,#2A1015,#140B0D);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.article .a-txt b{display:block;font-family:var(--disp);font-weight:600;color:#fff;font-size:.98rem;line-height:1.35}
+.article .a-txt span{font-size:.82rem;color:var(--muted)}
+.article .a-go{margin-left:auto;color:var(--red-hi);font-weight:700;flex:none}
+.articles-loading{color:var(--muted);font-size:.9rem;text-align:center;padding:10px 0}
+
+/* iklan BiB */
+.bib-ad{
+  background:linear-gradient(135deg,#1A0B0E 0%,var(--panel) 60%);
+  border:1px solid var(--line);border-radius:20px;
+  padding:28px 24px;text-align:center;margin:20px 0 0;position:relative;overflow:hidden;
+}
+.bib-ad::after{
+  content:"";position:absolute;right:-20%;top:0;bottom:0;width:70%;
+  background:radial-gradient(ellipse at 80% 50%,rgba(230,0,35,.12),transparent 62%);
+  pointer-events:none;
+}
+.bib-ad .kicker{
+  font-family:var(--disp);font-weight:600;font-size:.74rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--red-hi);margin-bottom:10px;position:relative;z-index:1;
+}
+.bib-ad h3{font-family:var(--disp);font-weight:700;font-size:1.35rem;color:#fff;margin-bottom:10px;line-height:1.3;position:relative;z-index:1}
+.bib-ad p{color:var(--muted);font-size:.94rem;margin-bottom:20px;position:relative;z-index:1}
+.bib-ad a{
+  position:relative;z-index:1;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:#fff;color:var(--ink);font-family:var(--disp);font-weight:700;font-size:1rem;
+  padding:14px 28px;border-radius:100px;text-decoration:none;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.bib-ad a:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.15)}
+
+footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:.85rem}
+footer a{color:var(--muted)}
+.disclaimer{font-size:.78rem;color:#6E6169;margin-top:10px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a href="/" class="brand">
+    <img src="/logo-white.png" alt="BiB">
+  </a>
+  <a href="/" class="back">← joinbib.id</a>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <img src="pinterest-logo.png" alt="Pinterest" class="pin-logo">
+    <h1>Pinterest <span class="r">Video</span> Downloader</h1>
+    <p>Tempel link video Pinterest, klik download — selesai. Gratis, tanpa install, langsung dari HP.</p>
+  </div>
+</div>
+
+<main class="wrap" style="padding-bottom:20px;">
+
+  <!-- DOWNLOADER -->
+  <div class="box">
+    <div class="field">
+      <input type="text" id="url" placeholder="Tempel link video Pinterest (pin.it / pinterest.com)…" inputmode="url" autocomplete="off" spellcheck="false">
+      <button class="btn" id="go"><span class="spin"></span><span id="goLabel">Download</span></button>
+    </div>
+    <div class="paste-row">
+      <button class="link-btn" id="paste">📋 Tempel dari clipboard</button>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="result" id="result">
+      <video id="preview" controls playsinline></video>
+      <div class="res-actions">
+        <a class="btn" id="download">⬇ Simpan Video</a>
+        <button class="btn btn-ghost" id="openTab">Buka di Tab Baru</button>
+      </div>
+      <div class="hint">Kalau tombol simpan tidak jalan di HP: buka di tab baru → tekan-tahan videonya → <strong>Simpan video</strong>.</div>
+    </div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <h2>Cara Pakai (10 detik)</h2>
+    <div class="step"><span class="n">1</span><p>Buka aplikasi <strong>Pinterest</strong>, cari video yang mau diunduh.</p></div>
+    <div class="step"><span class="n">2</span><p>Tap ikon <strong>bagikan (share)</strong> → <strong>Salin tautan / Copy link</strong>.</p></div>
+    <div class="step"><span class="n">3</span><p>Tempel di kolom atas, tekan <strong>Download</strong>, lalu simpan videonya.</p></div>
+  </div>
+
+  <!-- ARTIKEL TERBARU (otomatis dari sitemap) -->
+  <div class="sec-title">Artikel Terbaru dari BiB</div>
+  <div class="articles" id="articles">
+    <div class="articles-loading">Memuat artikel…</div>
+  </div>
+
+  <!-- IKLAN BiB -->
+  <div class="bib-ad">
+    <div class="kicker">Bisnis in a Box</div>
+    <h3>Jangan cuma download — belajar cetak cuannya.</h3>
+    <p>BiB adalah sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, dan mentor seumur hidup. Skip coba-cobanya, pelajari polanya.</p>
+    <a href="/">Pelajari Sistem BiB →</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 BiB (Bisnis in a Box) · Tool gratis dari <a href="/">joinbib.id</a></p>
+  <p class="disclaimer">Gunakan hanya untuk video yang kamu miliki haknya atau untuk penggunaan pribadi yang wajar. Hormati hak cipta pembuat konten. BiB tidak menyimpan video apa pun — proses berjalan langsung di perangkatmu.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+
+  /* ---------- util ---------- */
+  function setStatus(msg, type){
+    var el = $("#status");
+    el.textContent = msg;
+    el.className = "status show " + (type || "info");
+  }
+  function clearStatus(){ $("#status").className = "status"; }
+  function setBusy(b){
+    var btn = $("#go");
+    btn.disabled = b;
+    btn.classList.toggle("loading", b);
+    $("#goLabel").textContent = b ? "Mengambil…" : "Download";
+  }
+  function isPinterest(u){
+    return /(^|\.)pinterest\.[a-z.]+\//i.test(u) || /(^|\.)pin\.it\//i.test(u);
+  }
+
+  /* ---------- proxy fetch (situs statis butuh proxy CORS) ---------- */
+  function proxies(u){
+    return [
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
+      "https://corsproxy.io/?url=" + encodeURIComponent(u),
+      "https://thingproxy.freeboard.io/fetch/" + u
+    ];
+  }
+  function fetchText(u){
+    var list = proxies(u), i = 0;
+    function tryNext(){
+      if(i >= list.length) return Promise.reject(new Error("Semua proxy gagal dihubungi."));
+      return fetch(list[i++]).then(function(r){
+        if(!r.ok) throw new Error("status " + r.status);
+        return r.text();
+      }).catch(tryNext);
+    }
+    return tryNext();
+  }
+
+  /* ---------- ekstraksi URL mp4 dari HTML pin ---------- */
+  function extractMp4(html){
+    var text = html.replace(/\\u002F/gi, "/").replace(/\\\//g, "/").replace(/&amp;/g, "&");
+    var re = /https:\/\/[^"'\\ )]+?\.mp4[^"'\\ )]*/g;
+    var set = {}, m;
+    while((m = re.exec(text))){ set[m[0]] = true; }
+    var urls = Object.keys(set);
+    if(!urls.length) return null;
+    function score(u){
+      var s = 0;
+      if(/1080/.test(u)) s = 4; else if(/720/.test(u)) s = 3;
+      else if(/480/.test(u)) s = 2; else if(/360/.test(u)) s = 1;
+      return s;
+    }
+    urls.sort(function(a,b){ return score(b) - score(a) || b.length - a.length; });
+    return urls[0];
+  }
+
+  var currentMp4 = "";
+
+  function handle(){
+    clearStatus();
+    $("#result").className = "result";
+    var url = $("#url").value.trim();
+    if(!url){ setStatus("Tempel dulu link video Pinterest-nya.", "err"); return; }
+    if(!/^https?:\/\//i.test(url)) url = "https://" + url;
+    if(!isPinterest(url)){ setStatus("Sepertinya itu bukan link Pinterest. Pastikan dari pinterest.com atau pin.it.", "err"); return; }
+
+    setBusy(true);
+    setStatus("Mengambil data video dari Pinterest…", "info");
+
+    fetchText(url).then(function(html){
+      var mp4 = extractMp4(html);
+      if(!mp4){
+        setStatus("Video tidak ditemukan. Pastikan link-nya benar-benar pin VIDEO (bukan gambar), dan coba lagi.", "err");
+        setBusy(false);
+        return;
+      }
+      currentMp4 = mp4;
+      clearStatus();
+      var v = $("#preview");
+      v.src = mp4;
+      $("#openTab").onclick = function(){ window.open(mp4, "_blank"); };
+      $("#download").onclick = function(e){ e.preventDefault(); saveVideo(mp4); };
+      $("#download").href = mp4;
+      $("#result").className = "result show";
+      $("#result").scrollIntoView({ behavior:"smooth", block:"center" });
+      setBusy(false);
+    }).catch(function(){
+      setStatus("Gagal mengambil video. Server pengunduh sedang sibuk — tunggu sebentar lalu coba lagi, atau coba link lain.", "err");
+      setBusy(false);
+    });
+  }
+
+  /* ---------- simpan video ---------- */
+  function saveVideo(mp4){
+    setStatus("Menyiapkan file… (video besar mungkin butuh beberapa detik)", "info");
+    // coba unduh langsung sebagai blob; kalau CORS memblokir, lewat proxy; kalau tetap gagal, buka tab
+    fetch(mp4).then(function(r){ if(!r.ok) throw 0; return r.blob(); })
+      .catch(function(){
+        return fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(mp4)).then(function(r){ return r.blob(); });
+      })
+      .then(function(blob){
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "pinterest-video.mp4";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+        clearStatus();
+      })
+      .catch(function(){
+        clearStatus();
+        window.open(mp4, "_blank");
+      });
+  }
+
+  /* ---------- events ---------- */
+  $("#go").addEventListener("click", handle);
+  $("#url").addEventListener("keydown", function(e){ if(e.key === "Enter") handle(); });
+  $("#paste").addEventListener("click", function(){
+    if(navigator.clipboard && navigator.clipboard.readText){
+      navigator.clipboard.readText().then(function(t){ $("#url").value = t.trim(); }, function(){});
+    } else { $("#url").focus(); }
+  });
+
+  /* ---------- artikel otomatis dari sitemap.xml ---------- */
+  // Ambil 3 URL terbaru (paling bawah = paling baru ditambahkan), lalu ambil judulnya.
+  // ambil halaman: coba URL apa adanya (extensionless jalan di GitHub Pages),
+  // kalau gagal coba tambah .html (buat robust di server lain)
+  function fetchPage(path){
+    var cands = [path];
+    if(!/\.html$/.test(path)) cands.push(path.replace(/\/$/, "") + ".html");
+    var i = 0;
+    function next(){
+      if(i >= cands.length) return Promise.reject();
+      return fetch(cands[i++], { cache: "no-store" }).then(function(r){
+        if(!r.ok) throw 0;
+        return r.text();
+      }).catch(next);
+    }
+    return next();
+  }
+  function loadArticles(){
+    fetch("/sitemap.xml", { cache: "no-store" }).then(function(r){ return r.text(); }).then(function(xml){
+      var doc = new DOMParser().parseFromString(xml, "application/xml");
+      var locs = [].slice.call(doc.querySelectorAll("url loc")).map(function(n){ return n.textContent.trim(); });
+      locs = locs.filter(function(u){
+        if(u.indexOf("pinterest-downloader") !== -1) return false;      // jangan tampilkan halaman ini
+        var path = u.replace(/https?:\/\/[^/]+/, "").replace(/\/$/, "");
+        if(!path) return false;                                          // buang homepage
+        if(/\/clipper$/.test(path)) return false;                        // buang halaman bio
+        return true;
+      });
+      var latest = locs.slice(-3).reverse();
+      if(!latest.length){ $("#articles").innerHTML = ""; return; }
+      Promise.all(latest.map(function(u){
+        var path = u.replace(/https?:\/\/[^/]+/, "");
+        return fetchPage(path).then(function(html){
+          var m = html.match(/<title>([^<]*)<\/title>/i);
+          var title = m ? m[1].split("—")[0].split("|")[0].trim() : path.replace(/\//g, " ").trim();
+          var dm = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
+          var desc = dm ? dm[1] : "";
+          if(desc.length > 70) desc = desc.slice(0, 67) + "…";
+          return { url: u, title: title, desc: desc };
+        }).catch(function(){ return { url: u, title: path, desc: "" }; });
+      })).then(function(items){
+        $("#articles").innerHTML = items.map(function(it){
+          return '<a class="article" href="' + it.url + '">'
+            + '<span class="a-ic">📄</span>'
+            + '<span class="a-txt"><b>' + esc(it.title) + '</b>' + (it.desc ? '<span>' + esc(it.desc) + '</span>' : '') + '</span>'
+            + '<span class="a-go">→</span></a>';
+        }).join("");
+      });
+    }).catch(function(){
+      $("#articles").innerHTML = '<div class="articles-loading">Buka <a href="/" style="color:var(--red-hi)">joinbib.id</a> untuk artikel terbaru.</div>';
+    });
+  }
+  function esc(s){
+    return String(s || "").replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  loadArticles();
+})();
+</script>
+
+</body>
+</html>
