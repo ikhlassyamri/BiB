@@ -6,10 +6,12 @@
     <title>Sutradara Digital - Cara Bikin E-Book Jutaan Rupiah</title>
     <!-- Favicon / Meta Tags -->
     <meta name="description" content="Cara Bikin e-Book, bernilai Jutaan Rupiah, Tanpa Kamu Harus Ngerti Cara Menulis! +100 Halaman Selesai Dalam 1 Hari!">
-    <!-- Fonts -->
+    
+    <!-- Mengubah Font menjadi Inter agar sama dengan LP Clipper -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,11 +19,11 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'], // Font diupdate di sini
                     },
                     colors: {
                         ikhlas: {
-                            green: '#84cc16', // Lime-500 matching the reference
+                            green: '#84cc16', // Lime-500
                             dark: '#0a0a0a',
                             card: '#171717',
                             gray: '#262626'
@@ -49,8 +51,8 @@
         <div class="inline-block border border-ikhlas-green text-ikhlas-green px-4 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase mb-6 bg-ikhlas-green/10">
             +100 Halaman Selesai Dalam 1 Hari!
         </div>
-        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
-            Cara Bikin e-Book, bernilai <span class="text-ikhlas-green underline decoration-4 underline-offset-8">Jutaan Rupiah</span>, Tanpa Kamu Harus Ngerti Cara Menulis!
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
+            Cara Bikin e-Book, bernilai <span class="bg-ikhlas-green text-black px-2 rounded-lg">Jutaan Rupiah</span>, Tanpa Kamu Harus Ngerti Cara Menulis!
         </h1>
         
         <p class="text-xl md:text-2xl font-medium text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
@@ -229,5 +231,5 @@
     </footer>
 
 </body>
-          </html>
-  
+                        </html>
+                        
