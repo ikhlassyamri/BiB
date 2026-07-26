@@ -33,6 +33,11 @@
             }
         }
     </script>
+    <style>
+        /* Sembunyikan scrollbar agar rapi tapi tetap bisa digeser */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
 <body class="bg-ikhlas-dark text-gray-200 font-sans antialiased selection:bg-ikhlas-green selection:text-black">
 
@@ -158,45 +163,46 @@
     <!-- Testimonial & Slider Section -->
     <section class="py-20 bg-ikhlas-gray border-y border-gray-800 px-4 overflow-hidden">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-8">Apa Kata Mereka yang Sudah Membuktikan?</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-20 md:mb-24">Apa Kata Mereka yang Sudah Membuktikan?</h2>
             
-            <!-- AUTO-SLIDER CONTOH E-BOOK (Diperbaiki agar 100% jalan ke kiri) -->
-            <div class="max-w-xs md:max-w-sm mx-auto overflow-hidden rounded-2xl shadow-2xl border border-gray-700 mb-12 bg-black">
-                <!-- Flex container yang membungkus gambar -->
-                <div id="slider-container" class="flex w-full transition-transform duration-500 ease-in-out">
-                    <!-- class min-w-full memastikan tiap gambar ukurannya pas 1 container (tidak tertumpuk) -->
-                    <img src="IMG_20260726_212313.jpg" class="min-w-full h-auto object-cover" alt="Contoh E-Book 1">
-                    <img src="IMG_20260726_212403.jpg" class="min-w-full h-auto object-cover" alt="Contoh E-Book 2">
-                    <img src="IMG_20260726_212422.jpg" class="min-w-full h-auto object-cover" alt="Contoh E-Book 3">
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Testi 1 -->
-                <div class="bg-ikhlas-card p-6 rounded-2xl border border-gray-700">
-                    <div class="flex text-yellow-400 mb-4">
+            <div class="grid md:grid-cols-3 gap-x-6 gap-y-16">
+                <!-- Testi 1 (DENGAN SLIDER EBOOK DI ATASNYA) -->
+                <div class="bg-ikhlas-card p-6 md:p-8 rounded-2xl border border-gray-700 relative flex flex-col mt-8 md:mt-0">
+                    
+                    <!-- AREA SLIDER EBOOK (Posisi ditarik ke atas card dengan negatif margin) -->
+                    <div class="w-11/12 mx-auto -mt-20 md:-mt-24 mb-6 rounded-xl overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.5)] border border-gray-600 bg-white shrink-0">
+                        <!-- Container Scroll (Bisa swipe manual + jalan otomatis) -->
+                        <div id="slider-container" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll w-full scroll-smooth">
+                            <img src="IMG_20260726_212313.jpg" class="min-w-full w-full h-auto object-cover snap-center" alt="Contoh E-Book 1">
+                            <img src="IMG_20260726_212403.jpg" class="min-w-full w-full h-auto object-cover snap-center" alt="Contoh E-Book 2">
+                            <img src="IMG_20260726_212422.jpg" class="min-w-full w-full h-auto object-cover snap-center" alt="Contoh E-Book 3">
+                        </div>
+                    </div>
+
+                    <!-- Teks Testimoni -->
+                    <div class="flex text-yellow-400 mb-4 text-lg">
                         ★★★★★
                     </div>
                     <p class="text-gray-300 mb-6 font-normal text-sm md:text-base italic">"Awalnya saya kira bikin ebook itu butuh waktu berbulan-bulan. Pakai strategi di Sutradara Digital, di sela-sela jam istirahat kantor pun saya bisa nyicil bikin aset digital. Sangat life-saving buat pekerja sibuk!"</p>
-                    <div class="font-bold text-white text-sm">— Herman, Pekerja Kantoran</div>
+                    <div class="font-bold text-white text-base mt-auto">— Herman, Pekerja Kantoran</div>
                 </div>
                 
                 <!-- Testi 2 -->
-                <div class="bg-ikhlas-card p-6 rounded-2xl border border-gray-700">
-                    <div class="flex text-yellow-400 mb-4">
+                <div class="bg-ikhlas-card p-6 md:p-8 rounded-2xl border border-gray-700 flex flex-col">
+                    <div class="flex text-yellow-400 mb-4 text-lg">
                         ★★★★★
                     </div>
                     <p class="text-gray-300 mb-6 font-normal text-sm md:text-base italic">"Sebagai tenaga pengajar, saya punya banyak materi tapi bingung cara ngemasnya buat dijual. E-Book ini ngasih alur yang sangat terstruktur dari A sampai Z. Modul saya sekarang sukses jadi passive income!"</p>
-                    <div class="font-bold text-white text-sm">— (Rijal), Guru/Pengajar</div>
+                    <div class="font-bold text-white text-base mt-auto">— (Rijal), Guru/Pengajar</div>
                 </div>
 
                 <!-- Testi 3 -->
-                <div class="bg-ikhlas-card p-6 rounded-2xl border border-gray-700">
-                    <div class="flex text-yellow-400 mb-4">
+                <div class="bg-ikhlas-card p-6 md:p-8 rounded-2xl border border-gray-700 flex flex-col">
+                    <div class="flex text-yellow-400 mb-4 text-lg">
                         ★★★★★
                     </div>
                     <p class="text-gray-300 mb-6 font-normal text-sm md:text-base italic">"Saya baru lulus SMA dan jujur belum punya pengalaman apa-apa. Sempat ragu bisa bikin e-Book, tapi panduan untuk pemula tanpa skill di buku ini beneran works dan gampang banget diikutin!"</p>
-                    <div class="font-bold text-white text-sm">— (John), Lulusan SMA</div>
+                    <div class="font-bold text-white text-base mt-auto">— (John), Lulusan SMA</div>
                 </div>
             </div>
         </div>
@@ -253,33 +259,64 @@
         </div>
     </section>
 
-    <!-- Footer yang Menyerupai IkhlasClip -->
+    <!-- Footer -->
     <footer class="py-12 border-t border-gray-800 text-center bg-ikhlas-dark">
         <div class="flex items-center justify-center mb-6">
-            <!-- Menampilkan logo asli Ikhlas Digital -->
             <img src="file_0000000090a0820885e0ebe54a0883df.png" alt="Ikhlas Digital" class="h-10 md:h-12 object-contain">
         </div>
         <p class="text-sm text-gray-400 font-normal px-4">© 2026 Sutradara Digital — Bagian dari BiB (Bisnis in a Box).</p>
     </footer>
 
-    <!-- SCRIPT AUTO-SLIDER (Wajib dicopy sampai bawah) -->
+    <!-- SCRIPT AUTO-SLIDER & SWIPE MANUAL -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const slider = document.getElementById('slider-container');
             if (!slider) return;
             
-            let currentIndex = 0;
             const totalSlides = slider.children.length;
+            let currentIndex = 0;
+            let autoSlideInterval;
 
-            setInterval(() => {
-                currentIndex++;
-                // Kalau sudah gambar terakhir, balik ke gambar pertama (0)
-                if (currentIndex >= totalSlides) {
-                    currentIndex = 0;
-                }
-                // Menggeser kontainer ke kiri
-                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-            }, 1500); // 1500ms = 1,5 detik
+            // Fungsi untuk menjalankan auto-slide
+            const startAutoSlide = () => {
+                autoSlideInterval = setInterval(() => {
+                    currentIndex++;
+                    if (currentIndex >= totalSlides) {
+                        currentIndex = 0;
+                    }
+                    slider.scrollTo({
+                        left: currentIndex * slider.clientWidth,
+                        behavior: 'smooth'
+                    });
+                }, 1500); // Jalan setiap 1,5 detik
+            };
+
+            // Fungsi untuk menghentikan auto-slide sementara
+            const stopAutoSlide = () => {
+                clearInterval(autoSlideInterval);
+            };
+
+            // Mulai auto-slide saat halaman dimuat
+            startAutoSlide();
+
+            // Hentikan otomatis saat jari menyentuh/menggeser layar (Touch)
+            slider.addEventListener('touchstart', stopAutoSlide);
+            // Lanjut otomatis setelah jari diangkat (dengan jeda 2 detik)
+            slider.addEventListener('touchend', () => {
+                setTimeout(() => {
+                    currentIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+                    startAutoSlide();
+                }, 2000); 
+            });
+
+            // Hentikan otomatis saat digeser pakai Mouse (Laptop/PC)
+            slider.addEventListener('mousedown', stopAutoSlide);
+            slider.addEventListener('mouseup', () => {
+                setTimeout(() => {
+                    currentIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+                    startAutoSlide();
+                }, 2000);
+            });
         });
     </script>
 </body>
