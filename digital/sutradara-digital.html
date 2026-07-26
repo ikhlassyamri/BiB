@@ -62,7 +62,7 @@
         </div>
         
         <h1 class="text-[32px] md:text-5xl lg:text-6xl font-bold text-white leading-tight md:leading-tight mb-8">
-            Cara Bikin e-Book Bernilai <span class="bg-ikhlas-green text-black px-3 py-1 rounded-md whitespace-nowrap">Jutaan Rupiah</span>, Walaupun Kamu Sama Sekali Tidak Ngerti Cara Menulis!
+            Cara Bikin e-Book Bernilai <span class="bg-ikhlas-green text-black px-3 py-1 rounded-md whitespace-nowrap">Jutaan Rupiah</span>, Walaupun Kamu Nggak Paham Cara Menulis!
         </h1>
         
         <p class="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto font-normal">
@@ -278,7 +278,7 @@
         </div>
     </section>
 
-    <!-- Footer yang Menyerupai IkhlasClip -->
+    <!-- Footer -->
     <footer class="py-12 border-t border-gray-800 text-center bg-ikhlas-dark">
         <div class="flex items-center justify-center mb-6">
             <img src="file_0000000090a0820885e0ebe54a0883df.png" alt="Ikhlas Digital" class="h-10 md:h-12 object-contain">
@@ -289,7 +289,6 @@
     <!-- SCRIPT AUTO-SLIDER & SWIPE MANUAL UNTUK SEMUA SLIDER -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Ambil semua elemen yang punya class 'auto-slider'
             const sliders = document.querySelectorAll('.auto-slider');
             
             sliders.forEach(slider => {
@@ -297,7 +296,6 @@
                 let currentIndex = 0;
                 let autoSlideInterval;
 
-                // Fungsi untuk menjalankan auto-slide
                 const startAutoSlide = () => {
                     autoSlideInterval = setInterval(() => {
                         currentIndex++;
@@ -308,20 +306,16 @@
                             left: currentIndex * slider.clientWidth,
                             behavior: 'smooth'
                         });
-                    }, 1500); // Jalan setiap 1,5 detik
+                    }, 1500); 
                 };
 
-                // Fungsi untuk menghentikan auto-slide sementara
                 const stopAutoSlide = () => {
                     clearInterval(autoSlideInterval);
                 };
 
-                // Mulai auto-slide saat halaman dimuat
                 startAutoSlide();
 
-                // Hentikan otomatis saat jari menyentuh/menggeser layar (Touch)
                 slider.addEventListener('touchstart', stopAutoSlide);
-                // Lanjut otomatis setelah jari diangkat (dengan jeda 2 detik)
                 slider.addEventListener('touchend', () => {
                     setTimeout(() => {
                         currentIndex = Math.round(slider.scrollLeft / slider.clientWidth);
@@ -329,7 +323,6 @@
                     }, 2000); 
                 });
 
-                // Hentikan otomatis saat digeser pakai Mouse (Laptop/PC)
                 slider.addEventListener('mousedown', stopAutoSlide);
                 slider.addEventListener('mouseup', () => {
                     setTimeout(() => {
