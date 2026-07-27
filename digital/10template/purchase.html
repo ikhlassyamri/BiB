@@ -38,8 +38,27 @@
     <header class="w-full border-b border-gray-800 bg-ikhlas-dark/80 backdrop-blur-sm fixed top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 py-3 flex justify-center items-center">
             
-            <!-- PERBAIKAN: Menghapus tanda garis miring agar terbaca di folder yang sama -->
-            <img src="Picsart_26-07-27_19-56-14-556.jpg" alt="Ikhlas Digital Logo" class="h-12 object-contain">
+            <!-- LOGO DENGAN SCRIPT PELACAK OTOMATIS -->
+            <img id="main-logo" src="/digital/10template/Picsart_26-07-27_19-56-14-556.jpg" alt="Ikhlas Digital Logo" class="h-12 object-contain">
+            <script>
+                document.getElementById('main-logo').addEventListener('error', function() {
+                    // Jika .jpg gagal, otomatis coba .png
+                    if (!this.dataset.triedPng) {
+                        this.dataset.triedPng = true;
+                        this.src = '/digital/10template/Picsart_26-07-27_19-56-14-556.png';
+                    } 
+                    // Jika .png gagal, otomatis coba .jpeg
+                    else if (!this.dataset.triedJpeg) {
+                        this.dataset.triedJpeg = true;
+                        this.src = '/digital/10template/Picsart_26-07-27_19-56-14-556.jpeg';
+                    } 
+                    // Jika masih gagal, coba cari di folder halaman utama (root)
+                    else if (!this.dataset.triedRoot) {
+                        this.dataset.triedRoot = true;
+                        this.src = '/Picsart_26-07-27_19-56-14-556.jpg'; 
+                    }
+                });
+            </script>
                  
         </div>
     </header>
@@ -144,30 +163,24 @@
     <!-- JAVASCRIPT UNTUK FITUR SALIN NO REK -->
     <script>
         function salinNoRek() {
-            // Mengambil teks dari elemen No Rek
             var noRekText = document.getElementById("noRek").innerText;
             var btnSalin = document.getElementById("btnSalin");
             var textSalin = document.getElementById("textSalin");
 
-            // Membuat elemen textarea sementara untuk proses penyalinan
             var tempInput = document.createElement("textarea");
             tempInput.value = noRekText;
             document.body.appendChild(tempInput);
             
-            // Memilih dan menyalin teks
             tempInput.select();
-            tempInput.setSelectionRange(0, 99999); /* Untuk mobile */
+            tempInput.setSelectionRange(0, 99999);
             document.execCommand("copy");
             
-            // Menghapus elemen sementara
             document.body.removeChild(tempInput);
 
-            // Perubahan UX Visual (Memberi feedback bahwa teks berhasil disalin)
             textSalin.innerText = "Tersalin!";
             btnSalin.classList.remove("bg-gray-800", "text-gray-300");
             btnSalin.classList.add("bg-ikhlas-green", "text-black");
 
-            // Mengembalikan tombol ke keadaan semula setelah 2 detik
             setTimeout(function(){
                 textSalin.innerText = "Salin";
                 btnSalin.classList.remove("bg-ikhlas-green", "text-black");
