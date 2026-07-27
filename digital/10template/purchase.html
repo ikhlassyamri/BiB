@@ -1,1 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Pesanan - Ikhlas Digital</title>
+    
+    <!-- MENGGUNAKAN FONT POPPINS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        ikhlas: {
+                            green: '#84cc16', // Lime-500
+                            dark: '#0a0a0a',
+                            card: '#171717',
+                            gray: '#262626'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-ikhlas-dark text-gray-200 font-sans antialiased selection:bg-ikhlas-green selection:text-black">
 
+    <!-- Header Simpel -->
+    <header class="w-full border-b border-gray-800 bg-ikhlas-dark/80 backdrop-blur-sm fixed top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-center items-center">
+            <img src="../../file_0000000090a0820885e0ebe54a0883df.png" alt="Ikhlas Digital Logo" class="h-12 object-contain">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-16 px-4">
+        <div class="max-w-xl mx-auto">
+            
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-2 bg-ikhlas-green/10 text-ikhlas-green px-4 py-1 rounded-full text-sm font-medium mb-4 border border-ikhlas-green/20">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path></svg>
+                    Satu Langkah Lagi!
+                </div>
+                <h1 class="text-3xl font-extrabold text-white">Instruksi Pembayaran</h1>
+                <p class="text-gray-400 mt-2 font-normal">Silakan selesaikan pembayaran sesuai detail di bawah ini.</p>
+            </div>
+
+            <!-- KARTU UTAMA PEMBAYARAN -->
+            <div class="bg-ikhlas-card border border-gray-800 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden mb-8">
+                
+                <!-- Pola Background Tipis -->
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 text-ikhlas-green/5 opacity-40">
+                    <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 200 200"><path d="M42.7,-62.9C50.9,-52.8,50.1,-34.4,51.7,-19.2C53.3,-4.1,57.3,7.8,56,20.5C54.7,33.2,48.1,46.7,37.8,53.1C27.4,59.5,13.7,58.8,-0.1,58.9C-13.8,59,-27.6,60.1,-39.6,54.2C-51.7,48.3,-61.9,35.5,-66.2,21.1C-70.5,6.7,-68.8,-9.2,-63.9,-23.7C-58.9,-38.3,-50.8,-51.4,-39.4,-60.2C-28.1,-69,-14,-73.4,1.8,-76C17.6,-78.5,35.2,-79.1,42.7,-62.9Z" transform="translate(100 100)" /></svg>
+                </div>
+
+                <div class="relative z-10 space-y-8">
+                    
+                    <!-- Detail Pesanan -->
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Pesanan Anda</h2>
+                        <div class="flex items-center justify-between gap-4 bg-black/30 border border-gray-800 p-4 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">📦</span>
+                                <p class="text-lg font-bold text-white">10 Template Premium</p>
+                            </div>
+                            <p class="text-gray-400 text-sm font-medium">Qty: 1</p>
+                        </div>
+                    </div>
+
+                    <!-- Kotak Harga yang Mencolok -->
+                    <div class="bg-black/50 border-2 border-gray-800 rounded-2xl p-6 text-center shadow-inner">
+                        <h3 class="text-sm font-medium text-gray-300 mb-2">Total yang Harus Ditransfer:</h3>
+                        <p class="text-5xl md:text-6xl font-black text-ikhlas-green">Rp 50.000</p>
+                    </div>
+
+                    <!-- Detail Rekening -->
+                    <div>
+                        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Transfer Ke Rekening</h2>
+                        <div class="bg-ikhlas-dark border border-gray-800 rounded-2xl p-6 relative">
+                            
+                            <!-- Logo Bank & Nama Bank -->
+                            <div class="flex items-center gap-3 mb-6 pb-5 border-b border-gray-800">
+                                <!-- Place holder Logo BRI, Anda bisa ganti dengan <img> asli -->
+                                <div class="bg-white p-2 rounded-lg shrink-0">
+                                    <span class="font-bold text-sky-800 text-xs">BRI</span>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-bold text-white">Bank Rakyat Indonesia (BRI)</p>
+                                    <p class="text-sm text-gray-400 font-normal">Ikhlas Syamri</p>
+                                </div>
+                            </div>
+
+                            <!-- Nomor Rekening dengan Fitur Salin -->
+                            <div class="space-y-2">
+                                <label class="text-xs text-gray-500 font-medium">Nomor Rekening</label>
+                                <div class="flex items-center justify-between gap-2 bg-black/30 p-2 rounded-lg border border-gray-800">
+                                    <span id="noRek" class="text-xl md:text-2xl font-mono font-black text-white tracking-wider px-2">549501006999508</span>
+                                    
+                                    <!-- Tombol Salin -->
+                                    <button onclick="salinNoRek()" id="btnSalin" class="bg-gray-800 text-gray-300 px-4 py-2 rounded-md font-bold text-xs hover:bg-gray-700 hover:text-white transition-colors shrink-0 flex items-center gap-1.5 active:scale-95">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                                        <span id="textSalin">Salin</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOMBOL KONFIRMASI WHATSAPP -->
+            <div class="text-center space-y-4">
+                <p class="text-sm text-gray-400 font-normal px-4">Sudah transfer? Silakan konfirmasi dengan mengirimkan <strong class="text-white font-semibold">Bukti Transfer</strong> melalui tombol di bawah.</p>
+                
+                <!-- Link WA sudah di encode otomatis dengan pesan -->
+                <a href="https://wa.me/62895411449962?text=Pesanan%3A%2010%20Template%20Premium%0AHarga%3A%20Rp.%2050.000%0AAtas%20Nama%3A%0AIni%20Bukti%20Transfer%20nya%20%F0%9F%91%87" target="_blank" class="w-full flex items-center justify-center gap-3 bg-ikhlas-green text-black text-center font-bold text-lg py-5 rounded-2xl shadow-[0_10px_30px_rgba(132,204,22,0.3)] hover:bg-lime-400 hover:scale-[1.02] transition-all active:scale-100">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.33 24l1.69-6.17a11.83 11.83 0 0 1-1.63-6.1c0-6.49 5.31-11.77 11.84-11.77a11.81 11.81 0 0 1 8.37 3.45 11.77 11.77 0 0 1 3.46 8.35c0 6.51-5.3 11.78-11.83 11.78a11.8 11.8 0 0 1-5.74-1.5zm5.83-3.66c1.1.65 2.1 1.02 3.45 1.02 5.56 0 10.08-4.5 10.08-10.02a9.96 9.96 0 0 0-2.95-7.11 10.03 10.03 0 0 0-7.13-2.93c-5.55 0-10.07 4.5-10.07 10.02 0 1.5.4 2.87 1.17 4.19l-1.1 3.99zM16.14 13.56c-.34-.17-2-.97-2.31-1.07-.3-.12-.52-.17-.74.16-.22.34-.86 1.07-1.05 1.28-.2.2-.38.23-.72.07a9.12 9.12 0 0 1-2.69-1.65 10.07 10.07 0 0 1-1.85-2.29c-.2-.33-.02-.51.15-.68l.45-.51c.17-.2.22-.34.33-.57.11-.22.05-.42-.03-.59-.08-.17-.74-1.78-1-2.42-.27-.64-.53-.55-.74-.56h-.63c-.22 0-.58.08-.88.4a3.3 3.3 0 0 0-1.03 2.45c0 1.44.82 2.76.94 2.92.11.17 1.62 2.44 3.92 3.43 2.3 1 2.3 1 3.16.92.86-.08 2-.8 2.28-1.57.29-.76.29-1.42.2-1.56-.1-.13-.34-.23-.68-.4z"/></svg>
+                    Konfirmasi Pembayaran via WA
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 text-center border-t border-gray-800 bg-ikhlas-dark">
+        <p class="text-sm text-gray-600 font-normal">© 2026 Ikhlas Digital — Bagian dari BiB (Bisnis in a Box).</p>
+    </footer>
+
+    <!-- JAVASCRIPT UNTUK FITUR SALIN NO REK -->
+    <script>
+        function salinNoRek() {
+            // Mengambil teks dari elemen No Rek
+            var noRekText = document.getElementById("noRek").innerText;
+            var btnSalin = document.getElementById("btnSalin");
+            var textSalin = document.getElementById("textSalin");
+
+            // Membuat elemen textarea sementara untuk proses penyalinan
+            var tempInput = document.createElement("textarea");
+            tempInput.value = noRekText;
+            document.body.appendChild(tempInput);
+            
+            // Memilih dan menyalin teks
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); /* Untuk mobile */
+            document.execCommand("copy");
+            
+            // Menghapus elemen sementara
+            document.body.removeChild(tempInput);
+
+            // Perubahan UX Visual (Memberi feedback bahwa teks berhasil disalin)
+            textSalin.innerText = "Tersalin!";
+            btnSalin.classList.remove("bg-gray-800", "text-gray-300");
+            btnSalin.classList.add("bg-ikhlas-green", "text-black");
+
+            // Mengembalikan tombol ke keadaan semula setelah 2 detik
+            setTimeout(function(){
+                textSalin.innerText = "Salin";
+                btnSalin.classList.remove("bg-ikhlas-green", "text-black");
+                btnSalin.classList.add("bg-gray-800", "text-gray-300");
+            }, 2000);
+        }
+    </script>
+</body>
+                      </html>
+                                  
