@@ -33,6 +33,22 @@
             }
         }
     </script>
+    <style>
+        /* Sembunyikan scrollbar agar rapi tapi tetap bisa digeser */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Class Animasi Fade Up saat di Scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body class="bg-ikhlas-dark text-gray-200 font-sans antialiased selection:bg-ikhlas-green selection:text-black">
 
@@ -65,11 +81,11 @@
             Berdasarkan penelitian dari lembaga riset ternama, <strong class="text-white font-semibold">Forrester Research</strong>, Website yang dirancang dengan baik mampu meroketkan konversi penjualan hingga 400%.
         </p>
 
-        <!-- Bagian Gambar Forrester Research Berdampingan / Responsive Card -->
-        <div class="bg-ikhlas-card border border-gray-800 rounded-2xl p-6 max-w-2xl mx-auto mb-10 shadow-lg flex flex-col md:flex-row items-center gap-6 text-left">
+        <!-- KOTAK FORRESTER RESEARCH DENGAN EFEK FADE-UP -->
+        <div class="fade-up bg-ikhlas-card border border-gray-800 rounded-2xl p-6 max-w-2xl mx-auto mb-10 shadow-lg flex flex-col md:flex-row items-center gap-6 text-left">
             <div class="w-full md:w-1/2">
-                <!-- Ubah nama file gambar Forrester sesuai yang kamu upload nantinya -->
-                <img src="forrester-research.jpg" alt="Forrester Research" class="w-full h-auto rounded-xl border border-gray-700 object-cover">
+                <!-- GAMBAR FORRESTER (Sudut Tumpul rounded-2xl) -->
+                <img src="IMG_20260727_192410.jpg" alt="Forrester Research" class="w-full h-auto rounded-2xl border border-gray-700 object-cover shadow-md">
             </div>
             <div class="w-full md:w-1/2">
                 <p class="text-sm md:text-base text-gray-300 font-normal">
@@ -82,11 +98,10 @@
             Bahkan, faktanya <strong class="text-white font-semibold">75% kepercayaan pelanggan</strong> terhadap sebuah bisnis dinilai secara langsung dari desain <em>website</em>-nya. (Sumber: <em>Stanford Web Credibility Research</em>).
         </p>
 
-        <!-- Bagian Gambar Stanford Web Credibility Berdampingan -->
-        <div class="bg-ikhlas-card border border-gray-800 rounded-2xl p-6 max-w-2xl mx-auto mb-12 shadow-lg flex flex-col md:flex-row items-center gap-6 text-left">
+        <!-- KOTAK STANFORD RESEARCH DENGAN EFEK FADE-UP -->
+        <div class="fade-up bg-ikhlas-card border border-gray-800 rounded-2xl p-6 max-w-2xl mx-auto mb-12 shadow-lg flex flex-col md:flex-row items-center gap-6 text-left">
             <div class="w-full md:w-1/2">
-                <!-- Ubah nama file gambar Stanford sesuai yang kamu upload nantinya -->
-                <img src="stanford-research.jpg" alt="Stanford Web Credibility Research" class="w-full h-auto rounded-xl border border-gray-700 object-cover">
+                <img src="stanford-research.jpg" alt="Stanford Web Credibility Research" class="w-full h-auto rounded-2xl border border-gray-700 object-cover shadow-md">
             </div>
             <div class="w-full md:w-1/2">
                 <p class="text-sm md:text-base text-gray-300 font-normal">
@@ -184,6 +199,14 @@
             </div>
 
             <div class="bg-ikhlas-card border border-gray-700 rounded-3xl p-8 md:p-10 shadow-2xl">
+                
+                <!-- PENANDA LAMA PO 10 HARI -->
+                <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3 mb-6 text-center">
+                    <p class="text-yellow-400 text-sm font-semibold">
+                        ⏳ Masa Pre-Order Berlangsung Selama 10 Hari
+                    </p>
+                </div>
+
                 <div class="text-center mb-8">
                     <div class="mb-2">
                         <span class="text-gray-500 line-through text-lg font-medium">Harga Normal: Rp 100.000</span>
@@ -198,7 +221,6 @@
                     </p>
                 </div>
 
-                <!-- Tombol Checkout (Ganti link href dengan tautan pembayaranmu) -->
                 <a href="http://lynk.id/ikhlassyamri/91lm69k8le4r/checkout" target="_blank" class="block w-full bg-ikhlas-green text-black text-center font-bold text-base md:text-lg py-4 rounded-xl mb-4 hover:bg-lime-400 hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(132,204,22,0.3)]">
                     👉 YA, SAYA MAU PRE-ORDER SEKARANG!
                 </a>
@@ -219,5 +241,26 @@
         <p class="text-sm text-gray-400 font-normal px-4">© 2026 10 Template Website — Bagian dari BiB (Bisnis in a Box).</p>
     </footer>
 
+    <!-- SCRIPT UNTUK EFEK ANIMASI FADE-UP SAAT SCROLL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menggunakan Intersection Observer untuk mendeteksi elemen masuk layar
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { 
+                threshold: 0.15 // Elemen akan ter-trigger saat 15% bagiannya terlihat di layar
+            });
+
+            // Targetkan semua elemen yang memiliki class 'fade-up'
+            document.querySelectorAll('.fade-up').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
-</html>
+        </html>
+        
