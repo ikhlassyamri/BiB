@@ -326,41 +326,41 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
       <!-- Contoh Landingpage Bio (Mobile) -->
       <h3 class="showcase-title reveal">Contoh Landingpage Bio (Mobile)</h3>
       <div class="video-grid reveal">
-        <video src="Mobile1.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="Mobile2.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="Mobile3.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="Mobile4.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="Mobile5.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video data-src="Mobile1.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="Mobile2.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="Mobile3.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="Mobile4.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="Mobile5.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
       </div>
 
       <!-- Contoh Landingpage Bio (Desktop) -->
       <h3 class="showcase-title reveal">Contoh Landingpage Bio (Desktop)</h3>
       <div class="video-grid reveal">
-        <video src="Dekstop1.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstop2.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstop3.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstop4.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstop5.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video data-src="Dekstop1.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstop2.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstop3.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstop4.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstop5.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
       </div>
 
       <!-- Contoh Landingpage Produk (Mobile) -->
       <h3 class="showcase-title reveal">Contoh Landingpage Produk (Mobile)</h3>
       <div class="video-grid reveal">
-        <video src="MobileP1.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="MobileP2.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="MobileP3.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="MobileP4.mp4" class="vid-vert" autoplay muted loop playsinline></video>
-        <video src="MobileP5.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video data-src="MobileP1.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="MobileP2.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="MobileP3.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="MobileP4.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
+        <video data-src="MobileP5.mp4" class="vid-vert" muted loop playsinline preload="none"></video>
       </div>
 
       <!-- Contoh Landingpage Produk (Desktop) -->
       <h3 class="showcase-title reveal">Contoh Landingpage Produk (Desktop)</h3>
       <div class="video-grid reveal">
-        <video src="Dekstopp1.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstopp2.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstopp3.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstopp4.mp4" class="vid-horz" autoplay muted loop playsinline></video>
-        <video src="Dekstopp5.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video data-src="Dekstopp1.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstopp2.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstopp3.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstopp4.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
+        <video data-src="Dekstopp5.mp4" class="vid-horz" muted loop playsinline preload="none"></video>
       </div>
 
       <p class="reveal" style="font-weight: 600; margin-bottom: 24px;">Dengan menggunakan template ini, kamu akan merasakan kemudahan yang luar biasa:</p>
@@ -457,6 +457,32 @@ var io = new IntersectionObserver(function(entries) {
     }
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+
+
+// Lazy Load & Play Video (Biar gak berat dan gak nge-lag)
+var videoObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    var vid = entry.target;
+    if (entry.isIntersecting) {
+      // Masukin source video cuma kalau videonya udah mau masuk layar
+      if (!vid.getAttribute('src')) {
+        vid.setAttribute('src', vid.getAttribute('data-src'));
+        vid.load();
+      }
+      // Play video
+      vid.play().catch(function(e){});
+    } else {
+      // Pause video saat di-scroll lewat (Biar HP gak panas / RAM gak penuh)
+      vid.pause();
+    }
+  });
+}, { 
+  rootMargin: '0px 0px 300px 0px' // Mulai load video 300px sebelum benar-benar masuk layar
+});
+
+document.querySelectorAll('.video-grid video').forEach(function(vid) {
+  videoObserver.observe(vid);
+});
 
 document.querySelectorAll('.reveal').forEach(function(el) {
   io.observe(el);
