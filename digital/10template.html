@@ -21,6 +21,7 @@
   --paper:#FFFFFF;
   --nv:#76B900; 
   --wa:#25D366;
+  --ikhlas-green: #84cc16; /* Added ikhlas-green variable */
   --disp:'Space Grotesk',sans-serif;
   --body:'Inter',sans-serif;
   --r:12px;
@@ -55,20 +56,22 @@ h2::before{content:"";display:block;width:11px;height:11px;background:#fff;margi
 .center h2::before{margin-left:auto;margin-right:auto}
 
 p+p{margin-top:1.15em}
-strong{color:#fff;font-weight:600}
+/* Updated strong styling to match request */
+strong{color:var(--ikhlas-green);font-weight:700;} 
 .muted{color:var(--muted)}
 
 /* ---------- buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  background:var(--paper);color:var(--ink);
+  background:var(--ikhlas-green); /* Updated button background */
+  color:var(--ink);
   font-family:var(--disp);font-weight:700;font-size:1.05rem;
   padding:17px 32px;border-radius:var(--r);
-  text-decoration:none;border:1.5px solid var(--paper);
+  text-decoration:none;border:1.5px solid var(--ikhlas-green); /* Updated border */
   transition:transform .25s ease,box-shadow .25s ease;
   cursor: pointer;
 }
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.14)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(132, 204, 22, 0.14)} /* Adjusted shadow */
 .btn-outline{
   background:transparent;color:var(--paper);border:1.5px solid var(--line);
 }
@@ -108,12 +111,23 @@ strong{color:#fff;font-weight:600}
 }
 .eyebrow::before,.eyebrow::after{content:"";width:8px;height:8px;background:var(--muted)}
 .hl-inv{
-  background:var(--paper);color:var(--ink);
+  background:var(--ikhlas-green); /* Updated highlight background */
+  color:var(--ink);
   padding:.04em .18em;border-radius:.14em;
   -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
-.cue{margin:64px auto 0;width:10px;height:10px;background:#fff;animation:cue 2s ease-in-out infinite}
-@keyframes cue{0%,100%{transform:translateY(0);opacity:1}55%{transform:translateY(16px);opacity:.25}}
+/* Updated cue animation and shape */
+.cue{
+  margin:64px auto 0;
+  width: 16px; /* Adjusted size */
+  height: 16px;
+  border-right: 3px solid #fff; /* Create arrow shape */
+  border-bottom: 3px solid #fff;
+  transform: rotate(45deg); /* Point downwards */
+  animation: cue 2s ease-in-out infinite;
+  display: block; /* Ensure it respects width/height */
+}
+@keyframes cue{0%,100%{transform:translateY(0) rotate(45deg);opacity:1}55%{transform:translateY(16px) rotate(45deg);opacity:.25}}
 
 /* ---------- story / custom elements ---------- */
 .q-card{
@@ -160,7 +174,8 @@ strong{color:#fff;font-weight:600}
 }
 .fac h3{font-family:var(--disp);font-weight:700;font-size:clamp(1.2rem,2.8vw,1.5rem);line-height:1.35;margin-bottom:10px}
 .fac p{color:var(--muted)}
-.fac p strong{color:var(--text)}
+/* Updated fac strong color for consistency */
+.fac p strong{color:var(--ikhlas-green);} 
 
 /* ---------- bonus ---------- */
 .b-row{
@@ -227,7 +242,7 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
   <a class="brand" href="#top" aria-label="Ikhlas Digital">
     <img src="file_0000000090a0820885e0ebe54a0883df.png" alt="Ikhlas Digital Logo">
   </a>
-  <a class="btn btn-sm" href="#checkout">Pre-Order</a>
+  <a class="btn btn-sm" href="#checkout">Beli</a>
 </header>
 
 <main id="top">
