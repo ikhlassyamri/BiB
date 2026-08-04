@@ -16,7 +16,7 @@
   --line: #26292F;
   --text: #F4F5F6;
   --muted: #9AA1A9;
-  --accent: #76B900; 
+  --accent: #76B900; /* Hijau Neon BiB */
   --disp: 'Space Grotesk', sans-serif;
   --body: 'Inter', sans-serif;
 }
@@ -37,13 +37,13 @@ body {
   overflow-x: hidden;
 }
 
-/* --- DUCT & CABLE SYSTEM (MATCHING IMAGE) --- */
+/* --- DUCT & CABLE SYSTEM (UPDATED TO MATCH image_3.png & image_4.png) --- */
 .duct-system {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: 120px; /* Sedikit lebih tinggi untuk kabel kusut */
   /* Metallic 3D gradient */
   background: linear-gradient(180deg, #111 0%, #4a4d52 15%, #303338 50%, #1f2125 85%, #050505 100%);
   border-bottom: 4px solid #000;
@@ -54,7 +54,7 @@ body {
   z-index: 20;
 }
 
-/* Panel lines and rivets effect using background image */
+/* Panel lines and rivets effect */
 .duct-system::before {
   content: '';
   position: absolute;
@@ -63,15 +63,15 @@ body {
     repeating-linear-gradient(90deg, transparent, transparent 198px, rgba(0,0,0,0.8) 198px, rgba(0,0,0,0.8) 200px, rgba(255,255,255,0.1) 200px, rgba(255,255,255,0.1) 201px),
     radial-gradient(circle at 10px 10px, rgba(0,0,0,0.4) 2px, transparent 3px),
     radial-gradient(circle at 10px 80px, rgba(0,0,0,0.4) 2px, transparent 3px);
-  background-size: 100% 100%, 200px 90px, 200px 90px;
+  background-size: 100% 100%, 200px 120px, 200px 120px;
   opacity: 0.7;
   pointer-events: none;
 }
 
-/* Center Vent */
+/* Center Vent (Design updated to match image_3.png louvered design) */
 .center-vent {
-  width: 160px;
-  height: 50px;
+  width: 180px;
+  height: 60px;
   background: #020202;
   border: 3px solid #1a1c1f;
   border-top-color: #050505;
@@ -81,86 +81,133 @@ body {
   z-index: 21;
 }
 
-/* The Hanging Cable */
-.cable-wrapper {
+/* Louvered effect */
+.center-vent::before {
+  content: '';
   position: absolute;
-  top: 80px;
-  left: 20%; /* Position matching the image */
-  width: 8px;
-  height: 180px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: repeating-linear-gradient(180deg, transparent, transparent 4px, #000 4px, #000 6px);
+  background-size: 100% 6px;
+  opacity: 0.6;
+}
+
+/* --- TANGLED CABLES (UPDATED TO MATCH image_3.png & image_4.png) --- */
+.tangled-cables {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 22;
+  pointer-events: none;
+}
+
+/* Individual Tangled Cables */
+.tangled-cables::before,
+.tangled-cables::after,
+.tangled-cables > span {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+/* Cable 1 - Middle-Right (image_4.png central red line) */
+.tangled-cables::before {
+  top: 0px; left: 10px;
+  background-image: 
+    radial-gradient(circle at 210px 30px, #1a1d22 6px, transparent 7px),
+    radial-gradient(circle at 250px 15px, #1a1d22 6px, transparent 7px),
+    linear-gradient(90deg, transparent 210px, #1a1d22 210px, #1a1d22 250px, transparent 250px),
+    linear-gradient(0deg, transparent 15px, #1a1d22 15px, #1a1d22 30px, transparent 30px);
+  transform: perspective(100px) rotateX(20deg) scaleY(1.2);
+}
+
+/* Cable 2 - Middle-Left (image_4.png left red curve) */
+.tangled-cables::after {
+  top: 0px; right: 20px;
+  background-image: 
+    radial-gradient(circle at 100px 30px, #1a1d22 6px, transparent 7px),
+    radial-gradient(circle at 60px 15px, #1a1d22 6px, transparent 7px),
+    linear-gradient(90deg, transparent 60px, #1a1d22 60px, #1a1d22 100px, transparent 100px),
+    linear-gradient(0deg, transparent 15px, #1a1d22 15px, #1a1d22 30px, transparent 30px);
+  transform: perspective(100px) rotateX(-10deg) scaleY(1.3);
+}
+
+/* Cable 3 - Right-most (image_4.png right-most red curve) */
+.tangled-cables > span {
+  top: -10px; left: -10px;
+  background-image: 
+    radial-gradient(circle at 350px 30px, #1a1d22 6px, transparent 7px),
+    radial-gradient(circle at 400px 15px, #1a1d22 6px, transparent 7px),
+    linear-gradient(90deg, transparent 350px, #1a1d22 350px, #1a1d22 400px, transparent 400px),
+    linear-gradient(0deg, transparent 15px, #1a1d22 15px, #1a1d22 30px, transparent 30px);
+  transform: perspective(100px) rotateX(30deg) scaleY(1.1);
+}
+
+/* --- HANGING CABLE LEFT (UPDATED TO MATCH image_3.png & image_4.png) --- */
+.hanging-cable-left {
+  position: absolute;
+  top: 110px; /* Posisikan di bawah duct */
+  left: 30%; /* Posisikan ke kiri sesuai panduan */
+  width: 10px;
+  height: 200px;
   z-index: 15;
-  transform-origin: top center;
-  /* Gerakan berulang yang halu */
-  animation: sway 6s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .cable {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, #0a0a0a 0%, #2a2a2a 30%, #111 70%, #000 100%);
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 5px 5px;
   box-shadow: 1px 0 5px rgba(0,0,0,0.8);
   position: relative;
 }
 
-/* Copper Tip */
-.copper-tip {
+/* Ujung Tembaga (Copper Tip) - Diperbaiki agar lebih mengkilap dan terlihat seperti ujung yang dilucuti */
+.copper-tip-left {
   position: absolute;
-  bottom: -4px;
-  left: 1px;
-  width: 6px;
-  height: 6px;
-  background: linear-gradient(90deg, #b87333, #e69855, #8a4a1c);
-  border-radius: 2px;
+  bottom: -6px; /* Sedikit lebih panjang */
+  left: 1.5px;
+  width: 7px;
+  height: 7px;
+  background: 
+    radial-gradient(circle at 50% 50%, #f7c385, #b87333 40%, #8a4a1c 60%, #000 80%),
+    linear-gradient(90deg, transparent 1px, #f7c385 2px, #f7c385 5px, transparent 6px);
+  border-radius: 50% 50% 2px 2px;
+  box-shadow: 
+    0 0 10px #f7c385, 
+    0 0 20px #e69855, 
+    0 0 30px rgba(184, 115, 51, 0.6), 
+    0 0 40px rgba(138, 74, 28, 0.4);
 }
 
-/* --- SPARKS (Setiap 5 detik) --- */
-.sparks-container {
+/* --- SPARKS --- */
+.sparks {
   position: absolute;
-  bottom: -10px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   pointer-events: none;
 }
 
-.spark-burst {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 100%; height: 100%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  /* Nyala tiap 5 detik */
-  animation: sparkFlash 5s infinite;
-}
-
 /* SVG Spark to match the realistic look in image */
-.spark-burst svg {
+.sparks svg {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 0 8px #ffaa00) drop-shadow(0 0 15px #ff4400);
-}
-
-@keyframes sway {
-  0% { transform: rotate(-1.5deg); }
-  100% { transform: rotate(1.5deg); }
-}
-
-@keyframes sparkFlash {
-  0%, 94% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
-  95% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-  96% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.8); }
-  97% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-  98% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.9); }
-  99%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
 }
 
 /* --- MAIN CONTENT --- */
 .container {
   width: 100%;
   max-width: 500px;
-  padding: 160px 24px 60px; /* Padding top besar untuk menghindari duct */
+  padding: 180px 24px 60px; /* Padding top besar untuk menghindari duct & kabel */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -314,31 +361,32 @@ body {
   <!-- Full Width Industrial Duct -->
   <div class="duct-system">
     <div class="center-vent"></div>
+    <div class="tangled-cables">
+      <span></span>
+    </div>
   </div>
 
-  <!-- Hanging Cable with Sparks -->
-  <div class="cable-wrapper">
+  <!-- Hanging Cable Left with Sparks -->
+  <div class="hanging-cable-left">
     <div class="cable">
-      <div class="copper-tip"></div>
+      <div class="copper-tip-left"></div>
     </div>
-    <div class="sparks-container">
-      <div class="spark-burst">
-        <!-- SVG for realistic starburst sparks -->
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <!-- Glowing core -->
-          <circle cx="50" cy="50" r="4" fill="#ffffff" filter="blur(1px)"/>
-          <circle cx="50" cy="50" r="8" fill="#ffdd55" filter="blur(3px)" opacity="0.8"/>
-          <!-- Rays -->
-          <path d="M50 20 L52 48 L80 50 L52 52 L50 80 L48 52 L20 50 L48 48 Z" fill="#ffaa00"/>
-          <path d="M30 30 L47 47 L65 25 L53 47 L70 70 L53 53 L35 75 L47 53 Z" fill="#ffcc00" opacity="0.9"/>
-          <path d="M40 10 L48 45 L90 30 L55 48 L80 85 L52 55 L10 70 L45 52 Z" fill="#ffffff" opacity="0.7"/>
-          <!-- Small flying particles -->
-          <circle cx="35" cy="25" r="1.5" fill="#ffcc00"/>
-          <circle cx="70" cy="35" r="2" fill="#ffaa00"/>
-          <circle cx="25" cy="65" r="1" fill="#ffffff"/>
-          <circle cx="65" cy="75" r="1.5" fill="#ff9900"/>
-        </svg>
-      </div>
+    <div class="sparks">
+      <!-- SVG for realistic starburst sparks -->
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Glowing core -->
+        <circle cx="50" cy="50" r="4" fill="#ffffff" filter="blur(1px)"/>
+        <circle cx="50" cy="50" r="8" fill="#ffdd55" filter="blur(3px)" opacity="0.8"/>
+        <!-- Rays -->
+        <path d="M50 20 L52 48 L80 50 L52 52 L50 80 L48 52 L20 50 L48 48 Z" fill="#ffaa00"/>
+        <path d="M30 30 L47 47 L65 25 L53 47 L70 70 L53 53 L35 75 L47 53 Z" fill="#ffcc00" opacity="0.9"/>
+        <path d="M40 10 L48 45 L90 30 L55 48 L80 85 L52 55 L10 70 L45 52 Z" fill="#ffffff" opacity="0.7"/>
+        <!-- Small flying particles -->
+        <circle cx="35" cy="25" r="1.5" fill="#ffcc00"/>
+        <circle cx="70" cy="35" r="2" fill="#ffaa00"/>
+        <circle cx="25" cy="65" r="1" fill="#ffffff"/>
+        <circle cx="65" cy="75" r="1.5" fill="#ff9900"/>
+      </svg>
     </div>
   </div>
 
