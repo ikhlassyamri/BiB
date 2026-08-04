@@ -21,7 +21,7 @@
   --paper:#FFFFFF;
   --nv:#76B900; 
   --wa:#25D366;
-  --ikhlas-green: #84cc16; /* Added ikhlas-green variable */
+  --ikhlas-green: #84cc16;
   --disp:'Space Grotesk',sans-serif;
   --body:'Inter',sans-serif;
   --r:12px;
@@ -56,22 +56,21 @@ h2::before{content:"";display:block;width:11px;height:11px;background:#fff;margi
 .center h2::before{margin-left:auto;margin-right:auto}
 
 p+p{margin-top:1.15em}
-/* Updated strong styling to match request */
 strong{color:var(--ikhlas-green);font-weight:700;} 
 .muted{color:var(--muted)}
 
 /* ---------- buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  background:var(--ikhlas-green); /* Updated button background */
+  background:var(--ikhlas-green);
   color:var(--ink);
   font-family:var(--disp);font-weight:700;font-size:1.05rem;
   padding:17px 32px;border-radius:var(--r);
-  text-decoration:none;border:1.5px solid var(--ikhlas-green); /* Updated border */
+  text-decoration:none;border:1.5px solid var(--ikhlas-green);
   transition:transform .25s ease,box-shadow .25s ease;
   cursor: pointer;
 }
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(132, 204, 22, 0.14)} /* Adjusted shadow */
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(132, 204, 22, 0.14)}
 .btn-outline{
   background:transparent;color:var(--paper);border:1.5px solid var(--line);
 }
@@ -79,7 +78,6 @@ strong{color:var(--ikhlas-green);font-weight:700;}
 .btn-big{flex-direction:column;gap:2px;padding:18px 44px;line-height:1.25}
 .btn-big small{font-family:var(--body);font-weight:600;font-size:.85rem;opacity:.72;letter-spacing:.02em}
 .btn-sm{padding:10px 20px;font-size:.92rem;border-radius:10px}
-.btn-group {display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 34px;}
 
 /* ---------- header ---------- */
 .hdr{
@@ -111,21 +109,20 @@ strong{color:var(--ikhlas-green);font-weight:700;}
 }
 .eyebrow::before,.eyebrow::after{content:"";width:8px;height:8px;background:var(--muted)}
 .hl-inv{
-  background:var(--ikhlas-green); /* Updated highlight background */
+  background:var(--ikhlas-green);
   color:var(--ink);
   padding:.04em .18em;border-radius:.14em;
   -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
-/* Updated cue animation and shape */
 .cue{
   margin:64px auto 0;
-  width: 16px; /* Adjusted size */
+  width: 16px; 
   height: 16px;
-  border-right: 3px solid #fff; /* Create arrow shape */
+  border-right: 3px solid #fff; 
   border-bottom: 3px solid #fff;
-  transform: rotate(45deg); /* Point downwards */
+  transform: rotate(45deg); 
   animation: cue 2s ease-in-out infinite;
-  display: block; /* Ensure it respects width/height */
+  display: block; 
 }
 @keyframes cue{0%,100%{transform:translateY(0) rotate(45deg);opacity:1}55%{transform:translateY(16px) rotate(45deg);opacity:.25}}
 
@@ -165,6 +162,29 @@ strong{color:var(--ikhlas-green);font-weight:700;}
   line-height: 1.6;
 }
 
+/* ---------- video showcase styles ---------- */
+.showcase-title {
+  font-family:var(--disp); font-weight:700; font-size:1.35rem; 
+  text-align:center; margin:40px 0 24px; color:#fff;
+}
+.video-grid {
+  display:flex; flex-wrap:wrap; justify-content:center; 
+  gap:16px; margin-bottom:56px;
+}
+.video-grid video {
+  background:var(--panel-2); border:1px solid var(--line); 
+  border-radius:14px; object-fit:cover; pointer-events:none;
+}
+.vid-vert {
+  width:calc(50% - 8px); max-width:220px; aspect-ratio:9/16;
+}
+.vid-horz {
+  width:100%; max-width:440px; aspect-ratio:16/9;
+}
+@media (min-width:600px) {
+  .vid-horz { width:calc(50% - 8px); }
+}
+
 /* ---------- facilities ---------- */
 .fac{display:grid;grid-template-columns:70px 1fr;gap:8px 22px;padding:38px 0;border-bottom:1px solid var(--line-soft)}
 .fac:last-of-type{border-bottom:none}
@@ -174,7 +194,6 @@ strong{color:var(--ikhlas-green);font-weight:700;}
 }
 .fac h3{font-family:var(--disp);font-weight:700;font-size:clamp(1.2rem,2.8vw,1.5rem);line-height:1.35;margin-bottom:10px}
 .fac p{color:var(--muted)}
-/* Updated fac strong color for consistency */
 .fac p strong{color:var(--ikhlas-green);} 
 
 /* ---------- bonus ---------- */
@@ -302,9 +321,44 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
         Untuk mengatasi hal tersebut, saya telah merancang solusi instan dan hemat untukmu: <strong>10 Template Website Premium (5 Template Produk + 5 Template Bio/Link)</strong>.
       </p>
 
-      <div class="btn-group reveal">
-        <a href="https://joinbib.id/" target="_blank" class="btn btn-outline">👁️ Contoh Website Produk</a>
-        <a href="https://joinbib.id/clipper/" target="_blank" class="btn btn-outline">👁️ Contoh Website Bio</a>
+      <!-- Contoh Landingpage Bio (Mobile) -->
+      <h3 class="showcase-title reveal">Contoh Landingpage Bio (Mobile)</h3>
+      <div class="video-grid reveal">
+        <video src="Mobile1.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="Mobile2.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="Mobile3.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="Mobile4.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="Mobile5.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+      </div>
+
+      <!-- Contoh Landingpage Bio (Desktop) -->
+      <h3 class="showcase-title reveal">Contoh Landingpage Bio (Desktop)</h3>
+      <div class="video-grid reveal">
+        <video src="Dekstop1.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstop2.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstop3.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstop4.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstop5.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+      </div>
+
+      <!-- Contoh Landingpage Produk (Mobile) -->
+      <h3 class="showcase-title reveal">Contoh Landingpage Produk (Mobile)</h3>
+      <div class="video-grid reveal">
+        <video src="MobileP1.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="MobileP2.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="MobileP3.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="MobileP4.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+        <video src="MobileP5.mp4" class="vid-vert" autoplay muted loop playsinline></video>
+      </div>
+
+      <!-- Contoh Landingpage Produk (Desktop) -->
+      <h3 class="showcase-title reveal">Contoh Landingpage Produk (Desktop)</h3>
+      <div class="video-grid reveal">
+        <video src="Dekstopp1.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstopp2.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstopp3.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstopp4.mp4" class="vid-horz" autoplay muted loop playsinline></video>
+        <video src="Dekstopp5.mp4" class="vid-horz" autoplay muted loop playsinline></video>
       </div>
 
       <p class="reveal" style="font-weight: 600; margin-bottom: 24px;">Dengan menggunakan template ini, kamu akan merasakan kemudahan yang luar biasa:</p>
