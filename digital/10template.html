@@ -199,28 +199,15 @@ strong{color:var(--ikhlas-green);font-weight:700;}
 .fac p strong{color:var(--ikhlas-green);} 
 
 /* ---------- bonus ---------- */
-.bonus-box {
+.b-row{
+  display:grid;grid-template-columns:80px 1fr;gap:18px;align-items:center;
+  padding:20px 0;
   background: var(--panel-2); border: 1px solid var(--line);
-  border-radius: 16px; margin-top: 56px; padding: 34px 24px;
-  text-align: center;
+  border-radius: 16px; margin-top: 34px; padding: 24px;
 }
-.bonus-box h3 {
-  font-family:var(--disp); font-weight:700; font-size:1.4rem; 
-  line-height:1.4; color:#fff; margin-bottom:24px;
-}
-.bonus-box h3 span { color: var(--ikhlas-green); }
-.bonus-box .icon { font-size: 3rem; margin-bottom: 16px; display: block; }
-.thumb-grid {
-  display: flex; flex-wrap: wrap; justify-content: center; 
-  gap: 12px;
-}
-.thumb-grid img {
-  width: calc(50% - 6px); max-width: 240px; aspect-ratio: 16/9;
-  object-fit: cover; border-radius: 8px; border: 1px solid var(--line-soft);
-}
-@media (min-width: 640px) {
-  .thumb-grid img { max-width: 320px; }
-}
+.b-row .icon { font-size: 2.5rem; display:flex; align-items:center; justify-content:center; }
+.b-row .b-name{font-family:var(--disp);font-weight:600;font-size:1.2rem;line-height:1.45}
+.b-row .val{display:block;color:var(--muted);font-family:var(--body);font-weight:400;font-size:.95rem;margin-top:6px; line-height:1.6;}
 
 /* ---------- price ---------- */
 .price-card{
@@ -440,9 +427,7 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
           Beli Sekarang!
           <small>Pembayaran aman • Akses instan otomatis</small>
         </a>
-        <p class="muted" style="margin-top: 18px; font-size: 0.9rem; line-height: 1.5;">
-          ⏳ <strong>Kesempatan terbatas!</strong> Amankan harga diskon ini sebelum kembali normal sewaktu-waktu.
-        </p>
+        
       </div>
     </div>
   </section>
@@ -497,5 +482,4 @@ document.querySelectorAll('.reveal').forEach(function(el) {
 });
 </script>
 </body>
-          </html>
-  
+</html>
