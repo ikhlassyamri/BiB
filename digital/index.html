@@ -36,15 +36,119 @@ body {
   overflow-x: hidden;
 }
 
-/* Banner Fentilasi PNG */
-.header-banner {
+/* MODIFIKASI: Container pembungkus untuk banner dan efek animasi */
+.header-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
   z-index: 15;
   pointer-events: none;
+}
+
+/* Banner Fentilasi PNG */
+.header-banner {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* MODIFIKASI: Efek Logo/Folder PDF Melayang */
+.pdf-float {
+  position: absolute;
+  /* Sesuaikan angka % top & left ini agar posisinya pas di tengah fentilasi Anda */
+  top: 25%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  width: 32px;
+  height: 42px;
+  background-color: #E53935;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 10px;
+  font-family: var(--body);
+  box-shadow: 0 5px 15px rgba(229, 57, 53, 0.5);
+  
+  /* Animasi melayang naik turun */
+  animation: float-anim 3s ease-in-out infinite;
+}
+
+/* Hiasan lipatan folder di sudut kanan atas PDF */
+.pdf-float::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 0 10px 10px 0;
+  border-style: solid;
+  border-color: #2b0808 #2b0808 transparent transparent;
+  display: block;
+  width: 0;
+  height: 0;
+  border-radius: 0 4px 0 0;
+}
+
+@keyframes float-anim {
+  0% { transform: translate(-50%, -50%); }
+  50% { transform: translate(-50%, -75%); } /* Naik sedikit */
+  100% { transform: translate(-50%, -50%); }
+}
+
+/* MODIFIKASI: Efek Percikan (Sparks) di ujung kabel */
+.spark-container {
+  position: absolute;
+  /* Sesuaikan angka % top & left ini agar posisinya pas di ujung kabel merah */
+  top: 60%;
+  left: 12%; 
+}
+
+.spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #ffeb3b;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px #ffc107, 0 0 15px 3px #ff9800;
+  opacity: 0;
+  /* Berjalan selama 5 detik terus menerus */
+  animation: spark-burst 5s infinite; 
+}
+
+/* Partikel dibuat memercik ke arah yang berbeda-beda */
+.spark:nth-child(1) { animation-delay: 0s; }
+.spark:nth-child(2) { animation-delay: 0.1s; animation-name: spark-burst-2; }
+.spark:nth-child(3) { animation-delay: 0.05s; animation-name: spark-burst-3; }
+.spark:nth-child(4) { animation-delay: 0.15s; animation-name: spark-burst-4; }
+
+/* Logika Animasi: Opacity 0 dari 0% ke 95% (diam), lalu meledak cepat di sisa waktu */
+@keyframes spark-burst {
+  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
+  96% { opacity: 1; transform: scale(1.5) translate(-15px, 15px); }
+  98% { opacity: 0; transform: scale(0.5) translate(-30px, 30px); }
+  100% { opacity: 0; }
+}
+@keyframes spark-burst-2 {
+  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
+  96% { opacity: 1; transform: scale(1.2) translate(15px, 20px); }
+  98% { opacity: 0; transform: scale(0.5) translate(25px, 40px); }
+  100% { opacity: 0; }
+}
+@keyframes spark-burst-3 {
+  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
+  96% { opacity: 1; transform: scale(1.8) translate(0px, 25px); }
+  98% { opacity: 0; transform: scale(0.5) translate(-10px, 50px); }
+  100% { opacity: 0; }
+}
+@keyframes spark-burst-4 {
+  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
+  96% { opacity: 1; transform: scale(1.4) translate(20px, -5px); }
+  98% { opacity: 0; transform: scale(0.5) translate(35px, -15px); }
+  100% { opacity: 0; }
 }
 
 /* Main Content Container */
@@ -196,15 +300,31 @@ body {
   font-size: 0.8rem;
 }
 .footer img {
-  height: 32px; /* Ukuran logo BiB diperbesar 2x lipat */
+  height: 32px; 
   opacity: 0.8;
 }
 </style>
 </head>
 <body>
 
-  <!-- Gambar Fentilasi & Kabel (PNG) -->
-  <img src="fentilasi01.png" alt="Header Art" class="header-banner">
+  <!-- MODIFIKASI: Pembungkus untuk Banner dan Animasi -->
+  <div class="header-container">
+    
+    <!-- Gambar Fentilasi & Kabel (PNG) -->
+    <img src="fentilasi01.png" alt="Header Art" class="header-banner">
+    
+    <!-- Efek Logo PDF Warna Merah (Melayang di Tengah Fentilasi) -->
+    <div class="pdf-float">PDF</div>
+
+    <!-- Efek Percikan Kabel (Muncul Tiap 5 Detik di Ujung Kabel) -->
+    <div class="spark-container">
+      <div class="spark"></div>
+      <div class="spark"></div>
+      <div class="spark"></div>
+      <div class="spark"></div>
+    </div>
+
+  </div>
 
   <div class="container">
     
