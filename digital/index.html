@@ -56,9 +56,9 @@ body {
 /* MODIFIKASI: Efek Logo/Folder PDF Melayang */
 .pdf-float {
   position: absolute;
-  /* Sesuaikan angka % top & left ini agar posisinya pas di tengah fentilasi Anda */
-  top: 25%; 
-  left: 50%;
+  /* Posisi digeser ke kiri (41%) dan agak naik (22%) agar masuk ke lubang fentilasi */
+  top: 22%; 
+  left: 41%;
   transform: translate(-50%, -50%);
   
   width: 32px;
@@ -102,7 +102,7 @@ body {
 /* MODIFIKASI: Efek Percikan (Sparks) di ujung kabel */
 .spark-container {
   position: absolute;
-  /* Sesuaikan angka % top & left ini agar posisinya pas di ujung kabel merah */
+  /* Posisi di ujung kabel merah */
   top: 60%;
   left: 12%; 
 }
@@ -115,8 +115,8 @@ body {
   border-radius: 50%;
   box-shadow: 0 0 8px 2px #ffc107, 0 0 15px 3px #ff9800;
   opacity: 0;
-  /* Berjalan selama 5 detik terus menerus */
-  animation: spark-burst 5s infinite; 
+  /* Diubah menjadi 2 detik sekali */
+  animation: spark-burst 2s infinite; 
 }
 
 /* Partikel dibuat memercik ke arah yang berbeda-beda */
@@ -125,29 +125,29 @@ body {
 .spark:nth-child(3) { animation-delay: 0.05s; animation-name: spark-burst-3; }
 .spark:nth-child(4) { animation-delay: 0.15s; animation-name: spark-burst-4; }
 
-/* Logika Animasi: Opacity 0 dari 0% ke 95% (diam), lalu meledak cepat di sisa waktu */
+/* Logika Animasi (Skala waktu disesuaikan untuk durasi 2 detik) */
 @keyframes spark-burst {
-  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
-  96% { opacity: 1; transform: scale(1.5) translate(-15px, 15px); }
-  98% { opacity: 0; transform: scale(0.5) translate(-30px, 30px); }
+  0%, 90% { opacity: 0; transform: scale(0) translate(0, 0); }
+  92% { opacity: 1; transform: scale(1.5) translate(-15px, 15px); }
+  96% { opacity: 0; transform: scale(0.5) translate(-30px, 30px); }
   100% { opacity: 0; }
 }
 @keyframes spark-burst-2 {
-  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
-  96% { opacity: 1; transform: scale(1.2) translate(15px, 20px); }
-  98% { opacity: 0; transform: scale(0.5) translate(25px, 40px); }
+  0%, 90% { opacity: 0; transform: scale(0) translate(0, 0); }
+  92% { opacity: 1; transform: scale(1.2) translate(15px, 20px); }
+  96% { opacity: 0; transform: scale(0.5) translate(25px, 40px); }
   100% { opacity: 0; }
 }
 @keyframes spark-burst-3 {
-  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
-  96% { opacity: 1; transform: scale(1.8) translate(0px, 25px); }
-  98% { opacity: 0; transform: scale(0.5) translate(-10px, 50px); }
+  0%, 90% { opacity: 0; transform: scale(0) translate(0, 0); }
+  92% { opacity: 1; transform: scale(1.8) translate(0px, 25px); }
+  96% { opacity: 0; transform: scale(0.5) translate(-10px, 50px); }
   100% { opacity: 0; }
 }
 @keyframes spark-burst-4 {
-  0%, 95% { opacity: 0; transform: scale(0) translate(0, 0); }
-  96% { opacity: 1; transform: scale(1.4) translate(20px, -5px); }
-  98% { opacity: 0; transform: scale(0.5) translate(35px, -15px); }
+  0%, 90% { opacity: 0; transform: scale(0) translate(0, 0); }
+  92% { opacity: 1; transform: scale(1.4) translate(20px, -5px); }
+  96% { opacity: 0; transform: scale(0.5) translate(35px, -15px); }
   100% { opacity: 0; }
 }
 
