@@ -65,26 +65,27 @@ body {
   margin-bottom: 35px;
 }
 
-/* Wrapper Logo Diperbesar & Centering Mutlak */
+/* Wrapper dikembalikan ke ukuran normal (100px) */
 .avatar-wrapper {
-  width: 115px; /* Lingkaran sedikit lebih besar */
-  height: 115px;
+  position: relative;
+  width: 100px; 
+  height: 100px;
   border-radius: 50%;
   background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 0 auto 16px;
   border: 1px solid #333;
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  overflow: hidden; /* Menjaga gambar tetap rapi di dalam lingkaran */
+  overflow: hidden; 
 }
 
-/* Logo dibuat memenuhi 90% lingkaran & presisi di tengah */
+/* Logonya saja yang diperbesar dan dibuat ke tengah mutlak (Absolute Centering) */
 .avatar {
-  width: 90%; 
-  height: 90%;
-  object-fit: contain; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%; /* Lebar logo dibesarkan memenuhi 85% area lingkaran */
+  height: auto;
   display: block;
 }
 
