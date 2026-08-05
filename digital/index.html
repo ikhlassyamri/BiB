@@ -51,7 +51,6 @@ body {
 .container {
   width: 100%;
   max-width: 480px;
-  /* Padding atas dikurangi drastis biar logo naik mendekati fentilasi */
   padding: 120px 24px 60px; 
   display: flex;
   flex-direction: column;
@@ -66,9 +65,10 @@ body {
   margin-bottom: 35px;
 }
 
+/* Wrapper Logo Diperbesar & Centering Mutlak */
 .avatar-wrapper {
-  width: 110px; /* Ukuran lingkaran diperbesar sedikit */
-  height: 110px;
+  width: 115px; /* Lingkaran sedikit lebih besar */
+  height: 115px;
   border-radius: 50%;
   background: #000;
   display: flex;
@@ -77,11 +77,15 @@ body {
   margin: 0 auto 16px;
   border: 1px solid #333;
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  overflow: hidden; /* Menjaga gambar tetap rapi di dalam lingkaran */
 }
 
+/* Logo dibuat memenuhi 90% lingkaran & presisi di tengah */
 .avatar {
-  width: 80px; /* Logo ID diperbesar signifikan dari sebelumnya yang cuma 50px */
-  height: auto;
+  width: 90%; 
+  height: 90%;
+  object-fit: contain; 
+  display: block;
 }
 
 .username {
