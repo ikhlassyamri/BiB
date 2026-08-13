@@ -244,8 +244,8 @@ footer a:hover{color:#fff}
         <svg viewBox="0 0 24 24" fill="#25D366" stroke="none"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.5-1.2-2.9s.7-2 1-2.3c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.5-.1 1.3z"/></svg>
       </span>
       <span class="ntxt">
-        <b>Notifikasi lewat WhatsApp</b>
-        <span>Ikuti Saluran BiB — tiap tulisan baru langsung masuk HP-mu. Gratis, berhenti kapan saja.</span>
+        <b id="waTitle">Notifikasi lewat WhatsApp</b>
+        <span id="waDesc">Ikuti Saluran BiB — tiap tulisan baru langsung masuk HP-mu. Gratis, berhenti kapan saja.</span>
       </span>
       <span class="ngo">Ikuti</span>
     </a>
@@ -530,6 +530,19 @@ const ARTIKEL = [
      tetap ada — jangkauannya jauh lebih luas.
      ═══════════════════════════════════════════════════════════════ */
   var ONESIGNAL_APP_ID = "GANTI-INI";
+
+  /* Perangkat yang tidak mendukung push browser — terutama iPhone yang
+     buka lewat Safari biasa — diarahkan ke Saluran WhatsApp, supaya
+     tetap kebagian kabar artikel baru. */
+  var pushDidukung = ('serviceWorker' in navigator)
+                  && ('PushManager' in window)
+                  && ('Notification' in window);
+  if (!pushDidukung) {
+    document.getElementById('waTitle').textContent = 'Notifikasi lewat WhatsApp';
+    document.getElementById('waDesc').textContent  =
+      'Perangkatmu belum mendukung notifikasi browser (iPhone lewat Safari begini). ' +
+      'Ikuti Saluran BiB supaya tetap dapat kabar tiap artikel baru terbit.';
+  }
 
   if (ONESIGNAL_APP_ID.indexOf("GANTI-INI") === -1) {
     var card  = document.getElementById('pushCard');
