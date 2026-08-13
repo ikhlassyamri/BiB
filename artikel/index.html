@@ -511,11 +511,19 @@ const ARTIKEL = [
        3. Salin "App ID"-nya, tempel menggantikan GANTI-INI di bawah.
        4. Commit & push. Kartu "Notifikasi lewat browser" otomatis muncul.
 
+     Kenapa Site URL harus domain, bukan /artikel? Karena izin notifikasi
+     di browser melekat ke DOMAIN, bukan ke folder — tidak ada cara
+     memberi izin hanya untuk satu subfolder. Itu aturan browser.
+
+     Supaya pelanggan dari sini HANYA dapat kabar artikel: tombol ini
+     otomatis memberi label `langganan = artikel` ke tiap orang yang
+     berlangganan (lihat addTag di bawah). Waktu mengirim:
+       Messages → New Push → Send to Segment → New Segment →
+       filter: Tag `langganan` is `artikel`
+     Simpan segment itu sekali, lalu pakai terus tiap kirim artikel baru.
+
      Kalau App ID belum diisi, kartunya SENGAJA disembunyikan supaya
      pengunjung tidak melihat tombol yang belum berfungsi.
-
-     Kirim notifikasi tiap artikel baru: dashboard OneSignal →
-     Messages → New Push → isi judul + link artikelnya.
 
      Catatan iPhone: notifikasi browser hanya jalan kalau situs
      ditambahkan ke Home Screen dulu. Karena itu tombol WhatsApp
@@ -561,9 +569,18 @@ const ARTIKEL = [
           btn.textContent = 'Sebentar…';
           Promise.resolve(
             OneSignal.User.PushSubscription.optedIn
-              ? OneSignal.User.PushSubscription.optOut()
+              ? OneSignal.User.PushSubscription.optOut().then(function(){
+                  /* dicabut labelnya kalau berhenti langganan */
+                  try { OneSignal.User.removeTag('langganan'); } catch(e){}
+                })
               : OneSignal.Notifications.requestPermission().then(function(){
                   return OneSignal.User.PushSubscription.optIn();
+                }).then(function(){
+                  /* LABEL: menandai orang ini langganan dari halaman ARTIKEL.
+                     Di OneSignal, kirim push ke Segment dengan filter
+                     tag langganan = artikel, supaya dia HANYA menerima
+                     kabar artikel baru — bukan promo produk atau lainnya. */
+                  try { OneSignal.User.addTag('langganan', 'artikel'); } catch(e){}
                 })
           ).catch(function(){}).then(sync);
         });
