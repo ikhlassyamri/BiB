@@ -29,6 +29,7 @@
   --muted:#9AA1A9;
   --paper:#FFFFFF;
   --nv:#76B900;
+  --ac:#FFFFFF;      /* aksen halaman artikel = putih (monokrom BiB) */
   --wa:#25D366;
   --disp:'Space Grotesk',sans-serif;
   --body:'Inter',sans-serif;
@@ -72,16 +73,21 @@ a{color:inherit}
 .hero .count{
   display:inline-flex;align-items:center;gap:9px;margin-top:24px;
   font-family:var(--disp);font-weight:600;font-size:.85rem;letter-spacing:.06em;
-  color:var(--nv);text-transform:uppercase;
+  color:var(--ac);text-transform:uppercase;
 }
-.hero .count::before{content:"";width:8px;height:8px;background:var(--nv);flex:none}
+.hero .count::before{content:"";width:8px;height:8px;background:var(--ac);flex:none}
 
 /* ---------- kartu notifikasi ---------- */
+[hidden]{display:none!important}
+.notifs{display:grid;grid-template-columns:1fr;gap:13px;margin-bottom:34px}
+.notifs.duo{grid-template-columns:1fr 1fr}
+@media(max-width:820px){.notifs.duo{grid-template-columns:1fr}}
 .notif{
   display:flex;align-items:center;gap:16px;
   background:linear-gradient(180deg,#14161A,#101216);
   border:1px solid var(--line);border-radius:14px;
-  padding:17px 19px;margin-bottom:34px;text-decoration:none;
+  padding:17px 19px;text-decoration:none;
+  font:inherit;color:inherit;text-align:left;width:100%;cursor:pointer;
   transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
 }
 .notif:hover{transform:translateY(-2px);border-color:#3A3E45;box-shadow:0 12px 30px rgba(0,0,0,.45)}
@@ -101,6 +107,15 @@ a{color:inherit}
   background:var(--wa);color:#062B14;padding:10px 18px;border-radius:10px;white-space:nowrap;
 }
 .notif:hover .ngo{filter:brightness(1.07)}
+
+/* varian putih (notifikasi browser) */
+.notif-push .nico{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.24)}
+.notif-push .nico svg{stroke:#fff}
+.notif-push .ngo{background:var(--paper);color:var(--ink)}
+.notif-push:focus-visible{outline:2px solid #fff}
+.notif-push.aktif .ngo{background:transparent;color:var(--muted);border:1.5px solid var(--line);padding:8.5px 16px}
+.notif-push.aktif .nico{background:rgba(255,255,255,.05)}
+
 @media(max-width:620px){
   .notif{flex-wrap:wrap;gap:13px;padding:16px}
   .notif .ntxt{flex:1 1 calc(100% - 58px)}
@@ -120,7 +135,7 @@ a{color:inherit}
   transition:border-color .2s;
 }
 .search input::placeholder{color:#6D747C}
-.search input:focus{border-color:var(--nv)}
+.search input:focus{border-color:var(--ac)}
 .search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:17px;height:17px;stroke:#6D747C;fill:none;stroke-width:2}
 
 .frow{display:flex;align-items:center;gap:9px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -137,7 +152,7 @@ a{color:inherit}
 }
 .chip:hover{border-color:#3A3E45;color:var(--text)}
 .chip.on{background:var(--paper);border-color:var(--paper);color:var(--ink)}
-.chip.on.nv{background:var(--nv);border-color:var(--nv);color:#0B0C0E}
+.chip.on.nv{background:var(--ac);border-color:var(--ac);color:#0B0C0E}
 
 /* ---------- grid ---------- */
 .grid{
@@ -150,7 +165,7 @@ a{color:inherit}
   transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease;
 }
 .card:hover{transform:translateY(-4px);border-color:#33373E;box-shadow:0 14px 34px rgba(0,0,0,.5)}
-.card:focus-visible{outline:2px solid var(--nv);outline-offset:3px}
+.card:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
 .thumb{position:relative;aspect-ratio:1200/630;background:#16181C;overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
 .card:hover .thumb img{transform:scale(1.04)}
@@ -160,7 +175,7 @@ a{color:inherit}
   font-family:var(--disp);font-weight:600;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;
   padding:4px 9px;border-radius:5px;border:1px solid var(--line);color:var(--muted);
 }
-.tag.niche{color:var(--nv);border-color:rgba(118,185,0,.4);background:rgba(118,185,0,.07)}
+.tag.niche{color:var(--ac);border-color:rgba(255,255,255,.34);background:rgba(255,255,255,.06)}
 .card h3{
   font-family:var(--disp);font-weight:700;font-size:1.06rem;line-height:1.34;
   letter-spacing:-.01em;color:#fff;margin-bottom:9px;
@@ -172,7 +187,7 @@ a{color:inherit}
   font-size:.79rem;color:#6D747C;
 }
 .cmeta .go{font-family:var(--disp);font-weight:700;color:var(--text);font-size:.85rem}
-.card:hover .cmeta .go{color:var(--nv)}
+.card:hover .cmeta .go{color:var(--ac)}
 
 .empty{padding:70px 0 90px;text-align:center;color:var(--muted)}
 .empty .sqm{width:11px;height:11px;background:#3A3E45;margin:0 auto 18px}
@@ -223,16 +238,29 @@ footer a:hover{color:#fff}
     <div class="count" id="count"></div>
   </section>
 
-  <a class="notif" href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" target="_blank" rel="noopener">
-    <span class="nico">
-      <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.3 20a2 2 0 003.4 0"/></svg>
-    </span>
-    <span class="ntxt">
-      <b>Nyalakan notifikasi artikel baru</b>
-      <span>Ikuti Saluran WhatsApp BiB — tiap tulisan baru langsung masuk HP-mu. Gratis, dan bisa berhenti kapan saja.</span>
-    </span>
-    <span class="ngo">Aktifkan</span>
-  </a>
+  <div class="notifs" id="notifs">
+    <a class="notif" href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" target="_blank" rel="noopener">
+      <span class="nico">
+        <svg viewBox="0 0 24 24" fill="#25D366" stroke="none"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.5-1.2-2.9s.7-2 1-2.3c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.5-.1 1.3z"/></svg>
+      </span>
+      <span class="ntxt">
+        <b>Notifikasi lewat WhatsApp</b>
+        <span>Ikuti Saluran BiB — tiap tulisan baru langsung masuk HP-mu. Gratis, berhenti kapan saja.</span>
+      </span>
+      <span class="ngo">Ikuti</span>
+    </a>
+
+    <button class="notif notif-push" id="pushCard" type="button" hidden>
+      <span class="nico">
+        <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.3 20a2 2 0 003.4 0"/></svg>
+      </span>
+      <span class="ntxt">
+        <b id="pushTitle">Notifikasi lewat browser</b>
+        <span id="pushDesc">Nyalakan sekali, pemberitahuan artikel baru muncul langsung di HP atau laptopmu.</span>
+      </span>
+      <span class="ngo" id="pushBtn">Nyalakan</span>
+    </button>
+  </div>
 
   <div class="tools">
     <div class="search">
@@ -472,6 +500,76 @@ const ARTIKEL = [
   });
 
   render();
+
+  /* ═══════════════════════════════════════════════════════════════
+     🔔  NOTIFIKASI BROWSER (OneSignal)
+     ---------------------------------------------------------------
+     CARA MENGAKTIFKAN (sekali saja):
+       1. Daftar gratis di https://onesignal.com
+       2. New App → Web Push → isi nama situs "BiB" & URL
+          https://joinbib.id  (pilih "My site is not fully HTTPS"? TIDAK)
+       3. Salin "App ID"-nya, tempel menggantikan GANTI-INI di bawah.
+       4. Commit & push. Kartu "Notifikasi lewat browser" otomatis muncul.
+
+     Kalau App ID belum diisi, kartunya SENGAJA disembunyikan supaya
+     pengunjung tidak melihat tombol yang belum berfungsi.
+
+     Kirim notifikasi tiap artikel baru: dashboard OneSignal →
+     Messages → New Push → isi judul + link artikelnya.
+
+     Catatan iPhone: notifikasi browser hanya jalan kalau situs
+     ditambahkan ke Home Screen dulu. Karena itu tombol WhatsApp
+     tetap ada — jangkauannya jauh lebih luas.
+     ═══════════════════════════════════════════════════════════════ */
+  var ONESIGNAL_APP_ID = "GANTI-INI";
+
+  if (ONESIGNAL_APP_ID.indexOf("GANTI-INI") === -1) {
+    var card  = document.getElementById('pushCard');
+    var btn   = document.getElementById('pushBtn');
+    var desc  = document.getElementById('pushDesc');
+    var judul = document.getElementById('pushTitle');
+
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    var s = document.createElement('script');
+    s.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
+    s.defer = true;
+    document.head.appendChild(s);
+
+    window.OneSignalDeferred.push(function(OneSignal){
+      OneSignal.init({
+        appId: ONESIGNAL_APP_ID,
+        serviceWorkerPath: "/OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: "/" }
+      }).then(function(){
+        if (!OneSignal.Notifications.isPushSupported()) return; // biarkan tersembunyi
+        card.hidden = false;
+        document.getElementById('notifs').classList.add('duo');
+
+        function sync(){
+          var aktif = OneSignal.User.PushSubscription.optedIn === true;
+          card.classList.toggle('aktif', aktif);
+          btn.textContent   = aktif ? 'Aktif ✓' : 'Nyalakan';
+          judul.textContent = aktif ? 'Notifikasi browser aktif' : 'Notifikasi lewat browser';
+          desc.textContent  = aktif
+            ? 'Kamu akan diberi tahu tiap artikel baru terbit. Klik lagi untuk mematikan.'
+            : 'Nyalakan sekali, pemberitahuan artikel baru muncul langsung di HP atau laptopmu.';
+        }
+        sync();
+        OneSignal.User.PushSubscription.addEventListener('change', sync);
+
+        card.addEventListener('click', function(){
+          btn.textContent = 'Sebentar…';
+          Promise.resolve(
+            OneSignal.User.PushSubscription.optedIn
+              ? OneSignal.User.PushSubscription.optOut()
+              : OneSignal.Notifications.requestPermission().then(function(){
+                  return OneSignal.User.PushSubscription.optIn();
+                })
+          ).catch(function(){}).then(sync);
+        });
+      }).catch(function(){ /* gagal init: kartu tetap tersembunyi */ });
+    });
+  }
 
   var hdr = document.getElementById('hdr');
   addEventListener('scroll', function(){ hdr.classList.toggle('on', scrollY > 12); }, {passive:true});
