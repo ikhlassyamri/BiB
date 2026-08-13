@@ -1,0 +1,160 @@
+# ══════════════════════════════════════════════════════════════════
+#  Kirim notifikasi otomatis tiap ADA ARTIKEL BARU
+# ------------------------------------------------------------------
+#  Cara kerja: begitu ada file HTML BARU masuk ke folder /artikel/
+#  dan ke-push ke main, alur ini membaca judul & ringkasannya dari
+#  file itu, lalu mengirim push lewat OneSignal.
+#
+#  SYARAT SEKALI PASANG:
+#    Repo GitHub → Settings → Secrets and variables → Actions
+#    → New repository secret
+#      Name  : ONESIGNAL_REST_API_KEY
+#      Value : REST API Key dari OneSignal
+#              (Settings → Keys & IDs → REST API Key)
+#    Kunci ini RAHASIA. Disimpan sebagai Secret, tidak pernah
+#    tertulis di kode dan tidak terlihat di log.
+#
+#  CATATAN:
+#    - Hanya file BARU yang memicu notifikasi. Mengedit artikel lama
+#      TIDAK mengirim apa-apa, jadi aman kalau sekadar perbaikan.
+#    - Mau menerbitkan tanpa notifikasi? Tulis [tanpa-notif] di mana
+#      saja dalam pesan commit.
+# ══════════════════════════════════════════════════════════════════
+
+name: Notifikasi artikel baru
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'artikel/**.html'
+
+jobs:
+  kirim:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cari artikel yang baru ditambahkan
+        id: cari
+        run: |
+          BEFORE="${{ github.event.before }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] \
+             || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            BEFORE="$(git rev-parse HEAD~1 2>/dev/null || echo '')"
+          fi
+
+          if [ -z "$BEFORE" ]; then
+            echo "Tidak ada pembanding, lewati."
+            echo "file=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          BARU="$(git diff --name-only --diff-filter=A "$BEFORE" "${{ github.sha }}" -- 'artikel/*.html' \
+                  | grep -v '^artikel/index.html$' || true)"
+
+          echo "Artikel baru terdeteksi:"
+          echo "${BARU:-(tidak ada)}"
+          {
+            echo "file<<EOF"
+            echo "$BARU"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Kirim push lewat OneSignal
+        if: steps.cari.outputs.file != ''
+        env:
+          REST_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+          APP_ID: b08cc556-e8af-4fd1-a046-0c6ae3e1c065
+          PESAN_COMMIT: ${{ github.event.head_commit.message }}
+          DAFTAR: ${{ steps.cari.outputs.file }}
+        run: |
+          python3 - <<'PY'
+          import html, json, os, re, sys, urllib.error, urllib.request
+
+          if '[tanpa-notif]' in os.environ.get('PESAN_COMMIT', ''):
+              print('Pesan commit minta tanpa notifikasi. Dilewati.')
+              sys.exit(0)
+
+          kunci = os.environ.get('REST_KEY', '').strip()
+          if not kunci:
+              print('::error::Secret ONESIGNAL_REST_API_KEY belum dipasang di repo.')
+              sys.exit(1)
+
+          def ambil(pola, teks, bawaan=''):
+              m = re.search(pola, teks, re.I | re.S)
+              return html.unescape(m.group(1)).strip() if m else bawaan
+
+          berkas = [f for f in os.environ.get('DAFTAR', '').split('\n') if f.strip()]
+          gagal = False
+
+          for f in berkas:
+              try:
+                  isi = open(f, encoding='utf-8').read()
+              except OSError as e:
+                  print(f'::warning::Tidak bisa membaca {f}: {e}')
+                  continue
+
+              judul = ambil(r'<title>(.*?)</title>', isi)
+              # buang embel-embel merek di ujung judul
+              judul = re.split(r'\s+[|—–-]\s+BiB', judul)[0].strip() or 'Artikel baru di BiB'
+
+              ringkas = (ambil(r'property=["\']og:description["\']\s+content=["\'](.*?)["\']', isi)
+                         or ambil(r'name=["\']description["\']\s+content=["\'](.*?)["\']', isi)
+                         or 'Baca tulisan terbaru di joinbib.id')
+              if len(ringkas) > 160:
+                  ringkas = ringkas[:157].rsplit(' ', 1)[0] + '…'
+
+              alamat = ambil(r'rel=["\']canonical["\']\s+href=["\'](.*?)["\']', isi)
+              if not alamat:
+                  slug = os.path.basename(f)[:-5]
+                  alamat = f'https://joinbib.id/artikel/{slug}'
+
+              muatan = {
+                  'app_id': os.environ['APP_ID'],
+                  'included_segments': ['Subscribed Users'],
+                  'headings': {'en': f'Artikel baru: {judul}'},
+                  'contents': {'en': ringkas},
+                  'url': alamat,          # klik notif → langsung ke artikelnya
+              }
+
+              print(f'→ {judul}\n  {alamat}')
+
+              terkirim = False
+              # OneSignal baru memakai "Key <token>"; sebagian akun lama "Basic <token>"
+              for skema in ('Key', 'Basic'):
+                  permintaan = urllib.request.Request(
+                      'https://api.onesignal.com/notifications',
+                      data=json.dumps(muatan).encode(),
+                      headers={
+                          'Content-Type': 'application/json; charset=utf-8',
+                          'Authorization': f'{skema} {kunci}',
+                      },
+                      method='POST',
+                  )
+                  try:
+                      with urllib.request.urlopen(permintaan, timeout=30) as r:
+                          hasil = json.loads(r.read().decode())
+                      print(f'  ✅ terkirim (skema {skema}) — id {hasil.get("id")}, '
+                            f'penerima {hasil.get("recipients")}')
+                      terkirim = True
+                      break
+                  except urllib.error.HTTPError as e:
+                      badan = e.read().decode(errors='replace')
+                      if e.code in (401, 403) and skema == 'Key':
+                          print('  skema "Key" ditolak, mencoba "Basic"…')
+                          continue
+                      print(f'::error::Gagal kirim ({e.code}): {badan}')
+                      break
+                  except Exception as e:
+                      print(f'::error::Gagal kirim: {e}')
+                      break
+
+              if not terkirim:
+                  gagal = True
+
+          sys.exit(1 if gagal else 0)
+          PY
