@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://joinbib.id/</loc><lastmod>2026-07-07</lastmod><priority>1.0</priority></url>
-  <url><loc>https://joinbib.id/bebas-hutang</loc><lastmod>2026-07-07</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/bebas-judol</loc><lastmod>2026-07-07</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/ai-menggantikan-pekerjaan</loc><lastmod>2026-07-07</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/10-ai-generate-video-terbaik</loc><lastmod>2026-07-07</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/cara-bikin-prompt-ai-bisnis</loc><lastmod>2026-07-07</lastmod><priority>0.8</priority></url>
 
-  <!-- Artikel Baru: Sisi Gelap AI -->
-  <url><loc>https://joinbib.id/sisi-gelap-ai</loc><lastmod>2026-07-08</lastmod><priority>0.8</priority></url>
+  <!-- ===== Katalog Artikel ===== -->
+  <url><loc>https://joinbib.id/artikel</loc><lastmod>2026-08-13</lastmod><priority>0.9</priority></url>
 
-  <!-- Halaman Bio Clipper -->
+  <!-- ===== Artikel Umum (pindah dari root ke /artikel/) ===== -->
+  <url><loc>https://joinbib.id/artikel/bebas-hutang</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://joinbib.id/artikel/bebas-judol</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://joinbib.id/artikel/ai-menggantikan-pekerjaan</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://joinbib.id/artikel/10-ai-generate-video-terbaik</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://joinbib.id/artikel/cara-bikin-prompt-ai-bisnis</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+  <url><loc>https://joinbib.id/artikel/sisi-gelap-ai</loc><lastmod>2026-08-13</lastmod><priority>0.8</priority></url>
+
+  <!-- ===== IkhlasClip (sub-brand) ===== -->
   <url><loc>https://joinbib.id/clipper/</loc><lastmod>2026-07-08</lastmod><priority>0.8</priority></url>
-
-  <!-- Halaman Landing Page E-Book Ngeclip Cuan -->
-  <url><loc>https://joinbib.id/clipper/ngeclip-cuan</loc><lastmod>2026-07-08</lastmod><priority>0.9</priority></url>
-
-  <!-- Artikel: Platform Clipper Indonesia -->
+  <url><loc>https://joinbib.id/clipper/ngeclip-cuan</loc><lastmod>2026-07-09</lastmod><priority>0.9</priority></url>
+  <url><loc>https://joinbib.id/clipper/cara-jadi-clipper</loc><lastmod>2026-07-10</lastmod><priority>0.9</priority></url>
   <url><loc>https://joinbib.id/clipper/platform-clipper-indonesia</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
-
-  <!-- Tutorial: Daftar ClipAffiliates -->
+  <url><loc>https://joinbib.id/clipper/platform-clipper-luar-negeri</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/clipper/clipaffiliates</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
-
-  <!-- Tutorial: Daftar clipping.net -->
   <url><loc>https://joinbib.id/clipper/clipping-net</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
 
-  <!-- Rekomendasi: Platform Clipper Luar Negeri -->
-  <url><loc>https://joinbib.id/clipper/platform-clipper-luar-negeri</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
+  <!-- ===== Digital (bio + landing produk) ===== -->
+  <url><loc>https://joinbib.id/digital</loc><lastmod>2026-07-27</lastmod><priority>0.9</priority></url>
+  <url><loc>https://joinbib.id/digital/sutradara-digital</loc><lastmod>2026-07-27</lastmod><priority>0.9</priority></url>
+  <url><loc>https://joinbib.id/digital/10template</loc><lastmod>2026-07-27</lastmod><priority>0.9</priority></url>
 
-  <!-- Panduan Utama: Cara Jadi Clipper -->
-  <url><loc>https://joinbib.id/clipper/cara-jadi-clipper</loc><lastmod>2026-07-09</lastmod><priority>0.9</priority></url>
-
-  <!-- Tool: Pinterest Video Downloader -->
+  <!-- ===== Tool ===== -->
   <url><loc>https://joinbib.id/pinterest-downloader</loc><lastmod>2026-07-09</lastmod><priority>0.7</priority></url>
 </urlset>

@@ -11,9 +11,14 @@ Situs statis GitHub Pages (branch `main` = live di joinbib.id). Semua halaman HT
 ## 🗺️ Peta Folder (struktur & fungsi)
 > Peta wilayah repo, bukan inventaris file. **Aturan: tiap bikin folder baru → catat 1 baris di sini** (path + fungsi + aturan singkat). Update kalau fungsi folder berubah.
 
-- **`/` (root)** — landing utama (`index.html`) + **semua ARTIKEL blog** (1 file HTML per artikel, URL extensionless). Aset artikel (OG image `og-*.jpg`, thumbnail `thumb-*.webp`, video `lv_*.mp4`, gambar kelas/testi) juga ditaruh di root. File `*-PREVIEW.html` = draft/preview, **bukan** versi live.
-  - _Snapshot artikel saat ini:_ 10-ai-generate-video-terbaik, ai-menggantikan-pekerjaan, bebas-hutang, bebas-judol, cara-bikin-prompt-ai-bisnis, sisi-gelap-ai.
+- **`/` (root)** — landing utama (`index.html`) + aset bersama (OG image `og-*.jpg`, thumbnail `thumb-*.webp`, video `lv_*.mp4`, gambar kelas/testi, `logo-white.png`, `favicon.png`). Juga berisi **file redirect** artikel lama (mis. `bebas-judol.html` → `/artikel/bebas-judol`) — jangan dihapus, itu penjaga link lama yang sudah tersebar. File `*-PREVIEW.html` = draft, **bukan** versi live.
+- **`/artikel/`** — **rumah semua artikel umum** + halaman katalog (`index.html` = joinbib.id/artikel). Artikel baru non-clipper ditaruh di sini (`/artikel/<slug>.html`, URL extensionless).
+  - **Katalog otomatis:** daftar artikel diatur lewat array `ARTIKEL` di dalam `artikel/index.html` (ada blok komentar "TAMBAH ARTIKEL BARU DI SINI"). Tiap artikel punya `niche` (topik: AI/Clipper/Keuangan/Bisnis — boleh >1) + `jenis` (Panduan/Tutorial/Edukasi/Rekomendasi). **Tombol filter dibuat otomatis dari data**, jadi topik/jenis baru langsung muncul sendiri tanpa ngoding.
+  - **Wajib tiap nambah artikel:** (1) taruh file di `/artikel/`, (2) tambah 1 objek ke array `ARTIKEL`, (3) tambah link ke `<noscript>` di file yang sama, (4) update `sitemap.xml`.
+  - _Artikel clipper TIDAK dipindah_ — tetap di `/clipper/`, tapi ikut tampil di katalog ini.
 - **`/clipper/`** — sub-brand **IkhlasClip**. Landing (`index.html`), produk utama `ngeclip-cuan` (checkout Lynk.id), + panduan/artikel clipper (cara-jadi-clipper, platform-clipper-indonesia, platform-clipper-luar-negeri, clipaffiliates, clipping-net). Aset khusus: logo platform, screenshot tutorial (`ca-*`, `cn-*`), OG image `og-*.jpg`.
+- **`/digital/`** — halaman bio **joinbib.id/digital** (`index.html`) + landing produk digital: `sutradara-digital` dan `10template`. Aset: video demo (`Dekstop*.mp4`, `Mobile*.mp4`), screenshot `belajar-website-*.png`, logo.
+- **`/digital/10template/`** — pendukung produk 10template: halaman `purchase.html` + asetnya.
 - **`/pinterest-downloader/`** — tool Pinterest Video Downloader (`index.html`) + asetnya. Frontend memanggil Cloudflare Worker sebagai jalur utama, fallback ke proxy publik.
 - **`/workers/pinterest/`** — backend serverless (Cloudflare Worker, `worker.js`) untuk pinterest-downloader. **BUKAN** bagian situs statis GitHub Pages; deploy terpisah ke Cloudflare (gratis). Endpoint: `GET /resolve`, `GET /download`. Detail lengkap di `README.md` folder itu.
 
