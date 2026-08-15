@@ -113,23 +113,32 @@ jobs:
                   slug = os.path.basename(f)[:-5]
                   alamat = f'https://joinbib.id/artikel/{slug}'
 
-              # Nama segmen bawaan OneSignal berbeda antar umur akun:
+              # Nama segmen bawaan OneSignal BERBEDA menurut umur akun:
               # akun lama "Subscribed Users", akun baru "Total Subscriptions".
-              # Kalau namanya tidak ada, OneSignal tetap membalas HTTP 200 —
-              # tapi isinya errors dan recipients 0. Itu yang terjadi kemarin.
-              muatan = {
-                  'app_id': os.environ['APP_ID'],
-                  'included_segments': ['Subscribed Users'],
-                  'headings': {'en': f'Artikel baru: {judul}'},
-                  'contents': {'en': ringkas},
-                  'url': alamat,          # klik notif → langsung ke artikelnya
-              }
+              #
+              # Kalau namanya tidak cocok, OneSignal TIDAK bilang "segmen tidak
+              # ditemukan". Ia membalas HTTP 200 dengan
+              #   {"id": "", "errors": ["All included players are not subscribed"]}
+              # — kalimat yang terdengar seperti "belum ada pelanggan", padahal
+              # pelanggannya ada puluhan. Pesan itu yang sempat menyesatkan.
+              #
+              # Karena itu semua nama dicoba bergantian sampai ada yang benar-benar
+              # menghasilkan notifikasi. Nama yang berhasil dicetak, supaya sekali
+              # ketahuan tidak perlu ditebak lagi.
+              SEGMEN = ['Total Subscriptions', 'Subscribed Users', 'Active Users']
 
               print(f'→ {judul}\n  {alamat}')
 
               terkirim = False
               # OneSignal baru memakai "Key <token>"; sebagian akun lama "Basic <token>"
-              for skema in ('Key', 'Basic'):
+              for skema, segmen in [(sk, sg) for sk in ('Key', 'Basic') for sg in SEGMEN]:
+                  muatan = {
+                      'app_id': os.environ['APP_ID'],
+                      'included_segments': [segmen],
+                      'headings': {'en': f'Artikel baru: {judul}'},
+                      'contents': {'en': ringkas},
+                      'url': alamat,      # klik notif → langsung ke artikelnya
+                  }
                   permintaan = urllib.request.Request(
                       'https://api.onesignal.com/notifications',
                       data=json.dumps(muatan).encode(),
@@ -153,24 +162,17 @@ jobs:
                       penerima = hasil.get('recipients')
                       keliru = hasil.get('errors')
                       if keliru or not ident or not penerima:
-                          print(f'  balasan tanpa notifikasi (skema {skema}): '
-                                f'{json.dumps(hasil, ensure_ascii=False)[:300]}')
-                          if skema == 'Key':
-                              continue
-                          print('::error::OneSignal menerima permintaan tapi TIDAK '
-                                'membuat notifikasi. Penyebab tersering: belum ada '
-                                'pelanggan, atau nama segmen tidak cocok. Cek '
-                                'OneSignal → Audience → Subscriptions.')
-                          break
-
-                      print(f'  ✅ terkirim (skema {skema}) — id {ident}, '
-                            f'penerima {penerima}')
+                          print(f'  kosong — skema {skema}, segmen "{segmen}": '
+                                f'{json.dumps(hasil, ensure_ascii=False)[:220]}')
+                          continue
+                      print(f'  ✅ TERKIRIM ke {penerima} perangkat — '
+                            f'skema "{skema}", segmen "{segmen}", id {ident}')
                       terkirim = True
                       break
                   except urllib.error.HTTPError as e:
                       badan = e.read().decode(errors='replace')
-                      if e.code in (401, 403) and skema == 'Key':
-                          print('  skema "Key" ditolak, mencoba "Basic"…')
+                      if e.code in (401, 403):
+                          print(f'  skema "{skema}" ditolak ({e.code}), coba berikutnya…')
                           continue
                       print(f'::error::Gagal kirim ({e.code}): {badan}')
                       break
@@ -179,6 +181,11 @@ jobs:
                       break
 
               if not terkirim:
+                  print(f'::error::Tidak ada satu pun kombinasi skema x segmen yang '
+                        f'menghasilkan notifikasi untuk "{judul}". Segmen yang dicoba: '
+                        f'{", ".join(SEGMEN)}. Buka OneSignal → Audience → Segments, '
+                        f'lihat nama segmen yang benar-benar ada, lalu tambahkan ke '
+                        f'daftar SEGMEN di berkas alur ini.')
                   gagal = True
 
           sys.exit(1 if gagal else 0)
