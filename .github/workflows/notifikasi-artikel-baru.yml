@@ -113,6 +113,10 @@ jobs:
                   slug = os.path.basename(f)[:-5]
                   alamat = f'https://joinbib.id/artikel/{slug}'
 
+              # Nama segmen bawaan OneSignal berbeda antar umur akun:
+              # akun lama "Subscribed Users", akun baru "Total Subscriptions".
+              # Kalau namanya tidak ada, OneSignal tetap membalas HTTP 200 —
+              # tapi isinya errors dan recipients 0. Itu yang terjadi kemarin.
               muatan = {
                   'app_id': os.environ['APP_ID'],
                   'included_segments': ['Subscribed Users'],
@@ -138,8 +142,29 @@ jobs:
                   try:
                       with urllib.request.urlopen(permintaan, timeout=30) as r:
                           hasil = json.loads(r.read().decode())
-                      print(f'  ✅ terkirim (skema {skema}) — id {hasil.get("id")}, '
-                            f'penerima {hasil.get("recipients")}')
+
+                      # HTTP 200 BUKAN bukti terkirim. OneSignal membalas 200
+                      # dengan {"errors": [...]} kalau segmennya tidak ada atau
+                      # tidak ada pelanggan, dan id-nya kosong. Versi sebelumnya
+                      # mencetak "✅ terkirim" untuk balasan seperti itu — jadi
+                      # workflow hijau, notifikasi tidak pernah sampai, dan tidak
+                      # ada yang tahu. Sekarang id DAN penerima wajib ada.
+                      ident = hasil.get('id') or ''
+                      penerima = hasil.get('recipients')
+                      keliru = hasil.get('errors')
+                      if keliru or not ident or not penerima:
+                          print(f'  balasan tanpa notifikasi (skema {skema}): '
+                                f'{json.dumps(hasil, ensure_ascii=False)[:300]}')
+                          if skema == 'Key':
+                              continue
+                          print('::error::OneSignal menerima permintaan tapi TIDAK '
+                                'membuat notifikasi. Penyebab tersering: belum ada '
+                                'pelanggan, atau nama segmen tidak cocok. Cek '
+                                'OneSignal → Audience → Subscriptions.')
+                          break
+
+                      print(f'  ✅ terkirim (skema {skema}) — id {ident}, '
+                            f'penerima {penerima}')
                       terkirim = True
                       break
                   except urllib.error.HTTPError as e:
