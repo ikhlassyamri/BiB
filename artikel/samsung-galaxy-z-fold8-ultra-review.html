@@ -505,18 +505,31 @@ footer a:hover{color:#0B0C0E}
      dengan selamat: kalau pembaca menekan "Block", browser mengingatnya
      selamanya dan pembaca itu hilang untuk seterusnya. Jadi ajakan ini tidak
      muncul kalau salah satu dari ini benar:
-       · pembaca sudah berlangganan
+       · pembaca sudah berlangganan (dicatat juga di localStorage, lihat bawah)
        · pembaca pernah menolak ajakan ini sebelumnya
-       · browser sudah pernah diblokir/diizinkan untuk situs ini
-       · pop-up promosi sedang terbuka (jangan dua-duanya sekaligus)          */
+       · browser sudah memblokir notifikasi untuk situs ini
+       · pop-up promosi sedang terbuka (jangan dua-duanya sekaligus)
+
+     Status langganan dari SDK datang TERLAMBAT: OneSignal baru tahu optedIn
+     setelah init selesai, sementara pembaca bisa sampai di dua layar lebih
+     cepat dari itu. Pernah kejadian: HP yang SUDAH berlangganan tetap
+     disodori kartunya. Dua lapis penangkalnya:
+       1. KUNCI_AKTIF di localStorage — ditulis begitu optIn() berhasil dan
+          disinkronkan tiap kali SDK melapor; dibaca SINKRON di bolehTanya().
+       2. Kalau izin browser sudah 'granted' (satu-satunya keadaan yang
+          memungkinkan sudah berlangganan), kartunya MENUNGGU vonis SDK —
+          tidak tampil sebelum optedIn terbaca. Izin 'default' mustahil
+          sudah berlangganan, jadi boleh langsung.                           */
   var ONESIGNAL_APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
   var KUNCI_TOLAK = 'bib-notif-ditolak';
+  var KUNCI_AKTIF = 'bib-notif-aktif';
 
   var notif  = document.getElementById('notif');
   var notifx = document.getElementById('notifx');
   var notifya = document.getElementById('notifya');
   var notifnanti = document.getElementById('notifnanti');
   var notifTampil = false, notifSiap = false, sudahLangganan = false;
+  var statusDicek = false;   /* true begitu SDK selesai membaca optedIn */
 
   function bolehTanya(){
     if (!notif || notifTampil) return false;
@@ -531,7 +544,11 @@ footer a:hover{color:#0B0C0E}
        memancing pembaca memblokir situsnya untuk selamanya. */
     if (Notification.permission === 'denied') return false;
     if (sudahLangganan) return false;
-    try { if (localStorage.getItem(KUNCI_TOLAK)) return false; } catch(e) {}
+    try {
+      if (localStorage.getItem(KUNCI_TOLAK)) return false;
+      /* catatan langganan yang bisa dibaca SINKRON — vonis SDK menyusul */
+      if (localStorage.getItem(KUNCI_AKTIF)) return false;
+    } catch(e) {}
     return true;
   }
 
@@ -588,6 +605,9 @@ footer a:hover{color:#0B0C0E}
         OneSignal.User.PushSubscription.optIn()
           .then(function(){
             try { OneSignal.User.addTag('langganan', 'artikel'); } catch (e) {}
+            /* catat di perangkat: kunjungan berikutnya tidak perlu menunggu
+               SDK untuk tahu pembaca ini sudah berlangganan */
+            try { localStorage.setItem(KUNCI_AKTIF, '1'); } catch (e) {}
             beres = true;
             selesaiBaik();
           })
@@ -625,6 +645,16 @@ footer a:hover{color:#0B0C0E}
         promptOptions: { slidedown: { prompts: [] } }
       }).then(function(){
         try { sudahLangganan = !!OneSignal.User.PushSubscription.optedIn; } catch(e) {}
+        statusDicek = true;
+        /* sinkronkan catatan perangkat dua arah: berlangganan → tulis,
+           ternyata sudah tidak → hapus supaya ajakan boleh kembali */
+        try {
+          if (sudahLangganan) localStorage.setItem(KUNCI_AKTIF, '1');
+          else localStorage.removeItem(KUNCI_AKTIF);
+        } catch(e) {}
+        /* pembaca mungkin sudah berhenti scroll sambil menunggu vonis ini —
+           evaluasi ulang sekali supaya kartunya tidak batal tampil selamanya */
+        cekNotif();
       });
     });
   }
@@ -640,6 +670,14 @@ footer a:hover{color:#0B0C0E}
     /* "sudah scroll dua kali" = kira-kira dua tinggi layar */
     if (h.scrollTop < innerHeight * 2) return;
     if (!bolehTanya()) return;
+    /* Izin 'granted' = mungkin sudah berlangganan; tunggu vonis SDK dulu.
+       Tidak pakai batas waktu: kalau SDK-nya tidak bisa dimuat, tombol
+       kartunya juga tidak akan bisa mendaftarkan siapa-siapa. init yang
+       selesai memanggil cekNotif() lagi (lihat muatOneSignal). */
+    if (Notification.permission === 'granted' && !statusDicek) {
+      muatOneSignal();
+      return;
+    }
     /* Promosi sudah dapat gilirannya sejak 20% scroll; sekarang ia
        menutup supaya dua kartu tidak menumpuk di layar kecil. */
     if (pop) pop.classList.remove('on');
