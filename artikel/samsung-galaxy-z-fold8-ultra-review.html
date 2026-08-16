@@ -506,9 +506,12 @@ footer a:hover{color:#0B0C0E}
      selamanya dan pembaca itu hilang untuk seterusnya. Jadi ajakan ini tidak
      muncul kalau salah satu dari ini benar:
        · pembaca sudah berlangganan (dicatat juga di localStorage, lihat bawah)
-       · pembaca pernah menolak ajakan ini sebelumnya
        · browser sudah memblokir notifikasi untuk situs ini
        · pop-up promosi sedang terbuka (jangan dua-duanya sekaligus)
+     Klik X sengaja TIDAK diingat lintas kunjungan (keputusan pemilik):
+     kartunya kembali saat refresh atau di artikel lain, terus begitu sampai
+     pembaca berlangganan. Satu-satunya penolakan yang permanen adalah
+     "Block" di dialog izin browser — itu milik pembaca, jangan dilawan.
 
      Status langganan dari SDK datang TERLAMBAT: OneSignal baru tahu optedIn
      setelah init selesai, sementara pembaca bisa sampai di dua layar lebih
@@ -521,8 +524,10 @@ footer a:hover{color:#0B0C0E}
           tidak tampil sebelum optedIn terbaca. Izin 'default' mustahil
           sudah berlangganan, jadi boleh langsung.                           */
   var ONESIGNAL_APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
-  var KUNCI_TOLAK = 'bib-notif-ditolak';
   var KUNCI_AKTIF = 'bib-notif-aktif';
+  /* kebijakan lama sempat mengingat klik X selamanya; pemilik memutuskan
+     ajakan kembali tiap kunjungan — bersihkan catatan warisannya */
+  try { localStorage.removeItem('bib-notif-ditolak'); } catch(e) {}
 
   var notif  = document.getElementById('notif');
   var notifx = document.getElementById('notifx');
@@ -545,17 +550,15 @@ footer a:hover{color:#0B0C0E}
     if (Notification.permission === 'denied') return false;
     if (sudahLangganan) return false;
     try {
-      if (localStorage.getItem(KUNCI_TOLAK)) return false;
       /* catatan langganan yang bisa dibaca SINKRON — vonis SDK menyusul */
       if (localStorage.getItem(KUNCI_AKTIF)) return false;
     } catch(e) {}
     return true;
   }
 
-  function tutupNotif(ingat){
+  function tutupNotif(){
     if (!notif) return;
     notif.classList.remove('on');
-    if (ingat) { try { localStorage.setItem(KUNCI_TOLAK, '1'); } catch(e) {} }
     /* Dua pop-up SATU artikel, bergiliran: promosi mengalah waktu kartu
        notifikasi tampil, lalu kembali begitu kartunya ditutup — kecuali
        pembaca memang sudah menutup promosinya sendiri. */
@@ -565,8 +568,9 @@ footer a:hover{color:#0B0C0E}
     }
   }
 
-  if (notifx) notifx.addEventListener('click', function(){ tutupNotif(true); });
-  if (notifnanti) notifnanti.addEventListener('click', function(){ tutupNotif(true); });
+  /* X dan "Nanti saja" cuma menutup untuk kunjungan ini — tidak dicatat */
+  if (notifx) notifx.addEventListener('click', function(){ tutupNotif(); });
+  if (notifnanti) notifnanti.addEventListener('click', function(){ tutupNotif(); });
   if (notifya) notifya.addEventListener('click', function(){
     /* Izin HARUS diminta langsung di dalam ketukan ini. Versi lama menitipkan
        permintaannya ke antrean OneSignalDeferred — jalan asinkron setelah SDK
@@ -579,7 +583,7 @@ footer a:hover{color:#0B0C0E}
 
     function selesaiBaik(){
       notifya.textContent = 'Aktif ✓';
-      setTimeout(function(){ tutupNotif(false); }, 900);
+      setTimeout(function(){ tutupNotif(); }, 900);
     }
     function selesaiGagal(pesan){
       notifya.disabled = false;
@@ -595,7 +599,8 @@ footer a:hover{color:#0B0C0E}
 
     minta.then(function(izin){
       if (izin !== 'granted') {
-        tutupNotif(true);      /* ditolak — hormati, jangan tanya lagi */
+        /* dialog browser ditolak/diabaikan — 'denied' memblokir sendiri */
+        tutupNotif();
         return;
       }
       muatOneSignal();
