@@ -523,7 +523,7 @@ footer a:hover{color:#0B0C0E}
     var p = maks > 0 ? Math.min(1, Math.max(0, h.scrollTop / maks)) : 0;
     bar.style.width = (p * 100) + '%';
     hdr.classList.toggle('on', h.scrollTop > 12);
-    if (!popTampil && p > 0.2 && !(notif && notif.classList.contains('on'))) {
+    if (!popTampil && p > 0.2 && !popDitutup && !(notif && notif.classList.contains('on'))) {
       popTampil = true; pop.classList.add('on');
     }
     cekNotif();
@@ -538,7 +538,8 @@ footer a:hover{color:#0B0C0E}
   addEventListener('resize', gerak, { passive: true });
   gerak();
 
-  popx.addEventListener('click', function(){ pop.classList.remove('on'); });
+  var popDitutup = false;
+  popx.addEventListener('click', function(){ popDitutup = true; pop.classList.remove('on'); });
 
   /* ── ajakan notifikasi (OneSignal) ─────────────────────────────────────
      App ID-nya sama dengan yang sudah dipasang di /artikel/index.html, dan
@@ -583,6 +584,10 @@ footer a:hover{color:#0B0C0E}
     if (!notif) return;
     notif.classList.remove('on');
     if (ingat) { try { localStorage.setItem(KUNCI_TOLAK, '1'); } catch(e) {} }
+    if (!popDitutup) {
+      popTampil = false;
+      setTimeout(gerak, 450);
+    }
   }
 
   if (notifx) notifx.addEventListener('click', function(){ tutupNotif(true); });
