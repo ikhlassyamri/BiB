@@ -195,7 +195,7 @@ h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.95rem,6vw,3rem);
 .meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--dim);font-size:.85rem;
   padding-bottom:24px;border-bottom:1px solid var(--line)}
 .baru{display:inline-flex;align-items:center;gap:6px;font-family:var(--disp);font-weight:700;
-  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#3D6B00;
+  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--nv);
   background:color-mix(in srgb, var(--nv) 12%, transparent);
   border:1px solid color-mix(in srgb, var(--nv) 40%, transparent);
   padding:3px 9px;border-radius:999px}
@@ -635,7 +635,6 @@ footer a:hover{color:#0B0C0E}
          autoResubscribe — jangan biarkan tombolnya menggantung selamanya. */
       setTimeout(function(){ if (!beres) selesaiBaik(); }, 8000);
     });
-  });
   });
 
   /* SDK-nya baru dimuat kalau ajakannya memang mungkin dipakai, supaya
