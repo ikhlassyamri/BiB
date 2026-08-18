@@ -108,6 +108,35 @@ jobs:
               if len(ringkas) > 160:
                   ringkas = ringkas[:157].rsplit(' ', 1)[0] + '…'
 
+              # AWALAN JUDUL NOTIFIKASI menurut jenis+topik artikel
+              # (keputusan pemilik, Agu 2026 — dulu semua "Artikel baru:").
+              # Sumbernya kicker di artikel itu sendiri, mis. "BERITA · AI"
+              # atau "EDUKASI · ILMU JUALAN" → "Berita AI", "Edukasi Jualan".
+              # Kisah sukses berdiri sendiri tanpa topik: "Kisah Sukses".
+              def rapikan_kata(s):
+                  keluar = []
+                  for w in s.split():
+                      # singkatan biar tidak jadi "Ai"/"Seo"
+                      keluar.append(w if (w.isupper() and len(w) <= 4)
+                                    else w.capitalize())
+                  return ' '.join(keluar)
+
+              kicker = ambil(r'<div class=["\']kick["\']>(.*?)</div>', isi)
+              awalan = 'Artikel baru'
+              if kicker:
+                  bagian = [b.strip() for b in re.split(r'[·|]', kicker) if b.strip()]
+                  jenis = rapikan_kata(bagian[0]) if bagian else ''
+                  topik = rapikan_kata(bagian[1]) if len(bagian) > 1 else ''
+                  # "ILMU JUALAN" → "Jualan" (yang dibaca orang di layar kunci
+                  # cuma beberapa kata pertama, jadi jangan boros)
+                  topik = re.sub(r'^ilmu\s+', '', topik, flags=re.I)
+                  if jenis.lower().startswith('kisah'):
+                      awalan = 'Kisah Sukses'          # berdiri sendiri
+                  elif jenis and topik:
+                      awalan = f'{jenis} {topik}'
+                  elif jenis:
+                      awalan = jenis
+
               alamat = ambil(r'rel=["\']canonical["\']\s+href=["\'](.*?)["\']', isi)
               if not alamat:
                   slug = os.path.basename(f)[:-5]
@@ -127,7 +156,7 @@ jobs:
               # ketahuan tidak perlu ditebak lagi.
               SEGMEN = ['Total Subscriptions', 'Subscribed Users', 'Active Users']
 
-              print(f'→ {judul}\n  {alamat}')
+              print(f'→ [{awalan}] {judul}\n  {alamat}')
 
               terkirim = False
               # OneSignal baru memakai "Key <token>"; sebagian akun lama "Basic <token>"
@@ -135,7 +164,7 @@ jobs:
                   muatan = {
                       'app_id': os.environ['APP_ID'],
                       'included_segments': [segmen],
-                      'headings': {'en': f'Artikel baru: {judul}'},
+                      'headings': {'en': f'{awalan}: {judul}'},
                       'contents': {'en': ringkas},
                       'url': alamat,      # klik notif → langsung ke artikelnya
                   }
