@@ -102,16 +102,20 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
 .ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   margin-bottom:12px;overflow:hidden}
 .ch[open]{border-color:var(--line-2)}
-.ch summary{display:flex;gap:14px;align-items:flex-start;padding:17px 18px;
-  cursor:pointer;list-style:none}
+/* Judul chapter ditaruh DI BAWAH labelnya (keputusan pemilik, Agu 2026):
+   sebaris dengan label, judul cuma kebagian setengah lebar kartu dan
+   pecah jadi empat baris pendek yang terasa padat. Di bawah, ia dapat
+   lebar penuh — lebih ramping dan lebih rapi. */
+.ch summary{display:block;padding:16px 18px;cursor:pointer;list-style:none}
 .ch summary::-webkit-details-marker{display:none}
+.ch-atas{display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:9px}
 .ch-no{font-family:var(--disp);font-weight:700;font-size:.72rem;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
-  white-space:nowrap;padding-top:5px}
-.ch-tx{flex:1;min-width:0}
+  white-space:nowrap}
 .ch-jd{font-family:var(--disp);font-weight:600;font-size:1.06rem;
-  line-height:1.35;display:block}
-.ch-kanan{display:flex;align-items:center;gap:10px;padding-top:3px}
+  line-height:1.4;display:block}
+.ch-kanan{display:flex;align-items:center;gap:10px;flex:none}
 .ch-hit{font-family:var(--disp);font-size:.8rem;color:var(--muted);
   white-space:nowrap}
 .ch-tanda{width:22px;height:22px;flex:none;position:relative}
@@ -161,9 +165,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   <div class="hitung">0 dari 120 bagian sudah terbit</div>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 1</span>
-      <span class="ch-tx"><span class="ch-jd">Membongkar Cara Pandang Uang dan Energi Hidup Sehari-Hari</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 1</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Membongkar Cara Pandang Uang dan Energi Hidup Sehari-Hari</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">01</span><span class="jd">Menemukan Uang sebagai Waktu Hidup yang Ditukar<span class="tg">Segera hadir</span></span></div></li>
@@ -183,9 +186,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 2</span>
-      <span class="ch-tx"><span class="ch-jd">Menghitung Arus Kas Rumah Tangga dan Menemukan Titik Cukup</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/9</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 2</span><span class="ch-kanan"><span class="ch-hit">0/9</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menghitung Arus Kas Rumah Tangga dan Menemukan Titik Cukup</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">14</span><span class="jd">Menyusun Kategori Pengeluaran Pribadi yang Jujur dan Spesifik<span class="tg">Segera hadir</span></span></div></li>
@@ -201,9 +203,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 3</span>
-      <span class="ch-tx"><span class="ch-jd">Menjinakkan Utang Konsumtif dan Membangun Pertahanan Finansial</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 3</span><span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menjinakkan Utang Konsumtif dan Membangun Pertahanan Finansial</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">23</span><span class="jd">Memetakan Seluruh Liabilitas dan Menghitung Total Beban Utang Konsumtif<span class="tg">Segera hadir</span></span></div></li>
@@ -222,9 +223,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 4</span>
-      <span class="ch-tx"><span class="ch-jd">Menghadapi Inflasi dan Menjaga Daya Beli Dompet Kecil</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 4</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menghadapi Inflasi dan Menjaga Daya Beli Dompet Kecil</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">35</span><span class="jd">Memahami Inflasi Bukan Sekadar Kenaikan Harga, Melainkan Kejatuhan Daya Beli<span class="tg">Segera hadir</span></span></div></li>
@@ -244,9 +244,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 5</span>
-      <span class="ch-tx"><span class="ch-jd">Mengenal Suku Bunga, Perbankan, dan Perangkap Riba dalam Kehidupan</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 5</span><span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mengenal Suku Bunga, Perbankan, dan Perangkap Riba dalam Kehidupan</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">48</span><span class="jd">Mengenal Peran Bank Sebagai Perantara dan Sumber Utama Peredaran Uang<span class="tg">Segera hadir</span></span></div></li>
@@ -265,9 +264,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 6</span>
-      <span class="ch-tx"><span class="ch-jd">Menyelaraskan Pendapatan dan Menumbuhkan Nilai Jual Diri</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/10</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 6</span><span class="ch-kanan"><span class="ch-hit">0/10</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menyelaraskan Pendapatan dan Menumbuhkan Nilai Jual Diri</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">60</span><span class="jd">Mengevaluasi Nilai Pekerjaan Berdasarkan Waktu dan Energi Hidup yang Dikorbankan<span class="tg">Segera hadir</span></span></div></li>
@@ -284,9 +282,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 7</span>
-      <span class="ch-tx"><span class="ch-jd">Memahami Kurs, Ekonomi Makro, dan Dampaknya ke Harga Barang</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 7</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Memahami Kurs, Ekonomi Makro, dan Dampaknya ke Harga Barang</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">70</span><span class="jd">Memahami Kurs sebagai Harga Pertukaran Mata Uang Antarnegara<span class="tg">Segera hadir</span></span></div></li>
@@ -306,9 +303,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 8</span>
-      <span class="ch-tx"><span class="ch-jd">Mengelola Risiko Hidup Tanpa Tertipu Produk Keuangan Rumit</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 8</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mengelola Risiko Hidup Tanpa Tertipu Produk Keuangan Rumit</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">83</span><span class="jd">Memahami Sifat Ketidakpastian Hidup dan Perbedaan Risiko Kecil versus Katastrofik<span class="tg">Segera hadir</span></span></div></li>
@@ -328,9 +324,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 9</span>
-      <span class="ch-tx"><span class="ch-jd">Menanam Modal pada Aset Produktif dan Usaha Nyata yang Halal</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 9</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menanam Modal pada Aset Produktif dan Usaha Nyata yang Halal</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">96</span><span class="jd">Membedakan Tabungan Tidur dan Aset Produktif Riil<span class="tg">Segera hadir</span></span></div></li>
@@ -350,9 +345,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 10</span>
-      <span class="ch-tx"><span class="ch-jd">Mendesain Kemandirian Finansial untuk Ketenangan Jangka Panjang</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 10</span><span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mendesain Kemandirian Finansial untuk Ketenangan Jangka Panjang</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">109</span><span class="jd">Menghitung Batas Titik Crossover Antara Bekerja dan Arus Kas Pasif<span class="tg">Segera hadir</span></span></div></li>

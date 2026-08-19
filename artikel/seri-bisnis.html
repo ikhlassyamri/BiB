@@ -102,16 +102,20 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
 .ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   margin-bottom:12px;overflow:hidden}
 .ch[open]{border-color:var(--line-2)}
-.ch summary{display:flex;gap:14px;align-items:flex-start;padding:17px 18px;
-  cursor:pointer;list-style:none}
+/* Judul chapter ditaruh DI BAWAH labelnya (keputusan pemilik, Agu 2026):
+   sebaris dengan label, judul cuma kebagian setengah lebar kartu dan
+   pecah jadi empat baris pendek yang terasa padat. Di bawah, ia dapat
+   lebar penuh — lebih ramping dan lebih rapi. */
+.ch summary{display:block;padding:16px 18px;cursor:pointer;list-style:none}
 .ch summary::-webkit-details-marker{display:none}
+.ch-atas{display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:9px}
 .ch-no{font-family:var(--disp);font-weight:700;font-size:.72rem;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
-  white-space:nowrap;padding-top:5px}
-.ch-tx{flex:1;min-width:0}
+  white-space:nowrap}
 .ch-jd{font-family:var(--disp);font-weight:600;font-size:1.06rem;
-  line-height:1.35;display:block}
-.ch-kanan{display:flex;align-items:center;gap:10px;padding-top:3px}
+  line-height:1.4;display:block}
+.ch-kanan{display:flex;align-items:center;gap:10px;flex:none}
 .ch-hit{font-family:var(--disp);font-size:.8rem;color:var(--muted);
   white-space:nowrap}
 .ch-tanda{width:22px;height:22px;flex:none;position:relative}
@@ -161,9 +165,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   <div class="hitung">0 dari 104 bagian sudah terbit</div>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 1</span>
-      <span class="ch-tx"><span class="ch-jd">Menemukan Model Bisnis dan Pelanggan Pertama</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 1</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menemukan Model Bisnis dan Pelanggan Pertama</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">01</span><span class="jd">Menyingkirkan Asumsi Pribadi dan Melihat Bisnis Sebagai Sistem Nilai<span class="tg">Segera hadir</span></span></div></li>
@@ -183,9 +186,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 2</span>
-      <span class="ch-tx"><span class="ch-jd">Mengontrol Arus Kas dan Keuangan Real-Time</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 2</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mengontrol Arus Kas dan Keuangan Real-Time</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">14</span><span class="jd">Membedakan Laba Akuntansi dan Arus Kas Nyata<span class="tg">Segera hadir</span></span></div></li>
@@ -205,9 +207,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 3</span>
-      <span class="ch-tx"><span class="ch-jd">Membangun Sistem Operasional dan Menghilangkan Hambatan</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 3</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Membangun Sistem Operasional dan Menghilangkan Hambatan</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">27</span><span class="jd">Mengenal Rantai Produksi dan Hambatan Utama (Bottleneck) di Lapangan<span class="tg">Segera hadir</span></span></div></li>
@@ -227,9 +228,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 4</span>
-      <span class="ch-tx"><span class="ch-jd">Mentransformasi Diri dari Teknisi Menjadi Pemilik Sistem</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 4</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mentransformasi Diri dari Teknisi Menjadi Pemilik Sistem</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">40</span><span class="jd">Mengenali Perangkap Teknis dan Kejang Entrepreneur yang Menjebak Pemilik Bisnis<span class="tg">Segera hadir</span></span></div></li>
@@ -249,9 +249,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 5</span>
-      <span class="ch-tx"><span class="ch-jd">Merekrut dan Menempatkan Pemain yang Tepat</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 5</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Merekrut dan Menempatkan Pemain yang Tepat</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">53</span><span class="jd">Menyusun Scorecard Jabatan Berbasis Hasil dan Kompetensi<span class="tg">Segera hadir</span></span></div></li>
@@ -271,9 +270,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 6</span>
-      <span class="ch-tx"><span class="ch-jd">Merumuskan Strategi Koheren untuk Mengalahkan Pesaing</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 6</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Merumuskan Strategi Koheren untuk Mengalahkan Pesaing</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">66</span><span class="jd">Menyederhanakan Kompleksitas Menjadi Diagnosis Masalah yang Tajam<span class="tg">Segera hadir</span></span></div></li>
@@ -293,9 +291,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 7</span>
-      <span class="ch-tx"><span class="ch-jd">Menerapkan Manajemen Transparan dan Angka Kunci</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 7</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menerapkan Manajemen Transparan dan Angka Kunci</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">79</span><span class="jd">Membuka Data Keuangan Perusahaan untuk Mengikis Tiga Tingkat Ketidaktahuan<span class="tg">Segera hadir</span></span></div></li>
@@ -315,9 +312,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 8</span>
-      <span class="ch-tx"><span class="ch-jd">Menskalakan Organisasi dan Menjaga Pertumbuhan Jangka Panjang</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 8</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menskalakan Organisasi dan Menjaga Pertumbuhan Jangka Panjang</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">92</span><span class="jd">Mengevaluasi Kinerja Portofolio Bisnis dengan Pendekatan Multi-Model<span class="tg">Segera hadir</span></span></div></li>

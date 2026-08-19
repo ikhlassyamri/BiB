@@ -112,16 +112,20 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
 .ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   margin-bottom:12px;overflow:hidden}
 .ch[open]{border-color:var(--line-2)}
-.ch summary{display:flex;gap:14px;align-items:flex-start;padding:17px 18px;
-  cursor:pointer;list-style:none}
+/* Judul chapter ditaruh DI BAWAH labelnya (keputusan pemilik, Agu 2026):
+   sebaris dengan label, judul cuma kebagian setengah lebar kartu dan
+   pecah jadi empat baris pendek yang terasa padat. Di bawah, ia dapat
+   lebar penuh — lebih ramping dan lebih rapi. */
+.ch summary{display:block;padding:16px 18px;cursor:pointer;list-style:none}
 .ch summary::-webkit-details-marker{display:none}
+.ch-atas{display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:9px}
 .ch-no{font-family:var(--disp);font-weight:700;font-size:.72rem;
   letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
-  white-space:nowrap;padding-top:5px}
-.ch-tx{flex:1;min-width:0}
+  white-space:nowrap}
 .ch-jd{font-family:var(--disp);font-weight:600;font-size:1.06rem;
-  line-height:1.35;display:block}
-.ch-kanan{display:flex;align-items:center;gap:10px;padding-top:3px}
+  line-height:1.4;display:block}
+.ch-kanan{display:flex;align-items:center;gap:10px;flex:none}
 .ch-hit{font-family:var(--disp);font-size:.8rem;color:var(--muted);
   white-space:nowrap}
 .ch-tanda{width:22px;height:22px;flex:none;position:relative}
@@ -171,9 +175,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   <div class="hitung">1 dari 130 bagian sudah terbit</div>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 1</span>
-      <span class="ch-tx"><span class="ch-jd">Membangun Ketahanan Mental dari Nol dan Membaca Realitas Pasar</span></span>
-      <span class="ch-kanan"><span class="ch-hit">1/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 1</span><span class="ch-kanan"><span class="ch-hit">1/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Membangun Ketahanan Mental dari Nol dan Membaca Realitas Pasar</span>
     </summary>
     <ol>
     <li><a href="/artikel/kisah-sukses-jack-ma-fokus-usaha-kecil"><span class="no">01</span><span class="jd">Memulai dari Titik Nol Tanpa Modal dan Menghadapi Penolakan<span class="tg">Terbit 2026-08-19</span></span></a></li>
@@ -193,9 +196,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 2</span>
-      <span class="ch-tx"><span class="ch-jd">Menguji Ide Produk dengan Biaya Terkecil dan Validasi Langsung</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 2</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menguji Ide Produk dengan Biaya Terkecil dan Validasi Langsung</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">14</span><span class="jd">Menguji Pengiriman Surat Sederhana untuk Membuktikan Minat Pasar<span class="tg">Segera hadir</span></span></div></li>
@@ -215,9 +217,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 3</span>
-      <span class="ch-tx"><span class="ch-jd">Memikat Pelanggan Pertama dan Merancang Nilai yang Sulit Ditiru</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 3</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Memikat Pelanggan Pertama dan Merancang Nilai yang Sulit Ditiru</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">27</span><span class="jd">Memahami Pengalaman Pengguna Lokal Melalui Model Bazar Terbuka<span class="tg">Segera hadir</span></span></div></li>
@@ -237,9 +238,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 4</span>
-      <span class="ch-tx"><span class="ch-jd">Menyusun Alokasi Modal dan Menjaga Kas Tetap Aman di Tengah Krisis</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 4</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menyusun Alokasi Modal dan Menjaga Kas Tetap Aman di Tengah Krisis</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">40</span><span class="jd">Mencatat Setiap Pengeluaran Kecil Sejak Hari Pertama untuk Disiplin Kas<span class="tg">Segera hadir</span></span></div></li>
@@ -259,9 +259,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 5</span>
-      <span class="ch-tx"><span class="ch-jd">Membangun Hubungan Kemitraan yang Kokoh dan Menjaga Kendali Usaha</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 5</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Membangun Hubungan Kemitraan yang Kokoh dan Menjaga Kendali Usaha</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">53</span><span class="jd">Menghindari Kepemilikan Mayoritas yang Menindas Mitra demi Menjaga Kendali Usaha<span class="tg">Segera hadir</span></span></div></li>
@@ -281,9 +280,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 6</span>
-      <span class="ch-tx"><span class="ch-jd">Menghadapi Pesaing Raksasa dan Mengambil Alih Pangsa Pasar</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 6</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menghadapi Pesaing Raksasa dan Mengambil Alih Pangsa Pasar</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">66</span><span class="jd">Menyerang Dominasi Raksasa dengan Menggratiskan Biaya Dasar untuk Merebut Pasar Bawah<span class="tg">Segera hadir</span></span></div></li>
@@ -303,9 +301,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 7</span>
-      <span class="ch-tx"><span class="ch-jd">Menyempurnakan Sistem Operasional dan Membangun Standar Kualitas yang Konsisten</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 7</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menyempurnakan Sistem Operasional dan Membangun Standar Kualitas yang Konsisten</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">79</span><span class="jd">Menyempurnakan Sistem Operasional Melalui Standarisasi Penggorengan Dua Tahap yang Ketat<span class="tg">Segera hadir</span></span></div></li>
@@ -325,9 +322,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 8</span>
-      <span class="ch-tx"><span class="ch-jd">Mengelola Tim, Merekrut Talenta Unggul, dan Menjaga Budaya Kerja</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 8</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Mengelola Tim, Merekrut Talenta Unggul, dan Menjaga Budaya Kerja</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">92</span><span class="jd">Merekrut Berdasarkan Karakter dan Kecocokan Visi Ketimbang Pengalaman Kertas<span class="tg">Segera hadir</span></span></div></li>
@@ -347,9 +343,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 9</span>
-      <span class="ch-tx"><span class="ch-jd">Bangkit dari Kegagalan Fatal dan Membalikkan Keadaan di Titik Nadir</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 9</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Bangkit dari Kegagalan Fatal dan Membalikkan Keadaan di Titik Nadir</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">105</span><span class="jd">Menghadapi Realitas Kebangkrutan Tanpa Lari dari Tanggung Jawab<span class="tg">Segera hadir</span></span></div></li>
@@ -369,9 +364,8 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </details>
   <details class="ch">
     <summary>
-      <span class="ch-no">Chapter 10</span>
-      <span class="ch-tx"><span class="ch-jd">Menjaga Skala Jangka Panjang dan Mengalihkan Dampak Positif ke Masyarakat</span></span>
-      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 10</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-jd">Menjaga Skala Jangka Panjang dan Mengalihkan Dampak Positif ke Masyarakat</span>
     </summary>
     <ol>
     <li class="belum"><div class="nanti"><span class="no">118</span><span class="jd">Merancang Struktur Kepemilikan Saham Bertingkat untuk Menjaga Kendali Perusahaan Menjelang Go Public<span class="tg">Segera hadir</span></span></div></li>
