@@ -151,7 +151,21 @@ export default {
     const asalReq = req.headers.get("Origin") || "";
     const asal = ASAL_SAH.includes(asalReq) ? asalReq : ASAL_SAH[0];
 
-    if (req.method === "OPTIONS") return jawab({}, 204, asal);
+    if (req.method === "OPTIONS") {
+      // 204 DILARANG membawa badan — Response(JSON, {status:204}) melempar
+      // galat di runtime Workers, preflight gagal, dan browser membacanya
+      // sebagai "jaringan bermasalah" (kejadian, Agu 2026: GET jalan,
+      // POST mati semua).
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": asal,
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Max-Age": "86400",
+        },
+      });
+    }
 
     // ── publik: daftar komentar (osid disembunyikan) ──────────────────
     if (req.method === "GET" && url.pathname === "/ambil") {
