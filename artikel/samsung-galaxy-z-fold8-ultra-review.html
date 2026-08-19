@@ -343,6 +343,19 @@ footer a:hover{color:#0B0C0E}
 .k-milik{box-shadow:0 0 0 2px var(--nv,#12386E)}
 .k-milik-ket{font-size:.78rem;font-weight:700;color:var(--nv,#12386E);
   margin:0 0 4px;font-family:'Space Grotesk',sans-serif}
+.k-tirai{position:fixed;inset:0;background:rgba(11,12,14,.58);z-index:120;
+  display:flex;align-items:center;justify-content:center;padding:22px}
+.k-modal{background:#fff;color:#0B0C0E;border-radius:16px;max-width:360px;width:100%;
+  padding:24px 22px 20px;position:relative;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+.k-modal h3{font-family:'Space Grotesk',sans-serif;font-size:1.12rem;line-height:1.35;
+  margin:0 0 8px;color:#0B0C0E}
+.k-modal p{margin:0 0 16px;font-size:.93rem;line-height:1.6;color:#3A3D43;text-align:left}
+.k-m-x{position:absolute;top:8px;right:10px;background:none;border:0;font-size:1.4rem;
+  line-height:1;color:#8A9099;cursor:pointer;padding:4px 8px;border-radius:7px}
+.k-m-baris{display:flex;gap:10px;flex-wrap:wrap}
+.k-nanti{background:transparent;color:#5C636B;border:1px solid #D5D8DC;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;
+  padding:11px 20px;border-radius:10px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -696,29 +709,34 @@ footer a:hover{color:#0B0C0E}
 
 <script>
 /* Kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026) + balasan
-   AI agent BiB. Penyaring kata kasar/vulgar/hinaan ditegakkan DI WORKER,
-   bukan di sini: apa pun yang ada di halaman bisa dibongkar orang.
-   Worker-nya di repo BiB folder workers/komentar. Komentar & balasan
-   dirender lewat textContent — jangan pernah diganti innerHTML (pintu
-   XSS). Alamat langganan OneSignal (osid) ikut terkirim DIAM-DIAM saat
-   berkomentar KALAU pembaca sudah berlangganan — dipakai sekali untuk
-   push "komentarmu dibalas", lalu dihapus worker. Gagal jaringan TIDAK
-   merusak halaman. */
+   AI agent BiB + pop-up ajakan notifikasi pasca-kirim (keputusan pemilik,
+   Agu 2026: pesan hijau kecil gampang terlewat; sesudah berkomentar
+   adalah momen orang paling mau menyalakan notifikasi).
+   Penyaring kata kasar/vulgar/hinaan ditegakkan DI WORKER, bukan di sini.
+   Komentar & balasan dirender lewat textContent — jangan pernah diganti
+   innerHTML (pintu XSS). Izin notifikasi WAJIB diminta DI DALAM ketukan
+   tombol "Nyalakan Notifikasi" (aturan 9 — di luar gesture, browser
+   menekan dialognya diam-diam). Setelah menyala, komentar yang barusan
+   terkirim DISUSULKAN alamat langganannya (/tandai) supaya push
+   "komentarmu dibalas" tetap sampai. Gagal jaringan TIDAK merusak
+   halaman. */
 (function(){
   var WORKER = 'https://komentar-artikel.ikhlassyamribusiness.workers.dev';
   var SLUG = 'samsung-galaxy-z-fold8-ultra-review';
+  var APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
   var daftar = document.getElementById('k-daftar');
   var form = document.getElementById('k-form');
   if (!daftar || !form) return;
 
   /* alamat langganan, kalau pembaca sudah menyalakan notifikasi */
   var OSID = '';
-  if ('Notification' in window && Notification.permission === 'granted') {
+  function tangkapOsid(){
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal){
       try { OSID = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
     });
   }
+  if ('Notification' in window && Notification.permission === 'granted') tangkapOsid();
 
   /* komentar milik pembaca ini, diingat browser-nya sendiri */
   var MILIK = {};
@@ -803,6 +821,128 @@ footer a:hover{color:#0B0C0E}
     })
     .catch(function(){ kosongkan('Kolom komentar sedang tidak tersedia.'); });
 
+  /* ── pop-up ajakan notifikasi setelah komentar terkirim ──────────── */
+  function muatSDK(){
+    if (window.__bibSDK) return;
+    window.__bibSDK = true;
+    var sc = document.createElement('script');
+    sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
+    sc.defer = true;
+    document.head.appendChild(sc);
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal){
+      OneSignal.init({
+        appId: APP_ID,
+        safari_web_id: 'web.onesignal.auto.69a0d04c-4cfa-4f80-8d34-652264ce8748',
+        serviceWorkerPath: '/OneSignalSDKWorker.js',
+        serviceWorkerParam: { scope: '/' },
+        autoResubscribe: true,
+        notifyButton: { enable: false },
+        promptOptions: { slidedown: { prompts: [] } }
+      });
+    });
+  }
+
+  function susulkanOsid(idKomen){
+    /* dipanggil setelah langganan menyala: alamatnya ditempelkan ke
+       komentar yang barusan dikirim supaya push balasannya sampai */
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal){
+      var coba = 0;
+      (function ulang(){
+        var id = '';
+        try { id = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
+        if (id) {
+          OSID = id;
+          fetch(WORKER + '/tandai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: SLUG, id: idKomen, osid: id })
+          }).catch(function(){});
+          return;
+        }
+        if (++coba < 20) setTimeout(ulang, 1500);
+      })();
+    });
+  }
+
+  function modalNotif(idKomen){
+    var tirai = document.createElement('div');
+    tirai.className = 'k-tirai';
+    var kartu = document.createElement('div');
+    kartu.className = 'k-modal';
+
+    var silang = document.createElement('button');
+    silang.className = 'k-m-x';
+    silang.type = 'button';
+    silang.setAttribute('aria-label', 'Tutup');
+    silang.textContent = '×';
+
+    var judul = document.createElement('h3');
+    judul.textContent = 'Terkirim! Mau tahu saat dijawab?';
+    var isi = document.createElement('p');
+    isi.textContent = 'Komentarmu sudah masuk dan biasanya dibalas BiB '
+      + 'beberapa menit lagi. Nyalakan notifikasi supaya jawabannya '
+      + 'langsung sampai ke HP-mu, plus artikel baru tiap hari.';
+
+    var barisTombol = document.createElement('div');
+    barisTombol.className = 'k-m-baris';
+    var nyalakan = document.createElement('button');
+    nyalakan.className = 'k-kirim';
+    nyalakan.type = 'button';
+    nyalakan.textContent = 'Nyalakan Notifikasi';
+    var nanti = document.createElement('button');
+    nanti.className = 'k-nanti';
+    nanti.type = 'button';
+    nanti.textContent = 'Nanti Saja';
+
+    function tutup(){ if (tirai.parentNode) tirai.parentNode.removeChild(tirai); }
+    silang.addEventListener('click', tutup);
+    nanti.addEventListener('click', tutup);
+    tirai.addEventListener('click', function(e){ if (e.target === tirai) tutup(); });
+
+    nyalakan.addEventListener('click', function(){
+      /* izin DI DALAM ketukan — jangan dipindah (aturan 9) */
+      nyalakan.disabled = true;
+      nyalakan.textContent = 'Sebentar…';
+      var minta;
+      try { minta = Notification.requestPermission(); } catch(e) { minta = null; }
+      if (!minta || typeof minta.then !== 'function') {
+        minta = new Promise(function(res){ Notification.requestPermission(res); });
+      }
+      minta.then(function(izin){
+        if (izin !== 'granted') { tutup(); return; }
+        muatSDK();
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        window.OneSignalDeferred.push(function(OneSignal){
+          OneSignal.User.PushSubscription.optIn()
+            .then(function(){
+              try { OneSignal.User.addTag('langganan', 'artikel'); } catch(e) {}
+              try { localStorage.setItem('bib-notif-aktif', '1'); } catch(e) {}
+            })
+            .catch(function(){});
+        });
+        susulkanOsid(idKomen);
+        nyalakan.textContent = 'Menyala ✓';
+        var pesan = document.getElementById('k-pesan');
+        if (pesan) {
+          pesan.className = 'k-pesan sukses';
+          pesan.textContent = 'Terkirim. Kalau dibalas, kamu dapat notifikasi.';
+        }
+        setTimeout(tutup, 1400);
+      });
+    });
+
+    barisTombol.appendChild(nyalakan);
+    barisTombol.appendChild(nanti);
+    kartu.appendChild(silang);
+    kartu.appendChild(judul);
+    kartu.appendChild(isi);
+    kartu.appendChild(barisTombol);
+    tirai.appendChild(kartu);
+    document.body.appendChild(tirai);
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var tombol = document.getElementById('k-kirim');
@@ -827,14 +967,19 @@ footer a:hover{color:#0B0C0E}
           if (d.id) ingat(d.id);
           document.getElementById('k-teks').value = '';
           pesan.className = 'k-pesan sukses';
-          pesan.textContent = OSID
-            ? 'Terkirim. Kalau dibalas, kamu dapat notifikasi.'
-            : 'Terkirim. Nyalakan notifikasi supaya tahu saat pertanyaanmu dijawab.';
+          pesan.textContent = 'Terkirim. Terima kasih sudah bertanya.';
           var kosong = daftar.querySelector('.k-kosong');
           if (kosong) daftar.textContent = '';
           daftar.insertBefore(baris({ id: d.id, nama: nama || 'Pembaca',
             teks: teks, waktu: new Date().toISOString(), balasan: null }),
             daftar.firstChild);
+          /* belum berlangganan + izin belum dikunci -> pop-up ajakan */
+          if (!OSID && 'Notification' in window
+              && Notification.permission !== 'denied') {
+            modalNotif(d.id);
+          } else if (OSID) {
+            pesan.textContent = 'Terkirim. Kalau dibalas, kamu dapat notifikasi.';
+          }
         } else {
           pesan.className = 'k-pesan gagal';
           pesan.textContent = (d && d.pesan) || 'Gagal terkirim. Coba lagi.';
@@ -848,6 +993,7 @@ footer a:hover{color:#0B0C0E}
   });
 })();
 </script>
+
 </body>
 
 </html>

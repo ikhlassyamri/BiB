@@ -215,6 +215,36 @@ export default {
       return jawab({ ok: true, id }, 200, asal);
     }
 
+    // ── publik: susulkan alamat notifikasi ke komentar yang baru ──────
+    // Pembaca menyalakan notifikasi SESUDAH berkomentar (pop-up ajakan
+    // pasca-kirim) — osid-nya disusulkan supaya push "komentarmu dibalas"
+    // tetap sampai. Dibatasi ketat: komentar harus masih muda (<1 jam),
+    // belum ber-osid, belum terbalas.
+    if (req.method === "POST" && url.pathname === "/tandai") {
+      let b;
+      try { b = await req.json(); } catch { return jawab({ ok: false }, 400, asal); }
+      const slug = (b.slug || "").trim();
+      const osid = /^[0-9a-f-]{10,64}$/i.test(b.osid || "") ? b.osid : "";
+      if (!slugSah(slug) || !b.id || !osid) return jawab({ ok: false }, 400, asal);
+
+      const ip = req.headers.get("CF-Connecting-IP") || "?";
+      const kunciT = "t:" + ip;
+      const dipakaiT = parseInt((await env.KOMENTAR.get(kunciT)) || "0", 10);
+      if (dipakaiT >= 10) return jawab({ ok: false }, 429, asal);
+      await env.KOMENTAR.put(kunciT, String(dipakaiT + 1), { expirationTtl: 3600 });
+
+      const kunci = "k:" + slug;
+      const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
+      const k = daftar.find(x => x.id === b.id);
+      if (!k || k.osid || k.balasan) return jawab({ ok: true }, 200, asal);
+      if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
+        return jawab({ ok: false }, 400, asal);
+      }
+      k.osid = osid;
+      await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+      return jawab({ ok: true }, 200, asal);
+    }
+
     // ── admin: wajib token ────────────────────────────────────────────
     const kunciAdmin = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
     const adminSah = env.ADMIN_TOKEN && kunciAdmin === env.ADMIN_TOKEN;
