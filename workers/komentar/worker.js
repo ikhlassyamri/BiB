@@ -96,8 +96,9 @@ function idBaru() {
   crypto.getRandomValues(b);
   return Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
 }
-function tanpaOsid(daftar) {
-  return (daftar || []).map(({ osid, ...sisa }) => sisa);
+function publik(daftar) {
+  // osid (alamat push) & kunci (hak hapus) TIDAK pernah keluar lewat /ambil
+  return (daftar || []).map(({ osid, kunci, ...sisa }) => sisa);
 }
 
 async function bangunkanAgen(env) {
@@ -172,7 +173,7 @@ export default {
       const slug = url.searchParams.get("slug") || "";
       if (!slugSah(slug)) return jawab({ komentar: [] }, 200, asal);
       const isi = await env.KOMENTAR.get("k:" + slug, "json");
-      return jawab({ komentar: tanpaOsid(isi) }, 200, asal);
+      return jawab({ komentar: publik(isi) }, 200, asal);
     }
 
     // ── publik: kirim komentar ────────────────────────────────────────
@@ -185,6 +186,10 @@ export default {
       const nama = (b.nama || "").trim().slice(0, MAKS_NAMA) || "Pembaca";
       const teks = (b.teks || "").trim();
       const osid = /^[0-9a-f-]{10,64}$/i.test(b.osid || "") ? b.osid : "";
+      // benih avatar: 8 hex penentu pola & warna avatar (identitas tanpa
+      // akun — menempel di browser pengomentar). Tidak sah -> diturunkan
+      // dari id supaya semua komentar tetap punya avatar.
+      const benih = /^[0-9a-f]{8}$/i.test(b.benih || "") ? b.benih.toLowerCase() : "";
 
       if (!slugSah(slug)) return jawab({ ok: false, pesan: "Artikel tidak dikenal." }, 400, asal);
       if (teks.length < 3) return jawab({ ok: false, pesan: "Tulis dulu pertanyaannya." }, 400, asal);
@@ -207,12 +212,39 @@ export default {
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
       const id = idBaru();
-      const entri = { id, nama, teks, waktu: new Date().toISOString(), balasan: null };
+      const kunciHapus = idBaru() + idBaru();
+      const entri = { id, nama, teks, waktu: new Date().toISOString(),
+                      benih: benih || id.slice(0, 8), kunci: kunciHapus,
+                      balasan: null };
       if (osid) entri.osid = osid;
       daftar.unshift(entri);
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar.slice(0, MAKS_PER_SLUG)));
       await bangunkanAgen(env);
-      return jawab({ ok: true, id }, 200, asal);
+      return jawab({ ok: true, id, kunci: kunciHapus }, 200, asal);
+    }
+
+    // ── publik: hapus komentar sendiri ───────────────────────────────
+    // Hanya pemegang kunci (browser pengirimnya) yang bisa. Balasan BiB
+    // yang menempel ikut terhapus — itu jawaban untuk komentar itu.
+    if (req.method === "POST" && url.pathname === "/hapus") {
+      let b;
+      try { b = await req.json(); } catch { return jawab({ ok: false }, 400, asal); }
+      const slug = (b.slug || "").trim();
+      if (!slugSah(slug) || !b.id || !b.kunci) return jawab({ ok: false }, 400, asal);
+
+      const ip = req.headers.get("CF-Connecting-IP") || "?";
+      const kunciH = "h:" + ip;
+      const dipakaiH = parseInt((await env.KOMENTAR.get(kunciH)) || "0", 10);
+      if (dipakaiH >= 10) return jawab({ ok: false, pesan: "Terlalu sering." }, 429, asal);
+      await env.KOMENTAR.put(kunciH, String(dipakaiH + 1), { expirationTtl: 3600 });
+
+      const kunci = "k:" + slug;
+      const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
+      const k = daftar.find(x => x.id === b.id);
+      if (!k) return jawab({ ok: true }, 200, asal);
+      if (!k.kunci || k.kunci !== b.kunci) return jawab({ ok: false }, 403, asal);
+      await env.KOMENTAR.put(kunci, JSON.stringify(daftar.filter(x => x.id !== b.id)));
+      return jawab({ ok: true }, 200, asal);
     }
 
     // ── publik: susulkan alamat notifikasi ke komentar yang baru ──────
