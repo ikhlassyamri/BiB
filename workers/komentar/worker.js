@@ -1,29 +1,37 @@
 /*
   Worker komentar artikel joinbib.id — pengganti bagian FAQ (keputusan
-  pemilik, Agu 2026): pembaca menulis pertanyaan/komentar di bawah artikel.
+  pemilik, Agu 2026), plus BALASAN AI AGENT (keputusan pemilik, Agu 2026):
+  agen BiB membalas komentar pembaca, dan pembaca yang berlangganan
+  notifikasi diberi tahu saat komentarnya dibalas.
 
-  BUKAN bagian situs statis GitHub Pages; deploy terpisah ke Cloudflare
-  (gratis). Butuh satu KV namespace dengan binding bernama KOMENTAR
-  (cara lengkap di README.md folder ini).
+  BUKAN bagian situs statis GitHub Pages; deploy terpisah ke Cloudflare.
+  Butuh KV namespace ber-binding KOMENTAR + tiga secret (README.md):
+    ADMIN_TOKEN     — kunci pintu /antrean & /balas (dipegang repo agen)
+    ONESIGNAL_KEY   — REST API Key OneSignal (push "komentarmu dibalas")
+    GH_TOKEN        — token GitHub untuk membangunkan workflow balasan
 
-  Endpoint:
-    GET  /ambil?slug=<slug>   -> {komentar: [{nama, teks, waktu}, ...]}
-    POST /kirim               -> {ok: true} | {ok: false, pesan: "..."}
-         body JSON: {slug, nama, teks, situs}  (situs = honeypot, wajib kosong)
+  Endpoint publik (dipanggil halaman artikel):
+    GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,balasan}]}
+                                (osid TIDAK pernah ikut keluar — privasi)
+    POST /kirim              -> {ok:true, id} | {ok:false, pesan}
+         body: {slug, nama, teks, situs(honeypot), osid?}
 
-  Penyaring tiga lapis, ditegakkan DI SERVER (klien bisa dibongkar):
-    1. kata kasar/vulgar/hinaan — daftar + normalisasi gaya tulisan
-       (4->a, 1->i, 0->o, @->a, huruf berulang dirapatkan, spasi/titik
-       di sela huruf dihapus) supaya "b4b1" dan "a n j i n g" ikut kena
-    2. tautan dilarang (sarang spam judi/obat)
-    3. jatah 5 komentar per alamat IP per jam
+  Endpoint admin (dipanggil workflow agen, wajib Bearer ADMIN_TOKEN):
+    GET  /antrean            -> {antrean:[{slug,id,nama,teks,waktu}]}
+    POST /balas              -> body {slug, id, teks}; simpan balasan,
+                                kirim push ke osid kalau ada, lalu osid
+                                dihapus (tugasnya selesai, tidak disimpan)
 */
 
 const ASAL_SAH = ["https://joinbib.id", "https://www.joinbib.id"];
 const MAKS_TEKS = 500;
+const MAKS_BALASAN = 800;
 const MAKS_NAMA = 40;
 const MAKS_PER_SLUG = 300;
 const JATAH_PER_JAM = 5;
+const APP_ID = "b08cc556-e8af-4fd1-a046-0c6ae3e1c065";
+const REPO_AGEN = "ikhlassyamri/AI-Agent-Artikel-BiB";
+const WORKFLOW_BALAS = "balas-komentar.yml";
 
 // Daftar kata terlarang: kasar, vulgar, hinaan (Indonesia + Inggris umum).
 // Dicocokkan pada teks yang SUDAH dinormalkan (huruf kecil, angka->huruf,
@@ -49,32 +57,25 @@ function normal(teks) {
   t = t.replace(/4/g, "a").replace(/1/g, "i").replace(/0/g, "o")
        .replace(/3/g, "e").replace(/5/g, "s").replace(/7/g, "t")
        .replace(/@/g, "a").replace(/\$/g, "s").replace(/!/g, "i");
-  t = t.replace(/(.)\1{2,}/g, "$1$1");       // anjiiiing -> anjiing
+  t = t.replace(/(.)\1{2,}/g, "$1$1");
   return t;
 }
-
-function rapat(teks) {
-  // "a n j i n g" / "a.n.j.i.n.g" -> "anjing"
-  return normal(teks).replace(/[^a-z]/g, "");
-}
+function rapat(teks) { return normal(teks).replace(/[^a-z]/g, ""); }
 
 function adaKataTerlarang(teks) {
   const halus = normal(teks);
   const padat = rapat(teks);
   for (const kata of KATA_TERLARANG) {
     const k = kata.replace(/ /g, "");
-    // batas kata di teks normal, ATAU muncul utuh di teks yang dirapatkan
     const pola = new RegExp("(^|[^a-z])" + kata.replace(/ /g, "[^a-z]*") + "($|[^a-z])");
     if (pola.test(halus)) return kata;
     if (k.length >= 5 && padat.includes(k)) return kata;
   }
   return null;
 }
-
 function adaTautan(teks) {
   return /(https?:\/\/|www\.|\.com\b|\.id\b|\.xyz\b|wa\.me)/i.test(teks || "");
 }
-
 function jawab(data, status, asal) {
   return new Response(JSON.stringify(data), {
     status,
@@ -87,9 +88,61 @@ function jawab(data, status, asal) {
     },
   });
 }
-
 function slugSah(slug) {
   return typeof slug === "string" && /^[a-z0-9-]{3,120}$/.test(slug);
+}
+function idBaru() {
+  const b = new Uint8Array(8);
+  crypto.getRandomValues(b);
+  return Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
+}
+function tanpaOsid(daftar) {
+  return (daftar || []).map(({ osid, ...sisa }) => sisa);
+}
+
+async function bangunkanAgen(env) {
+  // Bangunkan workflow balas-komentar di repo agen — event, bukan polling.
+  // Direm 4 menit lewat KV supaya hujan komentar tidak jadi hujan run.
+  if (!env.GH_TOKEN) return;
+  if (await env.KOMENTAR.get("d:bangun")) return;
+  await env.KOMENTAR.put("d:bangun", "1", { expirationTtl: 240 });
+  try {
+    await fetch(`https://api.github.com/repos/${REPO_AGEN}/actions/workflows/${WORKFLOW_BALAS}/dispatches`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${env.GH_TOKEN}`,
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "bib-komentar-worker",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ref: "main" }),
+    });
+  } catch (e) { /* gagal membangunkan bukan bencana: ada cron pengaman 6 jam */ }
+}
+
+async function kirimPush(env, osid, judulArtikel, alamat) {
+  if (!env.ONESIGNAL_KEY || !osid) return;
+  const muatan = {
+    app_id: APP_ID,
+    include_subscription_ids: [osid],
+    headings: { en: "Komentarmu dibalas BiB" },
+    contents: { en: `Pertanyaanmu di "${judulArtikel}" sudah dijawab. Ketuk untuk membacanya.` },
+    url: alamat,
+  };
+  for (const skema of ["Key", "Basic"]) {
+    try {
+      const r = await fetch("https://api.onesignal.com/notifications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Authorization": `${skema} ${env.ONESIGNAL_KEY}`,
+        },
+        body: JSON.stringify(muatan),
+      });
+      const h = await r.json();
+      if (h && h.id) return;                 // terkirim
+    } catch (e) { /* coba skema berikutnya */ }
+  }
 }
 
 export default {
@@ -100,37 +153,35 @@ export default {
 
     if (req.method === "OPTIONS") return jawab({}, 204, asal);
 
+    // ── publik: daftar komentar (osid disembunyikan) ──────────────────
     if (req.method === "GET" && url.pathname === "/ambil") {
       const slug = url.searchParams.get("slug") || "";
       if (!slugSah(slug)) return jawab({ komentar: [] }, 200, asal);
       const isi = await env.KOMENTAR.get("k:" + slug, "json");
-      return jawab({ komentar: isi || [] }, 200, asal);
+      return jawab({ komentar: tanpaOsid(isi) }, 200, asal);
     }
 
+    // ── publik: kirim komentar ────────────────────────────────────────
     if (req.method === "POST" && url.pathname === "/kirim") {
       let b;
       try { b = await req.json(); } catch { return jawab({ ok: false, pesan: "Format salah." }, 400, asal); }
-
-      // honeypot: manusia tidak pernah mengisi kolom tersembunyi ini
-      if (b.situs) return jawab({ ok: true }, 200, asal);
+      if (b.situs) return jawab({ ok: true, id: idBaru() }, 200, asal);   // bot honeypot
 
       const slug = (b.slug || "").trim();
       const nama = (b.nama || "").trim().slice(0, MAKS_NAMA) || "Pembaca";
       const teks = (b.teks || "").trim();
+      const osid = /^[0-9a-f-]{10,64}$/i.test(b.osid || "") ? b.osid : "";
 
       if (!slugSah(slug)) return jawab({ ok: false, pesan: "Artikel tidak dikenal." }, 400, asal);
       if (teks.length < 3) return jawab({ ok: false, pesan: "Tulis dulu pertanyaannya." }, 400, asal);
       if (teks.length > MAKS_TEKS) return jawab({ ok: false, pesan: `Maksimal ${MAKS_TEKS} huruf.` }, 400, asal);
-
-      const kotor = adaKataTerlarang(teks) || adaKataTerlarang(nama);
-      if (kotor) {
+      if (adaKataTerlarang(teks) || adaKataTerlarang(nama)) {
         return jawab({ ok: false, pesan: "Komentarnya ditahan: ada kata yang tidak pantas. Tulis ulang dengan bahasa yang sopan ya." }, 400, asal);
       }
       if (adaTautan(teks) || adaTautan(nama)) {
         return jawab({ ok: false, pesan: "Komentar tidak boleh berisi tautan." }, 400, asal);
       }
 
-      // jatah per IP per jam
       const ip = req.headers.get("CF-Connecting-IP") || "?";
       const kunciJatah = "j:" + ip;
       const dipakai = parseInt((await env.KOMENTAR.get(kunciJatah)) || "0", 10);
@@ -141,8 +192,65 @@ export default {
 
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
-      daftar.unshift({ nama, teks, waktu: new Date().toISOString() });
+      const id = idBaru();
+      const entri = { id, nama, teks, waktu: new Date().toISOString(), balasan: null };
+      if (osid) entri.osid = osid;
+      daftar.unshift(entri);
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar.slice(0, MAKS_PER_SLUG)));
+      await bangunkanAgen(env);
+      return jawab({ ok: true, id }, 200, asal);
+    }
+
+    // ── admin: wajib token ────────────────────────────────────────────
+    const kunciAdmin = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+    const adminSah = env.ADMIN_TOKEN && kunciAdmin === env.ADMIN_TOKEN;
+
+    if (req.method === "GET" && url.pathname === "/antrean") {
+      if (!adminSah) return jawab({ pesan: "?" }, 401, asal);
+      const antrean = [];
+      let cursor;
+      do {
+        const hal = await env.KOMENTAR.list({ prefix: "k:", cursor });
+        for (const kk of hal.keys) {
+          const slug = kk.name.slice(2);
+          const isi = (await env.KOMENTAR.get(kk.name, "json")) || [];
+          for (const k of isi) {
+            if (!k.balasan) antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks, waktu: k.waktu });
+            if (antrean.length >= 20) break;
+          }
+          if (antrean.length >= 20) break;
+        }
+        cursor = hal.list_complete ? null : hal.cursor;
+      } while (cursor && antrean.length < 20);
+      return jawab({ antrean }, 200, asal);
+    }
+
+    if (req.method === "POST" && url.pathname === "/balas") {
+      if (!adminSah) return jawab({ pesan: "?" }, 401, asal);
+      let b;
+      try { b = await req.json(); } catch { return jawab({ ok: false, pesan: "Format salah." }, 400, asal); }
+      const slug = (b.slug || "").trim();
+      const teks = (b.teks || "").trim().slice(0, MAKS_BALASAN);
+      if (!slugSah(slug) || !b.id || teks.length < 3) {
+        return jawab({ ok: false, pesan: "slug/id/teks kurang." }, 400, asal);
+      }
+      // balasan resmi pun tetap lewat saringan yang sama — tidak ada
+      // pintu belakang untuk kata kasar, dari siapa pun datangnya
+      if (adaKataTerlarang(teks)) return jawab({ ok: false, pesan: "balasan mengandung kata terlarang" }, 400, asal);
+
+      const kunci = "k:" + slug;
+      const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
+      const k = daftar.find(x => x.id === b.id);
+      if (!k) return jawab({ ok: false, pesan: "komentar tidak ditemukan" }, 404, asal);
+      if (k.balasan) return jawab({ ok: true, pesan: "sudah terbalas" }, 200, asal);
+
+      k.balasan = { teks, waktu: new Date().toISOString() };
+      const osid = k.osid || "";
+      delete k.osid;                                    // tugasnya selesai
+      await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+
+      const alamat = `https://joinbib.id/artikel/${slug}#komen`;
+      await kirimPush(env, osid, b.judul || slug, alamat);
       return jawab({ ok: true }, 200, asal);
     }
 

@@ -148,6 +148,16 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px;margin-top:70p
 .k-item time{font-size:.78rem;color:#5C636B;margin-left:8px}
 .k-item p{margin:5px 0 0;font-size:.95rem;color:#2B3036;white-space:pre-line}
 .k-kosong{font-size:.9rem;opacity:.75;margin-top:14px}
+.k-balas{margin-top:10px;padding:10px 12px;border-left:3px solid var(--nv,#12386E);
+  background:#F6F7F8;border-radius:0 9px 9px 0}
+.k-balas p{margin:6px 0 0;font-size:.93rem;color:#2B3036;white-space:pre-line}
+.k-bib{display:inline-flex;align-items:center;background:var(--nv,#12386E);color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.68rem;
+  letter-spacing:.08em;padding:2px 10px;border-radius:999px}
+.k-balas time{font-size:.75rem;color:#5C636B;margin-left:8px}
+.k-milik{box-shadow:0 0 0 2px var(--nv,#12386E)}
+.k-milik-ket{font-size:.78rem;font-weight:700;color:var(--nv,#12386E);
+  margin:0 0 4px;font-family:'Space Grotesk',sans-serif}
 </style>
 </head>
 <body>
@@ -388,12 +398,15 @@ if(pop&&f4){
 document.getElementById('popx').addEventListener('click',function(){pop.classList.remove('show')});
 </script>
 <script>
-/* Kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026).
-   Penyaring kata kasar/vulgar/hinaan ditegakkan DI WORKER, bukan di sini:
-   apa pun yang ada di halaman bisa dibongkar orang. Worker-nya di repo BiB
-   folder workers/komentar. Komentar dirender lewat textContent — jangan
-   pernah diganti innerHTML, itu pintu XSS. Gagal jaringan TIDAK merusak
-   halaman: kolomnya cuma menampilkan keterangan. */
+/* Kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026) + balasan
+   AI agent BiB. Penyaring kata kasar/vulgar/hinaan ditegakkan DI WORKER,
+   bukan di sini: apa pun yang ada di halaman bisa dibongkar orang.
+   Worker-nya di repo BiB folder workers/komentar. Komentar & balasan
+   dirender lewat textContent — jangan pernah diganti innerHTML (pintu
+   XSS). Alamat langganan OneSignal (osid) ikut terkirim DIAM-DIAM saat
+   berkomentar KALAU pembaca sudah berlangganan — dipakai sekali untuk
+   push "komentarmu dibalas", lalu dihapus worker. Gagal jaringan TIDAK
+   merusak halaman. */
 (function(){
   var WORKER = 'https://komentar-artikel.ikhlassyamribusiness.workers.dev';
   var SLUG = 'bebas-judol';
@@ -401,23 +414,77 @@ document.getElementById('popx').addEventListener('click',function(){pop.classLis
   var form = document.getElementById('k-form');
   if (!daftar || !form) return;
 
+  /* alamat langganan, kalau pembaca sudah menyalakan notifikasi */
+  var OSID = '';
+  if ('Notification' in window && Notification.permission === 'granted') {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal){
+      try { OSID = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
+    });
+  }
+
+  /* komentar milik pembaca ini, diingat browser-nya sendiri */
+  var MILIK = {};
+  try {
+    JSON.parse(localStorage.getItem('bib-komen-milik') || '[]')
+      .forEach(function(x){ MILIK[x] = 1; });
+  } catch(e) {}
+  function ingat(id){
+    try {
+      var m = JSON.parse(localStorage.getItem('bib-komen-milik') || '[]');
+      m.push(SLUG + ':' + id);
+      localStorage.setItem('bib-komen-milik', JSON.stringify(m.slice(-60)));
+      MILIK[SLUG + ':' + id] = 1;
+    } catch(e) {}
+  }
+
+  function tanggal(iso){
+    try {
+      return new Date(iso).toLocaleDateString('id-ID',
+        { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch(e) { return ''; }
+  }
+
   function baris(k){
     var kotak = document.createElement('div');
     kotak.className = 'k-item';
+    var punyaku = MILIK[SLUG + ':' + (k.id || '')];
+    if (punyaku && k.balasan) {
+      kotak.className += ' k-milik';
+      var ket = document.createElement('p');
+      ket.className = 'k-milik-ket';
+      ket.textContent = 'Pertanyaanmu sudah dijawab';
+      kotak.appendChild(ket);
+    }
     var nama = document.createElement('b');
     nama.textContent = k.nama || 'Pembaca';
     kotak.appendChild(nama);
     if (k.waktu) {
       var t = document.createElement('time');
-      try {
-        t.textContent = new Date(k.waktu).toLocaleDateString('id-ID',
-          { day: 'numeric', month: 'short', year: 'numeric' });
-      } catch(e) { t.textContent = ''; }
+      t.textContent = tanggal(k.waktu);
       kotak.appendChild(t);
     }
     var p = document.createElement('p');
     p.textContent = k.teks || '';
     kotak.appendChild(p);
+
+    if (k.balasan && k.balasan.teks) {
+      var b = document.createElement('div');
+      b.className = 'k-balas';
+      var badge = document.createElement('span');
+      badge.className = 'k-bib';
+      badge.textContent = 'BiB';
+      b.appendChild(badge);
+      if (k.balasan.waktu) {
+        var tb = document.createElement('time');
+        tb.textContent = tanggal(k.balasan.waktu);
+        b.appendChild(tb);
+      }
+      var pb = document.createElement('p');
+      pb.textContent = k.balasan.teks;
+      b.appendChild(pb);
+      kotak.appendChild(b);
+    }
     return kotak;
   }
 
@@ -453,19 +520,24 @@ document.getElementById('popx').addEventListener('click',function(){pop.classLis
     fetch(WORKER + '/kirim', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: SLUG, nama: nama, teks: teks, situs: situs })
+      body: JSON.stringify({ slug: SLUG, nama: nama, teks: teks,
+                             situs: situs, osid: OSID })
     })
-      .then(function(r){ return r.json().then(function(d){ return d; }); })
+      .then(function(r){ return r.json(); })
       .then(function(d){
         tombol.disabled = false;
         if (d && d.ok) {
+          if (d.id) ingat(d.id);
           document.getElementById('k-teks').value = '';
           pesan.className = 'k-pesan sukses';
-          pesan.textContent = 'Terkirim. Terima kasih sudah bertanya.';
+          pesan.textContent = OSID
+            ? 'Terkirim. Kalau dibalas, kamu dapat notifikasi.'
+            : 'Terkirim. Nyalakan notifikasi supaya tahu saat pertanyaanmu dijawab.';
           var kosong = daftar.querySelector('.k-kosong');
           if (kosong) daftar.textContent = '';
-          daftar.insertBefore(baris({ nama: nama || 'Pembaca', teks: teks,
-            waktu: new Date().toISOString() }), daftar.firstChild);
+          daftar.insertBefore(baris({ id: d.id, nama: nama || 'Pembaca',
+            teks: teks, waktu: new Date().toISOString(), balasan: null }),
+            daftar.firstChild);
         } else {
           pesan.className = 'k-pesan gagal';
           pesan.textContent = (d && d.pesan) || 'Gagal terkirim. Coba lagi.';

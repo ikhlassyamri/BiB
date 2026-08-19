@@ -4,6 +4,25 @@ Menyimpan & menyaring komentar pembaca di bawah artikel joinbib.id
 (pengganti bagian FAQ, keputusan pemilik Agu 2026). **BUKAN** bagian situs
 statis — deploy terpisah ke Cloudflare, gratis.
 
+## Balasan AI agent (keputusan pemilik, Agu 2026)
+
+Agen BiB membalas komentar (workflow "Balas komentar" di repo agen, otak
+11). Worker yang membangunkannya lewat `workflow_dispatch` begitu ada
+komentar baru (direm 4 menit), plus cron 6 jam sebagai jaring pengaman.
+Pengomentar yang berlangganan notifikasi diberi push "Komentarmu dibalas"
+(alamat langganannya disimpan sekali pakai, dihapus setelah terkirim).
+
+## Secret worker (Settings → Variables and Secrets, jenis Secret)
+
+| Nama | Isi |
+|---|---|
+| `ADMIN_TOKEN` | kunci pintu /antrean & /balas; nilainya SAMA dengan secret `KOMENTAR_ADMIN_TOKEN` di repo agen |
+| `ONESIGNAL_KEY` | REST API Key OneSignal (yang sama dengan secret di repo BiB) |
+| `GH_TOKEN` | fine-grained PAT GitHub, akses repo agen saja, izin Actions: Read and write |
+
+Tanpa `GH_TOKEN` balasan tetap jalan lewat cron 6 jam; tanpa
+`ONESIGNAL_KEY` balasan tetap tersimpan, hanya push-nya yang tidak ada.
+
 ## Deploy (sekali saja, ±5 menit)
 
 1. `npm i -g wrangler` lalu `wrangler login` (akun Cloudflare yang sama
