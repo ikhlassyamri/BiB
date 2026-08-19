@@ -86,6 +86,37 @@ a{color:inherit}
   60%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
 }
 @media (prefers-reduced-motion:reduce){.btn-notif{animation:none}}
+/* Modal tengah: konfirmasi notifikasi & tawaran e-book (keputusan
+   pemilik, Agu 2026). Tirai = lapisan gelap penutup halaman. */
+.tirai{position:fixed;inset:0;background:rgba(0,0,0,.66);z-index:90;
+  display:none;align-items:center;justify-content:center;padding:22px}
+.tirai.on{display:flex}
+.modal{background:#15171B;border:1px solid #2A2C31;border-radius:16px;
+  max-width:400px;width:100%;padding:26px 22px 22px;position:relative;
+  box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.m-x{position:absolute;top:8px;right:10px;background:none;border:0;
+  font-size:1.5rem;line-height:1;color:#8E9096;cursor:pointer;
+  padding:4px 8px;border-radius:7px}
+.m-x:hover{background:#22252B;color:#fff}
+.m-label{font-family:var(--disp);font-weight:700;font-size:.72rem;
+  letter-spacing:.2em;color:var(--ac);margin-bottom:8px}
+.modal h3{font-family:var(--disp);font-size:1.15rem;line-height:1.35;
+  color:#fff;margin-bottom:10px}
+.modal p{font-size:.93rem;line-height:1.6;color:#C9C6BC;margin-bottom:10px}
+.m-topik{border:1px solid #2A2C31;border-radius:10px;padding:12px 14px;
+  margin-bottom:12px}
+.m-topik p{margin-bottom:7px;font-size:.88rem}
+.m-topik p:last-child{margin-bottom:0}
+.m-topik b{color:var(--ac)}
+.m-kecil{font-size:.8rem;color:#8E9096}
+.m-baris{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn-ghost{background:transparent;color:#C9C6BC;border:1px solid #3A3D43}
+.btn-ghost:hover{border-color:#8E9096}
+/* modal e-book: berbingkai emas + kartu bisa diklik seluruhnya */
+.m-emas{border-color:#57431A;cursor:pointer}
+.m-flex{display:flex;gap:16px;align-items:flex-start;margin-bottom:6px}
+.m-flex img{width:92px;height:auto;flex:none;border-radius:8px;
+  box-shadow:0 6px 20px rgba(212,175,55,.22)}
 main{padding:34px 0 60px}
 .crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
 .crumb a{color:var(--muted);text-decoration:none}
@@ -383,6 +414,29 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 
 <footer>BiB · joinbib.id — Skip coba-cobanya, pelajari polanya.</footer>
 
+<div class="tirai" id="tirai-notif" role="dialog" aria-modal="true"
+     aria-label="Konfirmasi notifikasi">
+  <div class="modal">
+    <button class="m-x" id="notif-x" type="button" aria-label="Tutup">&times;</button>
+    <div class="m-label">SEBELUM DINYALAKAN</div>
+    <h3>Kamu bakal dapat lebih dari sekadar Ilmu Ekonomi</h3>
+    <p>Notifikasi BiB mengirim SEMUA artikel baru, 4 kali sehari:</p>
+    <div class="m-topik">
+      <p><b>Berita</b> &middot; teknologi, AI, bisnis, ekonomi, investasi,
+      saham, crypto &mdash; dalam &amp; luar negeri</p>
+      <p><b>Edukasi</b> &middot; jualan, konten, bisnis, AI, ekonomi,
+      clipper, produk digital, kisah sukses</p>
+    </div>
+    <p class="m-kecil">Tanpa spam, bisa dimatikan kapan saja.</p>
+    <div class="m-baris">
+      <button class="btn-sm btn-notif" id="notif-ya" type="button">Tetap Nyalakan</button>
+      <button class="btn-sm btn-ghost" id="notif-tidak" type="button">Tidak</button>
+    </div>
+  </div>
+</div>
+
+
+
 <script>
 /* Tombol "Nyalakan Notifikasi" — logikanya SENGAJA sama dengan kartu
    notifikasi di halaman artikel (otak/CLAUDE aturan 9). Jangan
@@ -396,12 +450,45 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
      · tiga baris service worker WAJIB sama dengan /artikel/index.html —
        scope yang beda membuat SDK mendaftarkan worker lain dan
        langganannya tidak pernah terbentuk.
-   Halaman ini tadinya nol JavaScript; ini satu-satunya blok, dan
-   daftar chapternya tetap <details> bawaan browser supaya tidak ikut
+   ALUR BARU (keputusan pemilik, Agu 2026): klik tombol TIDAK langsung
+   minta izin — muncul modal konfirmasi dulu yang menjelaskan isi
+   langganannya (berita + edukasi, bukan cuma seri ini). Izin baru
+   diminta di dalam ketukan tombol "Tetap Nyalakan" DI MODAL — itu
+   gesture juga, jadi aturan requestPermission-dalam-ketukan tetap
+   terpenuhi. Jangan pindahkan requestPermission ke luar handler itu.
+   Blok ini juga mengurus modal promo e-book (kalau halamannya punya);
+   daftar chapter tetap <details> bawaan browser supaya tidak ikut
    mati kalau blok ini gagal. */
 (function(){
   var APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
   var KUNCI_AKTIF = 'bib-notif-aktif';
+
+  /* ── modal promo e-book (hanya halaman yang punya #tirai-ebook) ──
+     WAJIB di atas return-return dini di bawah: pengunjung yang sudah
+     berlangganan keluar lebih awal dari blok notifikasi, dan promo
+     e-book tetap harus tampil untuknya.
+     Muncul 3 detik setelah halaman dibuka (keputusan pemilik). Kartunya
+     bisa diklik seluruhnya menuju landing page; tanda silang & tirai
+     menutup tanpa pindah halaman. Tidak muncul menimpa modal notifikasi. */
+  var tiraiEbook = document.getElementById('tirai-ebook');
+  function tutupEbook(){ if (tiraiEbook) tiraiEbook.classList.remove('on'); }
+
+  if (tiraiEbook) {
+    var kartu = tiraiEbook.querySelector('.modal');
+    var silangE = document.getElementById('ebook-x');
+    setTimeout(function(){
+      if (!tiraiNotif || !tiraiNotif.classList.contains('on'))
+        tiraiEbook.classList.add('on');
+    }, 3000);
+    if (silangE) silangE.addEventListener('click', function(e){
+      e.stopPropagation(); tutupEbook();
+    });
+    tiraiEbook.addEventListener('click', function(e){
+      if (e.target === tiraiEbook) { tutupEbook(); return; }
+      if (kartu && kartu.contains(e.target)) window.location.href = '/titiknol';
+    });
+  }
+
   var tombol = document.getElementById('notifbtn');
   if (!tombol) return;
 
@@ -446,14 +533,32 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     });
   }
 
-  tombol.addEventListener('click', function(){
-    tombol.disabled = true;
-    tombol.textContent = 'Sebentar…';
+  var tiraiNotif = document.getElementById('tirai-notif');
+  var tombolYa   = document.getElementById('notif-ya');
 
-    function beres(){ sudahAktif(); }
+  function tutupNotif(){ if (tiraiNotif) tiraiNotif.classList.remove('on'); }
+  function bukaNotif(){
+    tutupEbook();
+    if (tiraiNotif) tiraiNotif.classList.add('on');
+  }
+
+  tombol.addEventListener('click', bukaNotif);
+  var tolak = document.getElementById('notif-tidak');
+  var silangN = document.getElementById('notif-x');
+  if (tolak) tolak.addEventListener('click', tutupNotif);
+  if (silangN) silangN.addEventListener('click', tutupNotif);
+  if (tiraiNotif) tiraiNotif.addEventListener('click', function(e){
+    if (e.target === tiraiNotif) tutupNotif();
+  });
+
+  if (tombolYa) tombolYa.addEventListener('click', function(){
+    tombolYa.disabled = true;
+    tombolYa.textContent = 'Sebentar…';
+
+    function beres(){ tutupNotif(); sudahAktif(); }
     function gagal(){
-      tombol.disabled = false;
-      tombol.textContent = 'Coba lagi';
+      tombolYa.disabled = false;
+      tombolYa.textContent = 'Coba lagi';
     }
 
     var minta;
@@ -463,7 +568,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     }
 
     minta.then(function(izin){
-      if (izin !== 'granted') { sembunyikan(); return; }
+      if (izin !== 'granted') { tutupNotif(); sembunyikan(); return; }
       muatSDK();
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       var selesai = false;
@@ -481,6 +586,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
       setTimeout(function(){ if (!selesai) beres(); }, 8000);
     });
   });
+
 })();
 </script>
 </body>
