@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Seri Ilmu Ekonomi — Belajar Berurutan dari Awal | BiB</title>
-<meta name="description" content="Daftar isi seri Ilmu Ekonomi BiB: 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<title>Kumpulan Ilmu Uang untuk Rumah Tangga | BiB</title>
+<meta name="description" content="Berisi cara kerja uang, inflasi, utang, dan jalan halal menumbuhkannya. 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#0B0C0E">
 <meta name="author" content="BiB">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BiB">
 <meta property="og:locale" content="id_ID">
-<meta property="og:title" content="Seri Ilmu Ekonomi — Belajar Berurutan dari Awal">
-<meta property="og:description" content="Daftar isi seri Ilmu Ekonomi BiB: 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<meta property="og:title" content="Kumpulan Ilmu Uang untuk Rumah Tangga">
+<meta property="og:description" content="Berisi cara kerja uang, inflasi, utang, dan jalan halal menumbuhkannya. 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta property="og:url" content="https://joinbib.id/artikel/seri-ekonomi">
 <link rel="canonical" href="https://joinbib.id/artikel/seri-ekonomi">
 <link rel="icon" type="image/png" href="/favicon.png">
@@ -24,8 +24,8 @@
   "@graph": [
     {
       "@type": "CollectionPage",
-      "name": "Seri Ilmu Ekonomi — Belajar Berurutan dari Awal",
-      "description": "Daftar isi seri Ilmu Ekonomi BiB: 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.",
+      "name": "Kumpulan Ilmu Uang untuk Rumah Tangga",
+      "description": "Berisi cara kerja uang, inflasi, utang, dan jalan halal menumbuhkannya. 120 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.",
       "url": "https://joinbib.id/artikel/seri-ekonomi",
       "inLanguage": "id-ID",
       "publisher": {
@@ -36,79 +36,93 @@
     },
     {
       "@type": "ItemList",
-      "name": "Seri Ilmu Ekonomi — Belajar Berurutan dari Awal",
+      "name": "Kumpulan Ilmu Uang untuk Rumah Tangga",
       "numberOfItems": 0,
       "itemListElement": []
     }
   ]
 }</script>
 <style>
-/* Daftar isi seri — seragam dengan halaman artikel: latar putih, aksen navy.
-   Halaman ini sengaja BUKAN "coming soon" kosong: yang belum terbit tetap
-   ditampilkan judulnya supaya pembaca tahu ke mana serinya menuju. */
+/* Daftar isi seri — LATAR GELAP (keputusan pemilik, Agu 2026). Halaman
+   artikelnya sendiri tetap terang; yang gelap cuma halaman kumpulan ini.
+   Chapter dibungkus kartu yang jelas terpisah dari latar, dan bagiannya
+   baru muncul saat chapternya diketuk — memakai <details> bawaan browser,
+   bukan JavaScript, supaya tidak ada skrip yang bisa mati diam-diam. */
 :root{
-  --paper:#FFFFFF; --paper-2:#F6F7F8; --ink:#0B0C0E;
-  --line:#E2E5E9; --text:#0B0C0E; --muted:#5C636B; --dim:#767D85;
-  --nv:#12386E; --nv-dark:#0C2851;
+  --bg:#0B0C0E; --panel:#15181C; --panel-2:#1C2026;
+  --line:#272C33; --line-2:#343A43;
+  --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
+  --ac:#76B900;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--paper);color:var(--text);font-family:var(--body);
+body{background:var(--bg);color:var(--text);font-family:var(--body);
   font-size:1.0625rem;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:720px;margin:0 auto;padding:0 22px}
 .hdr{display:flex;align-items:center;justify-content:space-between;
   padding:14px 22px;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;text-decoration:none;background:#0B0C0E;
-  border-radius:10px;padding:8px 12px}
+  border:1px solid var(--line);border-radius:10px;padding:8px 12px}
 .brand img{height:22px;width:auto;display:block}
-.btn-sm{display:inline-flex;align-items:center;gap:8px;background:var(--ink);
-  color:#fff;font-family:var(--disp);font-weight:700;font-size:.9rem;
+.btn-sm{display:inline-flex;align-items:center;gap:8px;background:#fff;
+  color:#0B0C0E;font-family:var(--disp);font-weight:700;font-size:.9rem;
   padding:9px 18px;border-radius:10px;text-decoration:none}
 main{padding:34px 0 60px}
-.crumb{font-size:.85rem;color:var(--dim);margin-bottom:14px}
-.crumb a{color:var(--nv);text-decoration:none}
-h1{font-family:var(--disp);font-size:2rem;line-height:1.2;letter-spacing:-.02em;
-  margin-bottom:12px}
-.intro{color:var(--muted);margin-bottom:8px}
-.hitung{font-family:var(--disp);font-size:.8rem;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--dim);margin:22px 0 12px}
-ol.bagian{list-style:none;counter-reset:b}
-ol.bagian li{counter-increment:b;border:1px solid var(--line);border-radius:12px;
-  margin-bottom:10px;background:var(--paper-2)}
-ol.bagian li a,ol.bagian li .nanti{display:flex;gap:14px;padding:14px 16px;
+.crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
+.crumb a{color:var(--muted);text-decoration:none}
+h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18;
+  letter-spacing:-.02em;margin-bottom:14px}
+.sub{color:var(--muted);font-size:1.05rem;margin-bottom:10px}
+.isi{color:var(--dim);font-size:.95rem}
+.hitung{font-family:var(--disp);font-size:.78rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--dim);margin:30px 0 14px}
+
+/* ── kartu chapter: terpisah jelas dari latar ── */
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  margin-bottom:12px;overflow:hidden}
+.ch[open]{border-color:var(--line-2)}
+.ch summary{display:flex;gap:14px;align-items:flex-start;padding:17px 18px;
+  cursor:pointer;list-style:none}
+.ch summary::-webkit-details-marker{display:none}
+.ch-no{font-family:var(--disp);font-weight:700;font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
+  white-space:nowrap;padding-top:5px}
+.ch-tx{flex:1;min-width:0}
+.ch-jd{font-family:var(--disp);font-weight:600;font-size:1.06rem;
+  line-height:1.35;display:block}
+.ch-fokus{display:block;color:var(--dim);font-size:.88rem;line-height:1.55;
+  margin-top:5px}
+.ch-kanan{display:flex;align-items:center;gap:10px;padding-top:3px}
+.ch-hit{font-family:var(--disp);font-size:.8rem;color:var(--muted);
+  white-space:nowrap}
+.ch-tanda{width:22px;height:22px;flex:none;position:relative}
+.ch-tanda::before,.ch-tanda::after{content:"";position:absolute;background:var(--muted);
+  left:50%;top:50%;transform:translate(-50%,-50%);transition:opacity .18s}
+.ch-tanda::before{width:12px;height:2px}
+.ch-tanda::after{width:2px;height:12px}
+.ch[open] .ch-tanda::after{opacity:0}
+
+/* ── daftar bagian di dalam chapter ── */
+.ch ol{list-style:none;padding:0 12px 14px;margin:0}
+.ch ol li{border-top:1px solid var(--line)}
+.ch ol li a,.ch ol li .nanti{display:flex;gap:13px;padding:13px 6px;
   text-decoration:none;align-items:flex-start}
-ol.bagian li .no{font-family:var(--disp);font-weight:700;color:var(--nv);
-  min-width:28px;font-size:.95rem}
-ol.bagian li .jd{font-weight:600;line-height:1.45}
-ol.bagian li .tg{display:block;font-weight:400;font-size:.84rem;color:var(--dim);
-  margin-top:3px}
-ol.bagian li.belum{background:transparent;border-style:dashed}
-ol.bagian li.belum .jd{color:var(--muted);font-weight:500}
-/* Kepala chapter: babak belajar, bukan bagian yang bisa diklik. Sengaja
-   tidak bernomor urut daftar — nomor bagian tetap berjalan lurus 1..N
-   supaya pembaca yang mendarat di bagian 40 tidak bingung. */
-ol.bagian li.chapter{border:none;background:transparent;margin:26px 0 8px}
-ol.bagian li.chapter:first-child{margin-top:0}
-ol.bagian li.chapter .ch{display:flex;gap:12px;align-items:baseline;
-  padding:0 2px;border-bottom:2px solid var(--nv);padding-bottom:8px}
-ol.bagian li.chapter .ch-no{font-family:var(--disp);font-weight:700;
-  font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--nv);white-space:nowrap}
-ol.bagian li.chapter .ch-jd{font-family:var(--disp);font-weight:600;
-  font-size:1.05rem;line-height:1.3;flex:1}
-ol.bagian li.chapter .ch-jd .fk{display:block;font-family:var(--body);
-  font-weight:400;font-size:.86rem;color:var(--dim);margin-top:3px;
-  line-height:1.5}
-ol.bagian li.chapter .ch-hit{font-family:var(--disp);font-size:.8rem;
-  color:var(--dim);white-space:nowrap}
-.lain{margin-top:38px;border-top:1px solid var(--line);padding-top:22px}
-.lain h2{font-family:var(--disp);font-size:1.05rem;margin-bottom:12px}
+.ch ol li a:hover{background:var(--panel-2);border-radius:9px}
+.no{font-family:var(--disp);font-weight:700;color:var(--ac);min-width:26px;
+  font-size:.9rem;padding-top:1px}
+.jd{font-weight:600;line-height:1.5;font-size:.97rem}
+.tg{display:block;font-weight:400;font-size:.82rem;color:var(--dim);margin-top:3px}
+.ch ol li.belum .no{color:var(--dim)}
+.ch ol li.belum .jd{color:var(--muted);font-weight:500}
+
+.lain{margin-top:40px;border-top:1px solid var(--line);padding-top:24px}
+.lain h2{font-family:var(--disp);font-size:1.05rem;margin-bottom:13px}
 .lain ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px}
 .lain a{display:inline-block;border:1px solid var(--line);border-radius:999px;
-  padding:8px 15px;text-decoration:none;font-size:.92rem;color:var(--nv);
-  font-weight:600}
-footer{border-top:1px solid var(--line);padding:22px;text-align:center;
+  padding:8px 15px;text-decoration:none;font-size:.92rem;color:var(--muted);
+  font-weight:600;background:var(--panel)}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
 </style>
 </head>
@@ -120,14 +134,19 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Ekonomi</span></nav>
-  <h1>Seri Ilmu Ekonomi — Belajar Berurutan dari Awal</h1>
-  <p class="intro">Kumpulan artikel Ilmu Ekonomi BiB yang disusun berurutan — dari yang paling mendasar sampai yang paling lanjut.</p>
-  <p class="intro">Tiap bagian bisa dibaca sendiri — urutan ini cuma jalur
-  tercepat kalau kamu mau belajar dari awal.</p>
+  <h1>Kumpulan Ilmu Uang untuk Rumah Tangga</h1>
+  <p class="sub">Berisi cara kerja uang, inflasi, utang, dan jalan halal menumbuhkannya.</p>
+  <p class="isi">Materi disusun urut mulai dari pembelajaran dasar hingga
+  profesional. Tiap bagian tetap bisa dibaca sendiri.</p>
 
   <div class="hitung">0 dari 120 bagian sudah terbit</div>
-  <ol class="bagian">
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 1</span><span class="ch-jd">Membongkar Cara Pandang Uang dan Energi Hidup Sehari-Hari<span class="fk">Pembaca mampu melihat uang bukan sebagai angka abstrak di layar, melainkan sebagai penukaran energi waktu hidup yang dihabiskan setiap hari.</span></span><span class="ch-hit">0/13</span></div></li>
+  <details class="ch" open>
+    <summary>
+      <span class="ch-no">Chapter 1</span>
+      <span class="ch-tx"><span class="ch-jd">Membongkar Cara Pandang Uang dan Energi Hidup Sehari-Hari</span><span class="ch-fokus">Pembaca mampu melihat uang bukan sebagai angka abstrak di layar, melainkan sebagai penukaran energi waktu hidup yang dihabiskan setiap hari.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">01</span><span class="jd">Menemukan Uang sebagai Waktu Hidup yang Ditukar<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">02</span><span class="jd">Menghitung Upah Riil dan Biaya Tersembunyi Bekerja<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">03</span><span class="jd">Mengenali Skrip Mental Uang Bawah Sadar<span class="tg">Segera hadir</span></span></div></li>
@@ -141,7 +160,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">11</span><span class="jd">Mengendalikan Waktu sebagai Aset Tertinggi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">12</span><span class="jd">Memisahkan Definisi Kerja dari Upah Formal<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">13</span><span class="jd">Mendesain Hidup dari Dalam ke Luar<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 2</span><span class="ch-jd">Menghitung Arus Kas Rumah Tangga dan Menemukan Titik Cukup<span class="fk">Pembaca mampu mencatat pengeluaran tanpa kompromi, menghentikan kebocoran uang pada pos tidak penting, dan menentukan batas &#x27;cukup&#x27; versi diri sendiri.</span></span><span class="ch-hit">0/9</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 2</span>
+      <span class="ch-tx"><span class="ch-jd">Menghitung Arus Kas Rumah Tangga dan Menemukan Titik Cukup</span><span class="ch-fokus">Pembaca mampu mencatat pengeluaran tanpa kompromi, menghentikan kebocoran uang pada pos tidak penting, dan menentukan batas &#x27;cukup&#x27; versi diri sendiri.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/9</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">14</span><span class="jd">Menyusun Kategori Pengeluaran Pribadi yang Jujur dan Spesifik<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">15</span><span class="jd">Melakukan Tabulasi Bulanan dan Menyelaraskan Angka Arus Kas<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">16</span><span class="jd">Membedakan Antara Kesenangan Murahan dan Kesenangan Mendalam<span class="tg">Segera hadir</span></span></div></li>
@@ -151,7 +178,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">20</span><span class="jd">Memetakan Pengeluaran Tidak Teratur dan Pengeluaran Tahunan<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">21</span><span class="jd">Memahami Empat Pilar Utama Titik &#x27;Cukup&#x27; dalam Pengelolaan Arus Kas<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">22</span><span class="jd">Memvisualisasikan Arus Kas Jangka Panjang Lewat Grafik Dinding<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 3</span><span class="ch-jd">Menjinakkan Utang Konsumtif dan Membangun Pertahanan Finansial<span class="fk">Pembaca mampu merapikan utang menggunakan metode matematis yang logis, membersihkan jeratan bunga, dan menyiapkan dana darurat sebagai oksigen kebebasan.</span></span><span class="ch-hit">0/12</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 3</span>
+      <span class="ch-tx"><span class="ch-jd">Menjinakkan Utang Konsumtif dan Membangun Pertahanan Finansial</span><span class="ch-fokus">Pembaca mampu merapikan utang menggunakan metode matematis yang logis, membersihkan jeratan bunga, dan menyiapkan dana darurat sebagai oksigen kebebasan.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">23</span><span class="jd">Memetakan Seluruh Liabilitas dan Menghitung Total Beban Utang Konsumtif<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">24</span><span class="jd">Memahami Biaya Riil Bunga Utang dan Jebakan Pembayaran Minimum<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">25</span><span class="jd">Menyusun Strategi Pelunasan Matematis Berbasis Suku Bunga Tertinggi<span class="tg">Segera hadir</span></span></div></li>
@@ -164,7 +199,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">32</span><span class="jd">Otomatisasi Penumpukan Dana Darurat Tanpa Intervensi Manual<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">33</span><span class="jd">Menjaga Pertahanan Finansial dari Guncangan Biaya Tak Terduga Tahunan<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">34</span><span class="jd">Mengevaluasi Kemajuan Arus Kas Setelah Bebas dari Jeratan Utang<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 4</span><span class="ch-jd">Menghadapi Inflasi dan Menjaga Daya Beli Dompet Kecil<span class="fk">Pembaca memahami bagaimana kenaikan harga menggerus nilai uang dan mengenali cara melindungi kebutuhan dasar keluarga dari terjangan penurunan daya beli.</span></span><span class="ch-hit">0/13</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 4</span>
+      <span class="ch-tx"><span class="ch-jd">Menghadapi Inflasi dan Menjaga Daya Beli Dompet Kecil</span><span class="ch-fokus">Pembaca memahami bagaimana kenaikan harga menggerus nilai uang dan mengenali cara melindungi kebutuhan dasar keluarga dari terjangan penurunan daya beli.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">35</span><span class="jd">Memahami Inflasi Bukan Sekadar Kenaikan Harga, Melainkan Kejatuhan Daya Beli<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">36</span><span class="jd">Mengenali Penyebab Moneter di Balik Lonjakan Harga dan Suplai Uang<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">37</span><span class="jd">Menghitung Dampak Nyata Inflasi Melalui Penyesuaian Angka Riil<span class="tg">Segera hadir</span></span></div></li>
@@ -178,7 +221,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">45</span><span class="jd">Mengelola Risiko Guncangan Harga Pangan dan Energi secara Mandiri<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">46</span><span class="jd">Menjaga Arus Kas Tetap Stabil di Tengah Ketidakpastian Ekonomi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">47</span><span class="jd">Membangun Jaringan Saling Menanggung dan Ketahanan Komunitas Lokal<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 5</span><span class="ch-jd">Mengenal Suku Bunga, Perbankan, dan Perangkap Riba dalam Kehidupan<span class="fk">Pembaca mampu mengenali berbagai bentuk instrumen berbasis bunga di masyarakat, memahami risikonya, dan mengetahui batas untuk menjauhinya secara syariah.</span></span><span class="ch-hit">0/12</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 5</span>
+      <span class="ch-tx"><span class="ch-jd">Mengenal Suku Bunga, Perbankan, dan Perangkap Riba dalam Kehidupan</span><span class="ch-fokus">Pembaca mampu mengenali berbagai bentuk instrumen berbasis bunga di masyarakat, memahami risikonya, dan mengetahui batas untuk menjauhinya secara syariah.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">48</span><span class="jd">Mengenal Peran Bank Sebagai Perantara dan Sumber Utama Peredaran Uang<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">49</span><span class="jd">Memahami Sistem Perbankan Fraksional dan Penciptaan Uang Kredit<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">50</span><span class="jd">Mengenali Berbagai Bentuk Instrumen Keuangan Berbasis Suku Bunga<span class="tg">Segera hadir</span></span></div></li>
@@ -191,7 +242,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">57</span><span class="jd">Menilai Peran Lembaga Keuangan Mikro dan Bahaya Jeratan Utang Harian<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">58</span><span class="jd">Menjaga Jarak dari Produk Investasi Konvensional yang Mengandalkan Bunga Tetap<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">59</span><span class="jd">Menyusun Bentuk Pertahanan Rumah Tangga yang Bersih dari Perangkap Riba<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 6</span><span class="ch-jd">Menyelaraskan Pendapatan dan Menumbuhkan Nilai Jual Diri<span class="fk">Pembaca mampu mengevaluasi nilai pekerjaan atau usaha mikro miliknya, lalu merumuskan langkah konkret untuk menaikkan penghasilan secara adil.</span></span><span class="ch-hit">0/10</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 6</span>
+      <span class="ch-tx"><span class="ch-jd">Menyelaraskan Pendapatan dan Menumbuhkan Nilai Jual Diri</span><span class="ch-fokus">Pembaca mampu mengevaluasi nilai pekerjaan atau usaha mikro miliknya, lalu merumuskan langkah konkret untuk menaikkan penghasilan secara adil.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/10</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">60</span><span class="jd">Mengevaluasi Nilai Pekerjaan Berdasarkan Waktu dan Energi Hidup yang Dikorbankan<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">61</span><span class="jd">Memahami Konsep Nilai Jual dan Kekuatan Kelangkaan Keterampilan di Pasar<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">62</span><span class="jd">Mengukur Kontribusi Nyata Usaha Mikro Melalui Analisis Hasil Marjinal<span class="tg">Segera hadir</span></span></div></li>
@@ -202,7 +261,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">67</span><span class="jd">Menggunakan Sinyal Kualitas dan Reputasi untuk Menaikkan Harga Jual Usaha Mikro<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">68</span><span class="jd">Mengatasi Hambatan Psikologis dan Rasa Malu dalam Menilai Ulang Harga Jasa<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">69</span><span class="jd">Merancang Langkah Konkret Peningkatan Pendapatan Secara Bertahap dan Halal<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 7</span><span class="ch-jd">Memahami Kurs, Ekonomi Makro, dan Dampaknya ke Harga Barang<span class="fk">Pembaca memahami bagaimana nilai tukar mata uang, kebijakan ekonomi makro, dan perdagangan global secara langsung memengaruhi harga kebutuhan sehari-hari.</span></span><span class="ch-hit">0/13</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 7</span>
+      <span class="ch-tx"><span class="ch-jd">Memahami Kurs, Ekonomi Makro, dan Dampaknya ke Harga Barang</span><span class="ch-fokus">Pembaca memahami bagaimana nilai tukar mata uang, kebijakan ekonomi makro, dan perdagangan global secara langsung memengaruhi harga kebutuhan sehari-hari.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">70</span><span class="jd">Memahami Kurs sebagai Harga Pertukaran Mata Uang Antarnegara<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">71</span><span class="jd">Membaca Beda Antara Barang Tradable dan Nontradable di Pasar Domestik<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">72</span><span class="jd">Menelusuri Jalur Rupiah Melemah ke Lonjakan Harga Bahan Baku Warung dan Pabrik<span class="tg">Segera hadir</span></span></div></li>
@@ -216,7 +283,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">80</span><span class="jd">Membaca Indikator Ekonomi Makro Tanpa Terkecoh Angka Statistik yang Rumit<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">81</span><span class="jd">Menghindari Ilusi Kepastian di Tengah Ketidakpastian Siklus Bisnis Makroekonomi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">82</span><span class="jd">Menyusun Ketahanan Keuangan Keluarga Menghadapi Arus Perubahan Makroekonomi<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 8</span><span class="ch-jd">Mengelola Risiko Hidup Tanpa Tertipu Produk Keuangan Rumit<span class="fk">Pembaca mampu memilah kebutuhan proteksi yang esensial, menghindari asuransi yang merugikan, dan mengelola ketidakpastian hidup dengan bijak.</span></span><span class="ch-hit">0/13</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 8</span>
+      <span class="ch-tx"><span class="ch-jd">Mengelola Risiko Hidup Tanpa Tertipu Produk Keuangan Rumit</span><span class="ch-fokus">Pembaca mampu memilah kebutuhan proteksi yang esensial, menghindari asuransi yang merugikan, dan mengelola ketidakpastian hidup dengan bijak.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">83</span><span class="jd">Memahami Sifat Ketidakpastian Hidup dan Perbedaan Risiko Kecil versus Katastrofik<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">84</span><span class="jd">Menghindari Jebakan Biaya Asuransi untuk Risiko Kecil yang Bisa Diserap Sendiri<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">85</span><span class="jd">Mengenali Karakteristik Produk Keuangan Rumit dan Biaya Tersembunyi di Baliknya<span class="tg">Segera hadir</span></span></div></li>
@@ -230,7 +305,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">93</span><span class="jd">Menjaga Aset Riil yang Halal dan Produktif sebagai Pelindung Nilai Jangka Panjang<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">94</span><span class="jd">Melakukan Evaluasi Berkala atas Pilihan Proteksi dan Pengeluaran Risiko Keluarga<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">95</span><span class="jd">Merancang Ketenangan Hidup Jangka Panjang Tanpa Ketergantungan pada Skema Keuangan Spekulatif<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 9</span><span class="ch-jd">Menanam Modal pada Aset Produktif dan Usaha Nyata yang Halal<span class="fk">Pembaca memahami cara mengalihkan kelebihan tabungan ke dalam bentuk aset produktif riil dan usaha nyata berbasis bagi hasil yang sesuai prinsip syariah.</span></span><span class="ch-hit">0/13</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 9</span>
+      <span class="ch-tx"><span class="ch-jd">Menanam Modal pada Aset Produktif dan Usaha Nyata yang Halal</span><span class="ch-fokus">Pembaca memahami cara mengalihkan kelebihan tabungan ke dalam bentuk aset produktif riil dan usaha nyata berbasis bagi hasil yang sesuai prinsip syariah.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">96</span><span class="jd">Membedakan Tabungan Tidur dan Aset Produktif Riil<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">97</span><span class="jd">Mengenali Bentuk Usaha Nyata yang Terhindar dari Unsur Riba<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">98</span><span class="jd">Menerapkan Prinsip Bagi Hasil Alih-Alih Pinjaman Berbunga<span class="tg">Segera hadir</span></span></div></li>
@@ -244,7 +327,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">106</span><span class="jd">Melakukan Evaluasi Berkala atas Arus Pendapatan dari Aset Produktif<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">107</span><span class="jd">Menghadapi Fluktuasi dan Risiko Kerugian Usaha Tanpa Keluh Kesah Berlebihan<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">108</span><span class="jd">Mengintegrasikan Hasil Aset Produktif untuk Menopang Kebutuhan Rumah Tangga yang Berkelanjutan<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 10</span><span class="ch-jd">Mendesain Kemandirian Finansial untuk Ketenangan Jangka Panjang<span class="fk">Pembaca mampu menyusun sistem keuangan otomatis jangka panjang yang menghasilkan arus kas pasif, sehingga hidup tidak lagi tersandera oleh keharusan bekerja demi uang semata.</span></span><span class="ch-hit">0/12</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 10</span>
+      <span class="ch-tx"><span class="ch-jd">Mendesain Kemandirian Finansial untuk Ketenangan Jangka Panjang</span><span class="ch-fokus">Pembaca mampu menyusun sistem keuangan otomatis jangka panjang yang menghasilkan arus kas pasif, sehingga hidup tidak lagi tersandera oleh keharusan bekerja demi uang semata.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/12</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">109</span><span class="jd">Menghitung Batas Titik Crossover Antara Bekerja dan Arus Kas Pasif<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">110</span><span class="jd">Menerapkan Otomasi Arus Keuangan untuk Konsistensi Menabung dan Berinvestasi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">111</span><span class="jd">Memahami Pentingnya Menjaga Biaya Investasi dan Menghindari Biaya Tersembunyi<span class="tg">Segera hadir</span></span></div></li>
@@ -257,7 +348,8 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">118</span><span class="jd">Mengarahkan Kelebihan Modal ke Aset Riil dan Usaha Nyata yang Produktif<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">119</span><span class="jd">Menghindari Jebakan Gaya Hidup Saat Arus Kas Pasif Mulai Terbentuk<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">120</span><span class="jd">Merancang Warisan dan Kontribusi Sosial Berkelanjutan dari Kemandirian Finansial<span class="tg">Segera hadir</span></span></div></li>
-  </ol>
+    </ol>
+  </details>
 
   <section class="lain">
     <h2>Seri lain di BiB</h2>

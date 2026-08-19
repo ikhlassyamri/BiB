@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Seri Ilmu Produk Digital — Belajar Berurutan dari Awal | BiB</title>
-<meta name="description" content="Daftar isi seri Ilmu Produk Digital BiB: 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<title>Kumpulan Ilmu Membuat &amp; Menjual Produk Digital | BiB</title>
+<meta name="description" content="Berisi cara menemukan ide, mengemas produk, dan menjualnya. 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#0B0C0E">
 <meta name="author" content="BiB">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BiB">
 <meta property="og:locale" content="id_ID">
-<meta property="og:title" content="Seri Ilmu Produk Digital — Belajar Berurutan dari Awal">
-<meta property="og:description" content="Daftar isi seri Ilmu Produk Digital BiB: 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<meta property="og:title" content="Kumpulan Ilmu Membuat &amp; Menjual Produk Digital">
+<meta property="og:description" content="Berisi cara menemukan ide, mengemas produk, dan menjualnya. 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta property="og:url" content="https://joinbib.id/artikel/seri-produk-digital">
 <link rel="canonical" href="https://joinbib.id/artikel/seri-produk-digital">
 <link rel="icon" type="image/png" href="/favicon.png">
@@ -24,8 +24,8 @@
   "@graph": [
     {
       "@type": "CollectionPage",
-      "name": "Seri Ilmu Produk Digital — Belajar Berurutan dari Awal",
-      "description": "Daftar isi seri Ilmu Produk Digital BiB: 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.",
+      "name": "Kumpulan Ilmu Membuat & Menjual Produk Digital",
+      "description": "Berisi cara menemukan ide, mengemas produk, dan menjualnya. 26 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.",
       "url": "https://joinbib.id/artikel/seri-produk-digital",
       "inLanguage": "id-ID",
       "publisher": {
@@ -36,79 +36,93 @@
     },
     {
       "@type": "ItemList",
-      "name": "Seri Ilmu Produk Digital — Belajar Berurutan dari Awal",
+      "name": "Kumpulan Ilmu Membuat & Menjual Produk Digital",
       "numberOfItems": 0,
       "itemListElement": []
     }
   ]
 }</script>
 <style>
-/* Daftar isi seri — seragam dengan halaman artikel: latar putih, aksen navy.
-   Halaman ini sengaja BUKAN "coming soon" kosong: yang belum terbit tetap
-   ditampilkan judulnya supaya pembaca tahu ke mana serinya menuju. */
+/* Daftar isi seri — LATAR GELAP (keputusan pemilik, Agu 2026). Halaman
+   artikelnya sendiri tetap terang; yang gelap cuma halaman kumpulan ini.
+   Chapter dibungkus kartu yang jelas terpisah dari latar, dan bagiannya
+   baru muncul saat chapternya diketuk — memakai <details> bawaan browser,
+   bukan JavaScript, supaya tidak ada skrip yang bisa mati diam-diam. */
 :root{
-  --paper:#FFFFFF; --paper-2:#F6F7F8; --ink:#0B0C0E;
-  --line:#E2E5E9; --text:#0B0C0E; --muted:#5C636B; --dim:#767D85;
-  --nv:#12386E; --nv-dark:#0C2851;
+  --bg:#0B0C0E; --panel:#15181C; --panel-2:#1C2026;
+  --line:#272C33; --line-2:#343A43;
+  --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
+  --ac:#76B900;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--paper);color:var(--text);font-family:var(--body);
+body{background:var(--bg);color:var(--text);font-family:var(--body);
   font-size:1.0625rem;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:720px;margin:0 auto;padding:0 22px}
 .hdr{display:flex;align-items:center;justify-content:space-between;
   padding:14px 22px;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;text-decoration:none;background:#0B0C0E;
-  border-radius:10px;padding:8px 12px}
+  border:1px solid var(--line);border-radius:10px;padding:8px 12px}
 .brand img{height:22px;width:auto;display:block}
-.btn-sm{display:inline-flex;align-items:center;gap:8px;background:var(--ink);
-  color:#fff;font-family:var(--disp);font-weight:700;font-size:.9rem;
+.btn-sm{display:inline-flex;align-items:center;gap:8px;background:#fff;
+  color:#0B0C0E;font-family:var(--disp);font-weight:700;font-size:.9rem;
   padding:9px 18px;border-radius:10px;text-decoration:none}
 main{padding:34px 0 60px}
-.crumb{font-size:.85rem;color:var(--dim);margin-bottom:14px}
-.crumb a{color:var(--nv);text-decoration:none}
-h1{font-family:var(--disp);font-size:2rem;line-height:1.2;letter-spacing:-.02em;
-  margin-bottom:12px}
-.intro{color:var(--muted);margin-bottom:8px}
-.hitung{font-family:var(--disp);font-size:.8rem;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--dim);margin:22px 0 12px}
-ol.bagian{list-style:none;counter-reset:b}
-ol.bagian li{counter-increment:b;border:1px solid var(--line);border-radius:12px;
-  margin-bottom:10px;background:var(--paper-2)}
-ol.bagian li a,ol.bagian li .nanti{display:flex;gap:14px;padding:14px 16px;
+.crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
+.crumb a{color:var(--muted);text-decoration:none}
+h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18;
+  letter-spacing:-.02em;margin-bottom:14px}
+.sub{color:var(--muted);font-size:1.05rem;margin-bottom:10px}
+.isi{color:var(--dim);font-size:.95rem}
+.hitung{font-family:var(--disp);font-size:.78rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--dim);margin:30px 0 14px}
+
+/* ── kartu chapter: terpisah jelas dari latar ── */
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  margin-bottom:12px;overflow:hidden}
+.ch[open]{border-color:var(--line-2)}
+.ch summary{display:flex;gap:14px;align-items:flex-start;padding:17px 18px;
+  cursor:pointer;list-style:none}
+.ch summary::-webkit-details-marker{display:none}
+.ch-no{font-family:var(--disp);font-weight:700;font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ac);
+  white-space:nowrap;padding-top:5px}
+.ch-tx{flex:1;min-width:0}
+.ch-jd{font-family:var(--disp);font-weight:600;font-size:1.06rem;
+  line-height:1.35;display:block}
+.ch-fokus{display:block;color:var(--dim);font-size:.88rem;line-height:1.55;
+  margin-top:5px}
+.ch-kanan{display:flex;align-items:center;gap:10px;padding-top:3px}
+.ch-hit{font-family:var(--disp);font-size:.8rem;color:var(--muted);
+  white-space:nowrap}
+.ch-tanda{width:22px;height:22px;flex:none;position:relative}
+.ch-tanda::before,.ch-tanda::after{content:"";position:absolute;background:var(--muted);
+  left:50%;top:50%;transform:translate(-50%,-50%);transition:opacity .18s}
+.ch-tanda::before{width:12px;height:2px}
+.ch-tanda::after{width:2px;height:12px}
+.ch[open] .ch-tanda::after{opacity:0}
+
+/* ── daftar bagian di dalam chapter ── */
+.ch ol{list-style:none;padding:0 12px 14px;margin:0}
+.ch ol li{border-top:1px solid var(--line)}
+.ch ol li a,.ch ol li .nanti{display:flex;gap:13px;padding:13px 6px;
   text-decoration:none;align-items:flex-start}
-ol.bagian li .no{font-family:var(--disp);font-weight:700;color:var(--nv);
-  min-width:28px;font-size:.95rem}
-ol.bagian li .jd{font-weight:600;line-height:1.45}
-ol.bagian li .tg{display:block;font-weight:400;font-size:.84rem;color:var(--dim);
-  margin-top:3px}
-ol.bagian li.belum{background:transparent;border-style:dashed}
-ol.bagian li.belum .jd{color:var(--muted);font-weight:500}
-/* Kepala chapter: babak belajar, bukan bagian yang bisa diklik. Sengaja
-   tidak bernomor urut daftar — nomor bagian tetap berjalan lurus 1..N
-   supaya pembaca yang mendarat di bagian 40 tidak bingung. */
-ol.bagian li.chapter{border:none;background:transparent;margin:26px 0 8px}
-ol.bagian li.chapter:first-child{margin-top:0}
-ol.bagian li.chapter .ch{display:flex;gap:12px;align-items:baseline;
-  padding:0 2px;border-bottom:2px solid var(--nv);padding-bottom:8px}
-ol.bagian li.chapter .ch-no{font-family:var(--disp);font-weight:700;
-  font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--nv);white-space:nowrap}
-ol.bagian li.chapter .ch-jd{font-family:var(--disp);font-weight:600;
-  font-size:1.05rem;line-height:1.3;flex:1}
-ol.bagian li.chapter .ch-jd .fk{display:block;font-family:var(--body);
-  font-weight:400;font-size:.86rem;color:var(--dim);margin-top:3px;
-  line-height:1.5}
-ol.bagian li.chapter .ch-hit{font-family:var(--disp);font-size:.8rem;
-  color:var(--dim);white-space:nowrap}
-.lain{margin-top:38px;border-top:1px solid var(--line);padding-top:22px}
-.lain h2{font-family:var(--disp);font-size:1.05rem;margin-bottom:12px}
+.ch ol li a:hover{background:var(--panel-2);border-radius:9px}
+.no{font-family:var(--disp);font-weight:700;color:var(--ac);min-width:26px;
+  font-size:.9rem;padding-top:1px}
+.jd{font-weight:600;line-height:1.5;font-size:.97rem}
+.tg{display:block;font-weight:400;font-size:.82rem;color:var(--dim);margin-top:3px}
+.ch ol li.belum .no{color:var(--dim)}
+.ch ol li.belum .jd{color:var(--muted);font-weight:500}
+
+.lain{margin-top:40px;border-top:1px solid var(--line);padding-top:24px}
+.lain h2{font-family:var(--disp);font-size:1.05rem;margin-bottom:13px}
 .lain ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px}
 .lain a{display:inline-block;border:1px solid var(--line);border-radius:999px;
-  padding:8px 15px;text-decoration:none;font-size:.92rem;color:var(--nv);
-  font-weight:600}
-footer{border-top:1px solid var(--line);padding:22px;text-align:center;
+  padding:8px 15px;text-decoration:none;font-size:.92rem;color:var(--muted);
+  font-weight:600;background:var(--panel)}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
 </style>
 </head>
@@ -120,14 +134,19 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Produk Digital</span></nav>
-  <h1>Seri Ilmu Produk Digital — Belajar Berurutan dari Awal</h1>
-  <p class="intro">Kumpulan artikel Ilmu Produk Digital BiB yang disusun berurutan — dari yang paling mendasar sampai yang paling lanjut.</p>
-  <p class="intro">Tiap bagian bisa dibaca sendiri — urutan ini cuma jalur
-  tercepat kalau kamu mau belajar dari awal.</p>
+  <h1>Kumpulan Ilmu Membuat &amp; Menjual Produk Digital</h1>
+  <p class="sub">Berisi cara menemukan ide, mengemas produk, dan menjualnya.</p>
+  <p class="isi">Materi disusun urut mulai dari pembelajaran dasar hingga
+  profesional. Tiap bagian tetap bisa dibaca sendiri.</p>
 
   <div class="hitung">0 dari 26 bagian sudah terbit</div>
-  <ol class="bagian">
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 1</span><span class="ch-jd">Menemukan dan Memvalidasi Ide Produk Digital Pertama<span class="fk">Pembaca mampu menggali potensi diri, meriset masalah nyata di pasar, dan memastikan idenya laku sebelum produk dibuat.</span></span><span class="ch-hit">0/13</span></div></li>
+  <details class="ch" open>
+    <summary>
+      <span class="ch-no">Chapter 1</span>
+      <span class="ch-tx"><span class="ch-jd">Menemukan dan Memvalidasi Ide Produk Digital Pertama</span><span class="ch-fokus">Pembaca mampu menggali potensi diri, meriset masalah nyata di pasar, dan memastikan idenya laku sebelum produk dibuat.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">01</span><span class="jd">Audit Potensi Diri dan Keterampilan Tersembunyi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">02</span><span class="jd">Menemukan Jalur Alternatif Bagi Pemula Total<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">03</span><span class="jd">Membaca Hype Pasar Melalui Google Trend<span class="tg">Segera hadir</span></span></div></li>
@@ -141,7 +160,15 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">11</span><span class="jd">Menetapkan Model Harga Berdasarkan Kecepatan Solusi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">12</span><span class="jd">Menyiapkan Judul Magnetis yang Relevan dengan Pencarian<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">13</span><span class="jd">Menyusun Rencana Eksekusi Validasi Akhir<span class="tg">Segera hadir</span></span></div></li>
-    <li class="chapter"><div class="ch"><span class="ch-no">Chapter 2</span><span class="ch-jd">Merakit, Mengemas, dan Menjual Produk Digital Tanpa Ribet<span class="fk">Pembaca mampu memproduksi materi, mengatur etalase otomatis, dan mendatangkan pembeli pertama secara organik.</span></span><span class="ch-hit">0/13</span></div></li>
+    </ol>
+  </details>
+  <details class="ch">
+    <summary>
+      <span class="ch-no">Chapter 2</span>
+      <span class="ch-tx"><span class="ch-jd">Merakit, Mengemas, dan Menjual Produk Digital Tanpa Ribet</span><span class="ch-fokus">Pembaca mampu memproduksi materi, mengatur etalase otomatis, dan mendatangkan pembeli pertama secara organik.</span></span>
+      <span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span>
+    </summary>
+    <ol>
     <li class="belum"><div class="nanti"><span class="no">14</span><span class="jd">Menyiapkan Kerangka Penulisan Cepat dengan AI<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">15</span><span class="jd">Menggunakan Master Prompt untuk Mengunci Gaya Tulis<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">16</span><span class="jd">Menulis Isi Naskah Per Bagian Tanpa Kehabisan Ide<span class="tg">Segera hadir</span></span></div></li>
@@ -155,7 +182,8 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;
     <li class="belum"><div class="nanti"><span class="no">24</span><span class="jd">Membuat Konten Organik Pertama untuk Mendatangkan Traffic<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">25</span><span class="jd">Menggunakan Formula Hook-Story-Offer di Media Sosial<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">26</span><span class="jd">Mengelola Purna Jual dan Mendapatkan Ulasan Pertama<span class="tg">Segera hadir</span></span></div></li>
-  </ol>
+    </ol>
+  </details>
 
   <section class="lain">
     <h2>Seri lain di BiB</h2>
