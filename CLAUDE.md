@@ -23,6 +23,7 @@ Situs statis GitHub Pages (branch `main` = live di joinbib.id). Semua halaman HT
 - **`/digital/`** — halaman bio **joinbib.id/digital** (`index.html`) + landing produk digital: `sutradara-digital` dan `10template`. Aset: video demo (`Dekstop*.mp4`, `Mobile*.mp4`), screenshot `belajar-website-*.png`, logo.
 - **`/digital/10template/`** — pendukung produk 10template: halaman `purchase.html` + asetnya.
 - **`/pinterest-downloader/`** — tool Pinterest Video Downloader (`index.html`) + asetnya. Frontend memanggil Cloudflare Worker sebagai jalur utama, fallback ke proxy publik.
+- **`/workers/komentar/`** — backend komentar artikel (Cloudflare Worker + KV, `worker.js`). Pengganti bagian FAQ (keputusan pemilik, Agu 2026): pembaca menulis pertanyaan di bawah artikel; kata kasar/vulgar/hinaan, tautan, dan spam DISARING DI SINI (daftar `KATA_TERLARANG` + normalisasi), bukan di halaman. **BUKAN** bagian situs statis; deploy manual — lihat `README.md` foldernya. Alamatnya dikunci di skrip artikel: `komentar-artikel.ikhlassyamribusiness.workers.dev`.
 - **`/workers/pinterest/`** — backend serverless (Cloudflare Worker, `worker.js`) untuk pinterest-downloader. **BUKAN** bagian situs statis GitHub Pages; deploy terpisah ke Cloudflare (gratis). Endpoint: `GET /resolve`, `GET /download`. Detail lengkap di `README.md` folder itu.
 
 ## Ciri khas WAJIB setiap artikel baru

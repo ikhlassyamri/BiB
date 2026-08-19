@@ -83,43 +83,6 @@
           "item": "https://joinbib.id/artikel/kisah-sukses-jack-ma-fokus-usaha-kecil"
         }
       ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Kenapa Jack Ma memilih fokus ke usaha kecil saat mendirikan Alibaba?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Jack Ma menyadari bahwa 85 persen pasar merupakan usaha kecil (shrimp) yang tidak dilayani oleh situs B2B Amerika Serikat. Perusahaan besar (whales) sudah memiliki sistem sendiri dan memiliki daya tawar yang rumit, sementara usaha kecil sangat membutuhkan akses pasar ekspor."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Bagaimana cara Jack Ma memulai usaha dengan modal pas-pasan?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Jack Ma memulai Alibaba dari apartemennya di Hangzhou bersama 18 orang pendiri. Keterbatasan modal finansial ditutupi dengan membangun etos kerja yang kuat, menetapkan visi jangka panjang yang jelas, dan fokus pada efisiensi layanan."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Apa pelajaran utama dari strategi bisnis Jack Ma untuk pemula?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Pelajaran utamanya adalah jangan takut bersaing dengan pemain besar. Temukan celah pasar yang diabaikan oleh raksasa, lalu bangun sistem kerja tim yang fokus melayani segmen pasar tersebut dengan baik."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Bagaimana tim Jack Ma menghadapi kompetitor besar di awal pendirian?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Meskipun kompetitor seperti Sina dan Sohu mengumpulkan modal ventura jutaan dolar, tim Alibaba memilih tidak bertarung di tempat yang sama. Mereka membangun keunggulan lewat budaya kerja tim yang solid dan fokus penuh pada segmen e-commerce B2B."
-          }
-        }
-      ]
     }
   ]
 }</script>
@@ -377,6 +340,27 @@ footer a:hover{color:#0B0C0E}
   .notif{flex-direction:column;gap:10px}
   .notif .n-ikon{padding-top:0}
 }
+/* kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026) */
+.komen{margin:44px 0 0}
+.komen h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.4rem,4.4vw,1.85rem);margin:0 0 8px}
+.komen h2::before{content:"";display:block;width:11px;height:11px;background:currentColor;margin-bottom:15px}
+.k-sub{font-size:.95rem;opacity:.75;margin:0 0 16px}
+.k-form,.k-item{background:#FFFFFF;border:1px solid #E2E5E9;border-radius:12px;color:#0B0C0E}
+.k-form{padding:16px;position:relative}
+.k-form input,.k-form textarea{width:100%;border:1px solid #E2E5E9;border-radius:9px;
+  padding:10px 12px;font:inherit;font-size:.95rem;background:#F6F7F8;color:#0B0C0E;margin-bottom:10px}
+.k-form textarea{min-height:96px;resize:vertical}
+.k-kirim{display:inline-flex;align-items:center;background:var(--nv,#12386E);color:#fff;border:0;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;padding:11px 24px;border-radius:10px;cursor:pointer}
+.k-kirim:disabled{opacity:.6;cursor:default}
+.k-pesan{font-size:.86rem;margin-top:9px;display:none}
+.k-pesan.gagal{display:block;color:#B3261E}
+.k-pesan.sukses{display:block;color:#1B7F3B}
+.k-item{padding:13px 16px;margin-top:12px;overflow-wrap:anywhere}
+.k-item b{font-family:'Space Grotesk',sans-serif;font-size:.93rem;color:#0B0C0E}
+.k-item time{font-size:.78rem;color:#5C636B;margin-left:8px}
+.k-item p{margin:5px 0 0;font-size:.95rem;color:#2B3036;white-space:pre-line}
+.k-kosong{font-size:.9rem;opacity:.75;margin-top:14px}
 </style>
 </head>
 <body>
@@ -438,28 +422,23 @@ footer a:hover{color:#0B0C0E}
     <p class="s-daftar">Baca berurutan dari awal di <a href="/artikel/seri-kisah-sukses">daftar isi Seri Kisah Sukses</a>.</p>
   </nav>
 
-  <section class="faq">
-    <h2>Pertanyaan yang sering muncul</h2>
-    <details>
-      <summary>Kenapa Jack Ma memilih fokus ke usaha kecil saat mendirikan Alibaba?</summary>
-      <p>Jack Ma menyadari bahwa 85 persen pasar merupakan usaha kecil (shrimp) yang tidak dilayani oleh situs B2B Amerika Serikat. Perusahaan besar (whales) sudah memiliki sistem sendiri dan memiliki daya tawar yang rumit, sementara usaha kecil sangat membutuhkan akses pasar ekspor.</p>
-    </details>
-    <details>
-      <summary>Bagaimana cara Jack Ma memulai usaha dengan modal pas-pasan?</summary>
-      <p>Jack Ma memulai Alibaba dari apartemennya di Hangzhou bersama 18 orang pendiri. Keterbatasan modal finansial ditutupi dengan membangun etos kerja yang kuat, menetapkan visi jangka panjang yang jelas, dan fokus pada efisiensi layanan.</p>
-    </details>
-    <details>
-      <summary>Apa pelajaran utama dari strategi bisnis Jack Ma untuk pemula?</summary>
-      <p>Pelajaran utamanya adalah jangan takut bersaing dengan pemain besar. Temukan celah pasar yang diabaikan oleh raksasa, lalu bangun sistem kerja tim yang fokus melayani segmen pasar tersebut dengan baik.</p>
-    </details>
-    <details>
-      <summary>Bagaimana tim Jack Ma menghadapi kompetitor besar di awal pendirian?</summary>
-      <p>Meskipun kompetitor seperti Sina dan Sohu mengumpulkan modal ventura jutaan dolar, tim Alibaba memilih tidak bertarung di tempat yang sama. Mereka membangun keunggulan lewat budaya kerja tim yang solid dan fokus penuh pada segmen e-commerce B2B.</p>
-    </details>
+
+
+    <section class="komen" id="komen">
+    <h2>Tanya &amp; Komentar</h2>
+    <p class="k-sub">Ada yang mau ditanyakan soal artikel ini? Tulis di sini.
+    Komentar tersaring otomatis: bahasa kasar dan tautan tidak akan tayang.</p>
+    <form class="k-form" id="k-form">
+      <input type="text" id="k-nama" maxlength="40" placeholder="Nama (boleh dikosongkan)" autocomplete="name">
+      <textarea id="k-teks" maxlength="500" placeholder="Tulis pertanyaan atau komentarmu di sini&hellip;" required></textarea>
+      <input type="text" id="k-situs" name="situs" tabindex="-1" autocomplete="off"
+             style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+      <button class="k-kirim" id="k-kirim" type="submit">Kirim</button>
+      <div class="k-pesan" id="k-pesan" role="status"></div>
+    </form>
+    <div id="k-daftar"><p class="k-kosong">Memuat komentar&hellip;</p></div>
   </section>
-
-
-  <section class="contact">
+<section class="contact">
     <h2>Ngobrol langsung</h2>
     <div class="links">
       <a class="lnk" href="https://instagram.com/ikhlassyamri" target="_blank" rel="noopener">
@@ -751,5 +730,98 @@ footer a:hover{color:#0B0C0E}
 })();
 </script>
 
+<script>
+/* Kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026).
+   Penyaring kata kasar/vulgar/hinaan ditegakkan DI WORKER, bukan di sini:
+   apa pun yang ada di halaman bisa dibongkar orang. Worker-nya di repo BiB
+   folder workers/komentar. Komentar dirender lewat textContent — jangan
+   pernah diganti innerHTML, itu pintu XSS. Gagal jaringan TIDAK merusak
+   halaman: kolomnya cuma menampilkan keterangan. */
+(function(){
+  var WORKER = 'https://komentar-artikel.ikhlassyamribusiness.workers.dev';
+  var SLUG = 'kisah-sukses-jack-ma-fokus-usaha-kecil';
+  var daftar = document.getElementById('k-daftar');
+  var form = document.getElementById('k-form');
+  if (!daftar || !form) return;
+
+  function baris(k){
+    var kotak = document.createElement('div');
+    kotak.className = 'k-item';
+    var nama = document.createElement('b');
+    nama.textContent = k.nama || 'Pembaca';
+    kotak.appendChild(nama);
+    if (k.waktu) {
+      var t = document.createElement('time');
+      try {
+        t.textContent = new Date(k.waktu).toLocaleDateString('id-ID',
+          { day: 'numeric', month: 'short', year: 'numeric' });
+      } catch(e) { t.textContent = ''; }
+      kotak.appendChild(t);
+    }
+    var p = document.createElement('p');
+    p.textContent = k.teks || '';
+    kotak.appendChild(p);
+    return kotak;
+  }
+
+  function kosongkan(pesanTeks){
+    daftar.textContent = '';
+    var p = document.createElement('p');
+    p.className = 'k-kosong';
+    p.textContent = pesanTeks;
+    daftar.appendChild(p);
+  }
+
+  fetch(WORKER + '/ambil?slug=' + encodeURIComponent(SLUG))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var semua = (d && d.komentar) || [];
+      if (!semua.length) { kosongkan('Belum ada komentar. Jadilah yang pertama bertanya.'); return; }
+      daftar.textContent = '';
+      for (var i = 0; i < semua.length; i++) daftar.appendChild(baris(semua[i]));
+    })
+    .catch(function(){ kosongkan('Kolom komentar sedang tidak tersedia.'); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var tombol = document.getElementById('k-kirim');
+    var pesan = document.getElementById('k-pesan');
+    var nama = document.getElementById('k-nama').value.trim();
+    var teks = document.getElementById('k-teks').value.trim();
+    var situs = document.getElementById('k-situs').value;
+    if (teks.length < 3) return;
+    tombol.disabled = true;
+    pesan.className = 'k-pesan';
+
+    fetch(WORKER + '/kirim', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug: SLUG, nama: nama, teks: teks, situs: situs })
+    })
+      .then(function(r){ return r.json().then(function(d){ return d; }); })
+      .then(function(d){
+        tombol.disabled = false;
+        if (d && d.ok) {
+          document.getElementById('k-teks').value = '';
+          pesan.className = 'k-pesan sukses';
+          pesan.textContent = 'Terkirim. Terima kasih sudah bertanya.';
+          var kosong = daftar.querySelector('.k-kosong');
+          if (kosong) daftar.textContent = '';
+          daftar.insertBefore(baris({ nama: nama || 'Pembaca', teks: teks,
+            waktu: new Date().toISOString() }), daftar.firstChild);
+        } else {
+          pesan.className = 'k-pesan gagal';
+          pesan.textContent = (d && d.pesan) || 'Gagal terkirim. Coba lagi.';
+        }
+      })
+      .catch(function(){
+        tombol.disabled = false;
+        pesan.className = 'k-pesan gagal';
+        pesan.textContent = 'Jaringan bermasalah. Coba lagi sebentar lagi.';
+      });
+  });
+})();
+</script>
 </body>
+
 </html>
