@@ -67,7 +67,17 @@ a{color:inherit}
 .brand img{height:22px;width:auto;display:block}
 .btn-sm{display:inline-flex;align-items:center;gap:8px;background:#fff;
   color:#0B0C0E;font-family:var(--disp);font-weight:700;font-size:.9rem;
-  padding:9px 18px;border-radius:10px;text-decoration:none}
+  padding:9px 18px;border-radius:10px;text-decoration:none;border:0;
+  cursor:pointer;font-family:var(--disp)}
+/* Tombol notifikasi: emas + denyut halus supaya matanya tertarik ke sana.
+   Animasinya CSS murni; yang tidak mau gerakan tetap dapat tombolnya diam. */
+.btn-notif{background:var(--ac);color:#0B0C0E;animation:denyut 2.4s ease-in-out infinite}
+.btn-notif:disabled{opacity:.75;animation:none;cursor:default}
+@keyframes denyut{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.55)}
+  60%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
+}
+@media (prefers-reduced-motion:reduce){.btn-notif{animation:none}}
 main{padding:34px 0 60px}
 .crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
 .crumb a{color:var(--muted);text-decoration:none}
@@ -77,6 +87,8 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
   border:1px solid var(--line);background:var(--panel)}
 .spanduk img{display:block;width:100%;height:auto}
 .sub{color:var(--muted);font-size:1.05rem;margin-bottom:10px}
+.sub .jml{color:var(--ac);font-family:var(--disp);font-weight:700;
+  white-space:nowrap}
 .isi{color:var(--dim);font-size:.95rem}
 .hitung{font-family:var(--disp);font-size:.78rem;letter-spacing:.09em;
   text-transform:uppercase;color:var(--dim);margin:30px 0 14px}
@@ -130,14 +142,15 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 <body>
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
-  <a class="btn-sm" href="/artikel">Semua Artikel</a>
+  <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
+  <a class="btn-sm" id="semua" href="/artikel" hidden>Semua Artikel</a>
 </header>
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Produk Digital</span></nav>
   <h1>Kumpulan Ilmu Membuat &amp; Menjual Produk Digital</h1>
 
-  <p class="sub">Berisi cara menemukan ide, mengemas produk, dan menjualnya.</p>
+  <p class="sub">Berisi cara menemukan ide, mengemas produk, dan menjualnya. <span class="jml">(2 Chapter)</span></p>
   <p class="isi">Materi disusun urut mulai dari pembelajaran dasar hingga
   profesional. Tiap bagian tetap bisa dibaca sendiri.</p>
 
@@ -202,5 +215,103 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 </main>
 
 <footer>BiB · joinbib.id — Skip coba-cobanya, pelajari polanya.</footer>
+
+<script>
+/* Tombol "Nyalakan Notifikasi" — logikanya SENGAJA sama dengan kartu
+   notifikasi di halaman artikel (otak/CLAUDE aturan 9). Jangan
+   disederhanakan sendiri:
+     · izin diminta DI DALAM ketukan lewat Notification.requestPermission()
+       (API bawaan browser). Menitipkannya ke antrean OneSignalDeferred
+       membuatnya jalan asinkron di luar gesture, dan browser menekan
+       dialognya diam-diam.
+     · SDK baru dimuat SETELAH izin diberikan, supaya halaman tidak
+       menyeret skrip pihak ketiga buat pembaca yang tidak berminat.
+     · tiga baris service worker WAJIB sama dengan /artikel/index.html —
+       scope yang beda membuat SDK mendaftarkan worker lain dan
+       langganannya tidak pernah terbentuk.
+   Halaman ini tadinya nol JavaScript; ini satu-satunya blok, dan
+   daftar chapternya tetap <details> bawaan browser supaya tidak ikut
+   mati kalau blok ini gagal. */
+(function(){
+  var APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
+  var KUNCI_AKTIF = 'bib-notif-aktif';
+  var tombol = document.getElementById('notifbtn');
+  var semua  = document.getElementById('semua');
+  if (!tombol) return;
+
+  function tampilkanSemua(){
+    tombol.hidden = true;
+    if (semua) semua.hidden = false;
+  }
+
+  /* Sudah berlangganan, atau browsernya sudah mengunci izin, atau tidak
+     mendukung notifikasi sama sekali → tombolnya tidak berguna. Kembalikan
+     tautan "Semua Artikel" supaya kepala halaman tetap ada gunanya. */
+  var aktif = false;
+  try { aktif = !!localStorage.getItem(KUNCI_AKTIF); } catch(e) {}
+  if (!('Notification' in window) || Notification.permission === 'denied'
+      || aktif) { tampilkanSemua(); return; }
+
+  var siap = false;
+  function muatSDK(){
+    if (siap) return;
+    siap = true;
+    var sc = document.createElement('script');
+    sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
+    sc.defer = true;
+    document.head.appendChild(sc);
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal){
+      OneSignal.init({
+        appId: APP_ID,
+        safari_web_id: 'web.onesignal.auto.69a0d04c-4cfa-4f80-8d34-652264ce8748',
+        serviceWorkerPath: '/OneSignalSDKWorker.js',
+        serviceWorkerParam: { scope: '/' },
+        autoResubscribe: true,
+        notifyButton: { enable: false },
+        promptOptions: { slidedown: { prompts: [] } }
+      });
+    });
+  }
+
+  tombol.addEventListener('click', function(){
+    tombol.disabled = true;
+    tombol.textContent = 'Sebentar…';
+
+    function beres(){
+      tombol.textContent = 'Notifikasi Aktif ✓';
+    }
+    function gagal(){
+      tombol.disabled = false;
+      tombol.textContent = 'Coba lagi';
+    }
+
+    var minta;
+    try { minta = Notification.requestPermission(); } catch(e) { minta = null; }
+    if (!minta || typeof minta.then !== 'function') {
+      minta = new Promise(function(res){ Notification.requestPermission(res); });
+    }
+
+    minta.then(function(izin){
+      if (izin !== 'granted') { tampilkanSemua(); return; }
+      muatSDK();
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      var selesai = false;
+      window.OneSignalDeferred.push(function(OneSignal){
+        OneSignal.User.PushSubscription.optIn()
+          .then(function(){
+            try { OneSignal.User.addTag('langganan', 'artikel'); } catch(e) {}
+            try { localStorage.setItem(KUNCI_AKTIF, '1'); } catch(e) {}
+            selesai = true; beres();
+          })
+          .catch(function(){ selesai = true; gagal(); });
+      });
+      /* SDK tidak kunjung termuat: izinnya sudah di tangan, langganan
+         menyusul lewat autoResubscribe — jangan menggantung selamanya. */
+      setTimeout(function(){ if (!selesai) beres(); }, 8000);
+    });
+  });
+})();
+</script>
 </body>
 </html>
