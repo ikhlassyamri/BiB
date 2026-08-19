@@ -7,22 +7,8 @@
 
   <!-- ===== Artikel Umum (pindah dari root ke /artikel/) ===== -->
   <url><loc>https://joinbib.id/artikel/garuda-indonesia-direktur-niaga-diberhentikan</loc><lastmod>2026-08-19</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/kenapa-views-video-sepi-ganti-topik</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-validasi-ide-produk-digital</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-memisahkan-uang-pribadi-dan-usaha-kecil</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-menghitung-cogs-dan-harga-jual-umkm</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-bikin-branded-content-ala-mrbeast-clipper</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/kisah-sukses-jesse-livermore-manajemen-risiko</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/artikel/lowongan-kerja-turun-lima-tahun</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/kisah-sukses-jack-ma-membangun-alibaba</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/artikel/hacker-bobol-mac-tanpa-password</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-bersaing-dengan-marketplace-untuk-toko-fisik</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-keluar-perang-harga-e-commerce-umkm</loc><lastmod>2026-08-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-membaca-pertumbuhan-instagram-riset-produk</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-cepat-tambah-followers-instagram-clipper</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-buat-produk-digital-dari-keahlian</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/optimasi-profil-pribadi-linkedin-sitasi-ai</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://joinbib.id/artikel/cara-pasang-overlay-video-di-x</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/artikel/apple-bantu-umkm-kelola-karyawan-konten</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/artikel/openai-bubarkan-tim-kesiapan-ai</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
   <url><loc>https://joinbib.id/artikel/samsung-galaxy-z-fold8-ultra-review</loc><lastmod>2026-08-16</lastmod><priority>0.8</priority></url>
@@ -60,4 +46,45 @@
 
   <!-- ===== Tool ===== -->
   <url><loc>https://joinbib.id/pinterest-downloader</loc><lastmod>2026-07-09</lastmod><priority>0.7</priority></url>
+
+  <url>
+    <loc>https://joinbib.id/artikel/seri-jualan</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-konten</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-bisnis</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-ai</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-ekonomi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-clipper</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-produk-digital</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://joinbib.id/artikel/seri-kisah-sukses</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
