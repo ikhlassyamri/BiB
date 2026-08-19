@@ -56,6 +56,9 @@
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+/* [hidden] bawaan browser KALAH dari .btn-sm{display:inline-flex}
+   — tanpa baris ini tombol yang disembunyikan tetap tampil. */
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--text);font-family:var(--body);
   font-size:1.0625rem;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
@@ -73,6 +76,8 @@ a{color:inherit}
    Animasinya CSS murni; yang tidak mau gerakan tetap dapat tombolnya diam. */
 .btn-notif{background:var(--ac);color:#0B0C0E;animation:denyut 2.4s ease-in-out infinite}
 .btn-notif:disabled{opacity:.75;animation:none;cursor:default}
+.btn-aktif{background:transparent;color:var(--ac);
+  border:1px solid var(--ac);animation:none;cursor:default}
 @keyframes denyut{
   0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.55)}
   60%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
@@ -143,7 +148,6 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
   <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
-  <a class="btn-sm" id="semua" href="/artikel" hidden>Semua Artikel</a>
 </header>
 
 <main class="wrap">
@@ -302,21 +306,26 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   var APP_ID = 'b08cc556-e8af-4fd1-a046-0c6ae3e1c065';
   var KUNCI_AKTIF = 'bib-notif-aktif';
   var tombol = document.getElementById('notifbtn');
-  var semua  = document.getElementById('semua');
   if (!tombol) return;
 
-  function tampilkanSemua(){
-    tombol.hidden = true;
-    if (semua) semua.hidden = false;
+  function sembunyikan(){ tombol.hidden = true; }
+
+  function sudahAktif(){
+    tombol.disabled = true;
+    tombol.classList.remove('btn-notif');
+    tombol.classList.add('btn-aktif');
+    tombol.textContent = 'Notifikasi Aktif ✓';
   }
 
-  /* Sudah berlangganan, atau browsernya sudah mengunci izin, atau tidak
-     mendukung notifikasi sama sekali → tombolnya tidak berguna. Kembalikan
-     tautan "Semua Artikel" supaya kepala halaman tetap ada gunanya. */
+  /* Sudah berlangganan → tombolnya jadi keterangan, bukan ajakan.
+     Izin sudah dikunci browser atau notifikasi tidak didukung → tombolnya
+     tidak akan pernah berhasil, jadi disembunyikan saja. Navigasi tidak
+     hilang: remah roti di bawahnya tetap menautkan /artikel. */
   var aktif = false;
   try { aktif = !!localStorage.getItem(KUNCI_AKTIF); } catch(e) {}
-  if (!('Notification' in window) || Notification.permission === 'denied'
-      || aktif) { tampilkanSemua(); return; }
+  if (aktif) { sudahAktif(); return; }
+  if (!('Notification' in window)
+      || Notification.permission === 'denied') { sembunyikan(); return; }
 
   var siap = false;
   function muatSDK(){
@@ -344,9 +353,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     tombol.disabled = true;
     tombol.textContent = 'Sebentar…';
 
-    function beres(){
-      tombol.textContent = 'Notifikasi Aktif ✓';
-    }
+    function beres(){ sudahAktif(); }
     function gagal(){
       tombol.disabled = false;
       tombol.textContent = 'Coba lagi';
@@ -359,7 +366,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     }
 
     minta.then(function(izin){
-      if (izin !== 'granted') { tampilkanSemua(); return; }
+      if (izin !== 'granted') { sembunyikan(); return; }
       muatSDK();
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       var selesai = false;
