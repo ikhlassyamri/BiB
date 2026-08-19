@@ -63,7 +63,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--body);
   font-size:1.0625rem;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:720px;margin:0 auto;padding:0 22px}
-.hdr{display:flex;align-items:center;justify-content:space-between;
+/* Kepala halaman MENEMPEL di atas saat digulir (keputusan pemilik, Agu 2026).
+   Latarnya wajib PEKAT, bukan transparan — isi halaman lewat di belakangnya. */
+.hdr{position:sticky;top:0;z-index:50;background:var(--bg);
+  display:flex;align-items:center;justify-content:space-between;
   padding:14px 22px;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;text-decoration:none;background:#0B0C0E;
   border:1px solid var(--line);border-radius:10px;padding:8px 12px}
