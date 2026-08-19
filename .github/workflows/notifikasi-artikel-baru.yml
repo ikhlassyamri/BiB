@@ -64,6 +64,38 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
+      # GitHub Pages butuh 1-5 menit membangun halamannya. Notifikasi yang
+      # dikirim lebih dulu = pembaca mengklik dan mendarat di 404 (ditegur
+      # pemilik, Agu 2026). Maka sebelum mengirim, tunggu sampai alamat
+      # artikelnya benar-benar menjawab 200 — dicek tiap 20 detik, paling
+      # lama 10 menit. Lewat 10 menit pun notifikasi tetap dikirim (lebih
+      # baik telat-tapi-terkirim daripada hilang), tinggal peringatannya
+      # tercatat di log.
+      - name: Tunggu halamannya tayang
+        if: steps.cari.outputs.file != ''
+        env:
+          DAFTAR: ${{ steps.cari.outputs.file }}
+        run: |
+          for f in $DAFTAR; do
+            slug="$(basename "$f" .html)"
+            url="https://joinbib.id/artikel/$slug"
+            echo "menunggu $url"
+            kode=""
+            batas=$((SECONDS + 600))
+            while [ $SECONDS -lt $batas ]; do
+              kode="$(curl -s -o /dev/null -w '%{http_code}' "$url" || echo 000)"
+              if [ "$kode" = "200" ]; then
+                echo "  tayang (200) setelah ${SECONDS}s"
+                break
+              fi
+              echo "  belum ($kode), cek lagi 20 detik"
+              sleep 20
+            done
+            if [ "$kode" != "200" ]; then
+              echo "::warning::$url belum 200 setelah 10 menit; notifikasi tetap dikirim."
+            fi
+          done
+
       - name: Kirim push lewat OneSignal
         if: steps.cari.outputs.file != ''
         env:
