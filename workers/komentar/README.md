@@ -23,6 +23,15 @@ Pengomentar yang berlangganan notifikasi diberi push "Komentarmu dibalas"
 Tanpa `GH_TOKEN` balasan tetap jalan lewat cron 6 jam; tanpa
 `ONESIGNAL_KEY` balasan tetap tersimpan, hanya push-nya yang tidak ada.
 
+**Repo agen pindah ke organisasi `BiB-Agent-Artikel` (Agu 2026)** — jatah
+menit Actions akun pribadi habis. Konstanta `REPO_AGEN` di `worker.js`
+sudah menunjuk ke sana, tapi `GH_TOKEN`-nya harus PAT yang dibuat dengan
+**Resource owner = organisasi itu**, bukan akun pribadi. Token lama yang
+cuma sejangkauan akun pribadi gagal DIAM-DIAM: `bangunkanAgen` menelan
+galatnya, pembaca tetap melihat komentarnya tersimpan, run "Balas komentar"
+cuma tidak pernah muncul sampai cron 6 jam. Ketukannya ada di langkah
+terakhir workflow "Deploy worker komentar" (repo agen).
+
 ## Deploy (sekali saja, ±5 menit)
 
 1. `npm i -g wrangler` lalu `wrangler login` (akun Cloudflare yang sama
