@@ -846,14 +846,22 @@ footer a:hover{color:#0B0C0E}
       isiUtas = [{ bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
 
     /* urutan KRONOLOGIS (keputusan pemilik, Agu 2026: jawaban BiB di
-       utas itu balasan biasa, bukan disematkan di atas). Balasan BiB
-       selalu tampak di posisinya; balasan pembaca dirender tersembunyi
-       DI TEMPATNYA dan dibuka 3-3 lewat "Lihat X balasan" */
+       utas itu balasan biasa, bukan disematkan di atas). Yang SELALU
+       tampak cuma SATU: jawaban BiB untuk komentar utama. Balasan BiB
+       lainnya — jawaban panggilan @BiB di dalam utas — diperlakukan
+       seperti balasan pembaca biasa: dirender tersembunyi DI TEMPATNYA
+       dan dibuka 3-3 lewat "Lihat X balasan" (keputusan pemilik, Agu
+       2026). Waktu semua balasan BiB dibuat selalu tampak, membuka
+       utasnya menyisipkan balasan pembaca DI ATAS jawaban @BiB tadi
+       dan jawaban itu terlihat melompat turun. */
+    var bibUtama = -1;
+    for (var b0 = 0; b0 < isiUtas.length; b0++)
+      if (isiUtas[b0].bib) { bibUtama = b0; break; }
     var wadahUtas = document.createElement('div');
     var tersembunyi = [];
     for (var u = 0; u < isiUtas.length; u++) {
       var nUtas = barisBalasan(isiUtas[u], k, kotak, wadahUtas);
-      if (!isiUtas[u].bib) {
+      if (u !== bibUtama) {
         nUtas.style.display = 'none';
         tersembunyi.push(nUtas);
       }
