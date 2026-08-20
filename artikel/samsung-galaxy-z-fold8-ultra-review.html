@@ -368,6 +368,28 @@ footer a:hover{color:#0B0C0E}
 .k-prof .k-ava{width:38px;height:38px;cursor:pointer}
 .k-prof span{font-size:.82rem;color:#5C636B;text-align:left}
 .k-prof span b{color:#0B0C0E}
+/* Wajah kolom komentar meniru pola Disqus (keputusan pemilik, Agu 2026):
+   header jumlah + menu urutan, avatar kotak inisial, balasan menjorok
+   langsung tampak, tombol Suka, muat 10-10, potong komentar panjang */
+[hidden]{display:none!important}
+.k-atas{display:flex;align-items:center;justify-content:space-between;margin:20px 0 2px}
+.k-atas b{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;color:#0B0C0E}
+.k-urut{border:1px solid var(--line);border-radius:8px;background:#fff;color:#2B3036;
+  font:inherit;font-size:.85rem;padding:6px 8px}
+.k-ini{width:34px;height:34px;border-radius:9px;flex:none;display:flex;align-items:center;
+  justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:.86rem;letter-spacing:.02em;-webkit-user-select:none;user-select:none}
+.k-prof .k-ini{width:38px;height:38px;cursor:pointer}
+.k-balas .k-ini{width:24px;height:24px;border-radius:7px;font-size:.6rem}
+.k-suka{background:none;border:0;color:#5C636B;font-size:.8rem;cursor:pointer;
+  padding:4px 10px 4px 0;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-weight:700}
+.k-suka.aktif{color:var(--nv,#12386E)}
+.k-muat{display:block;width:100%;margin:16px 0 0;background:var(--nv,#12386E);color:#fff;
+  border:0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;
+  padding:12px 0;border-radius:10px;cursor:pointer}
+.k-baca{background:none;border:0;color:var(--nv,#12386E);font-weight:700;font-size:.85rem;
+  cursor:pointer;padding:4px 0 0;font-family:'Space Grotesk',sans-serif;display:block}
+.k-terpotong{max-height:7.5em;overflow:hidden}
 /* gembok kolom komentar: hanya pelanggan notifikasi yang bisa menulis
    (keputusan pemilik, Agu 2026). Tombolnya emas berdenyut seperti di
    halaman kumpulan seri. */
@@ -486,7 +508,16 @@ footer a:hover{color:#0B0C0E}
       <button class="k-kirim" id="k-kirim" type="submit">Kirim</button>
       <div class="k-pesan" id="k-pesan" role="status"></div>
     </form>
+    <div class="k-atas" id="k-atas" hidden>
+      <b id="k-jumlah"></b>
+      <select class="k-urut" id="k-urut" aria-label="Urutkan komentar">
+        <option value="baru">Terbaru</option>
+        <option value="baik">Terbaik</option>
+        <option value="lama">Terlama</option>
+      </select>
+    </div>
     <div id="k-daftar"><p class="k-kosong">Memuat komentar&hellip;</p></div>
+    <button class="k-muat" id="k-muat" type="button" hidden>Muat Lebih Banyak</button>
   </section>
 <section class="contact">
     <h2>Ngobrol langsung</h2>
@@ -840,6 +871,16 @@ footer a:hover{color:#0B0C0E}
   }
   if ('Notification' in window && Notification.permission === 'granted') tangkapOsid();
 
+  /* daftar komentar dari worker + keadaan tampilan (urut, muat 10-10) */
+  var SEMUA = [];
+  var TAMPIL = 10;
+  /* suka yang pernah diketuk perangkat ini */
+  var SUKAKU = {};
+  try { SUKAKU = JSON.parse(localStorage.getItem('bib-suka') || '{}'); } catch(e) {}
+  function simpanSuka(){
+    try { localStorage.setItem('bib-suka', JSON.stringify(SUKAKU)); } catch(e) {}
+  }
+
   /* komentar milik pembaca ini, diingat browser-nya sendiri */
   var MILIK = {};
   try {
@@ -888,37 +929,44 @@ footer a:hover{color:#0B0C0E}
     try { localStorage.setItem('bib-komen-kunci', JSON.stringify(KUNCI)); } catch(e) {}
   }
 
-  /* avatar: pola simetris deterministik dari benih — bukan foto orang */
-  function avatar(benih){
+  /* avatar: kotak inisial berwarna deterministik dari benih (pola Disqus,
+     keputusan pemilik Agu 2026) — tetap bukan foto orang */
+  function avatar(benih, nama){
     if (!/^[0-9a-f]{8}$/.test(benih || '')) benih = '00000000';
-    var n = (parseInt(benih, 16) || 2654435769) >>> 0;
-    function acak(){ n = (n * 1664525 + 1013904223) >>> 0; return n / 4294967296; }
     var WARNA = ['#7A5C10','#12386E','#1B7F3B','#8A3324',
                  '#5B2A86','#0F6B6B','#A34700','#444B54'];
-    var isi = WARNA[Math.floor(acak() * WARNA.length)];
-    var NS = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '-0.6 -0.6 6.2 6.2');
-    svg.setAttribute('class', 'k-ava');
-    svg.setAttribute('aria-hidden', 'true');
-    for (var x = 0; x < 3; x++) {
-      for (var y = 0; y < 5; y++) {
-        if (acak() < 0.48) continue;
-        var r1 = document.createElementNS(NS, 'rect');
-        r1.setAttribute('x', x); r1.setAttribute('y', y);
-        r1.setAttribute('width', 1.04); r1.setAttribute('height', 1.04);
-        r1.setAttribute('fill', isi);
-        svg.appendChild(r1);
-        if (x < 2) {
-          var r2 = document.createElementNS(NS, 'rect');
-          r2.setAttribute('x', 4 - x); r2.setAttribute('y', y);
-          r2.setAttribute('width', 1.04); r2.setAttribute('height', 1.04);
-          r2.setAttribute('fill', isi);
-          svg.appendChild(r2);
-        }
-      }
+    var div = document.createElement('div');
+    div.className = 'k-ini';
+    div.setAttribute('aria-hidden', 'true');
+    div.style.background = WARNA[(parseInt(benih.slice(0, 4), 16) || 0) % WARNA.length];
+    var kata = (nama || 'Pembaca').trim().split(/\s+/);
+    div.textContent = ((kata[0] || 'P').charAt(0) +
+                       (kata[1] || '').charAt(0)).toUpperCase();
+    return div;
+  }
+
+  /* Suka: bebas gembok (worker membatasi per alamat), diingat per perangkat */
+  function tombolSuka(obj){
+    var b = document.createElement('button');
+    b.type = 'button';
+    var kunciS = SLUG + ':' + (obj.id || '');
+    function tulis(){
+      b.textContent = '\uD83D\uDC4D ' + (obj.suka > 0 ? obj.suka : 'Suka');
+      b.className = 'k-suka' + (SUKAKU[kunciS] ? ' aktif' : '');
     }
-    return svg;
+    tulis();
+    b.addEventListener('click', function(){
+      var batal = !!SUKAKU[kunciS];
+      obj.suka = Math.max(0, (obj.suka || 0) + (batal ? -1 : 1));
+      if (batal) delete SUKAKU[kunciS]; else SUKAKU[kunciS] = true;
+      simpanSuka(); tulis();
+      fetch(WORKER + '/suka', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: SLUG, id: obj.id, batal: batal })
+      }).catch(function(){});
+    });
+    return b;
   }
 
   /* tautan yang boleh muncul di balasan BiB -> nama + label tombolnya */
@@ -974,7 +1022,7 @@ footer a:hover{color:#0B0C0E}
     }
     var kepala = document.createElement('div');
     kepala.className = 'k-kepala';
-    kepala.appendChild(avatar(k.benih || (k.id || '').slice(0, 8)));
+    kepala.appendChild(avatar(k.benih || (k.id || '').slice(0, 8), k.nama));
     var nama = document.createElement('b');
     nama.textContent = k.nama || 'Pembaca';
     kepala.appendChild(nama);
@@ -1001,9 +1049,9 @@ footer a:hover{color:#0B0C0E}
             if (d && d.ok) {
               delete KUNCI[SLUG + ':' + k.id];
               simpanKunci();
-              if (kotak.parentNode) kotak.parentNode.removeChild(kotak);
-              if (!daftar.querySelector('.k-item'))
-                kosongkan('Belum ada komentar. Jadilah yang pertama bertanya.');
+              for (var h0 = 0; h0 < SEMUA.length; h0++)
+                if (SEMUA[h0].id === k.id) { SEMUA.splice(h0, 1); break; }
+              render();
             }
           })
           .catch(function(){});
@@ -1014,21 +1062,28 @@ footer a:hover{color:#0B0C0E}
     var p = document.createElement('p');
     p.textContent = k.teks || '';
     kotak.appendChild(p);
+    if ((k.teks || '').length > 280) {
+      p.className = 'k-terpotong';
+      var baca = document.createElement('button');
+      baca.type = 'button';
+      baca.className = 'k-baca';
+      baca.textContent = 'Baca Selengkapnya';
+      baca.addEventListener('click', function(){
+        p.className = '';
+        baca.parentNode.removeChild(baca);
+      });
+      kotak.appendChild(baca);
+    }
 
     var isiUtas = [];
     if (Array.isArray(k.balasan)) isiUtas = k.balasan;
     else if (k.balasan && k.balasan.teks)
       isiUtas = [{ bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
 
-    /* urutan KRONOLOGIS (keputusan pemilik, Agu 2026: jawaban BiB di
-       utas itu balasan biasa, bukan disematkan di atas). Yang SELALU
-       tampak cuma SATU: jawaban BiB untuk komentar utama. Balasan BiB
-       lainnya — jawaban panggilan @BiB di dalam utas — diperlakukan
-       seperti balasan pembaca biasa: dirender tersembunyi DI TEMPATNYA
-       dan dibuka 3-3 lewat "Lihat X balasan" (keputusan pemilik, Agu
-       2026). Waktu semua balasan BiB dibuat selalu tampak, membuka
-       utasnya menyisipkan balasan pembaca DI ATAS jawaban @BiB tadi
-       dan jawaban itu terlihat melompat turun. */
+    /* balasan tampil LANGSUNG menjorok, urutan KRONOLOGIS (keputusan
+       pemilik, Agu 2026 — meniru pola Disqus, menggantikan gaya sembunyi
+       3-3): tiga balasan pertama + jawaban BiB untuk komentar utama
+       langsung tampak, sisanya dibuka 3-3 "Lihat balasan lainnya". */
     var bibUtama = -1;
     for (var b0 = 0; b0 < isiUtas.length; b0++)
       if (isiUtas[b0].bib) { bibUtama = b0; break; }
@@ -1036,7 +1091,7 @@ footer a:hover{color:#0B0C0E}
     var tersembunyi = [];
     for (var u = 0; u < isiUtas.length; u++) {
       var nUtas = barisBalasan(isiUtas[u], k, kotak, wadahUtas);
-      if (u !== bibUtama) {
+      if (u >= 3 && u !== bibUtama) {
         nUtas.style.display = 'none';
         tersembunyi.push(nUtas);
       }
@@ -1047,7 +1102,7 @@ footer a:hover{color:#0B0C0E}
       var lihat = document.createElement('button');
       lihat.type = 'button';
       lihat.className = 'k-lihat';
-      lihat.textContent = 'Lihat ' + tersembunyi.length + ' balasan';
+      lihat.textContent = 'Lihat balasan lainnya (' + tersembunyi.length + ')';
       var mulai = 0;
       lihat.addEventListener('click', function(){
         for (var w = mulai; w < tersembunyi.length && w < mulai + 3; w++)
@@ -1063,6 +1118,7 @@ footer a:hover{color:#0B0C0E}
     /* tombol Balas: di balik gembok yang sama dengan formulir utama */
     var tRow = document.createElement('div');
     tRow.className = 'k-brow';
+    tRow.appendChild(tombolSuka(k));
     var tBalas = document.createElement('button');
     tBalas.className = 'k-balasbtn';
     tBalas.type = 'button';
@@ -1089,7 +1145,7 @@ footer a:hover{color:#0B0C0E}
     } else {
       var kep = document.createElement('span');
       kep.className = 'k-bkecil';
-      kep.appendChild(avatar(bal.benih || (bal.id || '').slice(0, 8)));
+      kep.appendChild(avatar(bal.benih || (bal.id || '').slice(0, 8), bal.nama));
       var nm = document.createElement('b');
       nm.textContent = bal.nama || 'Pembaca';
       kep.appendChild(nm);
@@ -1124,6 +1180,7 @@ footer a:hover{color:#0B0C0E}
     /* balasan pun bisa dibalas siapa saja (keputusan pemilik, Agu 2026;
        BiB sendiri tidak ikut membalas di dalam utas) — balasannya masuk
        utas yang sama dengan awalan @nama */
+    if (bal.id) b.appendChild(tombolSuka(bal));
     if (k && kotak) {
       var bb = document.createElement('button');
       bb.type = 'button';
@@ -1202,13 +1259,49 @@ footer a:hover{color:#0B0C0E}
     daftar.appendChild(p);
   }
 
+  /* header jumlah + urutan + muat 10-10 (pola Disqus, Agu 2026) */
+  var atas = document.getElementById('k-atas');
+  var jumlahEl = document.getElementById('k-jumlah');
+  var urutEl = document.getElementById('k-urut');
+  var muatEl = document.getElementById('k-muat');
+  function nilaiWaktu(x){
+    var t = Date.parse((x && x.waktu) || 0);
+    return isFinite(t) ? t : 0;
+  }
+  function urutkan(d){
+    var s = d.slice();
+    var cara = urutEl ? urutEl.value : 'baru';
+    if (cara === 'lama') s.sort(function(a, c){ return nilaiWaktu(a) - nilaiWaktu(c); });
+    else if (cara === 'baik') s.sort(function(a, c){
+      return (c.suka || 0) - (a.suka || 0) || nilaiWaktu(c) - nilaiWaktu(a); });
+    else s.sort(function(a, c){ return nilaiWaktu(c) - nilaiWaktu(a); });
+    return s;
+  }
+  function render(){
+    if (!SEMUA.length) {
+      if (atas) atas.hidden = true;
+      if (muatEl) muatEl.hidden = true;
+      kosongkan('Belum ada komentar. Jadilah yang pertama bertanya.');
+      return;
+    }
+    var total = SEMUA.length;
+    for (var c0 = 0; c0 < SEMUA.length; c0++)
+      total += Array.isArray(SEMUA[c0].balasan) ? SEMUA[c0].balasan.length : 0;
+    if (atas) { atas.hidden = false; jumlahEl.textContent = total + ' Komentar'; }
+    daftar.textContent = '';
+    var terurut = urutkan(SEMUA);
+    for (var c1 = 0; c1 < terurut.length && c1 < TAMPIL; c1++)
+      daftar.appendChild(baris(terurut[c1]));
+    if (muatEl) muatEl.hidden = terurut.length <= TAMPIL;
+  }
+  if (urutEl) urutEl.addEventListener('change', function(){ TAMPIL = 10; render(); });
+  if (muatEl) muatEl.addEventListener('click', function(){ TAMPIL += 10; render(); });
+
   fetch(WORKER + '/ambil?slug=' + encodeURIComponent(SLUG))
     .then(function(r){ return r.json(); })
     .then(function(d){
-      var semua = (d && d.komentar) || [];
-      if (!semua.length) { kosongkan('Belum ada komentar. Jadilah yang pertama bertanya.'); return; }
-      daftar.textContent = '';
-      for (var i = 0; i < semua.length; i++) daftar.appendChild(baris(semua[i]));
+      SEMUA = (d && d.komentar) || [];
+      render();
     })
     .catch(function(){ kosongkan('Kolom komentar sedang tidak tersedia.'); });
 
@@ -1433,7 +1526,7 @@ footer a:hover{color:#0B0C0E}
     if (!inputNama.value) inputNama.value = IDEN.nama;
     var prof = document.createElement('div');
     prof.className = 'k-prof';
-    var ava = avatar(IDEN.benih);
+    var ava = avatar(IDEN.benih, IDEN.nama);
     var ket = document.createElement('span');
     function tulisKet(){
       ket.textContent = 'Tampil sebagai ';
@@ -1451,7 +1544,7 @@ footer a:hover{color:#0B0C0E}
       }
       simpanIden();
       tulisKet();
-      var baruAva = avatar(IDEN.benih);
+      var baruAva = avatar(IDEN.benih, IDEN.nama);
       baruAva.addEventListener('click', gantiPola);
       prof.replaceChild(baruAva, prof.firstChild);
       ava = baruAva;
@@ -1493,12 +1586,11 @@ footer a:hover{color:#0B0C0E}
           document.getElementById('k-teks').value = '';
           pesan.className = 'k-pesan sukses';
           pesan.textContent = 'Terkirim. Terima kasih sudah bertanya.';
-          var kosong = daftar.querySelector('.k-kosong');
-          if (kosong) daftar.textContent = '';
-          daftar.insertBefore(baris({ id: d.id, nama: nama || IDEN.nama,
+          SEMUA.unshift({ id: d.id, nama: nama || IDEN.nama,
             teks: teks, waktu: new Date().toISOString(),
-            benih: IDEN.benih, balasan: null }),
-            daftar.firstChild);
+            benih: IDEN.benih, balasan: [], suka: 0 });
+          if (urutEl) urutEl.value = 'baru';
+          render();
           pesan.textContent = 'Terkirim. Kalau dibalas, kamu dapat notifikasi.';
           /* langganannya baru menyala dan SDK belum sempat memberi
              alamat? susulkan diam-diam supaya push balasannya sampai */

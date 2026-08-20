@@ -11,8 +11,12 @@
     GH_TOKEN        — token GitHub untuk membangunkan workflow balasan
 
   Endpoint publik (dipanggil halaman artikel):
-    GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,balasan:[..]}]}
+    GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,suka?,balasan:[..]}]}
                                 (osid & kunci TIDAK pernah ikut keluar)
+    POST /suka               -> {ok:true, suka} | 429
+         body: {slug, id, batal?}  <- tanpa gembok; 1 per IP per komentar
+                                (kunci su:<ip>:...), jatah 60/jam/IP,
+                                hitungannya di kunci samping s:<slug>
     POST /kirim              -> {ok:true, id, kunci} | {ok:false, pesan}
          body: {slug, nama, teks, situs(honeypot), osid?, benih?,
                 balas_ke?}   <- balas_ke = id komentar induk: masuk UTAS
@@ -235,7 +239,49 @@ export default {
       const slug = url.searchParams.get("slug") || "";
       if (!slugSah(slug)) return jawab({ komentar: [] }, 200, asal);
       const isi = await env.KOMENTAR.get("k:" + slug, "json");
-      return jawab({ komentar: publik(isi) }, 200, asal);
+      // hitungan suka hidup di KUNCI SAMPING s:<slug> (bukan di daftar
+      // komentar) — pelajaran /tandai: penulisan-ulang daftar dari
+      // salinan basi pernah menghapus balasan BiB (Agu 2026)
+      const suka = (await env.KOMENTAR.get("s:" + slug, "json")) || {};
+      const keluar = publik(isi);
+      for (const k of keluar) {
+        if (suka[k.id]) k.suka = suka[k.id];
+        for (const bal of (k.balasan || [])) {
+          if (suka[bal.id]) bal.suka = suka[bal.id];
+        }
+      }
+      return jawab({ komentar: keluar }, 200, asal);
+    }
+
+    // ── publik: suka / batal suka (pola Disqus, keputusan pemilik,
+    //    Agu 2026) — TANPA gembok notifikasi; penahannya per alamat:
+    //    satu suka per IP per komentar + jatah 60 ketukan per jam ────
+    if (req.method === "POST" && url.pathname === "/suka") {
+      let b;
+      try { b = await req.json(); } catch { return jawab({ ok: false }, 400, asal); }
+      const slug = (b.slug || "").trim();
+      const id = /^[0-9a-f-]{6,64}$/i.test(b.id || "") ? b.id : "";
+      if (!slugSah(slug) || !id) return jawab({ ok: false }, 400, asal);
+      const ip = req.headers.get("CF-Connecting-IP") || "?";
+      const kunciJ = "suj:" + ip;
+      const dipakai = parseInt((await env.KOMENTAR.get(kunciJ)) || "0", 10);
+      if (dipakai >= 60) return jawab({ ok: false, pesan: "Pelan-pelan ya." }, 429, asal);
+      await env.KOMENTAR.put(kunciJ, String(dipakai + 1), { expirationTtl: 3600 });
+      const kunciS = `su:${ip}:${slug}:${id}`;
+      const sudah = await env.KOMENTAR.get(kunciS);
+      const batal = !!b.batal;
+      // idempoten: suka dobel / batal tanpa suka = tidak mengubah apa-apa
+      if ((!batal && sudah) || (batal && !sudah)) {
+        return jawab({ ok: true }, 200, asal);
+      }
+      const kunciM = "s:" + slug;
+      const peta = (await env.KOMENTAR.get(kunciM, "json")) || {};
+      peta[id] = Math.max(0, (peta[id] || 0) + (batal ? -1 : 1));
+      if (!peta[id]) delete peta[id];
+      await env.KOMENTAR.put(kunciM, JSON.stringify(peta));
+      if (batal) await env.KOMENTAR.delete(kunciS);
+      else await env.KOMENTAR.put(kunciS, "1", { expirationTtl: 180 * 24 * 3600 });
+      return jawab({ ok: true, suka: peta[id] || 0 }, 200, asal);
     }
 
     // ── publik: kirim komentar ────────────────────────────────────────
