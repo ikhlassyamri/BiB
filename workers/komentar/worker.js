@@ -135,10 +135,16 @@ function mintaBiB(k) {
 
 async function bangunkanAgen(env) {
   // Bangunkan workflow balas-komentar di repo agen — event, bukan polling.
-  // Direm 4 menit lewat KV supaya hujan komentar tidak jadi hujan run.
+  // Direm 60 detik (TTL minimum KV) supaya hujan komentar tidak jadi hujan
+  // run. Rem 4 menit yang lama meninggalkan lubang: komentar yang datang
+  // sesudah run selesai tapi masih di dalam jendela rem tidak membangunkan
+  // siapa-siapa dan tertahan sampai cron 6 jam. Dengan rem 60 detik,
+  // dispatch yang jatuh saat run masih jalan cuma MENGANTRE satu run
+  // susulan (concurrency balas-komentar, cancel-in-progress false) — jadi
+  // tiap komentar terjawab di gelombang berikutnya, bukan menunggu cron.
   if (!env.GH_TOKEN) return;
   if (await env.KOMENTAR.get("d:bangun")) return;
-  await env.KOMENTAR.put("d:bangun", "1", { expirationTtl: 240 });
+  await env.KOMENTAR.put("d:bangun", "1", { expirationTtl: 60 });
   try {
     await fetch(`https://api.github.com/repos/${REPO_AGEN}/actions/workflows/${WORKFLOW_BALAS}/dispatches`, {
       method: "POST",
