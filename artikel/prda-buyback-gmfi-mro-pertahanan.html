@@ -785,13 +785,21 @@ footer a:hover{color:#0B0C0E}
   function muatOneSignal(){
     if (notifSiap) return;
     notifSiap = true;
-    var sc = document.createElement('script');
-    sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
-    sc.defer = true;
-    document.head.appendChild(sc);
+    /* skrip komentar bisa sudah memasang SDK — jangan dobel */
+    if (!document.querySelector('script[src*="OneSignalSDK"]')) {
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
+      sc.defer = true;
+      document.head.appendChild(sc);
+    }
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal){
-      OneSignal.init({
+      /* init sekali se-halaman; promise-nya dikembalikan lewat p supaya
+         antrean SDK menunggu init selesai (vonis langganan pernah
+         terbaca kecepatan, Agu 2026) */
+      var p;
+      if (window.__bibInit) { p = Promise.resolve(); }
+      else { window.__bibInit = true; p = OneSignal.init({
         appId: ONESIGNAL_APP_ID,
         /* Tiga baris ini WAJIB sama dengan /artikel/index.html. Kalau scope
            service worker-nya berbeda antar halaman di origin yang sama, SDK
@@ -803,7 +811,8 @@ footer a:hover{color:#0B0C0E}
            menjelaskan konteksnya, dan dua dialog beruntun bikin orang kabur */
         autoResubscribe: true,
         promptOptions: { slidedown: { prompts: [] } }
-      }).then(function(){
+      }); }
+      return p.then(function(){
         try { sudahLangganan = !!OneSignal.User.PushSubscription.optedIn; } catch(e) {}
         statusDicek = true;
         /* sinkronkan catatan perangkat dua arah: berlangganan → tulis,
@@ -1189,13 +1198,23 @@ footer a:hover{color:#0B0C0E}
   function muatSDK(){
     if (window.__bibSDK) return;
     window.__bibSDK = true;
-    var sc = document.createElement('script');
-    sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
-    sc.defer = true;
-    document.head.appendChild(sc);
+    /* skrip pop-up artikel bisa sudah memasang SDK — jangan dobel */
+    if (!document.querySelector('script[src*="OneSignalSDK"]')) {
+      var sc = document.createElement('script');
+      sc.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
+      sc.defer = true;
+      document.head.appendChild(sc);
+    }
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal){
-      OneSignal.init({
+      /* init cuma boleh SEKALI se-halaman (skrip pop-up juga bisa
+         memanggilnya), dan promise-nya DIKEMBALIKAN supaya antrean SDK
+         menunggu init selesai — tanpa itu vonis langganan terbaca
+         sebelum statusnya dipulihkan, dan pelanggan asli ikut
+         tergembok (kejadian, Agu 2026) */
+      if (window.__bibInit) return;
+      window.__bibInit = true;
+      return OneSignal.init({
         appId: APP_ID,
         safari_web_id: 'web.onesignal.auto.69a0d04c-4cfa-4f80-8d34-652264ce8748',
         serviceWorkerPath: '/OneSignalSDKWorker.js',
@@ -1203,7 +1222,7 @@ footer a:hover{color:#0B0C0E}
         autoResubscribe: true,
         notifyButton: { enable: false },
         promptOptions: { slidedown: { prompts: [] } }
-      });
+      }).catch(function(){});
     });
   }
 
@@ -1299,10 +1318,18 @@ footer a:hover{color:#0B0C0E}
     muatSDK();
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal){
-      try {
-        var lg = OneSignal.User && OneSignal.User.PushSubscription;
-        if (lg && lg.optedIn === false) kunci();
-      } catch(e) {}
+      function vonis(){
+        try {
+          var lg = OneSignal.User && OneSignal.User.PushSubscription;
+          return lg ? lg.optedIn : null;
+        } catch(e) { return null; }
+      }
+      if (vonis() !== false) return;
+      /* pembacaan pertama bisa kecepatan — SDK memulihkan status
+         langganan secara asinkron, dan pelanggan asli pernah tergembok
+         karenanya (Agu 2026). Kunci hanya kalau 1,5 detik kemudian
+         jawabannya MASIH pasti false. */
+      setTimeout(function(){ if (vonis() === false) kunci(); }, 1500);
     });
   })();
 
