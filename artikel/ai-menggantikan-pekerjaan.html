@@ -711,7 +711,14 @@ document.getElementById('popx').addEventListener('click',function(){pop.classLis
     var kotak = document.createElement('div');
     kotak.className = 'k-item';
     var punyaku = MILIK[SLUG + ':' + (k.id || '')];
-    if (punyaku && k.balasan) {
+    /* worker kini SELALU mengirim kolom balasan (array, bisa kosong) —
+       label "sudah dijawab" hanya untuk balasan BiB sungguhan */
+    var adaBiB = false;
+    if (Array.isArray(k.balasan)) {
+      for (var a0 = 0; a0 < k.balasan.length; a0++)
+        if (k.balasan[a0].bib) adaBiB = true;
+    } else if (k.balasan && k.balasan.teks) adaBiB = true;
+    if (punyaku && adaBiB) {
       kotak.className += ' k-milik';
       var ket = document.createElement('p');
       ket.className = 'k-milik-ket';
@@ -766,14 +773,19 @@ document.getElementById('popx').addEventListener('click',function(){pop.classLis
     else if (k.balasan && k.balasan.teks)
       isiUtas = [{ bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
 
-    /* balasan BiB SELALU tampak; balasan pembaca disembunyikan gaya
-       sosmed dan dibuka lewat "Lihat X balasan", 3-3 (keputusan
-       pemilik, Agu 2026) */
+    /* urutan KRONOLOGIS (keputusan pemilik, Agu 2026: jawaban BiB di
+       utas itu balasan biasa, bukan disematkan di atas). Balasan BiB
+       selalu tampak di posisinya; balasan pembaca dirender tersembunyi
+       DI TEMPATNYA dan dibuka 3-3 lewat "Lihat X balasan" */
     var wadahUtas = document.createElement('div');
     var tersembunyi = [];
     for (var u = 0; u < isiUtas.length; u++) {
-      if (isiUtas[u].bib) wadahUtas.appendChild(barisBalasan(isiUtas[u], k, kotak, wadahUtas));
-      else tersembunyi.push(isiUtas[u]);
+      var nUtas = barisBalasan(isiUtas[u], k, kotak, wadahUtas);
+      if (!isiUtas[u].bib) {
+        nUtas.style.display = 'none';
+        tersembunyi.push(nUtas);
+      }
+      wadahUtas.appendChild(nUtas);
     }
     kotak.appendChild(wadahUtas);
     if (tersembunyi.length) {
@@ -784,17 +796,13 @@ document.getElementById('popx').addEventListener('click',function(){pop.classLis
       var mulai = 0;
       lihat.addEventListener('click', function(){
         for (var w = mulai; w < tersembunyi.length && w < mulai + 3; w++)
-          wadahUtas.appendChild(barisBalasan(tersembunyi[w], k, kotak, wadahUtas));
+          tersembunyi[w].style.display = '';
         mulai = Math.min(mulai + 3, tersembunyi.length);
         var sisa = tersembunyi.length - mulai;
-        if (sisa > 0) {
-          lihat.textContent = 'Lihat balasan lainnya (' + sisa + ')';
-          wadahUtas.appendChild(lihat);
-        } else if (lihat.parentNode) {
-          lihat.parentNode.removeChild(lihat);
-        }
+        if (sisa > 0) lihat.textContent = 'Lihat balasan lainnya (' + sisa + ')';
+        else if (lihat.parentNode) lihat.parentNode.removeChild(lihat);
       });
-      wadahUtas.appendChild(lihat);
+      kotak.appendChild(lihat);
     }
 
     /* tombol Balas: di balik gembok yang sama dengan formulir utama */
