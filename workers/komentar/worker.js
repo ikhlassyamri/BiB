@@ -13,6 +13,7 @@
   Endpoint publik (dipanggil halaman artikel):
     GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,suka?,balasan:[..]}]}
                                 (osid & kunci TIDAK pernah ikut keluar)
+    GET  /versi?slug=<slug>  -> {v} — penanda perubahan isi (poll murah)
     POST /suka               -> {ok:true, suka} | 429
          body: {slug, id, batal?}  <- tanpa gembok; 1 per IP per komentar
                                 (kunci su:<ip>:...), jatah 60/jam/IP,
@@ -212,6 +213,18 @@ async function osidSamping(env, slug, id) {
   return (await env.KOMENTAR.get(`o:${slug}:${id}`)) || "";
 }
 
+// Penanda "isi berubah" per artikel (kunci v:<slug>) — halaman menanyakan
+// GET /versi tiap beberapa detik (murah: satu baca KV kecil) dan hanya
+// mengambil ulang daftar kalau nilainya berubah. Nyaris-realtime tanpa
+// WebSocket (butuh Durable Objects, kelas berbayar). Disentuh saat ISI
+// berubah (kirim/balas/hapus); ketukan suka TIDAK menyentuhnya, supaya
+// tiap suka tidak membuat semua pembaca mengunduh ulang daftar.
+async function sentuhVersi(env, slug) {
+  try {
+    await env.KOMENTAR.put("v:" + slug, String(Date.now()));
+  } catch (e) { /* penanda gagal bukan bencana — pembaca cukup refresh */ }
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
@@ -250,7 +263,15 @@ export default {
           if (suka[bal.id]) bal.suka = suka[bal.id];
         }
       }
-      return jawab({ komentar: keluar }, 200, asal);
+      const v = (await env.KOMENTAR.get("v:" + slug)) || "0";
+      return jawab({ komentar: keluar, v }, 200, asal);
+    }
+
+    // ── publik: penanda perubahan — untuk poll nyaris-realtime ────────
+    if (req.method === "GET" && url.pathname === "/versi") {
+      const slug = url.searchParams.get("slug") || "";
+      if (!slugSah(slug)) return jawab({ v: "0" }, 200, asal);
+      return jawab({ v: (await env.KOMENTAR.get("v:" + slug)) || "0" }, 200, asal);
     }
 
     // ── publik: suka / batal suka (pola Disqus, keputusan pemilik,
@@ -338,6 +359,7 @@ export default {
         isiUtas.push(entriBalasan);
         induk.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+        await sentuhVersi(env, slug);
         // pemilik komentar induk diberi tahu — kecuali membalas dirinya
         const osidInduk = induk.osid || await osidSamping(env, slug, induk.id);
         if (osidInduk && osidInduk !== osid) {
@@ -359,6 +381,7 @@ export default {
       if (osid) entri.osid = osid;
       daftar.unshift(entri);
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar.slice(0, MAKS_PER_SLUG)));
+      await sentuhVersi(env, slug);
       await bangunkanAgen(env);
       return jawab({ ok: true, id, kunci: kunciHapus }, 200, asal);
     }
@@ -384,6 +407,7 @@ export default {
       if (!k) return jawab({ ok: true }, 200, asal);
       if (!k.kunci || k.kunci !== b.kunci) return jawab({ ok: false }, 403, asal);
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar.filter(x => x.id !== b.id)));
+      await sentuhVersi(env, slug);
       return jawab({ ok: true }, 200, asal);
     }
 
@@ -496,6 +520,7 @@ export default {
                        waktu: new Date().toISOString() });
         k.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+        await sentuhVersi(env, slug);
         const osidM = m.osid || await osidSamping(env, slug, m.id);
         const pushUtas = await kirimPush(env, osidM,
           `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
@@ -512,6 +537,7 @@ export default {
       // osid DIPERTAHANKAN: utas bisa terus hidup (pembaca lain membalas)
       // dan tiap balasan baru tetap perlu diberitahukan ke pemiliknya
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+      await sentuhVersi(env, slug);
 
       const osidK = k.osid || await osidSamping(env, slug, k.id);
       const push = await kirimPush(env, osidK,

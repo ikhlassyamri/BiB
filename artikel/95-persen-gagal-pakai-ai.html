@@ -1034,6 +1034,7 @@ footer a:hover{color:#fff}
           kirim.disabled = false;
           if (d && d.ok) {
             if (!OSID) susulkanOsid(d.id);
+            PANAS_SAMPAI = Date.now() + 180000;
             wadahUtas.appendChild(barisBalasan({ nama: IDEN.nama,
               benih: IDEN.benih, teks: teks,
               waktu: new Date().toISOString() }, k, kotak, wadahUtas));
@@ -1101,13 +1102,47 @@ footer a:hover{color:#fff}
   if (urutEl) urutEl.addEventListener('change', function(){ TAMPIL = 10; render(); });
   if (muatEl) muatEl.addEventListener('click', function(){ TAMPIL += 10; render(); });
 
-  fetch(WORKER + '/ambil?slug=' + encodeURIComponent(SLUG))
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      SEMUA = (d && d.komentar) || [];
-      render();
-    })
-    .catch(function(){ kosongkan('Kolom komentar sedang tidak tersedia.'); });
+  var VERSI = '';
+  function muatDaftar(){
+    return fetch(WORKER + '/ambil?slug=' + encodeURIComponent(SLUG))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        SEMUA = (d && d.komentar) || [];
+        VERSI = (d && d.v) || VERSI;
+        render();
+      });
+  }
+  muatDaftar().catch(function(){ kosongkan('Kolom komentar sedang tidak tersedia.'); });
+
+  /* nyaris-REALTIME (keputusan pemilik, Agu 2026): komentar baru muncul
+     tanpa refresh. Bukan WebSocket (butuh Durable Objects, berbayar) —
+     halaman menanyakan penanda perubahan /versi (satu baca KV kecil)
+     dan hanya mengunduh ulang daftar kalau penandanya berubah. Poll
+     berhenti saat tab tidak terlihat, lebih rajin (10 dtk) selama
+     3 menit setelah pembaca mengirim — jendela balasan BiB — sisanya
+     tiap 30 dtk, dan TIDAK pernah menimpa draf balasan yang sedang
+     ditulis (render ditunda ke poll berikutnya). */
+  var PANAS_SAMPAI = 0;
+  var POLL_TERAKHIR = Date.now();
+  function adaDraf(){
+    var ta = daftar.querySelector('.k-bform textarea');
+    return !!(ta && (ta.value.trim() || document.activeElement === ta));
+  }
+  setInterval(function(){
+    if (document.hidden) return;
+    var jeda = Date.now() < PANAS_SAMPAI ? 10000 : 30000;
+    if (Date.now() - POLL_TERAKHIR < jeda) return;
+    POLL_TERAKHIR = Date.now();
+    fetch(WORKER + '/versi?slug=' + encodeURIComponent(SLUG))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var v = (d && d.v) || '';
+        if (!v || v === VERSI || adaDraf()) return;
+        VERSI = v;
+        muatDaftar().catch(function(){});
+      })
+      .catch(function(){});
+  }, 5000);
 
   /* ── pop-up ajakan notifikasi setelah komentar terkirim ──────────── */
   function muatSDK(){
@@ -1395,6 +1430,7 @@ footer a:hover{color:#fff}
             benih: IDEN.benih, balasan: [], suka: 0 });
           if (urutEl) urutEl.value = 'baru';
           render();
+          PANAS_SAMPAI = Date.now() + 180000;
           pesan.textContent = 'Terkirim. Kalau dibalas, kamu dapat notifikasi.';
           /* langganannya baru menyala dan SDK belum sempat memberi
              alamat? susulkan diam-diam supaya push balasannya sampai */
