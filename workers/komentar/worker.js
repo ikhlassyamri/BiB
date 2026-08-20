@@ -112,10 +112,25 @@ function utas(k) {
 
 function publik(daftar) {
   // osid (alamat push) & kunci (hak hapus) TIDAK pernah keluar lewat /ambil
+  // — balasan pun kini membawa osid (untuk push "BiB membalasmu"), jadi
+  // ikut dibuang di sini
   return (daftar || []).map(({ osid, kunci, ...sisa }) => {
-    sisa.balasan = utas(sisa);
+    sisa.balasan = utas(sisa).map(({ osid: _o, ...b }) => b);
     return sisa;
   });
+}
+
+// panggilan @BiB yang BELUM terjawab: balasan pembaca ber-@BiB yang datang
+// SESUDAH balasan BiB terakhir (keputusan pemilik, Agu 2026 — "kalo ada
+// orang yang balas komen BiB, BiB kudu jawab")
+function mintaBiB(k) {
+  const u = utas(k);
+  let bibTerakhir = -1;
+  for (let i = 0; i < u.length; i++) if (u[i].bib) bibTerakhir = i;
+  for (let i = u.length - 1; i > bibTerakhir; i--) {
+    if (!u[i].bib && /@bib\b/i.test(u[i].teks || "")) return u[i];
+  }
+  return null;
 }
 
 async function bangunkanAgen(env) {
@@ -241,8 +256,10 @@ export default {
         if (isiUtas.length >= 20) {
           return jawab({ ok: false, pesan: "Utasnya sudah penuh." }, 400, asal);
         }
-        isiUtas.push({ id, nama, benih: benih || id.slice(0, 8),
-                       teks, waktu: new Date().toISOString() });
+        const entriBalasan = { id, nama, benih: benih || id.slice(0, 8),
+                               teks, waktu: new Date().toISOString() };
+        if (osid) entriBalasan.osid = osid; // untuk push saat BiB membalasnya
+        isiUtas.push(entriBalasan);
         induk.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
         // pemilik komentar induk diberi tahu — kecuali membalas dirinya
@@ -251,6 +268,9 @@ export default {
             `${nama} membalas komentarmu. Ketuk untuk membacanya.`,
             `https://joinbib.id/artikel/${slug}#komen`);
         }
+        // menyebut @BiB = memanggil agen (keputusan pemilik, Agu 2026);
+        // obrolan antar-pembaca tanpa @BiB tidak membangunkannya
+        if (/@bib\b/i.test(teks)) await bangunkanAgen(env);
         return jawab({ ok: true, id }, 200, asal);
       }
 
@@ -333,7 +353,20 @@ export default {
           const slug = kk.name.slice(2);
           const isi = (await env.KOMENTAR.get(kk.name, "json")) || [];
           for (const k of isi) {
-            if (!utas(k).some(x => x.bib)) antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks, waktu: k.waktu });
+            if (!utas(k).some(x => x.bib)) {
+              antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks,
+                             waktu: k.waktu, tipe: "utama" });
+            } else {
+              const m = mintaBiB(k);
+              if (m) {
+                const bibAkhir = utas(k).filter(x => x.bib).pop();
+                antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks,
+                               waktu: m.waktu, tipe: "utas",
+                               penanya: m.nama || "Pembaca", tanya: m.teks,
+                               tanya_id: m.id,
+                               jawaban_bib: (bibAkhir && bibAkhir.teks) || "" });
+              }
+            }
             if (antrean.length >= 20) break;
           }
           if (antrean.length >= 20) break;
@@ -361,6 +394,27 @@ export default {
       const k = daftar.find(x => x.id === b.id);
       if (!k) return jawab({ ok: false, pesan: "komentar tidak ditemukan" }, 404, asal);
       const isiUtas = utas(k);
+      const alamat = `https://joinbib.id/artikel/${slug}#komen`;
+
+      // jawaban untuk PANGGILAN @BiB di utas (keputusan pemilik, Agu 2026):
+      // sah hanya kalau panggilan itu memang masih tertunda — idempoten
+      if (b.tanya_id) {
+        const m = mintaBiB(k);
+        if (!m || m.id !== b.tanya_id) {
+          return jawab({ ok: true, pesan: "tidak ada panggilan tertunda" }, 200, asal);
+        }
+        isiUtas.push({ id: idBaru(), bib: true, teks,
+                       waktu: new Date().toISOString() });
+        k.balasan = isiUtas;
+        await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+        if (m.osid) {
+          await kirimPush(env, m.osid,
+            `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
+            alamat);
+        }
+        return jawab({ ok: true }, 200, asal);
+      }
+
       if (isiUtas.some(x => x.bib)) return jawab({ ok: true, pesan: "sudah terbalas" }, 200, asal);
 
       isiUtas.push({ id: idBaru(), bib: true, teks,
@@ -370,7 +424,6 @@ export default {
       // dan tiap balasan baru tetap perlu diberitahukan ke pemiliknya
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
 
-      const alamat = `https://joinbib.id/artikel/${slug}#komen`;
       await kirimPush(env, k.osid || "",
         `BiB menjawab pertanyaanmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
         alamat);
