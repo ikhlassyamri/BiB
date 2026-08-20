@@ -408,6 +408,13 @@ footer a:hover{color:#0B0C0E}
 .k-modalkunci p{margin:0 0 14px;font-size:.95rem;line-height:1.6;color:#1F2226;font-weight:600}
 .k-nanti{display:block;margin:10px auto 0;background:none;border:0;
   color:#6B7075;font-size:.85rem;cursor:pointer;padding:6px}
+/* Utas gaya sosmed (keputusan pemilik, Agu 2026): balasan pembaca
+   tersembunyi di balik "Lihat X balasan" (dibuka 3-3), balasan BiB
+   selalu tampak, tiap balasan punya tombol Balas mini */
+.k-lihat{display:block;background:none;border:0;color:#7A5C10;font-weight:700;
+  font-size:.85rem;cursor:pointer;padding:7px 0 2px;margin:0 0 0 12px}
+.k-lihat:hover{text-decoration:underline}
+.k-balasmini{display:inline-block;margin:7px 0 0;font-size:.78rem;padding:2px 0}
 </style>
 </head>
 <body>
@@ -813,9 +820,21 @@ footer a:hover{color:#0B0C0E}
   }
 
   function tanggal(iso){
+    /* waktu relatif gaya sosmed (keputusan pemilik, Agu 2026) */
     try {
-      return new Date(iso).toLocaleDateString('id-ID',
-        { day: 'numeric', month: 'short', year: 'numeric' });
+      var s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+      if (!isFinite(s)) return '';
+      if (s < 10) return 'baru saja';
+      if (s < 60) return s + ' detik yang lalu';
+      var m = Math.floor(s / 60);
+      if (m < 60) return m + ' menit yang lalu';
+      var j = Math.floor(m / 60);
+      if (j < 24) return j + ' jam yang lalu';
+      var h = Math.floor(j / 24);
+      if (h < 30) return h + ' hari yang lalu';
+      var b = Math.floor(h / 30);
+      if (b < 12) return b + ' bulan yang lalu';
+      return Math.floor(b / 12) + ' tahun yang lalu';
     } catch(e) { return ''; }
   }
 
@@ -877,8 +896,37 @@ footer a:hover{color:#0B0C0E}
     if (Array.isArray(k.balasan)) isiUtas = k.balasan;
     else if (k.balasan && k.balasan.teks)
       isiUtas = [{ bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
-    for (var u = 0; u < isiUtas.length; u++)
-      kotak.appendChild(barisBalasan(isiUtas[u]));
+
+    /* balasan BiB SELALU tampak; balasan pembaca disembunyikan gaya
+       sosmed dan dibuka lewat "Lihat X balasan", 3-3 (keputusan
+       pemilik, Agu 2026) */
+    var wadahUtas = document.createElement('div');
+    var tersembunyi = [];
+    for (var u = 0; u < isiUtas.length; u++) {
+      if (isiUtas[u].bib) wadahUtas.appendChild(barisBalasan(isiUtas[u], k, kotak, wadahUtas));
+      else tersembunyi.push(isiUtas[u]);
+    }
+    kotak.appendChild(wadahUtas);
+    if (tersembunyi.length) {
+      var lihat = document.createElement('button');
+      lihat.type = 'button';
+      lihat.className = 'k-lihat';
+      lihat.textContent = 'Lihat ' + tersembunyi.length + ' balasan';
+      var mulai = 0;
+      lihat.addEventListener('click', function(){
+        for (var w = mulai; w < tersembunyi.length && w < mulai + 3; w++)
+          wadahUtas.appendChild(barisBalasan(tersembunyi[w], k, kotak, wadahUtas));
+        mulai = Math.min(mulai + 3, tersembunyi.length);
+        var sisa = tersembunyi.length - mulai;
+        if (sisa > 0) {
+          lihat.textContent = 'Lihat balasan lainnya (' + sisa + ')';
+          wadahUtas.appendChild(lihat);
+        } else if (lihat.parentNode) {
+          lihat.parentNode.removeChild(lihat);
+        }
+      });
+      wadahUtas.appendChild(lihat);
+    }
 
     /* tombol Balas: di balik gembok yang sama dengan formulir utama */
     var tRow = document.createElement('div');
@@ -891,14 +939,14 @@ footer a:hover{color:#0B0C0E}
       if (TERKUNCI) { bukaModalKunci(); return; }
       var lama = kotak.querySelector('.k-bform');
       if (lama) { lama.parentNode.removeChild(lama); return; }
-      kotak.appendChild(formBalasan(k, kotak, tRow));
+      kotak.appendChild(formBalasan(k, kotak, wadahUtas, ''));
     });
     tRow.appendChild(tBalas);
     kotak.appendChild(tRow);
     return kotak;
   }
 
-  function barisBalasan(bal){
+  function barisBalasan(bal, k, kotak, wadahUtas){
     var b = document.createElement('div');
     b.className = 'k-balas';
     if (bal.bib) {
@@ -941,15 +989,36 @@ footer a:hover{color:#0B0C0E}
       a.textContent = infoTaut(taut[i]).label;
       b.appendChild(a);
     }
+    /* balasan pun bisa dibalas siapa saja (keputusan pemilik, Agu 2026;
+       BiB sendiri tidak ikut membalas di dalam utas) — balasannya masuk
+       utas yang sama dengan awalan @nama */
+    if (k && kotak) {
+      var bb = document.createElement('button');
+      bb.type = 'button';
+      bb.className = 'k-balasbtn k-balasmini';
+      bb.textContent = 'Balas';
+      bb.addEventListener('click', function(){
+        if (TERKUNCI) { bukaModalKunci(); return; }
+        var lama = kotak.querySelector('.k-bform');
+        if (lama) lama.parentNode.removeChild(lama);
+        var f = formBalasan(k, kotak, wadahUtas,
+          '@' + (bal.bib ? 'BiB' : (bal.nama || 'Pembaca')) + ' ');
+        kotak.appendChild(f);
+        var ta = f.querySelector('textarea');
+        if (ta) { ta.focus(); ta.selectionStart = ta.value.length; }
+      });
+      b.appendChild(bb);
+    }
     return b;
   }
 
-  function formBalasan(k, kotak, tRow){
+  function formBalasan(k, kotak, wadahUtas, awalan){
     var wadah = document.createElement('div');
     wadah.className = 'k-bform';
     var isian = document.createElement('textarea');
     isian.maxLength = 500;
     isian.placeholder = 'Tulis balasanmu\u2026';
+    if (awalan) isian.value = awalan;
     var kirim = document.createElement('button');
     kirim.type = 'button';
     kirim.className = 'k-kirim k-kecilbtn';
@@ -971,9 +1040,9 @@ footer a:hover{color:#0B0C0E}
         .then(function(d){
           kirim.disabled = false;
           if (d && d.ok) {
-            kotak.insertBefore(barisBalasan({ nama: IDEN.nama,
+            wadahUtas.appendChild(barisBalasan({ nama: IDEN.nama,
               benih: IDEN.benih, teks: teks,
-              waktu: new Date().toISOString() }), tRow);
+              waktu: new Date().toISOString() }, k, kotak, wadahUtas));
             wadah.parentNode.removeChild(wadah);
           } else {
             ket.className = 'k-pesan gagal';

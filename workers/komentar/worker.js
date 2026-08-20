@@ -34,7 +34,7 @@ const MAKS_TEKS = 500;
 const MAKS_BALASAN = 800;
 const MAKS_NAMA = 40;
 const MAKS_PER_SLUG = 300;
-const JATAH_PER_JAM = 5;
+const JATAH_PER_MENIT = 5; // komentar + balasan (keputusan pemilik, Agu 2026)
 const APP_ID = "b08cc556-e8af-4fd1-a046-0c6ae3e1c065";
 const REPO_AGEN = "ikhlassyamri/AI-Agent-Artikel-BiB";
 const WORKFLOW_BALAS = "balas-komentar.yml";
@@ -219,12 +219,15 @@ export default {
       }
 
       const ip = req.headers.get("CF-Connecting-IP") || "?";
-      const kunciJatah = "j:" + ip;
+      // jendela per MENIT (keputusan pemilik, Agu 2026 — jatah per jam
+      // membuat pengunjung yang wajar kena tahan): kuncinya bermenit,
+      // TTL 120 dtk karena KV minimal 60 dan menitnya bisa sisa sedikit
+      const kunciJatah = "j:" + ip + ":" + Math.floor(Date.now() / 60000);
       const dipakai = parseInt((await env.KOMENTAR.get(kunciJatah)) || "0", 10);
-      if (dipakai >= JATAH_PER_JAM) {
-        return jawab({ ok: false, pesan: "Terlalu sering. Coba lagi sejam lagi." }, 429, asal);
+      if (dipakai >= JATAH_PER_MENIT) {
+        return jawab({ ok: false, pesan: "Terlalu cepat. Tunggu semenit, coba lagi ya." }, 429, asal);
       }
-      await env.KOMENTAR.put(kunciJatah, String(dipakai + 1), { expirationTtl: 3600 });
+      await env.KOMENTAR.put(kunciJatah, String(dipakai + 1), { expirationTtl: 120 });
 
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
