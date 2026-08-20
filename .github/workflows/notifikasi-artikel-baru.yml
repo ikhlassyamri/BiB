@@ -140,6 +140,13 @@ jobs:
               if len(ringkas) > 160:
                   ringkas = ringkas[:157].rsplit(' ', 1)[0] + '…'
 
+              # NOTIFIKASI BERGAMBAR (keputusan pemilik, Agu 2026): thumbnail
+              # artikel ikut tampil besar di notifikasi (chrome_web_image),
+              # judul + ringkasan di atasnya — susunan persisnya milik OS.
+              gambar = ambil(r'property=["\']og:image["\']\s+content=["\'](.*?)["\']', isi)
+              if gambar and not gambar.startswith('http'):
+                  gambar = ''
+
               # AWALAN JUDUL NOTIFIKASI menurut jenis+topik artikel
               # (keputusan pemilik, Agu 2026 — dulu semua "Artikel baru:").
               # Sumbernya kicker di artikel itu sendiri, mis. "BERITA · AI"
@@ -199,7 +206,12 @@ jobs:
                       'headings': {'en': f'{awalan}: {judul}'},
                       'contents': {'en': ringkas},
                       'url': alamat,      # klik notif → langsung ke artikelnya
+                      # ikon merek di badan notifikasi (192px, dari favicon)
+                      'chrome_web_icon': 'https://joinbib.id/notif-icon-192.png',
+                      'firefox_icon': 'https://joinbib.id/notif-icon-192.png',
                   }
+                  if gambar:
+                      muatan['chrome_web_image'] = gambar
                   permintaan = urllib.request.Request(
                       'https://api.onesignal.com/notifications',
                       data=json.dumps(muatan).encode(),

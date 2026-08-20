@@ -180,6 +180,9 @@ async function kirimPush(env, osid, isiPesan, alamat) {
     headings: { en: "Komentarmu dibalas" },
     contents: { en: isiPesan },
     url: alamat,
+    // ikon merek di badan notifikasi (192px, dari favicon situs)
+    chrome_web_icon: "https://joinbib.id/notif-icon-192.png",
+    firefox_icon: "https://joinbib.id/notif-icon-192.png",
   };
   let sebab = "";
   for (const skema of ["Key", "Basic"]) {
