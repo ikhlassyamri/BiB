@@ -161,8 +161,14 @@ async function bangunkanAgen(env) {
   } catch (e) { /* gagal membangunkan bukan bencana: ada cron pengaman 6 jam */ }
 }
 
+// Mengembalikan STATUS ("terkirim" / "tanpa osid" / "gagal: <sebab>") —
+// versi lama menelan semua kegagalan dan pemilik menyangka push terkirim
+// padahal tidak (Agu 2026). Pelajaran notifikasi-artikel-baru berlaku di
+// sini juga: `id` dari OneSignal saja BUKAN bukti — `recipients: 0`
+// berarti tidak ada penerima (langganan mati / alamat salah).
 async function kirimPush(env, osid, isiPesan, alamat) {
-  if (!env.ONESIGNAL_KEY || !osid) return;
+  if (!env.ONESIGNAL_KEY) return "tanpa kunci";
+  if (!osid) return "tanpa osid";
   const muatan = {
     app_id: APP_ID,
     include_subscription_ids: [osid],
@@ -170,6 +176,7 @@ async function kirimPush(env, osid, isiPesan, alamat) {
     contents: { en: isiPesan },
     url: alamat,
   };
+  let sebab = "";
   for (const skema of ["Key", "Basic"]) {
     try {
       const r = await fetch("https://api.onesignal.com/notifications", {
@@ -180,10 +187,25 @@ async function kirimPush(env, osid, isiPesan, alamat) {
         },
         body: JSON.stringify(muatan),
       });
-      const h = await r.json();
-      if (h && h.id) return;                 // terkirim
-    } catch (e) { /* coba skema berikutnya */ }
+      const h = await r.json().catch(() => null);
+      if (h && h.id && h.recipients !== 0) return "terkirim";
+      sebab = h
+        ? (h.errors ? JSON.stringify(h.errors).slice(0, 160)
+                    : `id=${h.id || "-"} recipients=${h.recipients}`)
+        : `HTTP ${r.status}`;
+    } catch (e) { sebab = String((e && e.message) || e).slice(0, 160); }
   }
+  return "gagal: " + sebab;
+}
+
+// Alamat langganan yang disusulkan /tandai hidup di KUNCI SAMPING
+// (o:<slug>:<id komentar>), bukan di daftar komentar. /tandai versi lama
+// menulis ulang SELURUH daftar, dan tulisan dari salinan basi (KV antar
+// kolo baru akur ±60 detik) bisa MENGHAPUS balasan BiB yang baru masuk
+// lewat /balas dari kolo lain. Kunci samping tidak menimpa apa-apa.
+async function osidSamping(env, slug, id) {
+  if (!id) return "";
+  return (await env.KOMENTAR.get(`o:${slug}:${id}`)) || "";
 }
 
 export default {
@@ -271,10 +293,12 @@ export default {
         induk.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
         // pemilik komentar induk diberi tahu — kecuali membalas dirinya
-        if (induk.osid && induk.osid !== osid) {
-          await kirimPush(env, induk.osid,
+        const osidInduk = induk.osid || await osidSamping(env, slug, induk.id);
+        if (osidInduk && osidInduk !== osid) {
+          const push = await kirimPush(env, osidInduk,
             `${nama} membalas komentarmu. Ketuk untuk membacanya.`,
             `https://joinbib.id/artikel/${slug}#komen`);
+          console.log(`push balasan [${slug}]: ${push}`);
         }
         // menyebut @BiB = memanggil agen (keputusan pemilik, Agu 2026);
         // obrolan antar-pembaca tanpa @BiB tidak membangunkannya
@@ -342,8 +366,11 @@ export default {
       if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
         return jawab({ ok: false }, 400, asal);
       }
-      k.osid = osid;
-      await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+      // KUNCI SAMPING, bukan menulis ulang daftar: daftar yang dibaca di
+      // sini bisa basi (KV antar kolo), dan menulis-balikkannya pernah
+      // berisiko menghapus balasan BiB yang baru masuk dari /balas.
+      await env.KOMENTAR.put(`o:${slug}:${b.id}`, osid,
+                             { expirationTtl: 90 * 24 * 3600 });
       return jawab({ ok: true }, 200, asal);
     }
 
@@ -415,12 +442,11 @@ export default {
                        waktu: new Date().toISOString() });
         k.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
-        if (m.osid) {
-          await kirimPush(env, m.osid,
-            `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
-            alamat);
-        }
-        return jawab({ ok: true }, 200, asal);
+        const pushUtas = await kirimPush(env, m.osid || "",
+          `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
+          alamat);
+        console.log(`push utas [${slug}]: ${pushUtas}`);
+        return jawab({ ok: true, push: pushUtas }, 200, asal);
       }
 
       if (isiUtas.some(x => x.bib)) return jawab({ ok: true, pesan: "sudah terbalas" }, 200, asal);
@@ -432,10 +458,12 @@ export default {
       // dan tiap balasan baru tetap perlu diberitahukan ke pemiliknya
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
 
-      await kirimPush(env, k.osid || "",
+      const osidK = k.osid || await osidSamping(env, slug, k.id);
+      const push = await kirimPush(env, osidK,
         `BiB menjawab pertanyaanmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
         alamat);
-      return jawab({ ok: true }, 200, asal);
+      console.log(`push jawaban [${slug}]: ${push}`);
+      return jawab({ ok: true, push }, 200, asal);
     }
 
     return jawab({ pesan: "?" }, 404, asal);
