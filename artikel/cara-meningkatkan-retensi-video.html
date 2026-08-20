@@ -330,6 +330,15 @@ td{color:#2B3036}
    karena `hero` sudah dipakai section kepala halaman. */
 .hgambar{margin:20px 0 2px}
 .hgambar img{width:100%;height:auto;display:block;border-radius:14px}
+/* ikon kontak kecil di baris penulis (keputusan pemilik, Agu 2026 —
+   mengisi ruang kosong di samping "BiB"; kartu "Ngobrol langsung" di
+   bawah artikel TETAP ada sebagai penutup konversi) */
+.m-sosial{display:inline-flex;gap:8px;align-items:center;margin-left:2px}
+.m-sosial a{width:30px;height:30px;border-radius:50%;background:#0B0C0E;
+  display:inline-flex;align-items:center;justify-content:center}
+.m-sosial a:nth-child(2){background:#1B7F3B}
+.m-sosial a:nth-child(3){background:#0F6B3C}
+.m-sosial svg{width:15px;height:15px}
 /* gembok kolom komentar: hanya pelanggan notifikasi yang bisa menulis
    (keputusan pemilik, Agu 2026). Tombolnya emas berdenyut seperti di
    halaman kumpulan seri. */
@@ -512,6 +521,11 @@ footer a:hover{color:#0B0C0E}
       <span>9 menit baca</span>
       <span>·</span>
       <span>BiB</span>
+      <span class="m-sosial" aria-label="Kontak BiB">
+        <a href="https://instagram.com/ikhlassyamri" target="_blank" rel="noopener" aria-label="Instagram BiB"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg></a>
+        <a href="https://wa.me/62895411449962" target="_blank" rel="noopener" aria-label="WhatsApp BiB"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.8 14.2c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.5-1.2-2.9s.7-2 1-2.3c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l2 1c.2.1.4.2.4.3.1.1.1.5-.1 1.3z"/></svg></a>
+        <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" target="_blank" rel="noopener" aria-label="Saluran WhatsApp BiB"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><path d="M4 5h16v11H8l-4 4V5z"/></svg></a>
+      </span>
     </div>
     <figure class="hgambar"><img src="og-cara-meningkatkan-retensi-video.jpg" alt="" width="1200" height="630" fetchpriority="high"></figure>
     <p class="lead">Mengunggah konten setiap hari tidak lagi menjamin jangkauan videomu melesat jika penonton kabur di tiga detik pertama. Sistem algoritma modern kini bergeser dari sekadar frekuensi unggah ke bobot retensi tayang. Berikut cara praktis merombak struktur videomu layaknya lead berita agar ditonton sampai habis.</p>
