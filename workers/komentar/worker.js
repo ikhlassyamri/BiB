@@ -36,7 +36,9 @@ const MAKS_NAMA = 40;
 const MAKS_PER_SLUG = 300;
 const JATAH_PER_MENIT = 5; // komentar + balasan (keputusan pemilik, Agu 2026)
 const APP_ID = "b08cc556-e8af-4fd1-a046-0c6ae3e1c065";
-const REPO_AGEN = "ikhlassyamri/AI-Agent-Artikel-BiB";
+// repo agen pindah ke organisasi (Agu 2026): jatah menit Actions akun
+// pribadi habis, organisasi punya kantong 2.000 menit sendiri
+const REPO_AGEN = "BiB-Agent-Artikel/AI-Agent-Artikel-BiB";
 const WORKFLOW_BALAS = "balas-komentar.yml";
 
 // Daftar kata terlarang: kasar, vulgar, hinaan (Indonesia + Inggris umum).
