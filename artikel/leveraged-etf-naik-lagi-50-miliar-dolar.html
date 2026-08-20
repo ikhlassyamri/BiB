@@ -373,6 +373,17 @@ footer a:hover{color:#0B0C0E}
 .k-baca{background:none;border:0;color:var(--nv,#12386E);font-weight:700;font-size:.85rem;
   cursor:pointer;padding:4px 0 0;font-family:'Space Grotesk',sans-serif;display:block}
 .k-terpotong{max-height:7.5em;overflow:hidden}
+/* datar berantai (ditegur pemilik, Agu 2026: kotak dalam kotak terasa
+   berantakan; aksi komentar jauh dari teksnya). Penimpa aturan lama di
+   atas — CSS kartu tiap artikel bentuknya beda-beda, menimpa lebih aman
+   daripada mengedit satu-satu. Balasan digantung di GARIS RANTAI kiri. */
+.k-item{border:0;border-radius:0;background:none;box-shadow:none;
+  padding:18px 0 4px;margin:0;border-top:1px solid var(--line,#E2E5E9)}
+#k-daftar .k-item:first-child{border-top:0;padding-top:8px}
+.k-balas{margin:14px 0 0;padding:0;border:0;background:none;border-radius:0}
+.k-milik{box-shadow:none}
+.k-lihat{margin:6px 0 0 33px}
+.k-utas{margin:2px 0 0 16px;border-left:2px solid #E4E7EB;padding-left:15px}
 /* gembok kolom komentar: hanya pelanggan notifikasi yang bisa menulis
    (keputusan pemilik, Agu 2026). Tombolnya emas berdenyut seperti di
    halaman kumpulan seri. */
@@ -994,6 +1005,7 @@ footer a:hover{color:#0B0C0E}
     for (var b0 = 0; b0 < isiUtas.length; b0++)
       if (isiUtas[b0].bib) { bibUtama = b0; break; }
     var wadahUtas = document.createElement('div');
+    wadahUtas.className = 'k-utas';
     var tersembunyi = [];
     for (var u = 0; u < isiUtas.length; u++) {
       var nUtas = barisBalasan(isiUtas[u], k, kotak, wadahUtas);
@@ -1003,7 +1015,7 @@ footer a:hover{color:#0B0C0E}
       }
       wadahUtas.appendChild(nUtas);
     }
-    kotak.appendChild(wadahUtas);
+    var tombolLihat = null;
     if (tersembunyi.length) {
       var lihat = document.createElement('button');
       lihat.type = 'button';
@@ -1018,7 +1030,7 @@ footer a:hover{color:#0B0C0E}
         if (sisa > 0) lihat.textContent = 'Lihat balasan lainnya (' + sisa + ')';
         else if (lihat.parentNode) lihat.parentNode.removeChild(lihat);
       });
-      kotak.appendChild(lihat);
+      tombolLihat = lihat;
     }
 
     /* tombol Balas: di balik gembok yang sama dengan formulir utama */
@@ -1036,7 +1048,12 @@ footer a:hover{color:#0B0C0E}
       kotak.appendChild(formBalasan(k, kotak, wadahUtas, ''));
     });
     tRow.appendChild(tBalas);
+    /* Suka·Balas milik komentar UTAMA duduk LANGSUNG di bawah teksnya
+       (ditegur pemilik, Agu 2026: sebelumnya terdampar di bawah utas dan
+       membingungkan); utasnya menyusul sebagai rantai bergaris kiri */
     kotak.appendChild(tRow);
+    kotak.appendChild(wadahUtas);
+    if (tombolLihat) kotak.appendChild(tombolLihat);
     return kotak;
   }
 
