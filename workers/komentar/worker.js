@@ -11,10 +11,16 @@
     GH_TOKEN        — token GitHub untuk membangunkan workflow balasan
 
   Endpoint publik (dipanggil halaman artikel):
-    GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,balasan}]}
-                                (osid TIDAK pernah ikut keluar — privasi)
-    POST /kirim              -> {ok:true, id} | {ok:false, pesan}
-         body: {slug, nama, teks, situs(honeypot), osid?}
+    GET  /ambil?slug=<slug>  -> {komentar:[{id,nama,teks,waktu,balasan:[..]}]}
+                                (osid & kunci TIDAK pernah ikut keluar)
+    POST /kirim              -> {ok:true, id, kunci} | {ok:false, pesan}
+         body: {slug, nama, teks, situs(honeypot), osid?, benih?,
+                balas_ke?}   <- balas_ke = id komentar induk: masuk UTAS
+                                balasan komentar itu (keputusan pemilik,
+                                Agu 2026 — pembaca boleh saling balas),
+                                dan pemilik komentar induk diberi push
+                                siapa pun pembalasnya (BiB atau pembaca).
+                                osid karenanya TIDAK lagi sekali pakai.
 
   Endpoint admin (dipanggil workflow agen, wajib Bearer ADMIN_TOKEN):
     GET  /antrean            -> {antrean:[{slug,id,nama,teks,waktu}]}
@@ -96,9 +102,20 @@ function idBaru() {
   crypto.getRandomValues(b);
   return Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
 }
+function utas(k) {
+  // balasan lama tersimpan sebagai objek tunggal {teks,waktu} (balasan BiB
+  // generasi pertama) — dinormalkan jadi array supaya satu bentuk
+  if (!k.balasan) return [];
+  if (Array.isArray(k.balasan)) return k.balasan;
+  return [{ id: "bib0", bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
+}
+
 function publik(daftar) {
   // osid (alamat push) & kunci (hak hapus) TIDAK pernah keluar lewat /ambil
-  return (daftar || []).map(({ osid, kunci, ...sisa }) => sisa);
+  return (daftar || []).map(({ osid, kunci, ...sisa }) => {
+    sisa.balasan = utas(sisa);
+    return sisa;
+  });
 }
 
 async function bangunkanAgen(env) {
@@ -121,13 +138,13 @@ async function bangunkanAgen(env) {
   } catch (e) { /* gagal membangunkan bukan bencana: ada cron pengaman 6 jam */ }
 }
 
-async function kirimPush(env, osid, judulArtikel, alamat) {
+async function kirimPush(env, osid, isiPesan, alamat) {
   if (!env.ONESIGNAL_KEY || !osid) return;
   const muatan = {
     app_id: APP_ID,
     include_subscription_ids: [osid],
-    headings: { en: "Komentarmu dibalas BiB" },
-    contents: { en: `Pertanyaanmu di "${judulArtikel}" sudah dijawab. Ketuk untuk membacanya.` },
+    headings: { en: "Komentarmu dibalas" },
+    contents: { en: isiPesan },
     url: alamat,
   };
   for (const skema of ["Key", "Basic"]) {
@@ -212,6 +229,28 @@ export default {
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
       const id = idBaru();
+
+      // ── balasan pembaca ke komentar lain (utas) ─────────────────────
+      if (b.balas_ke) {
+        const induk = daftar.find(x => x.id === b.balas_ke);
+        if (!induk) return jawab({ ok: false, pesan: "Komentarnya sudah tidak ada." }, 404, asal);
+        const isiUtas = utas(induk);
+        if (isiUtas.length >= 20) {
+          return jawab({ ok: false, pesan: "Utasnya sudah penuh." }, 400, asal);
+        }
+        isiUtas.push({ id, nama, benih: benih || id.slice(0, 8),
+                       teks, waktu: new Date().toISOString() });
+        induk.balasan = isiUtas;
+        await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
+        // pemilik komentar induk diberi tahu — kecuali membalas dirinya
+        if (induk.osid && induk.osid !== osid) {
+          await kirimPush(env, induk.osid,
+            `${nama} membalas komentarmu. Ketuk untuk membacanya.`,
+            `https://joinbib.id/artikel/${slug}#komen`);
+        }
+        return jawab({ ok: true, id }, 200, asal);
+      }
+
       const kunciHapus = idBaru() + idBaru();
       const entri = { id, nama, teks, waktu: new Date().toISOString(),
                       benih: benih || id.slice(0, 8), kunci: kunciHapus,
@@ -268,7 +307,7 @@ export default {
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
       const k = daftar.find(x => x.id === b.id);
-      if (!k || k.osid || k.balasan) return jawab({ ok: true }, 200, asal);
+      if (!k || k.osid) return jawab({ ok: true }, 200, asal);
       if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
         return jawab({ ok: false }, 400, asal);
       }
@@ -291,7 +330,7 @@ export default {
           const slug = kk.name.slice(2);
           const isi = (await env.KOMENTAR.get(kk.name, "json")) || [];
           for (const k of isi) {
-            if (!k.balasan) antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks, waktu: k.waktu });
+            if (!utas(k).some(x => x.bib)) antrean.push({ slug, id: k.id, nama: k.nama, teks: k.teks, waktu: k.waktu });
             if (antrean.length >= 20) break;
           }
           if (antrean.length >= 20) break;
@@ -318,15 +357,20 @@ export default {
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
       const k = daftar.find(x => x.id === b.id);
       if (!k) return jawab({ ok: false, pesan: "komentar tidak ditemukan" }, 404, asal);
-      if (k.balasan) return jawab({ ok: true, pesan: "sudah terbalas" }, 200, asal);
+      const isiUtas = utas(k);
+      if (isiUtas.some(x => x.bib)) return jawab({ ok: true, pesan: "sudah terbalas" }, 200, asal);
 
-      k.balasan = { teks, waktu: new Date().toISOString() };
-      const osid = k.osid || "";
-      delete k.osid;                                    // tugasnya selesai
+      isiUtas.push({ id: idBaru(), bib: true, teks,
+                     waktu: new Date().toISOString() });
+      k.balasan = isiUtas;
+      // osid DIPERTAHANKAN: utas bisa terus hidup (pembaca lain membalas)
+      // dan tiap balasan baru tetap perlu diberitahukan ke pemiliknya
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
 
       const alamat = `https://joinbib.id/artikel/${slug}#komen`;
-      await kirimPush(env, osid, b.judul || slug, alamat);
+      await kirimPush(env, k.osid || "",
+        `BiB menjawab pertanyaanmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
+        alamat);
       return jawab({ ok: true }, 200, asal);
     }
 

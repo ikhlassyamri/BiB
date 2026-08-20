@@ -384,6 +384,25 @@ footer a:hover{color:#0B0C0E}
   60%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
 }
 @media (prefers-reduced-motion:reduce){.k-btn-notif{animation:none}}
+/* utas balasan & tombol tautan di balasan BiB */
+.k-brow{margin-top:8px}
+.k-balasbtn{background:none;border:0;color:#5C636B;font-size:.8rem;
+  font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;
+  padding:4px 2px}
+.k-balasbtn:hover{color:#0B0C0E}
+.k-bkecil{display:inline-flex;align-items:center;gap:7px}
+.k-bkecil .k-ava{width:22px;height:22px}
+.k-bkecil b{font-family:'Space Grotesk',sans-serif;font-size:.88rem;color:#0B0C0E}
+.k-bform{margin-top:10px}
+.k-bform textarea{width:100%;border:1px solid #E2E5E9;border-radius:9px;
+  padding:9px 11px;font:inherit;font-size:.92rem;background:#F6F7F8;
+  color:#0B0C0E;min-height:64px;resize:vertical;margin-bottom:8px}
+.k-kecilbtn{font-size:.85rem;padding:9px 18px}
+.k-tbl{display:inline-flex;align-items:center;margin:9px 8px 0 0;
+  border:1.5px solid #D4AF37;color:#7A5C10;background:#FFFDF6;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.82rem;
+  padding:7px 14px;border-radius:999px;text-decoration:none}
+.k-tbl:hover{background:#D4AF37;color:#0B0C0E}
 </style>
 </head>
 <body>
@@ -755,7 +774,12 @@ footer a:hover{color:#0B0C0E}
    komentar berikutnya tetap nama & avatar yang sama sampai orangnya
    mengganti sendiri. Avatar SENGAJA pola, bukan foto orang (aturan
    kesopanan: mesin tidak bisa memeriksa isi foto). Hapus komentar
-   sendiri memakai kunci rahasia yang hanya dipegang browser pengirim. */
+   sendiri memakai kunci rahasia yang hanya dipegang browser pengirim.
+   UTAS (keputusan pemilik, Agu 2026): pembaca boleh saling membalas —
+   tombol Balas ikut di balik gembok notifikasi, dan pemilik komentar
+   diberi push siapa pun pembalasnya. Tautan produk/artikel di balasan
+   BiB dirender jadi TOMBOL kecil (path mentah diganti nama halamannya),
+   supaya sarannya bisa langsung diketuk. */
 (function(){
   var WORKER = 'https://komentar-artikel.ikhlassyamribusiness.workers.dev';
   var SLUG = 'samsung-galaxy-z-fold8-ultra-review';
@@ -855,6 +879,20 @@ footer a:hover{color:#0B0C0E}
     return svg;
   }
 
+  /* tautan yang boleh muncul di balasan BiB -> nama + label tombolnya */
+  var POLA_TAUT = /\/(?:titiknol|clipper\/ngeclip-cuan|digital\/|artikel\/[a-z0-9-]+)/g;
+  function infoTaut(p){
+    if (p === '/titiknol')
+      return { nama: 'e-book Bangkit dari Titik Nol', label: 'Lihat E-Booknya \u2192' };
+    if (p === '/clipper/ngeclip-cuan')
+      return { nama: 'e-book Ngeclip Cuan', label: 'Lihat E-Booknya \u2192' };
+    if (p === '/digital/')
+      return { nama: 'katalog produk digital BiB', label: 'Lihat Produk Digital \u2192' };
+    if (p.indexOf('/artikel/seri-') === 0)
+      return { nama: 'halaman serinya', label: 'Buka Serinya \u2192' };
+    return { nama: 'artikelnya', label: 'Baca Artikelnya \u2192' };
+  }
+
   function tanggal(iso){
     try {
       return new Date(iso).toLocaleDateString('id-ID',
@@ -916,24 +954,126 @@ footer a:hover{color:#0B0C0E}
     p.textContent = k.teks || '';
     kotak.appendChild(p);
 
-    if (k.balasan && k.balasan.teks) {
-      var b = document.createElement('div');
-      b.className = 'k-balas';
+    var isiUtas = [];
+    if (Array.isArray(k.balasan)) isiUtas = k.balasan;
+    else if (k.balasan && k.balasan.teks)
+      isiUtas = [{ bib: true, teks: k.balasan.teks, waktu: k.balasan.waktu }];
+    for (var u = 0; u < isiUtas.length; u++)
+      kotak.appendChild(barisBalasan(isiUtas[u]));
+
+    /* tombol Balas: di balik gembok yang sama dengan formulir utama */
+    var tRow = document.createElement('div');
+    tRow.className = 'k-brow';
+    var tBalas = document.createElement('button');
+    tBalas.className = 'k-balasbtn';
+    tBalas.type = 'button';
+    tBalas.textContent = 'Balas';
+    tBalas.addEventListener('click', function(){
+      if (TERKUNCI) {
+        if (gembokPanel) gembokPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      var lama = kotak.querySelector('.k-bform');
+      if (lama) { lama.parentNode.removeChild(lama); return; }
+      kotak.appendChild(formBalasan(k, kotak, tRow));
+    });
+    tRow.appendChild(tBalas);
+    kotak.appendChild(tRow);
+    return kotak;
+  }
+
+  function barisBalasan(bal){
+    var b = document.createElement('div');
+    b.className = 'k-balas';
+    if (bal.bib) {
       var badge = document.createElement('span');
       badge.className = 'k-bib';
       badge.textContent = 'BiB';
       b.appendChild(badge);
-      if (k.balasan.waktu) {
-        var tb = document.createElement('time');
-        tb.textContent = tanggal(k.balasan.waktu);
-        b.appendChild(tb);
-      }
-      var pb = document.createElement('p');
-      pb.textContent = k.balasan.teks;
-      b.appendChild(pb);
-      kotak.appendChild(b);
+    } else {
+      var kep = document.createElement('span');
+      kep.className = 'k-bkecil';
+      kep.appendChild(avatar(bal.benih || (bal.id || '').slice(0, 8)));
+      var nm = document.createElement('b');
+      nm.textContent = bal.nama || 'Pembaca';
+      kep.appendChild(nm);
+      b.appendChild(kep);
     }
-    return kotak;
+    if (bal.waktu) {
+      var tb = document.createElement('time');
+      tb.textContent = tanggal(bal.waktu);
+      b.appendChild(tb);
+    }
+    var pb = document.createElement('p');
+    var teks = bal.teks || '';
+    var taut = [];
+    if (bal.bib) {
+      /* path mentah diganti NAMA halamannya; tombolnya menyusul di bawah */
+      teks = teks.replace(POLA_TAUT, function(p){
+        if (taut.indexOf(p) < 0) taut.push(p);
+        return infoTaut(p).nama;
+      });
+      teks = teks.replace(/\(\s*(e-book|katalog|halaman|artikel)/g, '($1')
+                 .replace(/\s{2,}/g, ' ');
+    }
+    pb.textContent = teks;
+    b.appendChild(pb);
+    for (var i = 0; i < taut.length && i < 2; i++) {
+      var a = document.createElement('a');
+      a.className = 'k-tbl';
+      a.href = taut[i];
+      a.textContent = infoTaut(taut[i]).label;
+      b.appendChild(a);
+    }
+    return b;
+  }
+
+  function formBalasan(k, kotak, tRow){
+    var wadah = document.createElement('div');
+    wadah.className = 'k-bform';
+    var isian = document.createElement('textarea');
+    isian.maxLength = 500;
+    isian.placeholder = 'Tulis balasanmu\u2026';
+    var kirim = document.createElement('button');
+    kirim.type = 'button';
+    kirim.className = 'k-kirim k-kecilbtn';
+    kirim.textContent = 'Kirim Balasan';
+    var ket = document.createElement('span');
+    ket.className = 'k-pesan';
+    kirim.addEventListener('click', function(){
+      var teks = isian.value.trim();
+      if (teks.length < 3) return;
+      kirim.disabled = true;
+      fetch(WORKER + '/kirim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: SLUG, nama: IDEN.nama, teks: teks,
+                               situs: '', osid: OSID, benih: IDEN.benih,
+                               balas_ke: k.id })
+      })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          kirim.disabled = false;
+          if (d && d.ok) {
+            kotak.insertBefore(barisBalasan({ nama: IDEN.nama,
+              benih: IDEN.benih, teks: teks,
+              waktu: new Date().toISOString() }), tRow);
+            wadah.parentNode.removeChild(wadah);
+          } else {
+            ket.className = 'k-pesan gagal';
+            ket.textContent = (d && d.pesan) || 'Gagal. Coba lagi.';
+          }
+        })
+        .catch(function(){
+          kirim.disabled = false;
+          ket.className = 'k-pesan gagal';
+          ket.textContent = 'Jaringan bermasalah.';
+        });
+    });
+    wadah.appendChild(isian);
+    wadah.appendChild(kirim);
+    wadah.appendChild(ket);
+    return wadah;
   }
 
   function kosongkan(pesanTeks){
@@ -999,6 +1139,9 @@ footer a:hover{color:#0B0C0E}
     });
   }
 
+  var TERKUNCI = false;
+  var gembokPanel = null;
+
   /* ── GEMBOK: kolom komentar khusus pelanggan notifikasi ─────────────
      Terbuka kalau langganannya tercatat (bib-notif-aktif) atau izin
      browser sudah granted. Izin diminta DI DALAM ketukan tombol gembok
@@ -1024,10 +1167,14 @@ footer a:hover{color:#0B0C0E}
     panel.appendChild(gembokBtn);
     form.style.display = 'none';
     form.parentNode.insertBefore(panel, form);
+    TERKUNCI = true;
+    gembokPanel = panel;
 
     function buka(){
       if (panel.parentNode) panel.parentNode.removeChild(panel);
       form.style.display = '';
+      TERKUNCI = false;
+      gembokPanel = null;
     }
 
     gembokBtn.addEventListener('click', function(){
@@ -1154,6 +1301,7 @@ footer a:hover{color:#0B0C0E}
   });
 })();
 </script>
+
 
 
 
