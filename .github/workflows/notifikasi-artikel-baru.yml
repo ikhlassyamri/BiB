@@ -218,15 +218,25 @@ jobs:
                       # tidak ada pelanggan, dan id-nya kosong. Versi sebelumnya
                       # mencetak "✅ terkirim" untuk balasan seperti itu — jadi
                       # workflow hijau, notifikasi tidak pernah sampai, dan tidak
-                      # ada yang tahu. Sekarang id DAN penerima wajib ada.
+                      # ada yang tahu.
+                      # CATATAN Agu 2026: OneSignal BERHENTI menyertakan kolom
+                      # `recipients` di jawaban ({"id": "...", "external_id":
+                      # null}) — aturan "id DAN penerima wajib" membaca kiriman
+                      # yang sudah DITERIMA sebagai kosong, lanjut ke skema
+                      # berikutnya (notifikasi terkirim DOBEL), dan run tetap
+                      # merah. Sekarang: errors / id kosong = gagal;
+                      # recipients 0 = tidak ada penerima; recipients yang
+                      # TIDAK ADA sama sekali = diterima (bentuk API baru).
                       ident = hasil.get('id') or ''
                       penerima = hasil.get('recipients')
                       keliru = hasil.get('errors')
-                      if keliru or not ident or not penerima:
+                      if keliru or not ident or penerima == 0:
                           print(f'  kosong — skema {skema}, segmen "{segmen}": '
                                 f'{json.dumps(hasil, ensure_ascii=False)[:220]}')
                           continue
-                      print(f'  ✅ TERKIRIM ke {penerima} perangkat — '
+                      ket = (f'ke {penerima} perangkat' if penerima is not None
+                             else 'diterima OneSignal (API baru tanpa hitungan penerima)')
+                      print(f'  ✅ TERKIRIM {ket} — '
                             f'skema "{skema}", segmen "{segmen}", id {ident}')
                       terkirim = True
                       break
