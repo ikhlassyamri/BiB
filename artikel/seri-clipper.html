@@ -75,15 +75,17 @@ a{color:inherit}
   color:#0B0C0E;font-family:var(--disp);font-weight:700;font-size:.9rem;
   padding:9px 18px;border-radius:10px;text-decoration:none;border:0;
   cursor:pointer;font-family:var(--disp)}
-/* Tombol notifikasi: emas + denyut halus supaya matanya tertarik ke sana.
+/* Tombol notifikasi: warna aksen topik + denyut halus supaya matanya
+   tertarik ke sana. Gelombangnya ikut aksen — penanda AKSEN_RGB di
+   keyframes diisi mesin dari aksen_seri(topik), jangan warna mati.
    Animasinya CSS murni; yang tidak mau gerakan tetap dapat tombolnya diam. */
 .btn-notif{background:var(--ac);color:#0B0C0E;animation:denyut 2.4s ease-in-out infinite}
 .btn-notif:disabled{opacity:.75;animation:none;cursor:default}
 .btn-aktif{background:transparent;color:var(--ac);
   border:1px solid var(--ac);animation:none;cursor:default}
 @keyframes denyut{
-  0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.55)}
-  60%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
+  0%,100%{box-shadow:0 0 0 0 rgba(118,185,0,.55)}
+  60%{box-shadow:0 0 0 12px rgba(118,185,0,0)}
 }
 @media (prefers-reduced-motion:reduce){.btn-notif{animation:none}}
 /* Modal tengah: konfirmasi notifikasi & tawaran e-book (keputusan
