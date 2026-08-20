@@ -1097,53 +1097,74 @@ footer a:hover{color:#0B0C0E}
   var modalKunci = null;
 
   /* ── GEMBOK: kolom komentar khusus pelanggan notifikasi ─────────────
-     Gerbangnya STATUS IZIN BROWSER, bukan catatan localStorage — catatan
-     bib-notif-aktif bisa basi kalau pembaca mematikan notifikasi dari
-     pengaturan situs (kejadian, Agu 2026: notif dimatikan tapi tetap bisa
-     berkomentar). Terkunci: formulir DIBURAMKAN di balik overlay gembok
-     (keputusan pemilik); izin diminta DI DALAM ketukan tombolnya
-     (aturan 9). Peramban tanpa dukungan notifikasi dibiarkan lewat —
-     mengunci mereka berarti tidak akan pernah bisa berkomentar. */
+     Dua lapis gerbang (keputusan pemilik, Agu 2026): (1) STATUS IZIN
+     BROWSER — bukan catatan localStorage, yang bisa basi kalau pembaca
+     mematikan notifikasi dari pengaturan situs; (2) untuk izin yang
+     sudah granted, VONIS LANGGANAN SDK ("ga aktifin notif orang bisa
+     aja komen") — izin menyala belum tentu masih berlangganan. Hanya
+     jawaban PASTI "tidak berlangganan" yang mengunci; SDK yang gagal
+     dimuat dibiarkan lewat, supaya gangguan OneSignal tidak mengunci
+     semua pembaca. Terkunci: formulir DIBURAMKAN di balik overlay
+     gembok; izin diminta DI DALAM ketukan tombolnya (aturan 9).
+     Peramban tanpa dukungan notifikasi dibiarkan lewat — mengunci
+     mereka berarti tidak akan pernah bisa berkomentar. */
   (function(){
     if (!('Notification' in window)) return;
-    if (Notification.permission === 'granted') return;
-    /* catatan langganan yang basi dibersihkan, supaya kartu ajakan
-       notifikasi artikel ikut muncul lagi */
-    try { localStorage.removeItem('bib-notif-aktif'); } catch(e) {}
 
-    var wadah = document.createElement('div');
-    wadah.className = 'k-kunciwrap';
-    form.parentNode.insertBefore(wadah, form);
-    wadah.appendChild(form);
-    form.classList.add('k-buram');
+    function kunci(){
+      if (TERKUNCI) return;
+      /* catatan langganan yang basi ikut dibersihkan, supaya kartu
+         ajakan notifikasi artikel muncul lagi */
+      try { localStorage.removeItem('bib-notif-aktif'); } catch(e) {}
 
-    var panel = document.createElement('div');
-    panel.className = 'k-gembok';
-    var ikon = document.createElement('div');
-    ikon.className = 'k-ikon';
-    ikon.textContent = '\uD83D\uDD12';
-    var ket = document.createElement('p');
-    ket.textContent = 'Nyalakan notifikasi untuk komen.';
-    var gembokBtn = document.createElement('button');
-    gembokBtn.className = 'k-btn-notif';
-    gembokBtn.type = 'button';
-    gembokBtn.textContent = 'Nyalakan Notifikasi';
-    panel.appendChild(ikon);
-    panel.appendChild(ket);
-    panel.appendChild(gembokBtn);
-    wadah.appendChild(panel);
-    TERKUNCI = true;
+      var wadah = document.createElement('div');
+      wadah.className = 'k-kunciwrap';
+      form.parentNode.insertBefore(wadah, form);
+      wadah.appendChild(form);
+      form.classList.add('k-buram');
 
-    bukaGembok = function(){
-      if (panel.parentNode) panel.parentNode.removeChild(panel);
-      form.classList.remove('k-buram');
-      TERKUNCI = false;
-    };
+      var panel = document.createElement('div');
+      panel.className = 'k-gembok';
+      var ikon = document.createElement('div');
+      ikon.className = 'k-ikon';
+      ikon.textContent = '\uD83D\uDD12';
+      var ket = document.createElement('p');
+      ket.textContent = 'Nyalakan notifikasi untuk komen.';
+      var gembokBtn = document.createElement('button');
+      gembokBtn.className = 'k-btn-notif';
+      gembokBtn.type = 'button';
+      gembokBtn.textContent = 'Nyalakan Notifikasi';
+      panel.appendChild(ikon);
+      panel.appendChild(ket);
+      panel.appendChild(gembokBtn);
+      wadah.appendChild(panel);
+      TERKUNCI = true;
 
-    gembokBtn.addEventListener('click', function(){
-      /* izin DI DALAM ketukan — nyalakan() dipanggil langsung dari
-         handler ini, jadi requestPermission tetap di dalam gesture */
-      nyalakan(gembokBtn, ket);
+      bukaGembok = function(){
+        if (panel.parentNode) panel.parentNode.removeChild(panel);
+        form.classList.remove('k-buram');
+        TERKUNCI = false;
+      };
+
+      gembokBtn.addEventListener('click', function(){
+        /* izin DI DALAM ketukan — nyalakan() dipanggil langsung dari
+           handler ini; saat izinnya sudah granted, requestPermission
+           selesai seketika tanpa dialog dan optIn()-lah yang bekerja
+           menyalakan ulang langganannya */
+        nyalakan(gembokBtn, ket);
+      });
+    }
+
+    if (Notification.permission !== 'granted') { kunci(); return; }
+
+    /* izin granted: minta vonis langganan ke SDK */
+    muatSDK();
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal){
+      try {
+        var lg = OneSignal.User && OneSignal.User.PushSubscription;
+        if (lg && lg.optedIn === false) kunci();
+      } catch(e) {}
     });
   })();
 
