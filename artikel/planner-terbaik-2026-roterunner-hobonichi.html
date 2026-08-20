@@ -660,7 +660,16 @@ footer a:hover{color:#0B0C0E}
   function tangkapOsid(){
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal){
-      try { OSID = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
+      /* id langganan dipulihkan ASINKRON dari penyimpanan browser —
+         dibaca sekali saat init sering masih kosong (pelajaran yang
+         sama dengan vonis gembok), jadi diulang sampai dapat. Tanpa
+         ini komentar terkirim tanpa alamat push dan pengomentar tidak
+         pernah diberi tahu balasannya (Agu 2026: "push: tanpa osid") */
+      var coba = 0;
+      (function ulang(){
+        try { OSID = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
+        if (!OSID && ++coba < 40) setTimeout(ulang, 1500);
+      })();
     });
   }
   if ('Notification' in window && Notification.permission === 'granted') tangkapOsid();
@@ -997,6 +1006,7 @@ footer a:hover{color:#0B0C0E}
         .then(function(d){
           kirim.disabled = false;
           if (d && d.ok) {
+            if (!OSID) susulkanOsid(d.id);
             wadahUtas.appendChild(barisBalasan({ nama: IDEN.nama,
               benih: IDEN.benih, teks: teks,
               waktu: new Date().toISOString() }, k, kotak, wadahUtas));

@@ -361,7 +361,15 @@ export default {
 
       const kunci = "k:" + slug;
       const daftar = (await env.KOMENTAR.get(kunci, "json")) || [];
-      const k = daftar.find(x => x.id === b.id);
+      // balasan di utas juga boleh disusulkan alamatnya (Agu 2026:
+      // penanya @BiB tanpa osid tidak pernah dapat push jawabannya)
+      let k = daftar.find(x => x.id === b.id);
+      if (!k) {
+        for (const induk of daftar) {
+          k = utas(induk).find(x => x.id === b.id);
+          if (k) break;
+        }
+      }
       if (!k || k.osid) return jawab({ ok: true }, 200, asal);
       if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
         return jawab({ ok: false }, 400, asal);
@@ -442,7 +450,8 @@ export default {
                        waktu: new Date().toISOString() });
         k.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
-        const pushUtas = await kirimPush(env, m.osid || "",
+        const osidM = m.osid || await osidSamping(env, slug, m.id);
+        const pushUtas = await kirimPush(env, osidM,
           `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
           alamat);
         console.log(`push utas [${slug}]: ${pushUtas}`);
