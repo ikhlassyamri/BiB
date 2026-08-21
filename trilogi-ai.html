@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Trilogi Kecerdasan Buatan — 3 E-Book AI dari Nol sampai Punya Agent</title>
+<meta name="description" content="Tiga e-book berurutan: paham AI, menyuruh AI dengan benar, sampai punya agent yang bekerja sendiri. 442 halaman, 35 gambar panduan, seluruhnya bisa dipraktikkan dari HP tanpa membayar alat apa pun.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="/favicon.png">
+<link rel="canonical" href="https://joinbib.id/trilogi-ai">
+<meta property="og:title" content="Trilogi Kecerdasan Buatan — dari Nol sampai Punya Agent">
+<meta property="og:description" content="3 e-book berurutan, 442 halaman. Selesai baca, kamu punya asisten AI yang benar-benar bekerja. Tanpa coding, dikerjakan dari HP.">
+<meta property="og:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<meta property="og:url" content="https://joinbib.id/trilogi-ai">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script>
+/* ══ Saklar harga otomatis ══
+   Sebelum tenggat  : PRE-ORDER  Rp149.000 (coret Rp250.000), checkout lewat WhatsApp
+   Sesudah tenggat  : PELUNCURAN Rp250.000 (coret Rp350.000), checkout lewat Lynk.id
+   Ubah satu baris di bawah ini saja kalau masa pre-order mau diperpanjang. */
+var AKHIR_PO = new Date('2026-08-24T23:59:59+07:00').getTime();
+document.documentElement.className = (Date.now() < AKHIR_PO) ? 'po' : 'ls';
+</script>
+<style>
+:root{
+  --ink:#0B0C0E; --panel:#14161A; --panel-2:#101216;
+  --line:#26292F; --line-soft:#1A1D22;
+  --text:#F4F5F6; --muted:#9AA1A9;
+  --ac:#22D3EE; --ac-deep:#0E7490; --ac-soft:rgba(34,211,238,.32);
+  --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif; --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--body);
+  font-size:1.0625rem;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+::selection{background:var(--ac);color:#0B0C0E}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+section{padding:clamp(58px,8vw,94px) 0;position:relative}
+
+/* saklar tampilan PO vs peluncuran */
+html.po .hanya-ls{display:none!important}
+html.ls .hanya-po{display:none!important}
+html.ls #mundur,html.ls #mundur2{display:none!important}
+
+.eyebrow{font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ac);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow::before{content:"";width:14px;height:14px;background:var(--ac);flex:none}
+.eyebrow.tengah{justify-content:center}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.95rem,5.2vw,2.85rem);
+  line-height:1.14;letter-spacing:-.02em;text-wrap:balance}
+h1 em,h2 em{font-style:normal;color:var(--ac)}
+h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.45rem,4.2vw,2.1rem);
+  line-height:1.2;letter-spacing:-.01em;margin-bottom:16px}
+.sub{color:var(--muted);max-width:640px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--ac);color:#06212A;font-family:var(--disp);font-weight:700;
+  font-size:1.05rem;padding:16px 32px;border-radius:999px;text-decoration:none;
+  box-shadow:0 0 0 0 var(--ac-soft);transition:transform .15s ease, box-shadow .3s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--ac-soft)}
+.btn-note{font-size:.85rem;color:var(--muted);margin-top:12px}
+
+/* hero */
+.hero{padding-top:clamp(52px,8vw,86px)}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:40px;align-items:center}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:30px}.hero-visual{order:-1}}
+.hero p.lede{color:var(--muted);margin:18px 0 26px;max-width:540px}
+.hero-visual img{border-radius:14px;box-shadow:0 26px 70px rgba(0,0,0,.6)}
+
+/* hitung mundur */
+.mundur{border:1px solid var(--ac);border-radius:14px;background:rgba(34,211,238,.05);
+  padding:16px 18px;margin-bottom:22px;max-width:430px}
+.mundur .judul{font-family:var(--disp);font-weight:700;font-size:.74rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:10px}
+.jam{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.jam div{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:9px;
+  padding:9px 4px;text-align:center}
+.jam b{font-family:var(--disp);font-weight:700;font-size:1.55rem;color:var(--text);
+  display:block;line-height:1.15;font-variant-numeric:tabular-nums}
+.jam span{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mundur.habis{border-color:var(--line);background:var(--panel-2)}
+.mundur.habis .judul{color:var(--muted)}
+
+.harga{display:flex;align-items:baseline;gap:14px;margin:4px 0 22px;flex-wrap:wrap}
+.harga .coret{color:var(--muted);text-decoration:line-through;font-size:1.12rem}
+.harga .kini{font-family:var(--disp);font-weight:700;font-size:2.2rem;color:var(--ac);
+  line-height:1.1}
+.harga .label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--ac);color:var(--ac);border-radius:999px;padding:3px 12px}
+.hemat{font-size:.85rem;color:var(--muted);margin:-12px 0 20px}
+.hemat b{color:var(--ac)}
+
+/* strip angka */
+.angka{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:52px}
+@media(max-width:680px){.angka{grid-template-columns:repeat(2,1fr)}}
+.angka div{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:18px 10px;text-align:center}
+.angka b{font-family:var(--disp);font-size:1.65rem;color:var(--ac);display:block}
+.angka span{font-size:.84rem;color:var(--muted)}
+
+/* kartu */
+.kartu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:34px}
+@media(max-width:680px){.kartu-grid{grid-template-columns:1fr}}
+.kartu{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:25px 23px}
+.kartu h3{font-family:var(--disp);font-size:1.06rem;margin-bottom:8px}
+.kartu p{font-size:.95rem;color:var(--muted)}
+.kartu .no{font-family:var(--disp);font-weight:700;color:var(--ac);font-size:.82rem;
+  letter-spacing:.18em;display:block;margin-bottom:10px}
+
+/* buku */
+.buku{display:grid;grid-template-columns:230px 1fr;gap:30px;align-items:start;
+  border:1px solid var(--line-soft);background:var(--panel-2);border-radius:16px;
+  padding:26px;margin-bottom:16px}
+@media(max-width:720px){.buku{grid-template-columns:1fr;gap:20px}
+  .buku .sampul{max-width:210px;margin:0 auto}}
+.buku .sampul img{border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.55)}
+.buku .no{font-family:var(--disp);font-weight:700;font-size:.76rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ac);display:block;margin-bottom:6px}
+.buku h3{font-family:var(--disp);font-weight:700;font-size:1.32rem;line-height:1.25}
+.buku .subjudul{color:var(--ac);font-size:.95rem;margin-bottom:12px}
+.buku p{font-size:.97rem;color:var(--muted)}
+.buku ul{list-style:none;margin-top:14px}
+.buku li{padding-left:22px;position:relative;font-size:.94rem;color:var(--muted);margin-bottom:7px}
+.buku li::before{content:"";position:absolute;left:0;top:11px;width:9px;height:9px;
+  background:var(--ac-deep)}
+.buku .kaki{margin-top:14px;font-size:.84rem;color:var(--muted);
+  border-top:1px solid var(--line-soft);padding-top:12px}
+.buku .kaki b{color:var(--text);font-family:var(--disp)}
+
+/* jujur */
+.jujur{border:1.5px solid var(--ac);border-radius:var(--r);padding:28px 26px;margin-top:34px;
+  background:rgba(34,211,238,.04)}
+.jujur h3{font-family:var(--disp);color:var(--ac);font-size:1.04rem;letter-spacing:.06em;margin-bottom:12px}
+.jujur ul{list-style:none}
+.jujur li{padding-left:26px;position:relative;margin-bottom:10px;color:var(--muted);font-size:.97rem}
+.jujur li::before{content:"×";position:absolute;left:2px;color:var(--ac);font-weight:700}
+
+/* cocok / tidak */
+.dua{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+@media(max-width:680px){.dua{grid-template-columns:1fr}}
+.dua>div{border:1px solid var(--line-soft);border-radius:var(--r);padding:24px 22px;background:var(--panel)}
+.dua h3{font-family:var(--disp);font-size:1.02rem;margin-bottom:12px}
+.dua ul{list-style:none}
+.dua li{padding-left:24px;position:relative;font-size:.94rem;color:var(--muted);margin-bottom:9px}
+.dua .ya li::before{content:"✓";position:absolute;left:0;color:var(--ac);font-weight:700}
+.dua .tidak li::before{content:"–";position:absolute;left:2px;color:var(--muted);font-weight:700}
+
+/* CO box */
+.co{background:linear-gradient(160deg,var(--panel) 0%,var(--panel-2) 100%);
+  border:1px solid var(--line);border-radius:18px;padding:clamp(28px,6vw,50px);text-align:center}
+.co .harga{justify-content:center}
+.co .mundur{margin:0 auto 22px}
+
+/* faq */
+details{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--panel-2);
+  padding:0 22px;margin-bottom:10px}
+summary{cursor:pointer;font-family:var(--disp);font-weight:600;padding:18px 0;list-style:none;
+  position:relative;padding-right:30px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:2px;top:14px;color:var(--ac);font-size:1.3rem;font-weight:700}
+details[open] summary::after{content:"–"}
+details p{padding:0 0 18px;color:var(--muted);font-size:.95rem}
+
+footer{border-top:1px solid var(--line-soft);padding:44px 0 60px;text-align:center}
+footer p{font-size:.9rem;color:var(--muted)}
+footer .kontak{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:16px 0}
+footer .kontak a{font-size:.9rem;color:var(--muted);text-decoration:none;border:1px solid var(--line);
+  border-radius:999px;padding:7px 18px}
+footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
+footer img{height:26px;width:auto;margin:0 auto 14px}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">3 E-BOOK &middot; DIBACA BERURUTAN</span>
+        <h1>Dari tidak paham AI,<br>sampai <em>punya agent</em><br>yang bekerja sendiri</h1>
+        <p class="lede">Tiga buku berurutan yang mengantarmu dari nol. Selesai buku ketiga,
+        kamu bukan cuma mengerti AI, tapi punya sesuatu yang benar-benar bekerja untukmu.
+        Seluruhnya bisa dikerjakan dari HP, tanpa coding, tanpa membayar alat apa pun.</p>
+
+        <div class="mundur" id="mundur">
+          <div class="judul" id="mundur-judul">Harga pre-order berakhir dalam</div>
+          <div class="jam" id="jam">
+            <div><b id="d">0</b><span>Hari</span></div>
+            <div><b id="h">00</b><span>Jam</span></div>
+            <div><b id="m">00</b><span>Menit</span></div>
+            <div><b id="s">00</b><span>Detik</span></div>
+          </div>
+        </div>
+
+        <div class="harga hanya-po">
+          <span class="label">Harga Pre-Order</span>
+          <span class="coret">Rp250.000</span>
+          <span class="kini">Rp149.000</span>
+        </div>
+        <div class="harga hanya-ls">
+          <span class="label">Harga Spesial</span>
+          <span class="coret">Rp350.000</span>
+          <span class="kini">Rp250.000</span>
+        </div>
+        <p class="hemat hanya-po">Hemat <b>Rp101.000</b> dari harga peluncuran. Ketiga buku sekaligus.</p>
+        <p class="hemat hanya-ls">Ketiga buku sekaligus. Tidak dijual satuan.</p>
+
+        <a class="btn hanya-po" href="https://wa.me/62895411449962?text=Hallo%20kak%20Ikhlas%2C%20saya%20mau%20beli%20ebook%20trilogi%20kecerdasan%20buatan">Ambil Harga Pre-Order &rarr;</a>
+        <a class="btn hanya-ls" href="https://lynk.id/ikhlassyamri/z8drk854mx8q/checkout">Ambil Ketiga Buku &rarr;</a>
+        <p class="btn-note hanya-po">Pesan lewat WhatsApp &middot; sekali bayar &middot; 3 file PDF, langsung dikirim setelah pembayaran</p>
+        <p class="btn-note hanya-ls">Pembayaran aman via Lynk.id &middot; QRIS, transfer bank, e-wallet &middot; file terkirim otomatis</p>
+      </div>
+      <div class="hero-visual">
+        <img src="/trilogi-ai-cover.jpg" alt="Tiga sampul Trilogi Kecerdasan Buatan: Paham AI dari Nol, Prompt Engineering, dan AI Agent" width="1400" height="1400">
+      </div>
+    </div>
+    <div class="angka">
+      <div><b>3</b><span>buku berurutan</span></div>
+      <div><b>442</b><span>halaman</span></div>
+      <div><b>35</b><span>gambar panduan</span></div>
+      <div><b>Rp0</b><span>biaya alat</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">MASALAHNYA</span>
+    <h2>Belajar AI dari konten itu <em>bolong-bolong</em></h2>
+    <p class="sub">Kamu menonton satu video soal prompt, besoknya video soal agent, lusanya
+    video soal alat baru. Tiap potongan masuk akal sendiri-sendiri, tapi tidak pernah nyambung.
+    Akhirnya kamu tahu banyak istilah, dan tetap tidak punya apa-apa yang bekerja. Bukan
+    salahmu. Yang kurang bukan informasi, melainkan urutan.</p>
+    <div class="kartu-grid">
+      <div class="kartu"><span class="no">BEDANYA 01</span>
+        <h3>Tiga buku, satu urutan</h3>
+        <p>Buku 1 membuatmu paham, Buku 2 membuatmu bisa menyuruh, Buku 3 membuatmu
+        punya. Tiap buku berdiri di atas buku sebelumnya, bukan mengulanginya.</p></div>
+      <div class="kartu"><span class="no">BEDANYA 02</span>
+        <h3>Setiap langkah sudah dijalani penulisnya</h3>
+        <p>Seluruh praktik di Buku 3 dikerjakan sendiri dari HP Android, dan setiap
+        hambatan yang muncul ditulis apa adanya sebagai kotak <b>Jebakan</b>. Sepuluh
+        jebakan, dan tidak satu pun ada di petunjuk resmi mana pun.</p></div>
+      <div class="kartu"><span class="no">BEDANYA 03</span>
+        <h3>Bersumber dari pembuat modelnya</h3>
+        <p>Konsepnya disarikan dari dokumentasi rekayasa Anthropic, OpenAI, dan Google,
+        bukan dari konten daur ulang. Daftar sumbernya tercantum di belakang tiap buku.</p></div>
+      <div class="kartu"><span class="no">BEDANYA 04</span>
+        <h3>Ada bab yang melawan judulnya sendiri</h3>
+        <p>Bab 2 Buku 3 berjudul "Kapan Kamu Tidak Butuh Agent". Nasihat itu datang dari
+        Anthropic sendiri, dan bab itulah yang menghemat waktu serta uangmu paling banyak.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow">ISI TRILOGI</span>
+    <h2>Tiga buku, tiga tingkat</h2>
+    <p class="sub" style="margin-bottom:34px">Ketiganya dijual satu paket, karena
+    membacanya terpisah membuat urutannya hilang, dan urutan itulah nilainya.</p>
+
+    <div class="buku">
+      <div class="sampul"><img src="/trilogi-ai-b1.jpg" alt="Sampul Buku 1, Paham AI dari Nol" width="760" height="1140"></div>
+      <div>
+        <span class="no">Buku 1 &middot; 83 halaman</span>
+        <h3>Paham AI dari Nol</h3>
+        <div class="subjudul">Cara kerja, batasnya, dan cara mengenali yang omong kosong</div>
+        <p>Fondasinya. Bukan sihir, bukan makhluk yang berpikir, melainkan mesin yang belajar
+        dari pola dan bisa terlihat jenius sekaligus bodoh dalam satu tarikan napas.</p>
+        <ul>
+          <li>Cara AI belajar, dijelaskan tanpa satu pun rumus</li>
+          <li>Kenapa AI bisa jenius sekaligus bodoh, dan kapan ia mengarang</li>
+          <li>Risiko yang nyata, dan yang cuma ditakut-takutkan</li>
+          <li>Saringan 5 pertanyaan untuk menguji produk berlabel AI</li>
+        </ul>
+        <div class="kaki">Yang kamu bawa pulang: <b>kamu berhenti bisa ditakut-takuti, dan
+        berhenti bisa dijual mimpi.</b></div>
+      </div>
+    </div>
+
+    <div class="buku">
+      <div class="sampul"><img src="/trilogi-ai-b2.jpg" alt="Sampul Buku 2, Prompt Engineering" width="760" height="1140"></div>
+      <div>
+        <span class="no">Buku 2 &middot; 155 halaman</span>
+        <h3>Prompt Engineering</h3>
+        <div class="subjudul">Seni menyuruh AI supaya hasilnya sesuai yang kamu mau</div>
+        <p>Hasil yang buruk hampir selalu berasal dari perintah yang buruk. Buku ini
+        mengubah perintah asal-asalan jadi keterampilan yang bisa diulang.</p>
+        <ul>
+          <li>Anatomi perintah yang baik, enam bagian yang bisa langsung dipakai</li>
+          <li>Memberi peran, contoh, dan bentuk hasil yang tegas</li>
+          <li>Menahan AI mengarang, dan memaksanya mengaku tidak tahu</li>
+          <li>Pustaka 50 prompt siap pakai, tinggal ganti isiannya</li>
+        </ul>
+        <div class="kaki">Yang kamu bawa pulang: <b>prompt andalanmu sendiri, yang hasilnya
+        sama bagusnya setiap hari.</b></div>
+      </div>
+    </div>
+
+    <div class="buku">
+      <div class="sampul"><img src="/trilogi-ai-b3.jpg" alt="Sampul Buku 3, AI Agent" width="760" height="1140"></div>
+      <div>
+        <span class="no">Buku 3 &middot; 202 halaman</span>
+        <h3>AI Agent</h3>
+        <div class="subjudul">Membuat asisten AI sederhana yang bekerja sendiri</div>
+        <p>Puncaknya, dan satu-satunya buku di trilogi ini yang keberhasilannya bisa diukur.
+        Tiga proyek praktik, dan agent pertamamu jadi sebelum separuh buku.</p>
+        <ul>
+          <li><b>Proyek 1</b> asisten berperan, siap dipakai dari satu ikon di layar HP</li>
+          <li><b>Proyek 2</b> asisten yang tahu harga dan ketentuan usahamu sendiri</li>
+          <li><b>Proyek 3</b> agent berjadwal yang bekerja saat kamu tidur</li>
+          <li>Bab biaya dengan angka nyata, bab keamanan, bank 30 ide agent, kartu diagnosa</li>
+        </ul>
+        <div class="kaki">Yang kamu bawa pulang: <b>sesuatu yang benar-benar berjalan, dibangun
+        dari HP, tanpa membayar sepeser pun.</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow">JUJUR DULU</span>
+    <h2>Yang <em>tidak</em> kamu dapat di sini</h2>
+    <p class="sub">Saya lebih suka kamu tidak jadi beli daripada beli lalu kecewa.</p>
+    <div class="jujur">
+      <h3>TIDAK ADA DI TRILOGI INI</h3>
+      <ul>
+        <li>Janji penghasilan. Tidak ada satu pun angka rupiah yang dijanjikan buku ini akan kamu dapat.</li>
+        <li>Cara menghasilkan uang dari AI. Ini buku keterampilan, bukan buku peluang usaha.</li>
+        <li>Rahasia atau prompt ajaib. Semua isinya bisa kamu temukan sendiri, kalau kamu punya waktu berbulan-bulan dan tahu harus mencari ke mana.</li>
+        <li>Coding. Tidak ada satu baris pun, dan tidak akan pernah diminta.</li>
+        <li>Jaminan bahwa antarmuka alatnya tidak berubah. Layanan berubah, dan buku ini menuliskan tanggal pengujiannya dengan terbuka.</li>
+      </ul>
+    </div>
+    <div class="dua">
+      <div class="ya">
+        <h3 style="color:var(--ac)">Cocok kalau kamu</h3>
+        <ul>
+          <li>Punya usaha kecil dengan pekerjaan yang berulang tiap hari</li>
+          <li>Sudah coba pakai AI tapi hasilnya terasa biasa saja</li>
+          <li>Cuma punya HP, tanpa komputer</li>
+          <li>Mau paham dulu, bukan sekadar ikut-ikutan</li>
+        </ul>
+      </div>
+      <div class="tidak">
+        <h3>Kurang cocok kalau kamu</h3>
+        <ul>
+          <li>Mencari cara cepat menghasilkan uang dari AI</li>
+          <li>Sudah terbiasa membangun otomasi dan menulis kode</li>
+          <li>Tidak mau praktik sama sekali, cuma mau membaca</li>
+          <li>Berharap alat berbayar yang canggih, bukan yang gratis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="co">
+      <span class="eyebrow tengah">AMBIL SEKARANG</span>
+      <h2 class="hanya-po">Satu paket bertiga,<br>selama masa pre-order <em>Rp149.000</em></h2>
+      <h2 class="hanya-ls">Satu paket bertiga,<br>442 halaman seharga <em>Rp250.000</em></h2>
+
+      <div class="mundur" id="mundur2" style="text-align:left">
+        <div class="judul" id="mundur2-judul">Harga pre-order berakhir dalam</div>
+        <div class="jam">
+          <div><b id="d2">0</b><span>Hari</span></div>
+          <div><b id="h2">00</b><span>Jam</span></div>
+          <div><b id="m2">00</b><span>Menit</span></div>
+          <div><b id="s2">00</b><span>Detik</span></div>
+        </div>
+      </div>
+
+      <div class="harga hanya-po" style="margin-top:6px">
+        <span class="coret">Rp250.000</span>
+        <span class="kini">Rp149.000</span>
+      </div>
+      <div class="harga hanya-ls" style="margin-top:6px">
+        <span class="coret">Rp350.000</span>
+        <span class="kini">Rp250.000</span>
+      </div>
+
+      <a class="btn hanya-po" href="https://wa.me/62895411449962?text=Hallo%20kak%20Ikhlas%2C%20saya%20mau%20beli%20ebook%20trilogi%20kecerdasan%20buatan">Ambil Harga Pre-Order &rarr;</a>
+      <a class="btn hanya-ls" href="https://lynk.id/ikhlassyamri/z8drk854mx8q/checkout">Ambil Ketiga Buku &rarr;</a>
+      <p class="btn-note hanya-po">Pesan lewat WhatsApp, pesannya sudah otomatis terisi &middot; 3 file PDF sekali bayar</p>
+      <p class="btn-note hanya-ls">Pembayaran aman via Lynk.id &middot; QRIS, transfer bank, e-wallet &middot; file terkirim otomatis</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow">TANYA JAWAB</span>
+    <h2>Sebelum kamu beli</h2>
+    <div style="margin-top:26px">
+      <details><summary>Formatnya apa, dan dikirim lewat mana?</summary>
+        <p>Tiga file PDF ukuran A5, dirancang untuk dibaca nyaman di layar HP. Total 442
+        halaman. Sekali bayar, filenya jadi milikmu selamanya.</p></details>
+      <details><summary>Bisa beli satu buku saja?</summary>
+        <p>Tidak. Ketiganya dijual satu paket, dan itu keputusan yang disengaja. Nilai
+        terbesarnya ada pada urutannya: Buku 3 mengandalkan keterampilan dari Buku 2, dan
+        Buku 2 mengandalkan pemahaman dari Buku 1. Dibeli terpisah, rantainya putus.</p></details>
+      <details><summary>Saya gaptek, apakah masih bisa mengikuti?</summary>
+        <p>Bisa. Syaratnya cuma tiga: satu akun Google, satu HP, dan sinyal yang stabil.
+        Tidak perlu komputer, tidak perlu kartu kredit, tidak perlu bisa memrogram. Tiap
+        langkah di bagian praktik disertai gambar tangkapan layar aslinya.</p></details>
+      <details><summary>Nanti saya harus bayar langganan alatnya?</summary>
+        <p>Tidak. Ketiga proyek di Buku 3 diselesaikan dengan paket gratis, dan itu sudah
+        diuji sendiri sampai berjalan. Bab 9 khusus membahas biaya dengan angka nyata:
+        di mana batas gratisnya, kapan kamu akan menabraknya, dan kapan naik ke berbayar
+        baru masuk akal.</p></details>
+      <details><summary>Berapa lama sampai saya punya agent yang jalan?</summary>
+        <p>Proyek pertama sekitar satu jam, kedua satu setengah jam, ketiga satu setengah
+        jam. Angka itu bukan perkiraan, melainkan waktu sebenarnya saat penulis
+        mengerjakannya sendiri dari HP.</p></details>
+      <details><summary>Kenapa harganya naik setelah masa pre-order?</summary>
+        <p>Rp149.000 adalah harga untuk pembeli paling awal, yang bersedia membeli sebelum
+        ada satu pun ulasan. Setelah masa pre-order habis, harganya naik ke harga
+        peluncuran, dan tidak turun lagi ke angka itu.</p></details>
+      <details><summary>Ini bagian dari BiB?</summary>
+        <p>Bukan. Trilogi ini karya yang berdiri sendiri, ditulis dan diterbitkan mandiri
+        oleh Ikhlas Syamri, yang juga membangun BiB. Halaman ini kebetulan menumpang di
+        rumah yang sama.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="/logo-white.png" alt="BiB">
+    <p>Ditulis dan diterbitkan secara mandiri oleh Ikhlas Syamri</p>
+    <div class="kontak">
+      <a href="https://instagram.com/ikhlassyamri">Instagram @ikhlassyamri</a>
+      <a href="https://wa.me/62895411449962">WhatsApp</a>
+      <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X">Saluran WA</a>
+    </div>
+    <p>Skip coba-cobanya, pelajari polanya.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var el = {
+    d:document.getElementById('d'),   h:document.getElementById('h'),
+    m:document.getElementById('m'),   s:document.getElementById('s'),
+    d2:document.getElementById('d2'), h2:document.getElementById('h2'),
+    m2:document.getElementById('m2'), s2:document.getElementById('s2')
+  };
+  var kotak = [document.getElementById('mundur'), document.getElementById('mundur2')];
+  var judul = [document.getElementById('mundur-judul'), document.getElementById('mundur2-judul')];
+
+  function dua(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function habis(){
+    for (var i=0;i<kotak.length;i++){
+      if (!kotak[i]) continue;
+      kotak[i].classList.add('habis');
+      var jam = kotak[i].querySelector('.jam');
+      if (jam) jam.style.display = 'none';
+    }
+    for (var j=0;j<judul.length;j++){
+      if (judul[j]) judul[j].textContent = 'Masa pre-order sudah ditutup';
+    }
+    /* kalau halaman dibuka tepat sebelum tenggat lalu dibiarkan terbuka,
+       tampilan harga ikut berpindah tanpa perlu dimuat ulang */
+    if (document.documentElement.className !== 'ls') document.documentElement.className = 'ls';
+  }
+
+  function tik(){
+    var sisa = AKHIR_PO - Date.now();
+    if (sisa <= 0){ habis(); return true; }
+    var det = Math.floor(sisa/1000);
+    var d = Math.floor(det/86400), h = Math.floor(det%86400/3600),
+        m = Math.floor(det%3600/60), s = det%60;
+    if (el.d){ el.d.textContent = d; el.h.textContent = dua(h);
+               el.m.textContent = dua(m); el.s.textContent = dua(s); }
+    if (el.d2){ el.d2.textContent = d; el.h2.textContent = dua(h);
+                el.m2.textContent = dua(m); el.s2.textContent = dua(s); }
+    return false;
+  }
+
+  if (!tik()){
+    var jalan = setInterval(function(){ if (tik()) clearInterval(jalan); }, 1000);
+  }
+})();
+</script>
+
+</body>
+</html>
