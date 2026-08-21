@@ -1,0 +1,148 @@
+# ══════════════════════════════════════════════════════════════════
+#  Periksa notifikasi — alat DIAGNOSA, tidak mengirim apa pun
+# ------------------------------------------------------------------
+#  Dibuat Agu 2026 karena dua keluhan pemilik sekaligus: notifikasi
+#  balasan komentar tidak pernah sampai, dan notifikasi artikel baru
+#  juga tidak muncul di HP kedua. Padahal log workflow "Notifikasi
+#  artikel baru" mencetak "TERKIRIM" dengan id dari OneSignal.
+#
+#  Sebabnya: id dari OneSignal cuma bukti KIRIMANNYA DIBUAT, bukan
+#  bukti ada yang menerimanya. Yang menjawab pertanyaan itu cuma tiga
+#  angka di sisi OneSignal — jumlah pelanggan, jumlah pelanggan yang
+#  bisa dikirimi, dan `successful` tiap kiriman. Ketiganya tidak
+#  terlihat dari kode dan tidak terlihat dari log pengirim.
+#
+#  Alur ini MEMBACA saja (GET), tidak pernah POST. Aman dijalankan
+#  kapan pun, tidak menghasilkan notifikasi ke siapa pun.
+#
+#  Kuncinya tetap rahasia: yang dicetak cuma kolom yang dipilih satu
+#  per satu (daftar putih). `basic_auth_key` milik jawaban OneSignal
+#  SENGAJA tidak pernah dicetak — itu kunci juga.
+# ══════════════════════════════════════════════════════════════════
+
+name: Periksa notifikasi
+
+on:
+  workflow_dispatch:
+
+jobs:
+  periksa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Tanya OneSignal
+        env:
+          REST_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+          APP_ID: b08cc556-e8af-4fd1-a046-0c6ae3e1c065
+        run: |
+          python3 -u - <<'PY'
+          import json, os, sys, urllib.error, urllib.request
+
+          kunci = os.environ.get('REST_KEY', '').strip()
+          app   = os.environ['APP_ID']
+          if not kunci:
+              print('::error::Secret ONESIGNAL_REST_API_KEY kosong di repo ini.')
+              sys.exit(1)
+
+          print(f'panjang kunci: {len(kunci)} huruf, '
+                f'awalan "{kunci[:4]}…" (sisanya sengaja tidak dicetak)')
+
+          SKEMA = ['Key', 'Basic']
+
+          def ambil(jalur):
+              """GET ke OneSignal. Mencoba kedua skema Authorization."""
+              galat = []
+              for skema in SKEMA:
+                  req = urllib.request.Request(
+                      'https://api.onesignal.com' + jalur,
+                      headers={'Authorization': f'{skema} {kunci}',
+                               'Accept': 'application/json'},
+                      method='GET')
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          return skema, json.loads(r.read().decode())
+                  except urllib.error.HTTPError as e:
+                      galat.append(f'{skema}→HTTP {e.code} '
+                                   f'{e.read().decode(errors="replace")[:160]}')
+                  except Exception as e:
+                      galat.append(f'{skema}→{e}')
+              return None, galat
+
+          # ─── 1. Aplikasi: berapa pelanggannya, dan ORIGIN-nya ke mana ───
+          print('\n══ 1. APLIKASI ONESIGNAL ══')
+          skema, hasil = ambil(f'/apps/{app}')
+          if skema is None:
+              print('::error::Tidak bisa membaca aplikasi. ' + ' | '.join(hasil))
+              print('  Kalau keduanya 401/403: kunci yang dipakai BUKAN REST API '
+                    'Key (atau sudah dicabut). Ambil ulang di OneSignal → '
+                    'Settings → Keys & IDs → REST API Key.')
+              sys.exit(1)
+
+          print(f'  skema Authorization yang diterima: "{skema}"')
+          # daftar putih — jangan pernah cetak seluruh jawaban, ada kunci di dalamnya
+          for k in ('name', 'players', 'messageable_players',
+                    'chrome_web_origin', 'site_name', 'chrome_web_sub_domain',
+                    'safari_site_origin', 'chrome_web_default_notification_icon'):
+              print(f'  {k}: {hasil.get(k)!r}')
+
+          jml   = hasil.get('players') or 0
+          bisa  = hasil.get('messageable_players') or 0
+          asal  = (hasil.get('chrome_web_origin') or '')
+
+          print('\n  ── bacaan ──')
+          if jml == 0:
+              print('  ❗ NOL pelanggan terdaftar. Tidak ada notifikasi yang bisa '
+                    'sampai ke siapa pun, apa pun isi kodenya.')
+          elif bisa == 0:
+              print(f'  ❗ Ada {jml} pelanggan tapi NOL yang bisa dikirimi '
+                    '(messageable_players = 0) — langganannya ada tapi mati/kadaluwarsa.')
+          else:
+              print(f'  ✅ {bisa} dari {jml} pelanggan bisa dikirimi.')
+          if 'joinbib.id' not in asal:
+              print(f'  ❗ chrome_web_origin = {asal!r} — TIDAK menyebut joinbib.id. '
+                    'Kalau origin situsnya beda, browser menolak langganan diam-diam.')
+          else:
+              print(f'  ✅ origin cocok dengan situs: {asal}')
+
+          # ─── 2. Segmen: nama mana yang benar-benar ada ───
+          print('\n══ 2. SEGMEN ══')
+          skema2, seg = ambil(f'/apps/{app}/segments')
+          if skema2 is None:
+              print('  (tidak bisa dibaca: ' + ' | '.join(seg) + ')')
+          else:
+              daftar = seg.get('segments') if isinstance(seg, dict) else seg
+              for s in (daftar or []):
+                  print(f'  - {s.get("name")!r}  (id {s.get("id")})')
+              nama = {s.get('name') for s in (daftar or [])}
+              for dicoba in ('Total Subscriptions', 'Subscribed Users', 'Active Users'):
+                  print(f'  dipakai pengirim: {dicoba!r} → '
+                        + ('ADA' if dicoba in nama else 'TIDAK ADA'))
+
+          # ─── 3. Kiriman terakhir: berapa yang BENAR-BENAR sampai ───
+          print('\n══ 3. KIRIMAN TERAKHIR ══')
+          skema3, nots = ambil(f'/notifications?app_id={app}&limit=10')
+          if skema3 is None:
+              print('  (tidak bisa dibaca: ' + ' | '.join(nots) + ')')
+          else:
+              daftar = nots.get('notifications') or []
+              if not daftar:
+                  print('  Tidak ada satu pun kiriman tercatat di akun ini.')
+              for n in daftar:
+                  judul = (n.get('headings') or {}).get('en', '')[:58]
+                  print(f'\n  · {judul!r}')
+                  print(f'    id          : {n.get("id")}')
+                  print(f'    segmen      : {n.get("included_segments")}')
+                  print(f'    berhasil    : {n.get("successful")}')
+                  print(f'    gagal       : {n.get("failed")}')
+                  print(f'    galat       : {n.get("errored")}')
+                  print(f'    sisa antre  : {n.get("remaining")}')
+                  print(f'    selesai pada: {n.get("completed_at")}')
+                  if n.get('platform_delivery_stats'):
+                      print(f'    per platform: '
+                            f'{json.dumps(n["platform_delivery_stats"], ensure_ascii=False)[:300]}')
+
+              print('\n  ── bacaan ──')
+              print('  "berhasil" = jumlah perangkat yang benar-benar menerima.')
+              print('  Kalau id-nya ada tapi berhasil = 0, kiriman DIBUAT tapi')
+              print('  TIDAK PERNAH SAMPAI — persis gejala yang dikeluhkan.')
+          PY
