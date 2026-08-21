@@ -221,6 +221,13 @@ jobs:
               print(f'→ [{awalan}] {judul}\n  {alamat}\n  kunci {kunci_kiriman}')
 
               terkirim = False
+              # 401/403 di SEMUA percobaan = kuncinya yang ditolak, bukan
+              # nama segmennya. Bedanya penting: pesan lama menuduh nama
+              # segmen dan mengirim orang mencari ke tempat yang salah,
+              # padahal segmennya benar dan kuncinya yang diputar
+              # (Agu 2026 — kunci diganti di repo agen, salinan di repo
+              # ini ketinggalan, artikel Paul Buchheit tidak terkirim).
+              ditolak_kunci = False
               # OneSignal baru memakai "Key <token>"; sebagian akun lama "Basic <token>"
               for skema, segmen in [(sk, sg) for sk in ('Key', 'Basic') for sg in SEGMEN]:
                   muatan = {
@@ -280,6 +287,7 @@ jobs:
                       badan = e.read().decode(errors='replace')
                       if e.code in (401, 403):
                           print(f'  skema "{skema}" ditolak ({e.code}), coba berikutnya…')
+                          ditolak_kunci = True
                           continue
                       # 409 = external_id ini sudah dipakai, artinya
                       # notifikasinya SUDAH dikirim (run kembar / percobaan
@@ -331,9 +339,21 @@ jobs:
                       print(f'::error::Gagal kirim: {e}')
                       break
 
-              if not terkirim:
+              if not terkirim and ditolak_kunci:
+                  print(f'::error::OneSignal MENOLAK KUNCINYA (401/403) untuk '
+                        f'"{judul}" — bukan soal nama segmen. Secret '
+                        f'ONESIGNAL_REST_API_KEY di repo INI (ikhlassyamri/BiB) '
+                        f'sudah tidak berlaku; biasanya karena kuncinya diputar '
+                        f'atau dibuat baru di OneSignal dan salinan di sini belum '
+                        f'ikut diperbarui. Catat: repo agen punya salinannya '
+                        f'SENDIRI — memperbarui satu tidak memperbarui yang lain. '
+                        f'Perbaiki secretnya, lalu JALANKAN ULANG run ini supaya '
+                        f'notifikasi yang terlewat tetap terkirim.')
+                  gagal = True
+              elif not terkirim:
                   print(f'::error::Tidak ada satu pun kombinasi skema x segmen yang '
-                        f'menghasilkan notifikasi untuk "{judul}". Segmen yang dicoba: '
+                        f'menghasilkan notifikasi untuk "{judul}". Kuncinya diterima, '
+                        f'jadi yang salah nama segmennya. Segmen yang dicoba: '
                         f'{", ".join(SEGMEN)}. Buka OneSignal → Audience → Segments, '
                         f'lihat nama segmen yang benar-benar ada, lalu tambahkan ke '
                         f'daftar SEGMEN di berkas alur ini.')
