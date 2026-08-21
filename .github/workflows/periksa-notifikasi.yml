@@ -218,18 +218,31 @@ jobs:
                       mati += 1
                   b = (pl.get('device_type'), pl.get('device_os'))
                   jenis[b] = jenis.get(b, 0) + 1
-              print('\n  notification_types (1 = berlangganan aktif):')
-              for k2 in sorted(hitung, key=lambda x: (x is None, x)):
-                  print(f'    {k2!r}: {hitung[k2]}')
+              # notification_types TIDAK lagi diisi versi API ini — semuanya
+              # None. Jangan dibaca sebagai "nol yang berlangganan": itu
+              # kolom yang hilang, bukan angka nol. Yang sahih di sini
+              # cuma invalid_identifier, dan jumlahnya memang cocok dengan
+              # selisih players − messageable_players.
+              if set(hitung) == {None}:
+                  print('\n  notification_types: tidak diisi versi API ini '
+                        '(bukan berarti nol) — diabaikan.')
+              else:
+                  print('\n  notification_types (1 = berlangganan aktif):')
+                  for k2 in sorted(hitung, key=lambda x: (x is None, x)):
+                      print(f'    {k2!r}: {hitung[k2]}')
               print(f'  invalid_identifier (alamat push MATI): {mati}')
-              sehat = sum(v for k2, v in hitung.items() if k2 == 1)
               print(f'\n  ── bacaan ──')
-              print(f'  berlangganan aktif : {sehat}')
-              print(f'  dimatikan / mati   : {len(baris) - sehat}')
-              print('  Langganan yang notification_types-nya bukan 1 TIDAK akan')
-              print('  menerima apa pun — termasuk push balasan komentar yang')
-              print('  ditujukan khusus ke id-nya. Kalau HP kedua ada di sini,')
-              print('  gejalanya persis: artikel tidak masuk, balasan tidak masuk.')
+              print(f'  langganan tercatat : {len(baris)}')
+              print(f'  alamat push mati   : {mati}')
+              print(f'  bisa dikirimi      : {len(baris) - mati}')
+              if mati:
+                  print('  Langganan ber-alamat MATI tidak menerima apa pun —')
+                  print('  termasuk push balasan komentar yang ditujukan khusus')
+                  print('  ke id-nya, dan OneSignal menolaknya tanpa membuat')
+                  print('  catatan kiriman (itu sebabnya seksi 4 kosong).')
+                  print('  Perangkat yang alamatnya mati harus BERLANGGANAN ULANG:')
+                  print('  matikan notifikasi situs di peramban, muat ulang')
+                  print('  joinbib.id/artikel, lalu nyalakan lagi.')
 
           # ─── 6. Uji kirim ke SATU perangkat (opsional) ───
           uji = os.environ.get('OSID_UJI', '').strip()
