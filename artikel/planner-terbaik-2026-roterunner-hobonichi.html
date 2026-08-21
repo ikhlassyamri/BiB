@@ -872,10 +872,12 @@ footer a:hover{color:#0B0C0E}
   }
 
   /* tautan yang boleh muncul di balasan BiB -> nama + label tombolnya */
-  var POLA_TAUT = /\/(?:titiknol|clipper\/ngeclip-cuan|digital\/|artikel\/[a-z0-9-]+)/g;
+  var POLA_TAUT = /\/(?:titiknol|trilogi-ai|clipper\/ngeclip-cuan|digital\/|artikel\/[a-z0-9-]+)/g;
   function infoTaut(p){
     if (p === '/titiknol')
       return { nama: 'e-book Bangkit dari Titik Nol', label: 'Lihat E-Booknya \u2192' };
+    if (p === '/trilogi-ai')
+      return { nama: 'Trilogi Kecerdasan Buatan', label: 'Lihat Trilogi AI \u2192' };
     if (p === '/clipper/ngeclip-cuan')
       return { nama: 'e-book Ngeclip Cuan', label: 'Lihat E-Booknya \u2192' };
     if (p === '/digital/')
@@ -1232,21 +1234,36 @@ footer a:hover{color:#0B0C0E}
     var ta = daftar.querySelector('.k-bform textarea');
     return !!(ta && (ta.value.trim() || document.activeElement === ta));
   }
-  setInterval(function(){
-    if (document.hidden) return;
-    var jeda = Date.now() < PANAS_SAMPAI ? 10000 : 30000;
-    if (Date.now() - POLL_TERAKHIR < jeda) return;
+  function cekVersi(){
     POLL_TERAKHIR = Date.now();
-    fetch(WORKER + '/versi?slug=' + encodeURIComponent(SLUG))
+    return fetch(WORKER + '/versi?slug=' + encodeURIComponent(SLUG))
       .then(function(r){ return r.json(); })
       .then(function(d){
         var v = (d && d.v) || '';
         if (!v || v === VERSI || adaDraf()) return;
         VERSI = v;
-        muatDaftar().catch(function(){});
+        return muatDaftar();
       })
       .catch(function(){});
+  }
+  setInterval(function(){
+    if (document.hidden) return;
+    var jeda = Date.now() < PANAS_SAMPAI ? 10000 : 30000;
+    if (Date.now() - POLL_TERAKHIR < jeda) return;
+    cekVersi();
   }, 5000);
+  /* KEMBALI KE HALAMAN = periksa SEKARANG, jangan menunggu giliran poll.
+     Ini jalur yang paling sering dipakai dan yang paling terasa rusak:
+     pembaca menerima notifikasi "Komentarmu dibalas", menekannya, lalu
+     kembali ke tab yang timernya DIBEKUKAN peramban selama di latar
+     belakang (Chrome Android membekukannya, bukan sekadar memperlambat).
+     Tanpa pemicu ini balasannya baru muncul sampai 30 detik kemudian —
+     dan orang keburu menekan refresh (ditegur pemilik, Agu 2026). */
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden) cekVersi();
+  });
+  window.addEventListener('pageshow', function(){ cekVersi(); });
+  window.addEventListener('focus', function(){ cekVersi(); });
 
   /* ── pop-up ajakan notifikasi setelah komentar terkirim ──────────── */
   function muatSDK(){
