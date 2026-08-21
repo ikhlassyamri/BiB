@@ -290,6 +290,41 @@ jobs:
                                 f'sudah dipakai) — tidak dikirim dobel.')
                           terkirim = True
                           break
+                      # JARING PENGAMAN: kalau OneSignal suatu saat tidak lagi
+                      # menerima external_id, notifikasi artikel TIDAK boleh
+                      # ikut mati gara-gara pagar anti-dobel. Kirim ulang tanpa
+                      # kuncinya sekali, dan cetak peringatan supaya
+                      # hilangnya pagar itu ketahuan, bukan senyap.
+                      if e.code == 400 and 'external_id' in badan:
+                          print(f'::warning::OneSignal menolak external_id '
+                                f'({badan[:160]}). Dikirim ulang TANPA kunci '
+                                f'idempoten — pagar anti-dobel tidak aktif '
+                                f'untuk kiriman ini.')
+                          tanpa_kunci = {k: v for k, v in muatan.items()
+                                         if k != 'external_id'}
+                          ulang = urllib.request.Request(
+                              'https://api.onesignal.com/notifications',
+                              data=json.dumps(tanpa_kunci).encode(),
+                              headers={
+                                  'Content-Type': 'application/json; charset=utf-8',
+                                  'Authorization': f'{skema} {kunci}',
+                              },
+                              method='POST',
+                          )
+                          try:
+                              with urllib.request.urlopen(ulang, timeout=30) as r:
+                                  hasil = json.loads(r.read().decode())
+                          except Exception as e2:
+                              print(f'  gagal juga tanpa kunci: {e2}')
+                              continue
+                          if hasil.get('errors') or not hasil.get('id'):
+                              print(f'  kosong — {json.dumps(hasil, ensure_ascii=False)[:220]}')
+                              continue
+                          print(f'  ✅ TERKIRIM (tanpa kunci idempoten) — '
+                                f'skema "{skema}", segmen "{segmen}", '
+                                f'id {hasil["id"]}')
+                          terkirim = True
+                          break
                       print(f'::error::Gagal kirim ({e.code}): {badan}')
                       break
                   except Exception as e:
