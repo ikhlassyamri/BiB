@@ -63,6 +63,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#22D3EE;
+  --ac-rgb:34,211,238;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -124,11 +125,14 @@ a{color:inherit}
 .m-baris{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .btn-ghost{background:transparent;color:#C9C6BC;border:1px solid #3A3D43}
 .btn-ghost:hover{border-color:#8E9096}
-/* modal e-book: berbingkai emas + kartu bisa diklik seluruhnya */
+/* modal e-book: bingkainya ikut aksen topik + kartu bisa diklik seluruhnya.
+   .m-emas dipertahankan untuk halaman seri lama yang belum dirakit ulang. */
 .m-emas{border-color:#57431A;cursor:pointer}
+.m-produk{border-color:var(--ac);cursor:pointer}
 .m-flex{display:flex;gap:16px;align-items:flex-start;margin-bottom:6px}
 .m-flex img{width:92px;height:auto;flex:none;border-radius:8px;
   box-shadow:0 6px 20px rgba(212,175,55,.22)}
+.m-produk .m-flex img{box-shadow:0 6px 20px rgba(var(--ac-rgb),.22)}
 main{padding:34px 0 60px}
 .crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
 .crumb a{color:var(--muted);text-decoration:none}
@@ -396,7 +400,25 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </div>
 </div>
 
-
+<div class="tirai" id="tirai-ebook" role="dialog" aria-modal="true"
+     aria-label="Trilogi Kecerdasan Buatan">
+  <div class="modal m-produk">
+    <button class="m-x" id="ebook-x" type="button" aria-label="Tutup">&times;</button>
+    <div class="m-flex">
+      <img src="/trilogi-ai-cover.jpg" alt="Trilogi Kecerdasan Buatan" width="120" height="120">
+      <div>
+        <div class="m-label">SERI INI ADA VERSI BUKUNYA</div>
+        <h3>Trilogi Kecerdasan Buatan</h3>
+        <p>Tiga e-book berurutan, 442 halaman. Dari paham AI, bisa menyuruhnya,
+        sampai punya agent yang bekerja sendiri. Dikerjakan dari HP, tanpa coding.</p>
+      </div>
+    </div>
+    <div class="m-baris">
+      <a class="btn-sm btn-notif" href="/trilogi-ai">Lihat Triloginya &rarr;</a>
+      <span class="m-kecil">Bukan janji penghasilan.</span>
+    </div>
+  </div>
+</div>
 
 <script>
 /* Tombol "Nyalakan Notifikasi" — logikanya SENGAJA sama dengan kartu

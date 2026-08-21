@@ -44,7 +44,7 @@
   --ink:#0B0C0E;--panel:#14161A;--panel-2:#101216;--line:#26292F;--line-soft:#1A1D22;
   --text:#F4F5F6;--muted:#9AA1A9;--paper:#FFFFFF;--ink-draw:#14161A;--wa:#25D366;
   --disp:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;
-  --accent: #76B900;
+  --accent: #22D3EE;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -251,6 +251,12 @@ h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.35rem,4vw,1.75rem);
 .pop-slide .p-row{display:flex;align-items:center;gap:14px;margin-top:16px}
 .pop-slide .btn{padding:11px 20px;font-size:.92rem;border-radius:10px}
 .pop-slide .p-note{color:#5A616B;font-size:.78rem}
+/* Pop-up produk AI: branding cyan Trilogi Kecerdasan Buatan. */
+.pop.pop-cyan,.pop-slide.pop-cyan{border:1px solid #155E75}
+.pop.pop-cyan .p-label,.pop-slide.pop-cyan .p-label{color:#22D3EE}
+.pop.pop-cyan strong,.pop-slide.pop-cyan strong{color:#22D3EE}
+.pop.pop-cyan .p-row .btn,.pop-slide.pop-cyan .p-row .btn{background:#22D3EE;color:#06212A;border-color:#22D3EE}
+
 .pop-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border:none;background:transparent;color:#5A616B;font-size:1.5rem;line-height:1;cursor:pointer;border-radius:8px}
 .pop-x:hover{color:var(--ink-draw);background:#EEF0F2}
 
@@ -480,13 +486,13 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px;margin-top:70p
 </article>
 </main>
 
-<aside class="pop-slide" id="pop-slide" role="complementary" aria-label="Info BiB">
+<aside class="pop-slide pop-cyan" id="pop-slide" role="complementary" aria-label="Info BiB">
   <button class="pop-x" id="popx" aria-label="Tutup">×</button>
-  <div class="p-label">Dari Penulis</div>
-  <p>Punya tool AI hebat tidak akan mendatangkan cuan tanpa sistem penjualan yang jelas. Pelajari sistem <strong>BiB</strong> agar AI beneran jadi asisten bisnismu.</p>
+  <div class="p-label">SERI INI ADA VERSI BUKUNYA</div>
+  <p>Kalau kamu mau versi utuhnya, ada di <strong>Trilogi Kecerdasan Buatan</strong>: tiga e-book berurutan, 442 halaman, dari paham AI sampai punya agent yang bekerja sendiri.</p>
   <div class="p-row">
-    <a class="btn btn-ink" href="/">Pelajari BiB →</a>
-    <span class="p-note">Bukan cuan instan.</span>
+    <a class="btn" href="/trilogi-ai">Lihat Trilogi Kecerdasan Buatan →</a>
+    <span class="p-note">Bukan janji penghasilan.</span>
   </div>
 </aside>
 

@@ -24,7 +24,7 @@
   --ink:#0B0C0E; --panel:#14161A; --panel-2:#101216;
   --line:#26292F; --line-soft:#1A1D22;
   --text:#F4F5F6; --muted:#9AA1A9; --paper:#FFFFFF;
-  --nv:#76B900; --am:#F5B301; --wa:#25D366;
+  --nv:#22D3EE; --am:#F5B301; --wa:#25D366;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -165,6 +165,12 @@ footer a:hover{color:#fff}
   font-family:var(--disp);font-weight:700;font-size:.92rem;padding:11px 20px;
   border-radius:10px;text-decoration:none}
 .p-note{font-size:.79rem;color:#6C737B}
+/* Pop-up produk AI: branding cyan Trilogi Kecerdasan Buatan (kartu gelap). */
+.pop.pop-cyan,.pop-slide.pop-cyan{border:1px solid #155E75}
+.pop.pop-cyan .p-label,.pop-slide.pop-cyan .p-label{color:#22D3EE}
+.pop.pop-cyan strong,.pop-slide.pop-cyan strong{color:#22D3EE}
+.pop.pop-cyan .p-row .btn,.pop-slide.pop-cyan .p-row .btn{background:#22D3EE;color:#06212A;border-color:#22D3EE}
+
 /* kolom komentar (pengganti FAQ — keputusan pemilik, Agu 2026) */
 .komen{margin:44px 0 0}
 .komen h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.4rem,4.4vw,1.85rem);margin:0 0 8px}
@@ -566,13 +572,13 @@ footer a:hover{color:#fff}
 </div>
 
 <!-- ══ pop-up promosi ══ -->
-<aside class="pop" id="pop" role="complementary" aria-label="Info BiB">
+<aside class="pop pop-cyan" id="pop" role="complementary" aria-label="Info BiB">
   <button class="pop-x" id="popx" aria-label="Tutup">×</button>
-  <div class="p-label">Ngomong-ngomong</div>
-  <p>Bagian tersulitnya memang <strong>merakit jadi sistem</strong> — dan itu yang paling lama kalau dicari sendiri sambil nebak-nebak. BiB isinya persis itu: urutan langkahnya, prompt yang sudah terbukti, dan tempat bertanya kalau mentok.</p>
+  <div class="p-label">SERI INI ADA VERSI BUKUNYA</div>
+  <p>Kalau kamu mau versi utuhnya, ada di <strong>Trilogi Kecerdasan Buatan</strong>: tiga e-book berurutan, 442 halaman, dari paham AI sampai punya agent yang bekerja sendiri.</p>
   <div class="p-row">
-    <a class="btn" href="/">Lihat BiB →</a>
-    <span class="p-note">Bukan janji kaya instan.</span>
+    <a class="btn" href="/trilogi-ai">Lihat Trilogi Kecerdasan Buatan →</a>
+    <span class="p-note">Bukan janji penghasilan.</span>
   </div>
 </aside>
 
@@ -627,8 +633,8 @@ footer a:hover{color:#fff}
 
     /* lampu: kuning (belum jadi) → hijau (sistem lengkap) */
     var jadi = p > 0.86;
-    lamp.setAttribute('fill', jadi ? '#76B900' : '#F5B301');
-    halo.setAttribute('fill', jadi ? '#76B900' : '#F5B301');
+    lamp.setAttribute('fill', jadi ? '#22D3EE' : '#F5B301');
+    halo.setAttribute('fill', jadi ? '#22D3EE' : '#F5B301');
     halo.setAttribute('opacity', jadi ? '.26' : '.16');
     rakit.classList.toggle('done', jadi);
     lbl.textContent = jadi ? 'SISTEM JALAN' : 'SISTEM ' + Math.round(p * 100) + '%';
