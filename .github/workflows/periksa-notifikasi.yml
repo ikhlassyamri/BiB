@@ -30,6 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+
       - name: Tanya OneSignal
         env:
           REST_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
@@ -120,14 +123,15 @@ jobs:
 
           # ─── 3. Kiriman terakhir: berapa yang BENAR-BENAR sampai ───
           print('\n══ 3. KIRIMAN TERAKHIR ══')
-          skema3, nots = ambil(f'/notifications?app_id={app}&limit=10')
+          skema3, nots = ambil(f'/notifications?app_id={app}&limit=50')
           if skema3 is None:
               print('  (tidak bisa dibaca: ' + ' | '.join(nots) + ')')
           else:
               daftar = nots.get('notifications') or []
               if not daftar:
                   print('  Tidak ada satu pun kiriman tercatat di akun ini.')
-              for n in daftar:
+              print(f'  ({len(daftar)} kiriman terakhir terbaca; 10 teratas dirinci)')
+              for n in daftar[:10]:
                   judul = (n.get('headings') or {}).get('en', '')[:58]
                   print(f'\n  · {judul!r}')
                   print(f'    id          : {n.get("id")}')
@@ -145,4 +149,79 @@ jobs:
               print('  "berhasil" = jumlah perangkat yang benar-benar menerima.')
               print('  Kalau id-nya ada tapi berhasil = 0, kiriman DIBUAT tapi')
               print('  TIDAK PERNAH SAMPAI — persis gejala yang dikeluhkan.')
+
+              # ── push BALASAN KOMENTAR pernah ada atau tidak ──
+              # Judulnya dipatok worker: "Komentarmu dibalas" (dari BiB) dan
+              # "<nama> membalas komentarmu" (antar-pembaca).
+              print('\n══ 4. PUSH BALASAN KOMENTAR ══')
+              balas = [n for n in daftar
+                       if 'komentarmu' in ((n.get('headings') or {})
+                                           .get('en', '') or '').lower()]
+              if not balas:
+                  print(f'  ❗ TIDAK ADA satu pun push balasan komentar di '
+                        f'{len(daftar)} kiriman terakhir.')
+                  print('  Artinya worker TIDAK PERNAH berhasil membuat kiriman itu —')
+                  print('  bukan dibuat lalu tidak sampai. Sebab yang mungkin:')
+                  print('    · osid pengomentar tidak pernah tersimpan '
+                        '(kirimPush → "tanpa osid"), atau')
+                  print('    · balasan BiB sudah ada sebelum jalur push dipasang.')
+              else:
+                  for n in balas:
+                      print(f'  · {(n.get("headings") or {}).get("en")!r} '
+                            f'berhasil={n.get("successful")} '
+                            f'gagal={n.get("failed")} id={n.get("id")}')
+          PY
+
+      # Kotak komentarnya sendiri: kalau tidak ada satu pun komentar
+      # tersimpan, antrean balasan memang kosong bukan karena rusak.
+      # /ambil publik (tanpa token) dan sudah membuang osid lewat publik().
+      - name: Periksa kotak komentar
+        run: |
+          python3 -u - <<'PY'
+          import json, os, urllib.error, urllib.request
+
+          WORKER = 'https://komentar-artikel.ikhlassyamribusiness.workers.dev'
+          slugs = sorted(
+              f[:-5] for f in os.listdir('artikel')
+              if f.endswith('.html') and not f.startswith(('index', 'seri-')))
+          print(f'{len(slugs)} artikel di repo; semuanya ditanya satu per satu\n')
+
+          total = jml_balasan = jml_bib = berkomentar = 0
+          for slug in slugs:
+              req = urllib.request.Request(
+                  f'{WORKER}/ambil?slug={slug}',
+                  headers={'User-Agent': 'bib-periksa-notifikasi'})
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      data = json.loads(r.read().decode())
+              except Exception as e:
+                  print(f'  ! {slug}: {e}')
+                  continue
+              kom = data.get('komentar') or []
+              if not kom:
+                  continue
+              berkomentar += 1
+              total += len(kom)
+              rinci = []
+              for k in kom:
+                  bal = k.get('balasan') or []
+                  jml_balasan += len(bal)
+                  bib = sum(1 for b in bal if b.get('bib'))
+                  jml_bib += bib
+                  rinci.append(f'{len(bal)} balasan ({bib} dari BiB)')
+              print(f'  {slug}: {len(kom)} komentar — ' + '; '.join(rinci))
+
+          print(f'\n  ── bacaan ──')
+          print(f'  artikel berkomentar : {berkomentar}')
+          print(f'  komentar            : {total}')
+          print(f'  balasan             : {jml_balasan} (dari BiB: {jml_bib})')
+          if total == 0:
+              print('  ❗ Kotak komentar KOSONG di semua artikel. Antrean balasan')
+              print('    memang tidak punya apa-apa untuk dikerjakan — dan push')
+              print('    "komentarmu dibalas" tidak pernah punya kesempatan jalan.')
+          elif jml_bib == 0:
+              print('  ❗ Ada komentar tapi BiB belum pernah membalas satu pun.')
+          else:
+              print(f'  BiB sudah membalas {jml_bib} kali — tiap balasan itu')
+              print('    seharusnya memicu satu push "Komentarmu dibalas".')
           PY
