@@ -24,6 +24,15 @@ name: Periksa notifikasi
 
 on:
   workflow_dispatch:
+    inputs:
+      osid:
+        description: >-
+          (opsional) id langganan SATU perangkat untuk diuji kirimi.
+          Diisi = satu notifikasi uji dikirim HANYA ke perangkat itu,
+          dan jawaban mentah OneSignal dicetak. Dikosongkan = tidak ada
+          kiriman sama sekali, alur ini cuma membaca.
+        required: false
+        default: ''
 
 jobs:
   periksa:
@@ -37,6 +46,7 @@ jobs:
         env:
           REST_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
           APP_ID: b08cc556-e8af-4fd1-a046-0c6ae3e1c065
+          OSID_UJI: ${{ inputs.osid }}
         run: |
           python3 -u - <<'PY'
           import json, os, sys, urllib.error, urllib.request
@@ -170,6 +180,99 @@ jobs:
                       print(f'  · {(n.get("headings") or {}).get("en")!r} '
                             f'berhasil={n.get("successful")} '
                             f'gagal={n.get("failed")} id={n.get("id")}')
+
+          # ─── 5. Kesehatan langganan: kenapa separuhnya tidak bisa dikirimi ───
+          # 165 terdaftar tapi 85 yang bisa dikirimi — 80 sisanya perlu
+          # dijelaskan, karena HP pemilik bisa jadi salah satunya.
+          # Endpoint /players ini yang lama (host onesignal.com), masih
+          # satu-satunya yang memerinci nasib tiap langganan.
+          print('\n══ 5. KESEHATAN LANGGANAN ══')
+          pemain = None
+          for pangkal in ('https://onesignal.com/api/v1', 'https://api.onesignal.com'):
+              for skema in SKEMA:
+                  req = urllib.request.Request(
+                      f'{pangkal}/players?app_id={app}&limit=300',
+                      headers={'Authorization': f'{skema} {kunci}',
+                               'Accept': 'application/json'})
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          pemain = json.loads(r.read().decode())
+                          break
+                  except Exception:
+                      continue
+              if pemain:
+                  break
+
+          if not pemain:
+              print('  (daftar langganan tidak bisa dibaca lewat API ini)')
+          else:
+              baris = pemain.get('players') or []
+              print(f'  {len(baris)} langganan terbaca dari {pemain.get("total_count")}')
+              # notification_types: 1 = berlangganan, -2 = dimatikan pemakai,
+              # 0/-31 dst = tidak aktif. invalid_identifier = alamat push mati.
+              hitung, mati, jenis = {}, 0, {}
+              for pl in baris:
+                  nt = pl.get('notification_types')
+                  hitung[nt] = hitung.get(nt, 0) + 1
+                  if pl.get('invalid_identifier'):
+                      mati += 1
+                  b = (pl.get('device_type'), pl.get('device_os'))
+                  jenis[b] = jenis.get(b, 0) + 1
+              print('\n  notification_types (1 = berlangganan aktif):')
+              for k2 in sorted(hitung, key=lambda x: (x is None, x)):
+                  print(f'    {k2!r}: {hitung[k2]}')
+              print(f'  invalid_identifier (alamat push MATI): {mati}')
+              sehat = sum(v for k2, v in hitung.items() if k2 == 1)
+              print(f'\n  ── bacaan ──')
+              print(f'  berlangganan aktif : {sehat}')
+              print(f'  dimatikan / mati   : {len(baris) - sehat}')
+              print('  Langganan yang notification_types-nya bukan 1 TIDAK akan')
+              print('  menerima apa pun — termasuk push balasan komentar yang')
+              print('  ditujukan khusus ke id-nya. Kalau HP kedua ada di sini,')
+              print('  gejalanya persis: artikel tidak masuk, balasan tidak masuk.')
+
+          # ─── 6. Uji kirim ke SATU perangkat (opsional) ───
+          uji = os.environ.get('OSID_UJI', '').strip()
+          if not uji:
+              print('\n══ 6. UJI KIRIM ══\n  (dilewati — kolom osid dikosongkan, '
+                    'jadi alur ini tidak mengirim apa pun)')
+          else:
+              print('\n══ 6. UJI KIRIM KE SATU PERANGKAT ══')
+              print(f'  sasaran: {uji[:8]}… (satu langganan saja)')
+              muatan = {
+                  'app_id': app,
+                  'include_subscription_ids': [uji],
+                  'headings': {'en': 'Uji notifikasi BiB'},
+                  'contents': {'en': 'Kalau ini muncul, jalur push ke perangkat '
+                                     'ini hidup.'},
+                  'url': 'https://joinbib.id/artikel',
+                  'chrome_web_icon': 'https://joinbib.id/notif-icon-192.png',
+              }
+              for skema in SKEMA:
+                  req = urllib.request.Request(
+                      'https://api.onesignal.com/notifications',
+                      data=json.dumps(muatan).encode(),
+                      headers={'Content-Type': 'application/json; charset=utf-8',
+                               'Authorization': f'{skema} {kunci}'},
+                      method='POST')
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          jw = json.loads(r.read().decode())
+                  except urllib.error.HTTPError as e:
+                      print(f'  skema {skema}: HTTP {e.code} '
+                            f'{e.read().decode(errors="replace")[:200]}')
+                      continue
+                  except Exception as e:
+                      print(f'  skema {skema}: {e}')
+                      continue
+                  print(f'  skema {skema} → {json.dumps(jw, ensure_ascii=False)[:300]}')
+                  if jw.get('errors'):
+                      print('  ❗ OneSignal MENOLAK: langganan itu tidak aktif. '
+                            'Inilah yang dialami worker tiap membalas komentar.')
+                  elif jw.get('id'):
+                      print('  ✅ Diterima. Kalau notifikasinya TETAP tidak muncul '
+                            'di HP, penahannya ada di OS/peramban, bukan di sini.')
+                  break
           PY
 
       # Kotak komentarnya sendiri: kalau tidak ada satu pun komentar
