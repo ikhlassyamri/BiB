@@ -29,6 +29,16 @@ on:
     paths:
       - 'artikel/**.html'
 
+# Dua push beruntun bisa memicu dua run yang berjalan BERSAMAAN, dan
+# kalau rentang diff run kedua ikut mencakup commit artikelnya, artikel
+# yang sama terkirim dua kali (kejadian Agu 2026: "Temasek Invest di
+# India" dan "PRDA Buyback Saham" masing-masing terkirim dobel ke 85
+# pelanggan, berjarak 1 detik). Ini pagar pertama: run berikutnya
+# MENUNGGU, tidak menyalip. Pagar keduanya external_id di bawah.
+concurrency:
+  group: notifikasi-artikel-baru
+  cancel-in-progress: false
+
 jobs:
   kirim:
     runs-on: ubuntu-latest
@@ -105,7 +115,7 @@ jobs:
           DAFTAR: ${{ steps.cari.outputs.file }}
         run: |
           python3 - <<'PY'
-          import html, json, os, re, sys, urllib.error, urllib.request
+          import html, json, os, re, sys, urllib.error, urllib.request, uuid
 
           if '[tanpa-notif]' in os.environ.get('PESAN_COMMIT', ''):
               print('Pesan commit minta tanpa notifikasi. Dilewati.')
@@ -195,13 +205,27 @@ jobs:
               # ketahuan tidak perlu ditebak lagi.
               SEGMEN = ['Total Subscriptions', 'Subscribed Users', 'Active Users']
 
-              print(f'→ [{awalan}] {judul}\n  {alamat}')
+              # KUNCI IDEMPOTEN (Agu 2026). external_id membuat OneSignal
+              # menolak kiriman kedua dengan kunci yang sama, jadi artikel
+              # yang sama tidak bisa terkirim dua kali — entah karena dua
+              # run balapan, entah karena satu run salah membaca jawaban
+              # lalu mengulang ke kombinasi berikutnya. Kuncinya DITURUNKAN
+              # dari alamat kanonik artikel (uuid5), bukan diacak: acak
+              # berarti tiap run punya kunci baru dan tidak menahan apa pun.
+              # Konsekuensi yang perlu diingat: satu alamat artikel = satu
+              # notifikasi SELAMANYA. Mau mengirim ulang alamat yang sama
+              # (mis. artikel ditarik lalu diterbitkan lagi) harus lewat
+              # dasbor OneSignal, bukan dari sini.
+              kunci_kiriman = str(uuid.uuid5(uuid.NAMESPACE_URL, alamat))
+
+              print(f'→ [{awalan}] {judul}\n  {alamat}\n  kunci {kunci_kiriman}')
 
               terkirim = False
               # OneSignal baru memakai "Key <token>"; sebagian akun lama "Basic <token>"
               for skema, segmen in [(sk, sg) for sk in ('Key', 'Basic') for sg in SEGMEN]:
                   muatan = {
                       'app_id': os.environ['APP_ID'],
+                      'external_id': kunci_kiriman,
                       'included_segments': [segmen],
                       'headings': {'en': f'{awalan}: {judul}'},
                       'contents': {'en': ringkas},
@@ -257,6 +281,15 @@ jobs:
                       if e.code in (401, 403):
                           print(f'  skema "{skema}" ditolak ({e.code}), coba berikutnya…')
                           continue
+                      # 409 = external_id ini sudah dipakai, artinya
+                      # notifikasinya SUDAH dikirim (run kembar / percobaan
+                      # sebelumnya). Itu hasil yang kita mau, bukan galat —
+                      # pagar idempotennya justru sedang bekerja.
+                      if e.code == 409:
+                          print(f'  ✅ SUDAH PERNAH DIKIRIM (kunci {kunci_kiriman} '
+                                f'sudah dipakai) — tidak dikirim dobel.')
+                          terkirim = True
+                          break
                       print(f'::error::Gagal kirim ({e.code}): {badan}')
                       break
                   except Exception as e:

@@ -30,8 +30,9 @@
   Endpoint admin (dipanggil workflow agen, wajib Bearer ADMIN_TOKEN):
     GET  /antrean            -> {antrean:[{slug,id,nama,teks,waktu}]}
     POST /balas              -> body {slug, id, teks}; simpan balasan,
-                                kirim push ke osid kalau ada, lalu osid
-                                dihapus (tugasnya selesai, tidak disimpan)
+                                kirim push ke osid kalau ada. osid TIDAK
+                                dihapus: utasnya bisa terus hidup dan tiap
+                                balasan baru perlu diberitahukan lagi.
 */
 
 const ASAL_SAH = ["https://joinbib.id", "https://www.joinbib.id"];
@@ -211,6 +212,10 @@ async function kirimPush(env, osid, isiPesan, alamat) {
 // menulis ulang SELURUH daftar, dan tulisan dari salinan basi (KV antar
 // kolo baru akur ±60 detik) bisa MENGHAPUS balasan BiB yang baru masuk
 // lewat /balas dari kolo lain. Kunci samping tidak menimpa apa-apa.
+// Kunci samping ini juga yang DISEGARKAN, jadi ia MENANG atas osid yang
+// menempel di daftar komentar: yang di daftar ditulis sekali saat
+// komentarnya dibuat dan tidak pernah diperbarui. Membaca daftar lebih
+// dulu berarti penyegaran tidak pernah terpakai sama sekali.
 async function osidSamping(env, slug, id) {
   if (!id) return "";
   return (await env.KOMENTAR.get(`o:${slug}:${id}`)) || "";
@@ -364,7 +369,7 @@ export default {
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
         await sentuhVersi(env, slug);
         // pemilik komentar induk diberi tahu — kecuali membalas dirinya
-        const osidInduk = induk.osid || await osidSamping(env, slug, induk.id);
+        const osidInduk = (await osidSamping(env, slug, induk.id)) || induk.osid;
         if (osidInduk && osidInduk !== osid) {
           const push = await kirimPush(env, osidInduk,
             `${nama} membalas komentarmu. Ketuk untuk membacanya.`,
@@ -414,11 +419,15 @@ export default {
       return jawab({ ok: true }, 200, asal);
     }
 
-    // ── publik: susulkan alamat notifikasi ke komentar yang baru ──────
-    // Pembaca menyalakan notifikasi SESUDAH berkomentar (pop-up ajakan
-    // pasca-kirim) — osid-nya disusulkan supaya push "komentarmu dibalas"
-    // tetap sampai. Dibatasi ketat: komentar harus masih muda (<1 jam),
-    // belum ber-osid, belum terbalas.
+    // ── publik: susulkan / SEGARKAN alamat notifikasi komentar ────────
+    // Dua kegunaan:
+    //  1. SUSULAN — pembaca menyalakan notifikasi SESUDAH berkomentar
+    //     (pop-up ajakan pasca-kirim). Tanpa bukti kepemilikan, jadi
+    //     dibatasi ketat: komentar masih muda (<1 jam) dan belum ber-osid.
+    //  2. PENYEGARAN (Agu 2026) — alamat push mati belakangan dan semua
+    //     balasan ke pembaca itu gagal diam-diam. Boleh menimpa alamat
+    //     lama kapan pun, TAPI wajib menyertakan `kunci` rahasia yang
+    //     cuma dipegang pengirim komentarnya.
     if (req.method === "POST" && url.pathname === "/tandai") {
       let b;
       try { b = await req.json(); } catch { return jawab({ ok: false }, 400, asal); }
@@ -443,9 +452,29 @@ export default {
           if (k) break;
         }
       }
-      if (!k || k.osid) return jawab({ ok: true }, 200, asal);
-      if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
-        return jawab({ ok: false }, 400, asal);
+      if (!k) return jawab({ ok: true }, 200, asal);
+
+      // PENYEGARAN (Agu 2026): alamat push bisa MATI belakangan — peramban
+      // dibersihkan, service worker dibuang, notifikasi dimatikan lalu
+      // dinyalakan lagi. Alamat yang ditulis sekali seumur hidup membuat
+      // semua balasan ke pembaca itu gagal diam-diam selamanya (80 dari
+      // 165 langganan tercatat mati saat ini). Jadi alamatnya boleh
+      // ditimpa — TAPI hanya oleh yang bisa membuktikan komentar itu
+      // miliknya, yaitu pemegang `kunci` rahasia yang cuma diberikan ke
+      // pengirimnya di jawaban /kirim. Tanpa bukti itu id komentar
+      // terbuka untuk siapa saja (dikembalikan /ambil), dan penyegaran
+      // bebas berarti orang lain bisa membelokkan notifikasi ke dirinya.
+      const berbukti = !!(b.kunci && k.kunci && k.kunci === b.kunci);
+      if (!berbukti) {
+        // jalur lama: cuma MENGISI yang masih kosong, dan cuma sebentar
+        // sesudah komentarnya dibuat (balasan utas tidak punya kunci,
+        // jadi jalur inilah yang dipakainya)
+        if (k.osid || (await osidSamping(env, slug, b.id))) {
+          return jawab({ ok: true }, 200, asal);
+        }
+        if (Date.now() - Date.parse(k.waktu || 0) > 3600 * 1000) {
+          return jawab({ ok: false }, 400, asal);
+        }
       }
       // KUNCI SAMPING, bukan menulis ulang daftar: daftar yang dibaca di
       // sini bisa basi (KV antar kolo), dan menulis-balikkannya pernah
@@ -524,7 +553,7 @@ export default {
         k.balasan = isiUtas;
         await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
         await sentuhVersi(env, slug);
-        const osidM = m.osid || await osidSamping(env, slug, m.id);
+        const osidM = (await osidSamping(env, slug, m.id)) || m.osid;
         const pushUtas = await kirimPush(env, osidM,
           `BiB membalas komentarmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
           alamat);
@@ -542,7 +571,7 @@ export default {
       await env.KOMENTAR.put(kunci, JSON.stringify(daftar));
       await sentuhVersi(env, slug);
 
-      const osidK = k.osid || await osidSamping(env, slug, k.id);
+      const osidK = (await osidSamping(env, slug, k.id)) || k.osid;
       const push = await kirimPush(env, osidK,
         `BiB menjawab pertanyaanmu di "${b.judul || slug}". Ketuk untuk membacanya.`,
         alamat);

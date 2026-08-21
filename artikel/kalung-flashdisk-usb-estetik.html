@@ -832,7 +832,8 @@ footer a:hover{color:#0B0C0E}
       var coba = 0;
       (function ulang(){
         try { OSID = OneSignal.User.PushSubscription.id || ''; } catch(e) {}
-        if (!OSID && ++coba < 40) setTimeout(ulang, 1500);
+        if (OSID) { try { segarkanOsid(); } catch(e) {} return; }
+        if (++coba < 40) setTimeout(ulang, 1500);
       })();
     });
   }
@@ -894,6 +895,41 @@ footer a:hover{color:#0B0C0E}
   try { KUNCI = JSON.parse(localStorage.getItem('bib-komen-kunci') || '{}'); } catch(e) {}
   function simpanKunci(){
     try { localStorage.setItem('bib-komen-kunci', JSON.stringify(KUNCI)); } catch(e) {}
+  }
+
+  /* PENYEGARAN ALAMAT PUSH (Agu 2026). Alamat langganan bisa mati
+     belakangan; kalau tidak pernah diperbarui, semua balasan ke pembaca
+     itu gagal diam-diam selamanya. Tiap kali alamatnya diketahui dan
+     BERBEDA dari yang terakhir dikirim, komentar milik sendiri di
+     halaman ini ditandai ulang. `kunci` rahasia ikut disertakan sebagai
+     bukti kepemilikan — tanpa itu worker menolak menimpa alamat lama,
+     karena id komentar terbuka untuk siapa saja. Catatan yang terakhir
+     dikirim disimpan supaya kunjungan biasa tidak menembak worker
+     berulang-ulang (jatah /tandai 10 per jam per IP). */
+  var OSID_TANDAI = {};
+  try { OSID_TANDAI = JSON.parse(localStorage.getItem('bib-osid-tandai') || '{}'); } catch(e) {}
+  function segarkanOsid(){
+    if (!OSID) return;
+    Object.keys(KUNCI).forEach(function(kk){
+      if (kk.indexOf(SLUG + ':') !== 0) return;
+      if (OSID_TANDAI[kk] === OSID) return;
+      var idKomen = kk.slice(SLUG.length + 1);
+      fetch(WORKER + '/tandai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: SLUG, id: idKomen, osid: OSID,
+                               kunci: KUNCI[kk] })
+      })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (!d || !d.ok) return;
+          OSID_TANDAI[kk] = OSID;
+          try {
+            localStorage.setItem('bib-osid-tandai', JSON.stringify(OSID_TANDAI));
+          } catch(e) {}
+        })
+        .catch(function(){});
+    });
   }
 
   /* avatar: kotak inisial berwarna deterministik dari benih (pola Disqus,
@@ -1359,7 +1395,8 @@ footer a:hover{color:#0B0C0E}
           fetch(WORKER + '/tandai', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ slug: SLUG, id: idKomen, osid: id })
+            body: JSON.stringify({ slug: SLUG, id: idKomen, osid: id,
+                                   kunci: KUNCI[SLUG + ':' + idKomen] })
           }).catch(function(){});
           return;
         }
