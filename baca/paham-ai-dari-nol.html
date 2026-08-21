@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<!-- Zoom SENGAJA tidak dikunci di halaman baca (beda dari halaman lain
+     di situs ini): ini teks panjang, dan mencegah pinch-zoom pada
+     bacaan itu menyulitkan mata yang butuh huruf lebih besar. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paham AI dari Nol — Baca Gratis | Trilogi Kecerdasan Buatan</title>
+<meta name="description" content="Baca gratis pendahuluan dan awal Bab 1 buku pertama Trilogi Kecerdasan Buatan: apa itu AI, dan kenapa ia bisa jenius sekaligus bodoh.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="/favicon.png">
+<link rel="canonical" href="https://joinbib.id/baca/paham-ai-dari-nol">
+<meta property="og:title" content="Paham AI dari Nol — baca gratis">
+<meta property="og:description" content="Baca gratis pendahuluan dan awal Bab 1 buku pertama Trilogi Kecerdasan Buatan: apa itu AI, dan kenapa ia bisa jenius sekaligus bodoh.">
+<meta property="og:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<meta property="og:url" content="https://joinbib.id/baca/paham-ai-dari-nol">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B0C0E;--panel:#14161A;--line:#26292F;--line-soft:#1A1D22;
+--text:#F4F5F6;--muted:#9AA1A9;--ac:#22D3EE;--ac-t:#0B0C0E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);
+font:400 17px/1.75 Inter,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+a{color:var(--ac)}
+.atas{position:sticky;top:0;z-index:9;background:rgba(11,12,14,.92);
+backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
+.atas .wrap{display:flex;align-items:center;gap:10px;height:52px}
+.atas a{color:var(--muted);text-decoration:none;font-size:14px;
+font-family:'Space Grotesk',sans-serif;font-weight:500}
+.atas a:hover{color:var(--ac)}
+.hero{padding:34px 0 8px;border-bottom:1px solid var(--line-soft)}
+.hero .baris{display:flex;gap:18px;align-items:flex-start}
+.hero img{width:104px;border-radius:8px;border:1px solid var(--line);flex:none}
+.kicker{font:600 11px/1 'Space Grotesk',sans-serif;letter-spacing:.18em;
+text-transform:uppercase;color:var(--ac);margin-bottom:10px}
+h1{font:700 27px/1.25 'Space Grotesk',sans-serif;margin:0 0 10px}
+.hero p{color:var(--muted);font-size:15px;margin:0 0 12px}
+.fakta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px;
+padding:0 0 26px}
+.fakta b{color:var(--text);font-weight:600}
+h2.sesi{font:600 12px/1 'Space Grotesk',sans-serif;letter-spacing:.2em;
+text-transform:uppercase;color:var(--muted);margin:38px 0 14px}
+/* daftar isi — judul bab terkunci ikut tampil, itu yang menjual */
+.di{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-soft)}
+.di li{display:flex;gap:12px;align-items:baseline;padding:11px 0;
+border-bottom:1px solid var(--line-soft);font-size:15px}
+.di .no{font:600 12px/1.6 'Space Grotesk',sans-serif;color:var(--muted);
+min-width:44px;flex:none}
+.di .jd{flex:1}
+.di .tag{font:600 10px/1 'Space Grotesk',sans-serif;letter-spacing:.1em;
+text-transform:uppercase;padding:4px 7px;border-radius:4px;flex:none}
+.di .bisa{background:rgba(34,211,238,.14);color:var(--ac)}
+.di .kunci{color:#6B727A}
+.di li.terkunci .jd{color:#7D848C}
+/* badan bacaan */
+.baca h2{font:600 20px/1.4 'Space Grotesk',sans-serif;margin:34px 0 12px}
+.baca h3{font:600 17px/1.4 'Space Grotesk',sans-serif;margin:26px 0 8px}
+.baca p{margin:0 0 1.15em}
+.baca .pembuka{font-size:18px;color:#CFD4D9}
+.baca b{color:#FFF;font-weight:600}
+.baca svg{max-width:100%;height:auto;display:block;margin:1.5em auto}
+.baca .istilah{margin:1.4em 0;padding:.9em 0;border-top:1px solid var(--line);
+border-bottom:1px solid var(--line);font-size:16px}
+.baca .istilah b:first-child{font-family:'Space Grotesk',sans-serif;color:var(--ac)}
+.baca .hariini{margin:1.8em 0 0;padding-left:16px;border-left:3px solid var(--ac)}
+.baca .hariini .label{font:700 11px/1 'Space Grotesk',sans-serif;
+letter-spacing:.18em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+.baca .ttd{color:var(--muted);font-size:15px}
+.baca .nama{color:var(--text);font-weight:600}
+.baca .peran{color:var(--muted);font-size:13px}
+/* gembok */
+.gembok{margin:8px 0 0;position:relative}
+.gembok h2{margin-bottom:14px}
+.buram{position:relative;border-radius:10px;overflow:hidden;
+border:1px solid var(--line-soft)}
+.buram img{display:block;width:100%;height:auto}
+.buram::after{content:"";position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(11,12,14,0) 0%,rgba(11,12,14,.55) 55%,
+var(--ink) 100%)}
+.kartu{margin:-58px 0 0;position:relative;z-index:2;background:var(--panel);
+border:1px solid var(--line);border-radius:12px;padding:24px 22px;text-align:center}
+.kartu .ikon{color:var(--ac);display:block;margin:0 auto 12px}
+.kartu h3{font:700 19px/1.35 'Space Grotesk',sans-serif;margin:0 0 8px}
+.kartu p{color:var(--muted);font-size:15px;margin:0 0 18px}
+.tbl{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+background:var(--ac);color:var(--ac-t);text-decoration:none;
+font:700 15px/1 'Space Grotesk',sans-serif;padding:15px 24px;border-radius:9px;
+width:100%}
+.tbl:hover{filter:brightness(1.08)}
+.kartu small{display:block;margin-top:12px;color:#6B727A;font-size:12.5px}
+footer{margin:46px 0 0;padding:22px 0 40px;border-top:1px solid var(--line-soft);
+color:#6B727A;font-size:13px;text-align:center}
+footer a{color:var(--muted);text-decoration:none}
+@media(max-width:520px){
+  body{font-size:16.5px}
+  h1{font-size:23px}
+  .hero img{width:82px}
+  .kartu{margin-top:-46px;padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="atas"><div class="wrap">
+  <a href="/trilogi-ai">&larr; Trilogi Kecerdasan Buatan</a>
+</div></div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Buku 1 dari 3 &middot; baca gratis</div>
+    <div class="baris">
+      <img src="/trilogi-ai-b1.jpg" alt="Sampul Paham AI dari Nol" width="104" height="156">
+      <div>
+        <h1>Paham AI dari Nol</h1>
+        <p>Baca gratis pendahuluan dan awal Bab 1 buku pertama Trilogi Kecerdasan Buatan: apa itu AI, dan kenapa ia bisa jenius sekaligus bodoh.</p>
+      </div>
+    </div>
+  </div>
+  <div class="fakta">
+    <span><b>83</b> halaman</span>
+    <span><b>7</b> bab</span>
+    <span>gratis: pendahuluan + awal Bab 1</span>
+  </div>
+
+  <h2 class="sesi">Daftar isi</h2>
+  <ul class="di">
+    <li><span class="no">Bab 1</span><span class="jd">AI Itu Sebenarnya Apa?</span><span class="tag bisa">gratis sebagian</span></li>
+    <li class="terkunci"><span class="no">Bab 2</span><span class="jd">Cara AI Belajar</span><span class="tag kunci">terkunci</span></li>
+    <li class="terkunci"><span class="no">Bab 3</span><span class="jd">Kenapa AI Bisa Jenius Sekaligus Bodoh</span><span class="tag kunci">terkunci</span></li>
+    <li class="terkunci"><span class="no">Bab 4</span><span class="jd">Yang Tidak Akan Pernah Bisa Diramal AI</span><span class="tag kunci">terkunci</span></li>
+    <li class="terkunci"><span class="no">Bab 5</span><span class="jd">Mendeteksi Minyak Ular AI</span><span class="tag kunci">terkunci</span></li>
+    <li class="terkunci"><span class="no">Bab 6</span><span class="jd">Risiko yang Nyata, Bukan Robot Pembunuh</span><span class="tag kunci">terkunci</span></li>
+    <li class="terkunci"><span class="no">Bab 7</span><span class="jd">Hidup dan Bekerja Berdampingan dengan AI</span><span class="tag kunci">terkunci</span></li>
+  </ul>
+
+  <div class="baca">
+    <h2 class="sesi" style="margin-top:38px">Pendahuluan</h2>
+    <p class="pembuka">Ada satu pemandangan yang makin sering saya lihat beberapa
+tahun terakhir, dan jujur saja, makin lama makin bikin tidak nyaman: orang
+baik-baik, pekerja keras, kehilangan uang atau kesempatan gara-gara dua
+huruf, A dan I.</p>
+
+<p>Bentuknya macam-macam. Ada yang ikut &ldquo;robot trading ber-AI&rdquo;
+yang katanya bisa menggandakan uang sambil tidur, lalu uangnya benar-benar
+pergi, sambil ia tidur. Ada yang membeli kursus mahal karena takut
+&ldquo;ketinggalan zaman&rdquo;, padahal isinya bisa ia pelajari gratis.
+Ada pemilik usaha yang menolak memakai alat yang sebenarnya bisa sangat
+membantu, karena yang ia dengar tentang AI cuma dua: menakutkan, atau
+ajaib. Dan ada juga yang sebaliknya, percaya seratus persen pada jawaban
+chatbot, lalu meneruskan informasi yang ternyata karangan.</p>
+
+<p>Semua kejadian itu punya satu akar yang sama. Bukan karena orangnya
+bodoh. Melainkan karena hampir semua cerita tentang AI yang sampai ke kita
+datang dari orang yang sedang berjualan, entah berjualan produk, berjualan
+ketakutan, atau berjualan mimpi. Yang jarang sekali sampai ke kita adalah
+penjelasan yang tenang: mesin ini sebenarnya bekerja seperti apa, ia jago
+di mana, dan ia mustahil melakukan apa.</p>
+
+<p>Buku ini saya tulis untuk mengisi ruang kosong itu.</p>
+
+<p>Kamu tidak perlu latar belakang IT untuk membacanya. Tidak ada satu pun
+rumus di sini. Yang kamu perlukan cuma rasa penasaran dan kemauan membaca
+pelan-pelan. Sisanya biar saya yang bekerja: menerjemahkan riset dan
+pemikiran para peneliti AI terbaik dunia ke bahasa yang kita pakai
+sehari-hari, lengkap dengan contoh dari hidup kita sendiri di Indonesia.
+Dari warung, olshop, kantor, sampai dunia konten.</p>
+
+<p>Ada satu janji yang berani saya pegang sampai halaman terakhir:
+<b>saya tidak akan melebih-lebihkan apa pun.</b> Kalau AI memang hebat di
+satu hal, saya tunjukkan hebatnya sekaligus alasannya. Kalau ia payah,
+saya tunjukkan payahnya, juga alasannya. Dan kalau ada yang mustahil,
+saya bilang mustahil, siapa pun yang mengiklankannya. Kamu justru akan
+menemukan satu bab penuh yang isinya melatih kamu mengenali
+&ldquo;minyak ular&rdquo; berlabel AI: produk dan janji yang menunggangi
+nama teknologi ini untuk menguras dompet orang.</p>
+
+<p>Buku yang sedang kamu baca adalah buku pertama dari
+<b>Trilogi Kecerdasan Buatan</b>. Perjalanannya saya rancang bertingkat:</p>
+
+<ul>
+<li><b>Buku 1, Paham AI dari Nol.</b> Fondasinya: cara kerja, batas
+kemampuan, risiko yang nyata, dan tameng anti tipu-tipu.</li>
+<li><b>Buku 2, seni menyuruh AI.</b> Setelah paham mesinnya, kamu belajar
+memberi perintah yang menghasilkan. Keterampilan ini sekarang mulai
+membedakan orang di dunia kerja.</li>
+<li><b>Buku 3, membangun asisten AI sederhana.</b> Tanpa coding yang
+menyeramkan, kamu menyusun &ldquo;pegawai digital&rdquo; pertamamu
+sendiri.</li>
+</ul>
+
+<p>Urutan itu bukan gaya-gayaan. Orang yang langsung melompat ke
+&ldquo;cara pakai&rdquo; tanpa paham &ldquo;cara kerja&rdquo; biasanya
+berakhir di salah satu dari dua jurang: terlalu percaya, atau salah pakai.
+Fondasi dulu, baru bangunan.</p>
+
+<p>Satu hal terakhir. Di sepanjang buku ini kamu akan menemukan lembar
+kerja, yaitu tugas kecil yang bisa langsung kamu praktikkan hari itu juga.
+Jangan dilewati. Membaca membuat kamu tahu; mencoba yang membuat kamu
+paham. Dan &ldquo;paham&rdquo; itulah satu-satunya janji di judul buku
+ini.</p>
+
+<p>Selamat membaca. Pelan-pelan saja, kita jalan sama-sama.</p>
+
+<div class="ttd">
+  <div class="nama">Ikhlas Syamri</div>
+  <div class="peran">Penulis</div>
+</div>
+
+    <h2>Bab 1 &middot; AI Itu Sebenarnya Apa?</h2>
+    <p class="pembuka">Coba ingat-ingat kegiatanmu hari ini. Kamu buka HP,
+dan deretan video yang muncul di berandamu ternyata pas dengan seleramu.
+Kamu ketik &ldquo;bsk kt ktm&rdquo; di WhatsApp, dan keyboard-mu menawarkan
+kata yang benar. Kamu ajukan limit paylater, dan dalam hitungan detik ada
+yang memutuskan kamu layak atau tidak. Tiga kejadian kecil itu punya satu
+kesamaan: semuanya dikerjakan oleh AI, dan dua di antaranya sudah kamu
+pakai bertahun-tahun tanpa pernah menyebutnya AI.</p>
+
+<p>Di bab pertama ini kita akan membereskan satu hal yang kelihatannya
+sepele tapi ternyata jadi sumber dari hampir semua kebingungan: definisi.
+Bukan definisi ala kamus, melainkan pemahaman yang bisa kamu pakai untuk
+menilai setiap berita, produk, dan janji yang membawa-bawa nama AI.</p>
+
+<h2>Mesin yang belajar dari contoh</h2>
+
+<p>Selama puluhan tahun, cara kita membuat komputer melakukan sesuatu
+hanya satu: menuliskan perintahnya baris demi baris. Mau komputer
+menghitung gaji? Seorang programmer menulis aturannya. Gaji pokok ditambah
+tunjangan, dikurangi potongan, hasilnya ditransfer tanggal 25. Semua
+kemungkinan dipikirkan manusia, lalu dititipkan ke mesin. Kalau ada
+kejadian yang tidak pernah ditulis aturannya, komputer diam, atau
+error.</p>
+
+<p>Pendekatan itu ampuh untuk pekerjaan yang aturannya jelas. Tapi ia
+mentok di pekerjaan yang aturannya <i>tidak bisa dituliskan</i>. Coba
+saja: tuliskan aturan lengkap untuk mengenali wajah temanmu. Matanya
+seperti apa, hidungnya bagaimana, berapa jarak antara keduanya&hellip;
+mustahil, kan? Kamu sendiri bisa mengenalinya dalam sepersekian detik,
+tapi kamu tidak bisa menjelaskan <i>caranya</i>. Ada terlalu banyak hal
+yang kita bisa lakukan tanpa bisa kita uraikan.</p>
+
+<p>Di situlah letak perbedaan mendasar AI modern. Alih-alih diberi
+aturan, mesin ini diberi <b>contoh</b>, banyak sekali contoh, lalu
+dibiarkan menemukan polanya sendiri. Tunjukkan sejuta foto kucing dan
+sejuta foto anjing, dan perlahan mesin menemukan sendiri ciri-ciri yang
+membedakan keduanya, termasuk ciri-ciri yang manusia pun tidak sadar
+sedang ia pakai. Janelle Shane, peneliti yang menghabiskan bertahun-tahun
+mengoprek dan &ldquo;mengerjai&rdquo; AI di berbagai eksperimen, menyebut
+inti dari AI masa kini ya ini: <i>machine learning</i>, mesin yang belajar
+dari data, bukan dari perintah.</p>
+
+<div class="istilah"><b>Machine learning</b> &nbsp;Cara membuat komputer
+mengerjakan sesuatu dengan menyodorkan banyak contoh, lalu membiarkannya
+menemukan pola sendiri. Hampir semua yang disebut &ldquo;AI&rdquo; hari
+ini adalah machine learning.</div>
+
+<p>Konsekuensi dari cara belajar ini penting sekali untuk kamu pegang,
+karena ia akan muncul lagi dan lagi di sepanjang buku ini: <b>kualitas AI
+sepenuhnya ditentukan oleh contoh yang ia pelajari.</b> Diberi contoh
+bagus, ia jadi bagus. Diberi contoh berantakan, ia berantakan, dengan gaya
+yang sangat percaya diri. Persis murid yang belajar dari buku yang salah
+cetak: bukan salah muridnya, tapi jawabannya tetap saja keliru.</p>
+  </div>
+
+  <div class="gembok">
+    <div class="baca"><h2>Dua keluarga besar yang wajib kamu bedakan</h2></div>
+    <div class="buram"><img src="/baca/img/b1-terkunci.jpg" alt="" width="760" height="430" loading="lazy"></div>
+    <div class="kartu">
+      <svg class="ikon" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+        <path d="M7 10V7a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round"/>
+        <rect x="4" y="10" width="16" height="11" rx="2.5" fill="none"
+              stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="15.5" r="1.6" fill="currentColor"/>
+      </svg>
+      <h3>Bagian ini terkunci</h3>
+      <p>Sisa Bab 1 dan 6 bab lainnya ada di dalam bukunya.
+         Dijual sepaket bertiga karena tiap buku memakai buku sebelumnya.</p>
+      <a class="tbl" href="/trilogi-ai">Lihat Trilogi Kecerdasan Buatan &rarr;</a>
+      <small>3 e-book &middot; 442 halaman &middot; bisa dibaca di HP</small>
+    </div>
+  </div>
+
+  <footer>
+    <a href="/trilogi-ai">Trilogi Kecerdasan Buatan</a> &middot;
+    <a href="/artikel">Artikel BiB</a> &middot;
+    <a href="https://wa.me/62895411449962">WhatsApp</a>
+  </footer>
+
+</div>
+</body>
+</html>

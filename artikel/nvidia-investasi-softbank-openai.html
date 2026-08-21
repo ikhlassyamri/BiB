@@ -976,10 +976,12 @@ footer a:hover{color:#0B0C0E}
   }
 
   /* tautan yang boleh muncul di balasan BiB -> nama + label tombolnya */
-  var POLA_TAUT = /\/(?:digital\/sutradara-digital|clipper\/ngeclip-cuan|digital\/10template|trilogi-ai|titiknol|digital\/|artikel\/[a-z0-9-]+)/g;
+  var POLA_TAUT = /\/(?:digital\/sutradara-digital|baca\/paham-ai-dari-nol|clipper\/ngeclip-cuan|digital\/10template|trilogi-ai|titiknol|digital\/|artikel\/[a-z0-9-]+)/g;
   function infoTaut(p){
     if (p === '/digital/sutradara-digital')
       return { nama: 'Sutradara Digital', label: 'Lihat E-Booknya →' };
+    if (p === '/baca/paham-ai-dari-nol')
+      return { nama: 'Paham AI dari Nol', label: 'Baca Gratis →' };
     if (p === '/clipper/ngeclip-cuan')
       return { nama: 'E-Book Ngeclip Cuan', label: 'Lihat E-Booknya →' };
     if (p === '/digital/10template')
