@@ -1000,16 +1000,20 @@ footer a:hover{color:#0B0C0E}
   }
 
   /* tautan yang boleh muncul di balasan BiB -> nama + label tombolnya */
-  var POLA_TAUT = /\/(?:titiknol|trilogi-ai|clipper\/ngeclip-cuan|digital\/|artikel\/[a-z0-9-]+)/g;
+  var POLA_TAUT = /\/(?:digital\/sutradara-digital|clipper\/ngeclip-cuan|digital\/10template|trilogi-ai|titiknol|digital\/|artikel\/[a-z0-9-]+)/g;
   function infoTaut(p){
-    if (p === '/titiknol')
-      return { nama: 'e-book Bangkit dari Titik Nol', label: 'Lihat E-Booknya \u2192' };
-    if (p === '/trilogi-ai')
-      return { nama: 'Trilogi Kecerdasan Buatan', label: 'Lihat Trilogi AI \u2192' };
+    if (p === '/digital/sutradara-digital')
+      return { nama: 'Sutradara Digital', label: 'Lihat E-Booknya →' };
     if (p === '/clipper/ngeclip-cuan')
-      return { nama: 'e-book Ngeclip Cuan', label: 'Lihat E-Booknya \u2192' };
+      return { nama: 'E-Book Ngeclip Cuan', label: 'Lihat E-Booknya →' };
+    if (p === '/digital/10template')
+      return { nama: '10 Template Website Premium', label: 'Lihat Halamannya →' };
+    if (p === '/trilogi-ai')
+      return { nama: 'Trilogi Kecerdasan Buatan', label: 'Lihat Trilogi AI →' };
+    if (p === '/titiknol')
+      return { nama: 'Bangkit dari Titik Nol', label: 'Lihat E-Booknya →' };
     if (p === '/digital/')
-      return { nama: 'katalog produk digital BiB', label: 'Lihat Produk Digital \u2192' };
+      return { nama: 'katalog produk digital BiB', label: 'Lihat Produk Digital →' };
     if (p.indexOf('/artikel/seri-') === 0)
       return { nama: 'halaman serinya', label: 'Buka Serinya \u2192' };
     return { nama: 'artikelnya', label: 'Baca Artikelnya \u2192' };
