@@ -112,6 +112,21 @@ cursor:pointer}
 .lb-bar button:disabled{opacity:.35;cursor:default}
 .lb-bar button.utama{background:var(--ac);color:var(--ac-t);border-color:var(--ac)}
 .lb-no{min-width:118px;text-align:center;color:var(--muted);font-size:13px}
+/* Kartu gembok. Hidup HANYA sebagai isi pop-up — versi menetap di kaki
+   halaman sudah dicabut (keputusan pemilik, Agu 2026). Aturan-aturan di
+   bawah ini sempat ikut terbuang waktu CSS mati dibersihkan, dan
+   pop-upnya terbit sebagai teks telanjang tanpa kartu & tanpa tombol
+   (Agu 2026) — itu sebabnya ada `_periksa_gaya` di bawah. */
+.kartu{margin:0;position:relative;z-index:2;background:var(--panel);
+border:1px solid var(--line);border-radius:12px;padding:24px 22px;text-align:center}
+.kartu .ikon{color:var(--ac);display:block;margin:0 auto 12px}
+.kartu h3{font:700 19px/1.35 'Space Grotesk',sans-serif;margin:0 0 8px}
+.kartu p{color:var(--muted);font-size:15px;margin:0 0 18px}
+.tbl{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+background:var(--ac);color:var(--ac-t);text-decoration:none;
+font:700 15px/1 'Space Grotesk',sans-serif;padding:15px 24px;border-radius:9px;
+width:100%}
+.tbl:hover{filter:brightness(1.08)}
 /* pop-up gembok — muncul saat lembar terakhir dibuka */
 .lb-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;
 justify-content:center;padding:20px;background:rgba(6,7,9,.66);
@@ -258,10 +273,9 @@ footer a{color:var(--muted);text-decoration:none}
         <circle cx="12" cy="15.5" r="1.6" fill="currentColor"/>
       </svg>
       <h3>Bagian ini terkunci</h3>
-      <p>Sisa Bab 1 dan 6 bab lainnya ada di dalam bukunya.
-         Dijual sepaket bertiga karena tiap buku memakai buku sebelumnya.</p>
-      <a class="tbl" href="/trilogi-ai">Lihat Trilogi Kecerdasan Buatan &rarr;</a>
-      <small>3 e-book &middot; 442 halaman &middot; bisa dibaca di HP</small>
+      <p>Mau lanjut baca? Dapatkan bagian lengkapnya di
+         Trilogi Kecerdasan Buatan!</p>
+      <a class="tbl" href="/trilogi-ai">Klik Disini!</a>
     </div>
 </div>
 
