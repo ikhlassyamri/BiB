@@ -57,34 +57,6 @@ padding:0 0 26px}
 .fakta b{color:var(--text);font-weight:600}
 h2.sesi{font:600 12px/1 'Space Grotesk',sans-serif;letter-spacing:.2em;
 text-transform:uppercase;color:var(--muted);margin:38px 0 14px}
-/* daftar isi — judul bab terkunci ikut tampil, itu yang menjual */
-.di{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-soft)}
-.di li{display:flex;gap:12px;align-items:baseline;padding:11px 0;
-border-bottom:1px solid var(--line-soft);font-size:15px}
-.di .no{font:600 12px/1.6 'Space Grotesk',sans-serif;color:var(--muted);
-min-width:44px;flex:none}
-.di .jd{flex:1}
-.di .tag{font:600 10px/1 'Space Grotesk',sans-serif;letter-spacing:.1em;
-text-transform:uppercase;padding:4px 7px;border-radius:4px;flex:none}
-.di .bisa{background:rgba(34,211,238,.14);color:var(--ac)}
-.di .kunci{color:#6B727A}
-.di li.terkunci .jd{color:#7D848C}
-/* kartu gembok — sekarang hidup HANYA sebagai pop-up saat pembaca
-   mentok di lembar terakhir. Versi menetap di bawah halaman DICABUT
-   (keputusan pemilik, Agu 2026): pop-upnya sudah menyampaikan hal yang
-   sama, dan halaman ini jadi berakhir dengan ajakan beli dua kali
-   berturut-turut. */
-.kartu{margin:0;position:relative;z-index:2;background:var(--panel);
-border:1px solid var(--line);border-radius:12px;padding:24px 22px;text-align:center}
-.kartu .ikon{color:var(--ac);display:block;margin:0 auto 12px}
-.kartu h3{font:700 19px/1.35 'Space Grotesk',sans-serif;margin:0 0 8px}
-.kartu p{color:var(--muted);font-size:15px;margin:0 0 18px}
-.tbl{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-background:var(--ac);color:var(--ac-t);text-decoration:none;
-font:700 15px/1 'Space Grotesk',sans-serif;padding:15px 24px;border-radius:9px;
-width:100%}
-.tbl:hover{filter:brightness(1.08)}
-.kartu small{display:block;margin-top:12px;color:#6B727A;font-size:12.5px}
 /* ── pembaca lembar: halaman PDF aslinya, dibalik seperti buku ──────
    Keputusan pemilik (Agu 2026): "cara bacanya kayak kita buka buku,
    animasi buka buku, biar pembaca tau cara bacanya".
@@ -182,18 +154,7 @@ footer a{color:var(--muted);text-decoration:none}
     <span>gratis: pendahuluan + awal Bab 1</span>
   </div>
 
-  <h2 class="sesi">Daftar isi</h2>
-  <ul class="di">
-    <li><span class="no">Bab 1</span><span class="jd">AI Itu Sebenarnya Apa?</span><span class="tag bisa">gratis sebagian</span></li>
-    <li class="terkunci"><span class="no">Bab 2</span><span class="jd">Cara AI Belajar</span><span class="tag kunci">terkunci</span></li>
-    <li class="terkunci"><span class="no">Bab 3</span><span class="jd">Kenapa AI Bisa Jenius Sekaligus Bodoh</span><span class="tag kunci">terkunci</span></li>
-    <li class="terkunci"><span class="no">Bab 4</span><span class="jd">Yang Tidak Akan Pernah Bisa Diramal AI</span><span class="tag kunci">terkunci</span></li>
-    <li class="terkunci"><span class="no">Bab 5</span><span class="jd">Mendeteksi Minyak Ular AI</span><span class="tag kunci">terkunci</span></li>
-    <li class="terkunci"><span class="no">Bab 6</span><span class="jd">Risiko yang Nyata, Bukan Robot Pembunuh</span><span class="tag kunci">terkunci</span></li>
-    <li class="terkunci"><span class="no">Bab 7</span><span class="jd">Hidup dan Bekerja Berdampingan dengan AI</span><span class="tag kunci">terkunci</span></li>
-  </ul>
-
-  <h2 class="sesi" style="margin-top:38px">Baca bukunya</h2>
+  <h2 class="sesi">Baca bukunya</h2>
   <section class="lb">
     <div class="lb-petunjuk">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
