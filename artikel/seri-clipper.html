@@ -53,6 +53,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#76B900;
+  --ac-rgb:118,185,0;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -114,11 +115,14 @@ a{color:inherit}
 .m-baris{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .btn-ghost{background:transparent;color:#C9C6BC;border:1px solid #3A3D43}
 .btn-ghost:hover{border-color:#8E9096}
-/* modal e-book: berbingkai emas + kartu bisa diklik seluruhnya */
+/* modal e-book: bingkainya ikut aksen topik + kartu bisa diklik seluruhnya.
+   .m-emas dipertahankan untuk halaman seri lama yang belum dirakit ulang. */
 .m-emas{border-color:#57431A;cursor:pointer}
+.m-produk{border-color:var(--ac);cursor:pointer}
 .m-flex{display:flex;gap:16px;align-items:flex-start;margin-bottom:6px}
 .m-flex img{width:92px;height:auto;flex:none;border-radius:8px;
   box-shadow:0 6px 20px rgba(212,175,55,.22)}
+.m-produk .m-flex img{box-shadow:0 6px 20px rgba(var(--ac-rgb),.22)}
 main{padding:34px 0 60px}
 .crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
 .crumb a{color:var(--muted);text-decoration:none}
@@ -364,6 +368,12 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   if (tiraiEbook) {
     var kartu = tiraiEbook.querySelector('.modal');
     var silangE = document.getElementById('ebook-x');
+    // Tujuan klik-kartu DIBACA dari tombol di dalam modalnya sendiri.
+    // Dulu ditulis mati '/titiknol', jadi halaman seri AI pun mengirim
+    // pengkliknya ke buku kisah sukses (ketahuan Agu 2026 waktu seri
+    // ekonomi dipasangi modalnya).
+    var tblE = tiraiEbook.querySelector('.m-baris a[href]');
+    var tujuE = tblE ? tblE.getAttribute('href') : '';
     setTimeout(function(){
       if (!tiraiNotif || !tiraiNotif.classList.contains('on'))
         tiraiEbook.classList.add('on');
@@ -373,7 +383,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     });
     tiraiEbook.addEventListener('click', function(e){
       if (e.target === tiraiEbook) { tutupEbook(); return; }
-      if (kartu && kartu.contains(e.target)) window.location.href = '/titiknol';
+      if (kartu && tujuE && kartu.contains(e.target)) window.location.href = tujuE;
     });
   }
 

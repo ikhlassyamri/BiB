@@ -570,6 +570,12 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   if (tiraiEbook) {
     var kartu = tiraiEbook.querySelector('.modal');
     var silangE = document.getElementById('ebook-x');
+    // Tujuan klik-kartu DIBACA dari tombol di dalam modalnya sendiri.
+    // Dulu ditulis mati '/titiknol', jadi halaman seri AI pun mengirim
+    // pengkliknya ke buku kisah sukses (ketahuan Agu 2026 waktu seri
+    // ekonomi dipasangi modalnya).
+    var tblE = tiraiEbook.querySelector('.m-baris a[href]');
+    var tujuE = tblE ? tblE.getAttribute('href') : '';
     setTimeout(function(){
       if (!tiraiNotif || !tiraiNotif.classList.contains('on'))
         tiraiEbook.classList.add('on');
@@ -579,7 +585,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     });
     tiraiEbook.addEventListener('click', function(e){
       if (e.target === tiraiEbook) { tutupEbook(); return; }
-      if (kartu && kartu.contains(e.target)) window.location.href = '/titiknol';
+      if (kartu && tujuE && kartu.contains(e.target)) window.location.href = tujuE;
     });
   }
 

@@ -495,7 +495,25 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   </div>
 </div>
 
-
+<div class="tirai" id="tirai-ebook" role="dialog" aria-modal="true"
+     aria-label="E-book Uang + Waktu = Hidup">
+  <div class="modal m-produk">
+    <button class="m-x" id="ebook-x" type="button" aria-label="Tutup">&times;</button>
+    <div class="m-flex">
+      <img src="/uang-waktu-hidup-cover.jpg" alt="E-Book Uang + Waktu = Hidup" width="92" height="138">
+      <div>
+        <div class="m-label">SERI INI ADA VERSI BUKUNYA</div>
+        <h3>Uang + Waktu = Hidup</h3>
+        <p>107 halaman, 13 bab, 9 lembar kerja isian. Menghitung upah riil per
+        jammu, lalu membaca ulang seluruh belanjamu dalam satuan jam hidup.</p>
+      </div>
+    </div>
+    <div class="m-baris">
+      <a class="btn-sm btn-notif" href="/uang-waktu-hidup">Lihat E-Booknya &rarr;</a>
+      <span class="m-kecil">Bukan janji penghasilan.</span>
+    </div>
+  </div>
+</div>
 
 <script>
 /* Tombol "Nyalakan Notifikasi" — logikanya SENGAJA sama dengan kartu
@@ -536,6 +554,12 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   if (tiraiEbook) {
     var kartu = tiraiEbook.querySelector('.modal');
     var silangE = document.getElementById('ebook-x');
+    // Tujuan klik-kartu DIBACA dari tombol di dalam modalnya sendiri.
+    // Dulu ditulis mati '/titiknol', jadi halaman seri AI pun mengirim
+    // pengkliknya ke buku kisah sukses (ketahuan Agu 2026 waktu seri
+    // ekonomi dipasangi modalnya).
+    var tblE = tiraiEbook.querySelector('.m-baris a[href]');
+    var tujuE = tblE ? tblE.getAttribute('href') : '';
     setTimeout(function(){
       if (!tiraiNotif || !tiraiNotif.classList.contains('on'))
         tiraiEbook.classList.add('on');
@@ -545,7 +569,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     });
     tiraiEbook.addEventListener('click', function(e){
       if (e.target === tiraiEbook) { tutupEbook(); return; }
-      if (kartu && kartu.contains(e.target)) window.location.href = '/titiknol';
+      if (kartu && tujuE && kartu.contains(e.target)) window.location.href = tujuE;
     });
   }
 
