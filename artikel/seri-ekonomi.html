@@ -59,7 +59,8 @@
   --bg:#0B0C0E; --panel:#15181C; --panel-2:#1C2026;
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
-  --ac:#76B900;
+  --ac:#B87333;
+  --ac-rgb:184,115,51;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -91,8 +92,8 @@ a{color:inherit}
 .btn-aktif{background:transparent;color:var(--ac);
   border:1px solid var(--ac);animation:none;cursor:default}
 @keyframes denyut{
-  0%,100%{box-shadow:0 0 0 0 rgba(118,185,0,.55)}
-  60%{box-shadow:0 0 0 12px rgba(118,185,0,0)}
+  0%,100%{box-shadow:0 0 0 0 rgba(184,115,51,.55)}
+  60%{box-shadow:0 0 0 12px rgba(184,115,51,0)}
 }
 @media (prefers-reduced-motion:reduce){.btn-notif{animation:none}}
 /* Modal tengah: konfirmasi notifikasi & tawaran e-book (keputusan
@@ -121,11 +122,14 @@ a{color:inherit}
 .m-baris{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .btn-ghost{background:transparent;color:#C9C6BC;border:1px solid #3A3D43}
 .btn-ghost:hover{border-color:#8E9096}
-/* modal e-book: berbingkai emas + kartu bisa diklik seluruhnya */
+/* modal e-book: bingkainya ikut aksen topik + kartu bisa diklik seluruhnya.
+   .m-emas dipertahankan untuk halaman seri lama yang belum dirakit ulang. */
 .m-emas{border-color:#57431A;cursor:pointer}
+.m-produk{border-color:var(--ac);cursor:pointer}
 .m-flex{display:flex;gap:16px;align-items:flex-start;margin-bottom:6px}
 .m-flex img{width:92px;height:auto;flex:none;border-radius:8px;
   box-shadow:0 6px 20px rgba(212,175,55,.22)}
+.m-produk .m-flex img{box-shadow:0 6px 20px rgba(var(--ac-rgb),.22)}
 main{padding:34px 0 60px}
 .crumb{font-size:.85rem;color:var(--dim);margin-bottom:16px}
 .crumb a{color:var(--muted);text-decoration:none}
