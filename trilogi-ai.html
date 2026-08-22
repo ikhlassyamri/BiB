@@ -175,6 +175,34 @@ footer .kontak a{font-size:.9rem;color:var(--muted);text-decoration:none;border:
   border-radius:999px;padding:7px 18px}
 footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
 footer img{height:26px;width:auto;margin:0 auto 14px}
+
+/* ── bilah beli melayang, HP saja ──────────────────────────────
+   Diketuk = menggulung ke bagian harga di bawah, bukan langsung ke
+   checkout. Bilahnya menghilang sendiri begitu bagian itu kelihatan,
+   supaya tidak menutupi tombol aslinya. */
+.bilah-beli{display:none}
+#beli{scroll-margin-top:84px}
+@media(max-width:820px){
+  body{padding-bottom:80px}
+  .bilah-beli{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:10px 15px;padding-bottom:calc(10px + env(safe-area-inset-bottom));
+    background:rgba(11,12,14,.95);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border-top:1px solid rgba(255,255,255,.10);
+    text-decoration:none;pointer-events:none;
+    transform:translateY(125%);transition:transform .26s ease;
+  }
+  .bilah-beli.tampil{transform:translateY(0);pointer-events:auto}
+  .bb-harga{display:flex;flex-direction:column;line-height:1.2}
+  .bb-harga s{font-size:.76rem;color:#8B9096;text-decoration:line-through}
+  .bb-harga b{font-family:'Space Grotesk',system-ui,sans-serif;
+    font-weight:700;font-size:1.2rem;color:#22D3EE}
+  .bb-btn{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
+    font-size:.98rem;line-height:1;white-space:nowrap;
+    background:#22D3EE;color:#0B0C0E;padding:14px 24px;border-radius:999px}
+}
 </style>
 </head>
 <body>
@@ -366,7 +394,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 
 <section style="padding-top:0">
   <div class="wrap">
-    <div class="co">
+    <div class="co" id="beli">
       <span class="eyebrow tengah">AMBIL SEKARANG</span>
       <h2 class="hanya-po">Satu paket bertiga,<br>selama masa pre-order <em>Rp149.000</em></h2>
       <h2 class="hanya-ls">Satu paket bertiga,<br>442 halaman seharga <em>Rp250.000</em></h2>
@@ -492,6 +520,70 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
   if (!tik()){
     var jalan = setInterval(function(){ if (tik()) clearInterval(jalan); }, 1000);
   }
+})();
+</script>
+
+
+<!-- bilah beli melayang (HP). Menggulung ke bagian harga, bukan ke checkout. -->
+<a class="bilah-beli" id="bilahBeli" href="#beli">
+  <span class="bb-harga hanya-po"><s>Rp250.000</s><b>Rp149.000</b></span><span class="bb-harga hanya-ls"><s>Rp350.000</s><b>Rp250.000</b></span>
+  <span class="bb-btn">Beli Sekarang</span>
+</a>
+<script>
+(function(){
+  var bilah = document.getElementById('bilahBeli');
+  if (!bilah) return;
+  var tujuan = document.querySelector(bilah.getAttribute('href'));
+  var diHarga = false;
+
+  // Bagian harga kelihatan = bilahnya mundur. Tombol asli di situ jauh
+  // lebih besar, dan bilah yang menempel cuma menutupinya.
+  if (tujuan && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(masuk){
+      diHarga = masuk[0].isIntersecting;
+      nilai();
+    }, {threshold: 0.12}).observe(tujuan);
+  }
+
+  function nilai(){
+    var lewatLayarPertama = window.pageYOffset > window.innerHeight * 0.8;
+    bilah.classList.toggle('tampil', lewatLayarPertama && !diHarga);
+  }
+
+  // Sebagian halaman TUMBUH sambil digulung: gambar dan animasi muncul
+  // menyusul, tingginya bertambah, dan sasaran yang sudah dihitung
+  // browser jadi meleset. 10template terukur meleset 315 px. Jadi
+  // sasarannya diukur ULANG dua kali sesudah tata letaknya tenang.
+  var batalKoreksi = false;
+  function tandaiManual(){ batalKoreksi = true; }
+  window.addEventListener('wheel', tandaiManual, {passive:true});
+  window.addEventListener('touchstart', tandaiManual, {passive:true});
+  window.addEventListener('keydown', tandaiManual);
+
+  function sasaran(){
+    return Math.max(0, tujuan.getBoundingClientRect().top + window.pageYOffset - 84);
+  }
+  function gulung(){
+    window.scrollTo({ top: sasaran(), behavior: 'smooth' });
+  }
+  function koreksi(){
+    // Pembaca yang keburu menggulung sendiri jangan disentak balik.
+    if (batalKoreksi) return;
+    if (Math.abs(window.pageYOffset - sasaran()) > 40) gulung();
+  }
+
+  bilah.addEventListener('click', function(ev){
+    if (!tujuan || !window.requestAnimationFrame) return;  // biar jangkar bawaan yang jalan
+    ev.preventDefault();
+    batalKoreksi = false;   // ketukan tadi memicu touchstart, dibersihkan lagi
+    gulung();
+    setTimeout(koreksi, 800);
+    setTimeout(koreksi, 1700);
+  });
+
+  window.addEventListener('scroll', nilai, {passive:true});
+  window.addEventListener('resize', nilai);
+  nilai();
 })();
 </script>
 
