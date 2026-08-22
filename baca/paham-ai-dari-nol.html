@@ -174,7 +174,7 @@ footer a{color:var(--muted);text-decoration:none}
         atau geser halamannya. Di komputer bisa pakai tombol panah.</div>
     </div>
     <div class="lb-panggung" id="lbPanggung">
-      <div class="lb-buku" id="lbBuku">
+      <div class="lb-buku" id="lbBuku" data-total="83">
       <div class="lb-hal">
         <div class="lb-muka"><img src="/baca/img/b1-hal-01.jpg" alt="Sampul buku Paham AI dari Nol" width="816" height="1158"></div>
         <div class="lb-belakang"></div>
@@ -220,7 +220,7 @@ footer a{color:var(--muted);text-decoration:none}
         <div class="lb-belakang"></div>
       </div>
       <div class="lb-hal">
-        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b1-hal-12.jpg" alt="Halaman 12 — separuh bawahnya diburamkan karena bagian ini terkunci" width="816" height="1158"></div>
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b1-hal-12.jpg" alt="Halaman 12 buku Paham AI dari Nol" width="816" height="1158"></div>
         <div class="lb-belakang"></div>
       </div>
       </div>
@@ -274,7 +274,12 @@ footer a{color:var(--muted);text-decoration:none}
   var n = hal.length;
   if (!n) return;
 
-  var i = 0, iKunci = n - 1, bergerak = null, sudahKunci = false, lewati = 0;
+  var i = 0, bergerak = null, lewati = 0;
+  // Jumlah halaman BUKU (83), bukan jumlah lembar yang digratiskan (12).
+  // Keputusan pemilik (Agu 2026): pembaca harus merasakan bukunya setebal
+  // apa. Nomor yang ditampilkan = nomor halaman PDF-nya sendiri, jadi ia
+  // selalu cocok dengan angka yang tercetak di kaki halaman itu.
+  var total = parseInt(buku.getAttribute('data-total'), 10) || n;
   var noEl = document.getElementById('lbNo');
   var prev = document.getElementById('lbPrev');
   var next = document.getElementById('lbNext');
@@ -291,11 +296,11 @@ footer a{color:var(--muted);text-decoration:none}
   }
 
   function label() {
-    var t = i === 0 ? 'Sampul' : 'Halaman ' + i + ' dari ' + (n - 1);
-    if (i === iKunci) t = 'Sampai di sini';
-    noEl.textContent = t;
+    noEl.textContent = i === 0 ? 'Sampul'
+                               : 'Halaman ' + (i + 1) + ' dari ' + total;
     prev.disabled = i === 0;
-    next.disabled = i === n - 1;
+    // Tombol maju TIDAK pernah mati: di lembar terakhir ia yang
+    // memunculkan pop-up gembok.
     next.innerHTML = i === 0 ? 'Buka buku &rarr;' : '&rsaquo;';
     next.className = i === 0 ? 'utama' : '';
   }
@@ -313,7 +318,11 @@ footer a{color:var(--muted);text-decoration:none}
   }
 
   function ke(k) {
-    k = Math.max(0, Math.min(n - 1, k));
+    // Minta halaman sesudah yang gratis = ketuk tembok. Pop-upnya muncul
+    // di situ, bukan begitu lembar terakhir terbuka — pembaca harus
+    // sempat membaca halaman terakhirnya dulu.
+    if (k > n - 1) { bukaModal(); return; }
+    k = Math.max(0, k);
     if (k === i) return;
     var yang = k > i ? hal[i] : hal[k];
     yang.style.zIndex = 3 * n;
@@ -323,7 +332,6 @@ footer a{color:var(--muted);text-decoration:none}
     muat(i);
     label();
     if (tips) tips.className = 'lb-tips pergi';
-    if (i === iKunci) { setTimeout(bukaModal, 620); }
   }
 
   buku.addEventListener('transitionend', function (e) {
@@ -331,8 +339,7 @@ footer a{color:var(--muted);text-decoration:none}
   });
 
   function bukaModal() {
-    if (sudahKunci || !modal) return;
-    sudahKunci = true;
+    if (!modal || !modal.hidden) return;
     modal.hidden = false;
     var x = modal.querySelector('.lb-tutup');
     if (x) x.focus();
