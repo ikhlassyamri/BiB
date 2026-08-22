@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<!-- Zoom SENGAJA tidak dikunci di halaman baca (beda dari halaman lain
+     di situs ini): ini teks panjang, dan mencegah pinch-zoom pada
+     bacaan itu menyulitkan mata yang butuh huruf lebih besar. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent — Baca Gratis | Trilogi Kecerdasan Buatan</title>
+<meta name="description" content="Baca Gratis E-Book Ketiga Trilogi Kecerdasan Buatan: AI Agent">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="/favicon.png">
+<link rel="canonical" href="https://joinbib.id/baca/ai-agent">
+<meta property="og:title" content="AI Agent — baca gratis">
+<meta property="og:description" content="Baca Gratis E-Book Ketiga Trilogi Kecerdasan Buatan: AI Agent">
+<meta property="og:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<meta property="og:url" content="https://joinbib.id/baca/ai-agent">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://joinbib.id/og-trilogi-ai.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B0C0E;--panel:#14161A;--line:#26292F;--line-soft:#1A1D22;
+--text:#F4F5F6;--muted:#9AA1A9;--ac:#22D3EE;--ac-t:#0B0C0E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);
+font:400 17px/1.75 Inter,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+a{color:var(--ac)}
+.atas{position:sticky;top:0;z-index:9;background:rgba(11,12,14,.92);
+backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft)}
+.atas .wrap{display:flex;align-items:center;gap:10px;height:52px}
+.atas a{color:var(--muted);text-decoration:none;font-size:14px;
+font-family:'Space Grotesk',sans-serif;font-weight:500}
+.atas a:hover{color:var(--ac)}
+.hero{padding:34px 0 8px;border-bottom:1px solid var(--line-soft)}
+/* Sampul DITUMPUK di atas teks pada layar sempit (ditegur pemilik, Agu
+   2026: "gambar ebook terlalu panjang, hurufnya jadi kejepit"). Sampul
+   104px di samping teks menyisakan ~200px untuk judul di HP 320px —
+   judulnya patah, deskripsinya jadi empat baris kurus. Lebar & tinggi
+   di atributnya sekarang ukuran ASLI berkasnya, tingginya dibiarkan
+   auto: rasio apa pun tidak akan tergencet lagi. */
+.hero .baris{display:flex;flex-direction:column;gap:16px}
+.hero img{width:120px;height:auto;border-radius:8px;border:1px solid var(--line);
+flex:none}
+@media(min-width:560px){
+  .hero .baris{flex-direction:row;gap:20px;align-items:flex-start}
+  .hero img{width:132px}
+}
+.kicker{font:600 11px/1 'Space Grotesk',sans-serif;letter-spacing:.18em;
+text-transform:uppercase;color:var(--ac);margin-bottom:10px}
+h1{font:700 27px/1.25 'Space Grotesk',sans-serif;margin:0 0 10px}
+.hero p{color:var(--muted);font-size:15px;margin:0 0 12px}
+.fakta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px;
+padding:0 0 26px}
+.fakta b{color:var(--text);font-weight:600}
+h2.sesi{font:600 12px/1 'Space Grotesk',sans-serif;letter-spacing:.2em;
+text-transform:uppercase;color:var(--muted);margin:38px 0 14px}
+/* ── pembaca lembar: halaman PDF aslinya, dibalik seperti buku ──────
+   Keputusan pemilik (Agu 2026): "cara bacanya kayak kita buka buku,
+   animasi buka buku, biar pembaca tau cara bacanya".
+   Catatan 3D yang gampang bikin bingung: `overflow:hidden` pada elemen
+   ber-`preserve-3d` MEMBATALKAN ruang 3D-nya (jadi datar). Karena itu
+   sudut membulat & potongan gambar dipasang di MUKA/BELAKANG lembar,
+   bukan di lembarnya. */
+.lb{margin:34px 0 0}
+.lb-petunjuk{display:flex;gap:9px;align-items:flex-start;margin:0 0 16px;
+padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+background:var(--panel);color:var(--muted);font-size:13.5px;line-height:1.6}
+.lb-petunjuk svg{flex:none;color:var(--ac);margin-top:2px}
+.lb-petunjuk b{color:var(--text);font-weight:600}
+.lb-panggung{position:relative;width:min(100%,392px);margin:0 auto;
+aspect-ratio:419.5/595.3;perspective:1700px}
+.lb-buku{position:absolute;inset:0;transform-style:preserve-3d}
+.lb-hal{position:absolute;inset:0;transform-origin:left center;
+transform-style:preserve-3d;transition:transform .8s cubic-bezier(.33,.06,.22,1)}
+.lb-hal.balik{transform:rotateY(-178deg)}
+.lb-muka,.lb-belakang{position:absolute;inset:0;backface-visibility:hidden;
+-webkit-backface-visibility:hidden;border-radius:2px 9px 9px 2px;
+overflow:hidden;background:#0E1014;box-shadow:0 14px 34px rgba(0,0,0,.6)}
+.lb-muka img{display:block;width:100%;height:100%;object-fit:cover}
+/* Halaman bukunya berlatar GELAP — punggung lembar ikut gelap, kalau
+   putih ia berkedip seperti kertas asing tiap kali dibalik. */
+.lb-belakang{transform:rotateY(180deg);border-radius:9px 2px 2px 9px;
+background:linear-gradient(270deg,#191D23,#0E1014 20%,#0E1014);
+border-left:1px solid #262B33}
+/* zona ketuk — tembus pandang, menutupi separuh kiri & kanan lembar */
+.lb-zona{position:absolute;top:0;bottom:0;width:42%;border:0;padding:0;
+background:transparent;cursor:pointer;z-index:60;-webkit-tap-highlight-color:transparent}
+.lb-zona.kiri{left:0}
+.lb-zona.kanan{right:0}
+/* Pil arah duduk di TENGAH tinggi lembar, sejajar dengan zona ketuknya.
+   Di kaki lembar ia menimpa nama penulis di sampul — masalah yang sama
+   dengan bar kendali yang tertutup bayangan. */
+.lb-tips{position:absolute;inset:50% 0 auto;transform:translateY(-50%);
+z-index:70;pointer-events:none;display:flex;justify-content:space-between;
+gap:8px;padding:0 12px;transition:opacity .5s}
+.lb-tips span{background:rgba(11,12,14,.82);color:#E8EBEE;border-radius:99px;
+padding:7px 12px;font:600 11.5px/1 'Space Grotesk',sans-serif;letter-spacing:.04em}
+.lb-tips.pergi{opacity:0}
+/* Bar kendali WAJIB berposisi + ber-z-index. Lembar buku itu elemen
+   berposisi ber-z-index (diatur skrip), jadi BAYANGANNYA — 14px turun,
+   34px kabur — dilukis DI ATAS bar yang cuma mengalir biasa. Tombolnya
+   jadi tampak keruh seperti tertutup (ditegur pemilik, Agu 2026).
+   Jaraknya juga dilebihkan supaya bar keluar dari jangkauan bayangan. */
+.lb-bar{display:flex;align-items:center;justify-content:center;gap:14px;
+position:relative;z-index:80;margin:30px 0 0}
+.lb-bar button{background:var(--panel);color:var(--text);border:1px solid var(--line);
+border-radius:9px;font:600 14px/1 'Space Grotesk',sans-serif;padding:12px 16px;
+cursor:pointer}
+.lb-bar button:disabled{opacity:.35;cursor:default}
+.lb-bar button.utama{background:var(--ac);color:var(--ac-t);border-color:var(--ac)}
+.lb-no{min-width:118px;text-align:center;color:var(--muted);font-size:13px}
+/* Kartu gembok. Hidup HANYA sebagai isi pop-up — versi menetap di kaki
+   halaman sudah dicabut (keputusan pemilik, Agu 2026). Aturan-aturan di
+   bawah ini sempat ikut terbuang waktu CSS mati dibersihkan, dan
+   pop-upnya terbit sebagai teks telanjang tanpa kartu & tanpa tombol
+   (Agu 2026) — itu sebabnya ada `_periksa_gaya` di bawah. */
+.kartu{margin:0;position:relative;z-index:2;background:var(--panel);
+border:1px solid var(--line);border-radius:12px;padding:24px 22px;text-align:center}
+.kartu .ikon{color:var(--ac);display:block;margin:0 auto 12px}
+.kartu h3{font:700 19px/1.35 'Space Grotesk',sans-serif;margin:0 0 8px}
+.kartu p{color:var(--muted);font-size:15px;margin:0 0 18px}
+.tbl{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+background:var(--ac);color:var(--ac-t);text-decoration:none;
+font:700 15px/1 'Space Grotesk',sans-serif;padding:15px 24px;border-radius:9px;
+width:100%}
+.tbl:hover{filter:brightness(1.08)}
+/* pop-up gembok — muncul saat lembar terakhir dibuka */
+.lb-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;
+justify-content:center;padding:20px;background:rgba(6,7,9,.66);
+backdrop-filter:blur(2px)}
+.lb-modal[hidden]{display:none!important}
+.lb-modal .kartu{margin:0;max-width:380px;animation:lbNaik .38s ease-out}
+@keyframes lbNaik{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lb-tutup{position:absolute;top:14px;right:16px;background:transparent;border:0;
+color:var(--muted);font-size:26px;line-height:1;cursor:pointer;padding:6px 10px}
+@media(prefers-reduced-motion:reduce){
+  .lb-hal{transition:none}
+  .lb-modal .kartu{animation:none}
+}
+footer{margin:46px 0 0;padding:22px 0 40px;border-top:1px solid var(--line-soft);
+color:#6B727A;font-size:13px;text-align:center}
+footer a{color:var(--muted);text-decoration:none}
+@media(max-width:520px){
+  body{font-size:16.5px}
+  h1{font-size:23px}
+  .hero img{width:82px}
+  .kartu{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="atas"><div class="wrap">
+  <a href="/trilogi-ai">&larr; Trilogi Kecerdasan Buatan</a>
+</div></div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Buku 3 dari 3 &middot; baca gratis</div>
+    <div class="baris">
+      <img src="/trilogi-ai-b3.jpg" alt="Sampul AI Agent"
+           width="760" height="1140">
+      <div>
+        <h1>AI Agent</h1>
+        <p>Baca Gratis E-Book Ketiga Trilogi Kecerdasan Buatan: AI Agent</p>
+      </div>
+    </div>
+  </div>
+  <div class="fakta">
+    <span><b>202</b> halaman</span>
+    <span><b>11</b> bab</span>
+  </div>
+
+  <h2 class="sesi">Baca bukunya</h2>
+  <section class="lb">
+    <div class="lb-petunjuk">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round"
+           aria-hidden="true">
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v18H6.5A2.5 2.5 0 0 1 4 18.5z"/>
+        <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v18h4.5a2.5 2.5 0 0 0 2.5-2.5z"/>
+      </svg>
+      <div><b>Cara bacanya seperti buku sungguhan.</b> Ketuk sisi
+        <b>kanan</b> halaman untuk maju, sisi <b>kiri</b> untuk mundur —
+        atau geser halamannya. Di komputer bisa pakai tombol panah.</div>
+    </div>
+    <div class="lb-panggung" id="lbPanggung">
+      <div class="lb-buku" id="lbBuku" data-total="202">
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="/baca/img/b3-hal-01.jpg" alt="Sampul buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="/baca/img/b3-hal-02.jpg" alt="Halaman 2 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-03.jpg" alt="Halaman 3 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-04.jpg" alt="Halaman 4 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-05.jpg" alt="Halaman 5 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-06.jpg" alt="Halaman 6 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-07.jpg" alt="Halaman 7 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-08.jpg" alt="Halaman 8 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-09.jpg" alt="Halaman 9 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-10.jpg" alt="Halaman 10 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-11.jpg" alt="Halaman 11 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-12.jpg" alt="Halaman 12 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-13.jpg" alt="Halaman 13 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      <div class="lb-hal">
+        <div class="lb-muka"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/baca/img/b3-hal-14.jpg" alt="Halaman 14 buku AI Agent" width="816" height="1158"></div>
+        <div class="lb-belakang"></div>
+      </div>
+      </div>
+      <button class="lb-zona kiri" id="lbKiri" aria-label="Halaman sebelumnya"></button>
+      <button class="lb-zona kanan" id="lbKanan" aria-label="Halaman berikutnya"></button>
+      <div class="lb-tips" id="lbTips" aria-hidden="true">
+        <span>&lsaquo; mundur</span><span>maju &rsaquo;</span>
+      </div>
+    </div>
+    <div class="lb-bar">
+      <button id="lbPrev" aria-label="Halaman sebelumnya">&lsaquo;</button>
+      <span class="lb-no" id="lbNo">Sampul</span>
+      <button id="lbNext" class="utama" aria-label="Halaman berikutnya">Buka buku &rarr;</button>
+    </div>
+
+  </section>
+
+  <footer>
+    <a href="/trilogi-ai">Trilogi Kecerdasan Buatan</a> &middot;
+    <a href="/artikel">Artikel BiB</a> &middot;
+    <a href="https://wa.me/62895411449962">WhatsApp</a>
+  </footer>
+
+</div>
+
+<div class="lb-modal" id="lbModal" hidden role="dialog" aria-modal="true"
+     aria-label="Bagian ini terkunci">
+  <div class="kartu">
+      <button class="lb-tutup" data-tutup aria-label="Tutup">&times;</button>
+      <svg class="ikon" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+        <path d="M7 10V7a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round"/>
+        <rect x="4" y="10" width="16" height="11" rx="2.5" fill="none"
+              stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="15.5" r="1.6" fill="currentColor"/>
+      </svg>
+      <h3>Bagian ini terkunci</h3>
+      <p>Mau lanjut baca? Dapatkan bagian lengkapnya di
+         Trilogi Kecerdasan Buatan!</p>
+      <a class="tbl" href="/trilogi-ai">Klik Disini!</a>
+    </div>
+</div>
+
+<script>
+(function () {
+  var buku = document.getElementById('lbBuku');
+  var panggung = document.getElementById('lbPanggung');
+  if (!buku || !panggung) return;
+  var hal = [].slice.call(buku.getElementsByClassName('lb-hal'));
+  var n = hal.length;
+  if (!n) return;
+
+  var i = 0, bergerak = null, lewati = 0;
+  // Jumlah halaman BUKU (83), bukan jumlah lembar yang digratiskan (12).
+  // Keputusan pemilik (Agu 2026): pembaca harus merasakan bukunya setebal
+  // apa. Nomor yang ditampilkan = nomor halaman PDF-nya sendiri, jadi ia
+  // selalu cocok dengan angka yang tercetak di kaki halaman itu.
+  var total = parseInt(buku.getAttribute('data-total'), 10) || n;
+  var noEl = document.getElementById('lbNo');
+  var prev = document.getElementById('lbPrev');
+  var next = document.getElementById('lbNext');
+  var tips = document.getElementById('lbTips');
+  var modal = document.getElementById('lbModal');
+
+  function muat(k) {
+    var a = Math.max(0, k - 1), b = Math.min(n - 1, k + 1);
+    for (var j = a; j <= b; j++) {
+      var g = hal[j].getElementsByTagName('img')[0];
+      var alamat = g && g.getAttribute('data-src');
+      if (alamat) { g.src = alamat; g.removeAttribute('data-src'); }
+    }
+  }
+
+  function label() {
+    noEl.textContent = i === 0 ? 'Sampul'
+                               : 'Halaman ' + (i + 1) + ' dari ' + total;
+    prev.disabled = i === 0;
+    // Tombol maju TIDAK pernah mati: di lembar terakhir ia yang
+    // memunculkan pop-up gembok.
+    next.innerHTML = i === 0 ? 'Buka buku &rarr;' : '&rsaquo;';
+    next.className = i === 0 ? 'utama' : '';
+  }
+
+  // Lembar yang belum dibalik harus selalu di atas yang sudah. Yang
+  // SEDANG bergerak dikecualikan dan dibiarkan paling atas sampai
+  // animasinya selesai — kalau tidak, ia langsung menyelinap ke bawah
+  // dan yang terlihat cuma lembar berikutnya muncul begitu saja.
+  function susun(kecuali) {
+    for (var j = 0; j < n; j++) {
+      var el = hal[j];
+      if (j < i) { el.className = 'lb-hal balik'; } else { el.className = 'lb-hal'; }
+      if (el !== kecuali) { el.style.zIndex = j < i ? j : 2 * n - j; }
+    }
+  }
+
+  function ke(k) {
+    // Minta halaman sesudah yang gratis = ketuk tembok. Pop-upnya muncul
+    // di situ, bukan begitu lembar terakhir terbuka — pembaca harus
+    // sempat membaca halaman terakhirnya dulu.
+    if (k > n - 1) { bukaModal(); return; }
+    k = Math.max(0, k);
+    if (k === i) return;
+    var yang = k > i ? hal[i] : hal[k];
+    yang.style.zIndex = 3 * n;
+    bergerak = yang;
+    i = k;
+    susun(yang);
+    muat(i);
+    label();
+    if (tips) tips.className = 'lb-tips pergi';
+  }
+
+  buku.addEventListener('transitionend', function (e) {
+    if (e.target === bergerak) { bergerak = null; susun(); }
+  });
+
+  function bukaModal() {
+    if (!modal || !modal.hidden) return;
+    modal.hidden = false;
+    var x = modal.querySelector('.lb-tutup');
+    if (x) x.focus();
+  }
+  function tutupModal() { if (modal) modal.hidden = true; }
+
+  if (modal) {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal || e.target.getAttribute('data-tutup') !== null) {
+        tutupModal();
+      }
+    });
+  }
+
+  document.getElementById('lbKiri').addEventListener('click', function () {
+    if (lewati > Date.now()) return;
+    ke(i - 1);
+  });
+  document.getElementById('lbKanan').addEventListener('click', function () {
+    if (lewati > Date.now()) return;
+    ke(i + 1);
+  });
+  prev.addEventListener('click', function () { ke(i - 1); });
+  next.addEventListener('click', function () { ke(i + 1); });
+
+  var x0 = null;
+  panggung.addEventListener('touchstart', function (e) {
+    x0 = e.touches[0].clientX;
+  }, { passive: true });
+  panggung.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    x0 = null;
+    if (Math.abs(dx) > 42) {
+      lewati = Date.now() + 400;   // geseran jangan ikut terbaca ketukan
+      ke(dx < 0 ? i + 1 : i - 1);
+    }
+  });
+
+  // Panah kiri/kanan hanya dibajak saat bukunya memang sedang dilihat —
+  // di luar itu panah tetap milik pembaca untuk menggulung halaman.
+  document.addEventListener('keydown', function (e) {
+    if (modal && !modal.hidden) {
+      if (e.key === 'Escape') { tutupModal(); }
+      return;
+    }
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    var r = panggung.getBoundingClientRect();
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    if (r.bottom < h * 0.2 || r.top > h * 0.8) return;
+    e.preventDefault();
+    ke(e.key === 'ArrowRight' ? i + 1 : i - 1);
+  });
+
+  susun();
+  muat(0);
+  label();
+  // Petunjuk arah menghilang sendiri walau pembaca diam saja — ia cuma
+  // pengantar, dan sampulnya lebih enak dilihat tanpa dua pil di atasnya.
+  if (tips) { setTimeout(function () { tips.className = 'lb-tips pergi'; }, 5000); }
+})();
+</script>
+</body>
+</html>
