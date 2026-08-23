@@ -187,6 +187,26 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 
 .kartu.tanya{padding:20px 22px;display:flex;flex-direction:column;justify-content:center}
 .kartu.tanya h3{margin-bottom:0;line-height:1.4}
+
+/* ── testimoni pembaca ────────────────────────────────────────
+   Kutipan ASLI yang dikirim pembaca, dipasang apa adanya.
+   JANGAN menambah kutipan karangan di sini: di halaman jualan,
+   kutipan karangan itu review palsu. Kalau ada testimoni baru,
+   tambah satu <figure class="testi"> lagi; petaknya menyesuaikan
+   sendiri (3 kolom di layar lebar, 1 kolom di HP). */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+@media(max-width:860px){.testi-grid{grid-template-columns:1fr}}
+.testi{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:26px 24px;display:flex;flex-direction:column}
+.testi .hasil{display:flex;gap:10px;font-family:var(--disp);font-weight:600;font-size:.78rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ac);line-height:1.55;margin-bottom:14px}
+.testi .hasil::before{content:"";width:10px;height:10px;background:var(--ac);flex:none;margin-top:5px}
+.testi p{font-size:.95rem;color:var(--muted);line-height:1.75;flex-grow:1}
+.testi figcaption{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:16px;
+  border-top:1px solid var(--line-soft);font-family:var(--disp);font-weight:600;font-size:.97rem}
+.testi figcaption i{font-style:normal;flex:none;width:34px;height:34px;border-radius:9px;
+  display:grid;place-items:center;font-size:.95rem;color:var(--ac);
+  background:rgba(212,175,55,.10);border:1px solid var(--ac-soft)}
 </style>
 </head>
 <body>
@@ -194,9 +214,11 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 <!-- ══════════════════════════════════════════════════════════════
      COPYWRITING DARI PEMILIK (via Gemini). DIPASANG APA ADANYA.
      Jangan disunting dan jangan "diperhalus". Keputusan pemilik,
-     Agu 2026: "JANGAN UBAH". Satu pengecualian yang dia minta sendiri
-     sesudahnya: sapaan "Anda" diganti "kamu", dan bunyi tombol
-     checkout diganti "Beli Sekarang!". Selain itu, biarkan.
+     Agu 2026: "JANGAN UBAH". Pengecualian yang dia minta sendiri
+     sesudahnya: sapaan "Anda" diganti "kamu", bunyi tombol checkout
+     diganti "Beli Sekarang!", dan paragraf pembuka di dalam kartu
+     checkout ("Kisah kamu belum selesai di sini...") DIHAPUS atas
+     permintaannya. Selain itu, biarkan.
      Seluruh klaim di dalamnya sudah dicek ke PDF bukunya dan cocok:
      31 kisah, 8 bab, 8 lembar kerja, 20 buku sumber, 30 Hari Pertama,
      dan penempatan tokoh di Bab 2/3/4/6/8.
@@ -316,6 +338,50 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
   </div>
 </section>
 
+<!-- Testimoni pembaca. Kalimatnya kiriman pembaca sendiri, dipasang
+     apa adanya (termasuk sapaan "bg" dan singkatannya). Jangan
+     dipoles dan jangan ditambahi kutipan karangan. -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">TESTIMONI</span>
+    <h2>Yang terjadi pada mereka <em>setelah membacanya</em></h2>
+    <p class="sub">Tiga pesan yang masuk dari pembaca, dipasang apa adanya. Hasil tiap orang
+    beda-beda, tergantung apa yang dia kerjakan sesudah menutup halaman terakhir.</p>
+
+    <div class="testi-grid">
+      <figure class="testi">
+        <div class="hasil">Menyelamatkan Kas di "Masa Perang"</div>
+        <p>"Bg, makasih banyak pdf Titik Nol-nya. Bulan lalu kas vendor saya sisa buat sebulan,
+        saya udah mau nyerah. Pas baca bab soal 'Kas Dulu, Harga Diri Belakangan', saya langsung
+        stop mikirin branding. Minggu itu full saya hubungin klien buat nagih piutang yang macet.
+        Kemarin akhirnya ada 3 invoice cair barengan. Napas bisnis saya nyambung lagi bg. Ilmu
+        masa perangnya ngena banget."</p>
+        <figcaption><i>D</i>Kak Dimas</figcaption>
+      </figure>
+
+      <figure class="testi">
+        <div class="hasil">Berhenti Menipu Diri dan Sukses Pivot</div>
+        <p>"Pdf kakak bener-bener nampar ego saya. Selama ini saya halu, maksain jual kue premium
+        yang saya suka, padahal customer pada nanyain kue kering biasa. Berkat bab soal pivot dan
+        jujur sama angka, saya berani coret menu gagal saya. Sekarang saya fokus jual yang dimau
+        pasar, dan omset bulan ini nutup kerugian 3 bulan ke belakang. Makasih udah nulis ini
+        kak!"</p>
+        <figcaption><i>R</i>Kak Rina</figcaption>
+      </figure>
+
+      <figure class="testi">
+        <div class="hasil">Bertahan Lewat Fase Paling Sepi</div>
+        <p>"Jujur pas beli pdf ini mental saya lagi ancur banget karena ngerasa jualan sepi padahal
+        udah ngelakuin semua cara. Nasihat di Bab 6 soal 'Mengecilkan Waktu' bener-bener nyelamatin
+        kewarasan saya. Tiap cemas kumat, saya cuma mikir 'apa yang harus beres sebelum makan
+        siang'. Gak kerasa jalan pelan-pelan, hari ini saya deal sama klien gede pertama saya.
+        Makasih udah nemenin masa sepi saya lewat tulisan ini bg."</p>
+        <figcaption><i>A</i>Kak Aditya</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <span class="eyebrow">BONUS</span>
@@ -331,9 +397,6 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
     <div class="co" id="beli">
       <span class="eyebrow center-e" style="justify-content:center">AMBIL SEKARANG</span>
       <h2>Titik Nol Bukanlah Aib, Itu Adalah <em>Bagian Normal dari Perjalanan Usaha.</em></h2>
-      <p class="sub" style="margin:14px auto 0">Kisah kamu belum selesai di sini. Jangan
-      biarkan usaha yang sudah kamu bangun dengan susah payah mati hanya karena kamu salah
-      mengambil keputusan di saat panik.</p>
       <ul class="isi-paket">
         <li><b>146 halaman</b>, 8 bab berurutan, satu berkas PDF</li>
         <li><b>31 kisah nyata</b> pengusaha yang pernah ada di titik nol</li>
