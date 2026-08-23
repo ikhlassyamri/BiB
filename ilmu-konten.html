@@ -145,12 +145,15 @@ h2 em{font-style:normal;color:var(--ac)}
 /* testimoni */
 .testi{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
 @media(max-width:860px){.testi{grid-template-columns:1fr}}
-.testi blockquote{border:1px solid var(--line-soft);border-radius:var(--r);
+.testi > div{border:1px solid var(--line-soft);border-radius:var(--r);
   background:var(--panel-2);padding:26px 24px;display:flex;flex-direction:column}
 .testi blockquote p{font-size:.98rem;line-height:1.7}
-.testi blockquote p::before{content:"\201C";font-family:var(--disp);font-size:2.4rem;
-  color:var(--ac);line-height:0;vertical-align:-.35em;margin-right:6px}
 .testi .siapa-t{margin-top:auto;padding-top:18px;font-size:.88rem;color:var(--muted)}
+.testi .gejala{font-family:var(--disp);font-weight:700;font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ac);margin-bottom:10px}
+.testi .salah{font-size:.9rem;color:var(--muted);margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--line)}
+.testi .salah b{color:var(--text);font-weight:600}
 .testi .siapa-t b{display:block;color:var(--text);font-family:var(--disp);font-weight:600}
 
 details{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--panel-2);
@@ -377,29 +380,51 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
   </div>
 </section>
 
-<!-- ══ TESTIMONI ══
-     KOSONG SENGAJA. Isi dengan testimoni ASLI dari pembaca: satu blockquote
-     per orang, nama dan keterangan singkat di .siapa-t. Kalau belum ada
-     satu pun, HAPUS seluruh <section> ini sampai testimoni pertama masuk.
-     Jangan diisi contoh karangan: testimoni palsu itu bohong ke pembeli,
-     dan satu orang yang mengeceknya cukup untuk menghancurkan halaman ini. -->
+<!-- ══ TIGA MASALAH ══
+     Posisi ini awalnya untuk TESTIMONI, dan tetap disediakan untuk itu.
+     Selama belum ada testimoni ASLI dari pembeli, yang berdiri di sini
+     tiga masalah pembaca, bukan tiga kutipan karangan. Kutipan karangan
+     di halaman jualan itu review palsu: pembaca membacanya sebagai kata
+     pembeli beneran, lengkap dengan angka yang tidak pernah terjadi.
+     Begitu ada testimoni asli, ganti bagian ini. -->
 <section>
   <div class="wrap">
-    <div class="eyebrow">Kata pembacanya</div>
-    <h2>Yang sudah <em>memakainya</em></h2>
+    <div class="eyebrow">Kamu yang mana</div>
+    <h2>Tiga masalah yang paling sering, dan <em>bagian mana yang menjawabnya</em></h2>
+    <p class="sub">Ketiganya kelihatan sama dari luar: videonya sepi. Padahal
+    penyebabnya beda, dan salah tebak berarti kamu membenahi hal yang tidak
+    rusak.</p>
+
     <div class="testi">
-      <blockquote>
-        <p>[TULIS TESTIMONI ASLI DI SINI]</p>
-        <div class="siapa-t"><b>[Nama]</b>[keterangan singkat, misalnya jenis akunnya]</div>
-      </blockquote>
-      <blockquote>
-        <p>[TULIS TESTIMONI ASLI DI SINI]</p>
-        <div class="siapa-t"><b>[Nama]</b>[keterangan singkat]</div>
-      </blockquote>
-      <blockquote>
-        <p>[TULIS TESTIMONI ASLI DI SINI]</p>
-        <div class="siapa-t"><b>[Nama]</b>[keterangan singkat]</div>
-      </blockquote>
+      <div>
+        <div class="gejala">Gejalanya</div>
+        <p>Grafik retensimu jatuh di detik 1 sampai 3. Orang belum sempat tahu
+        videomu soal apa, sudah pergi.</p>
+        <div class="salah"><b>Yang biasanya disalahkan:</b> editing, kualitas
+        kamera, jam upload.</div>
+        <div class="siapa-t"><b>Yang menjawabnya</b>Alat diagnosa retensi, lalu
+        kelompok A di katalog: pola yang membuat penasaran.</div>
+      </div>
+
+      <div>
+        <div class="gejala">Gejalanya</div>
+        <p>Pembukamu jalan, orang bertahan lewat detik 5, lalu grafiknya
+        nyungsep di tengah. Komentarnya sopan tapi sepi.</p>
+        <div class="salah"><b>Yang biasanya disalahkan:</b> topiknya terlalu
+        berat, durasinya kepanjangan.</div>
+        <div class="siapa-t"><b>Yang menjawabnya</b>Buku dua. Video pendekmu itu
+        satu adegan, dan adegan tanpa titik balik akan datar di tengah.</div>
+      </div>
+
+      <div>
+        <div class="gejala">Gejalanya</div>
+        <p>Angkamu naik tiap pakai satu jurus andalan, tapi naik turunnya makin
+        ekstrem, dan kamu merasa harus makin heboh tiap upload.</p>
+        <div class="salah"><b>Yang biasanya disalahkan:</b> algoritmanya
+        berubah.</div>
+        <div class="siapa-t"><b>Yang menjawabnya</b>Kelompok D: empat pola yang
+        angkanya naik hari ini dan menurunkan sebaran videomu berikutnya.</div>
+      </div>
     </div>
   </div>
 </section>
