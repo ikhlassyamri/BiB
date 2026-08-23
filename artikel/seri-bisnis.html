@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Kumpulan Ilmu Membangun Usaha dari Nol | BiB</title>
-<meta name="description" content="Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<meta name="description" content="Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 1 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#0B0C0E">
 <meta name="author" content="BiB">
@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="BiB">
 <meta property="og:locale" content="id_ID">
 <meta property="og:title" content="Kumpulan Ilmu Membangun Usaha dari Nol">
-<meta property="og:description" content="Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.">
+<meta property="og:description" content="Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 1 sudah terbit. Tiap bagian bisa dibaca sendiri.">
 <meta property="og:url" content="https://joinbib.id/artikel/seri-bisnis">
 <link rel="canonical" href="https://joinbib.id/artikel/seri-bisnis">
 <link rel="icon" type="image/png" href="/favicon.png">
@@ -25,7 +25,7 @@
     {
       "@type": "CollectionPage",
       "name": "Kumpulan Ilmu Membangun Usaha dari Nol",
-      "description": "Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 0 sudah terbit. Tiap bagian bisa dibaca sendiri.",
+      "description": "Berisi cara menyusun model, arus kas, sistem, dan tim. 104 bagian berurutan, 1 sudah terbit. Tiap bagian bisa dibaca sendiri.",
       "url": "https://joinbib.id/artikel/seri-bisnis",
       "inLanguage": "id-ID",
       "publisher": {
@@ -37,8 +37,15 @@
     {
       "@type": "ItemList",
       "name": "Kumpulan Ilmu Membangun Usaha dari Nol",
-      "numberOfItems": 0,
-      "itemListElement": []
+      "numberOfItems": 1,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Menyingkirkan Asumsi Pribadi dan Melihat Bisnis Sebagai Sistem Nilai",
+          "url": "https://joinbib.id/artikel/kenapa-usaha-sepi-padahal-produk-bagus"
+        }
+      ]
     }
   ]
 }</script>
@@ -53,6 +60,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#76B900;
+  --prisma:none;
   --ac-rgb:118,185,0;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
@@ -207,9 +215,21 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
   font-weight:600;background:var(--panel)}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
+/* ── PRISMA (topik berbranding spektrum, mis. Ilmu Konten) ──────────────
+   Halaman ini berlatar hitam, jadi judul besarnya AMAN digradien. Yang
+   kecil-kecil tetap memakai warna padat var(--ac).
+   @supports-nya wajib: tanpa dukungan background-clip:text, aturan
+   color:transparent membuat judulnya HILANG sama sekali. */
+.prisma .pita-prisma{display:block;height:4px;width:132px;border-radius:4px;
+  background:var(--prisma);margin:0 0 16px}
+.pita-prisma{display:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .prisma h1{background:var(--prisma);-webkit-background-clip:text;
+    background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+}
 </style>
 </head>
-<body>
+<body class="">
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
   <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
@@ -217,6 +237,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Bisnis</span></nav>
+  <span class="pita-prisma" aria-hidden="true"></span>
   <h1>Kumpulan Ilmu Membangun Usaha dari Nol</h1>
 
   <p class="sub">Berisi cara menyusun model, arus kas, sistem, dan tim. <span class="jml">(8 Chapter)</span></p>
@@ -228,14 +249,14 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
     <a href="https://whatsapp.com/channel/0029VbD3xRK6LwHdluqg330X" target="_blank" rel="noopener" aria-label="Saluran WhatsApp BiB"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1"><path d="M4 5h16v11H8l-4 4V5z"/></svg></a>
   </div>
 
-  <div class="hitung">0 dari 104 bagian sudah terbit</div>
+  <div class="hitung">1 dari 104 bagian sudah terbit</div>
   <details class="ch">
     <summary>
-      <span class="ch-atas"><span class="ch-no">Chapter 1</span><span class="ch-kanan"><span class="ch-hit">0/13</span><span class="ch-tanda"></span></span></span>
+      <span class="ch-atas"><span class="ch-no">Chapter 1</span><span class="ch-kanan"><span class="ch-hit">1/13</span><span class="ch-tanda"></span></span></span>
       <span class="ch-jd">Menemukan Model Bisnis dan Pelanggan Pertama</span>
     </summary>
     <ol>
-    <li class="belum"><div class="nanti"><span class="no">01</span><span class="jd">Menyingkirkan Asumsi Pribadi dan Melihat Bisnis Sebagai Sistem Nilai<span class="tg">Segera hadir</span></span></div></li>
+    <li><a href="/artikel/kenapa-usaha-sepi-padahal-produk-bagus"><span class="no">01</span><span class="jd">Menyingkirkan Asumsi Pribadi dan Melihat Bisnis Sebagai Sistem Nilai<span class="tg">Terbit 2026-08-23</span></span></a></li>
     <li class="belum"><div class="nanti"><span class="no">02</span><span class="jd">Memetakan Model Bisnis ke dalam 9 Blok Bangunan Dasar<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">03</span><span class="jd">Menentukan Siapa Pelanggan Nyata Lewat Demografi dan Psikografi<span class="tg">Segera hadir</span></span></div></li>
     <li class="belum"><div class="nanti"><span class="no">04</span><span class="jd">Menguji Ide Melalui Wawancara Tanpa Terjebak Pujian Palsu<span class="tg">Segera hadir</span></span></div></li>
