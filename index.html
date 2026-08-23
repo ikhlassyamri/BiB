@@ -6,6 +6,18 @@
 <title>BiB — Belajar Menghasilkan Uang di Internet dengan AI</title>
 <meta name="description" content="BiB (Bisnis in a Box) adalah sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, prompt AI siap pakai, dan mentor yang bisa kamu hubungi langsung, seumur hidup.">
 <meta name="theme-color" content="#0B0C0E">
+<script>
+/* SAKLAR HARGA BiB. Sebelum tenggat: Rp499.000 + hitung mundur.
+   Sesudah tenggat: Rp549.000, hitung mundurnya hilang sendiri.
+   Memperpanjang masa harga lama = mengubah SATU baris di bawah ini,
+   jangan menyunting angkanya satu per satu di badan halaman.
+
+   Kelasnya dipasang di sini, bukan di skrip ekor, supaya tidak ada
+   kedipan harga salah: pembaca tidak boleh sempat melihat Rp499.000
+   lalu berkedip jadi Rp549.000. */
+var NAIK_HARGA = new Date('2026-09-01T23:59:59+07:00').getTime();
+document.documentElement.classList.add(Date.now() < NAIK_HARGA ? 'hn' : 'hb');
+</script>
 <meta property="og:type" content="website">
 <meta property="og:title" content="BiB — Belajar Menghasilkan Uang di Internet dengan AI">
 <meta property="og:description" content="Sistem lengkap membangun penghasilan dari internet: materi step-by-step, produk siap jual, prompt AI siap pakai, dan mentor seumur hidup.">
@@ -269,6 +281,27 @@ blockquote strong{
   margin:6px 0 10px;color:#fff;
 }
 .p-sub{color:var(--muted);font-size:1rem}
+
+/* ── saklar harga: hn = harga lama, hb = sudah naik ──────────────── */
+html.hn .hanya-hb{display:none!important}
+html.hb .hanya-hn{display:none!important}
+/* JavaScript mati = tidak ada kelas sama sekali. Tampilkan harga yang
+   berlaku sekarang dan sembunyikan hitung mundurnya, jangan sampai dua
+   harga muncul berbarengan. */
+html:not(.hn):not(.hb) .hanya-hb{display:none!important}
+html:not(.hn):not(.hb) .mundur{display:none!important}
+
+.mundur{border:1px solid var(--nv);border-radius:14px;
+  background:rgba(118,185,0,.06);padding:15px 16px;margin:22px auto 0;
+  max-width:340px}
+.mundur .m-judul{font-family:var(--disp);font-weight:700;font-size:.72rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--nv);margin-bottom:10px}
+.jam{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.jam div{background:var(--panel-2);border:1px solid var(--line-soft);
+  border-radius:9px;padding:8px 3px}
+.jam b{font-family:var(--disp);font-weight:700;font-size:1.45rem;color:var(--text);
+  display:block;line-height:1.15;font-variant-numeric:tabular-nums}
+.jam span{font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .p-list{list-style:none;text-align:left;margin:32px 0;border-top:1px solid var(--line-soft);padding-top:28px}
 .p-list li{display:flex;gap:14px;align-items:flex-start;padding:9px 0;color:var(--text)}
 .p-check{
@@ -697,8 +730,18 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
         <img class="p-logo" src="logo-white.png" alt="BiB" width="640" height="514">
         <div class="p-label">Investasi join BiB:</div>
         <div class="p-old"><s>Rp2.214.000</s><span class="tag">NILAI BONUS</span></div>
-        <div class="p-now">Rp499.000</div>
+        <div class="p-now hanya-hn">Rp499.000</div>
+        <div class="p-now hanya-hb">Rp549.000</div>
         <p class="p-sub">Sekali bayar. Akses dan mentoring seumur hidup.</p>
+        <div class="mundur hanya-hn" id="mundurHarga">
+          <div class="m-judul">Harga naik ke Rp549.000 dalam</div>
+          <div class="jam">
+            <div><b id="nk-d">0</b><span>Hari</span></div>
+            <div><b id="nk-h">00</b><span>Jam</span></div>
+            <div><b id="nk-m">00</b><span>Menit</span></div>
+            <div><b id="nk-s">00</b><span>Detik</span></div>
+          </div>
+        </div>
         <ul class="p-list">
           <li><span class="p-check">✓</span>40+ video materi, 10–20 menit per video</li>
           <li><span class="p-check">✓</span>30 produk digital siap jual</li>
@@ -761,7 +804,7 @@ footer{border-top:1px solid var(--line-soft);padding:44px 0 110px}
       <p>Setahun dari sekarang, AI makin pintar, makin murah, dan makin banyak dipakai orang yang mengincar pembeli yang sama dengan kamu.</p>
       <p>Kata Jensen Huang: <strong>yang kalah bukan yang digantikan AI, tapi yang kalah dari orang yang pakai AI.</strong></p>
       <p>Pilihan itu sekarang ada di tangan kamu.</p>
-      <a class="btn btn-big" href="https://lynk.id/ikhlassyamri/6jp3xo1ezp78/checkout">Join BiB Sekarang<small>Rp499.000</small></a>
+      <a class="btn btn-big" href="https://lynk.id/ikhlassyamri/6jp3xo1ezp78/checkout">Join BiB Sekarang<small class="hanya-hn">Rp499.000</small><small class="hanya-hb">Rp549.000</small></a>
     </div>
   </section>
 
@@ -829,6 +872,32 @@ function closeLb(){lb.classList.remove('open');lbi.src='';document.body.style.ov
 document.querySelectorAll('[data-zoom]').forEach(function(el){
   el.addEventListener('click',function(){openLb(el.currentSrc||el.src,el.alt)});
 });
+// hitung mundur harga. Begitu habis, kelasnya ditukar dan seluruh harga
+// di halaman ikut berganti tanpa muat ulang.
+(function(){
+  var el = {d:document.getElementById('nk-d'), h:document.getElementById('nk-h'),
+            m:document.getElementById('nk-m'), s:document.getElementById('nk-s')};
+  if (!el.d) return;
+  function dua(n){ return n < 10 ? '0' + n : '' + n; }
+  function tik(){
+    var sisa = NAIK_HARGA - Date.now();
+    if (sisa <= 0){
+      document.documentElement.classList.remove('hn');
+      document.documentElement.classList.add('hb');
+      return true;
+    }
+    var det = Math.floor(sisa/1000);
+    el.d.textContent = Math.floor(det/86400);
+    el.h.textContent = dua(Math.floor(det%86400/3600));
+    el.m.textContent = dua(Math.floor(det%3600/60));
+    el.s.textContent = dua(det%60);
+    return false;
+  }
+  if (!tik()){
+    var jalan = setInterval(function(){ if (tik()) clearInterval(jalan); }, 1000);
+  }
+})();
+
 lb.addEventListener('click',closeLb);
 addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
 </script>
