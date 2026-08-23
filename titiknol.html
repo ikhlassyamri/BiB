@@ -58,10 +58,8 @@ h2 em{font-style:normal;color:var(--ac)}
 
 /* hero */
 .hero{padding-top:clamp(70px,10vw,120px)}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
-@media(max-width:820px){.hero-grid{grid-template-columns:1fr}.hero-cover{order:-1;max-width:300px;margin:0 auto}}
 .hero p.lede{color:var(--muted);margin:20px 0 30px;max-width:520px}
-.hero-cover img{border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.55), 0 0 0 1px var(--line-soft)}
+.hero-teks{max-width:760px}
 
 .harga{display:flex;align-items:baseline;gap:16px;margin:6px 0 22px;flex-wrap:wrap}
 .harga .coret{color:var(--muted);text-decoration:line-through;font-size:1.15rem}
@@ -199,8 +197,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 
 <section class="hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div>
+    <div class="hero-teks">
         <span class="eyebrow">KHUSUS UNTUK ANDA YANG SEDANG BERADA DI TITIK TERENDAH&hellip;</span>
         <h1>Apa yang Sebenarnya Dilakukan Para Pengusaha Raksasa Dunia Saat Bisnis Mereka <em>Nyaris Mati?</em></h1>
         <p class="lede">Bukan afirmasi semesta. Bukan motivasi kosong. Temukan 31 kisah nyata
@@ -209,8 +206,6 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
         Anda hari ini.</p>
         <a class="btn" href="#beli">Unduh PDF-nya Sekarang &middot; Mulai Bangkit Hari Ini</a>
         <p class="btn-note">Sekali bayar &middot; PDF 146 halaman &middot; langsung terkirim setelah pembayaran</p>
-      </div>
-      <div class="hero-cover"><img src="/titiknol-cover.jpg" alt="Sampul e-book Bangkit dari Titik Nol" width="760" height="1076"></div>
     </div>
     <div class="angka">
       <div><b>31</b><span>kisah nyata</span></div>
