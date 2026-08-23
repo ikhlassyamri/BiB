@@ -76,12 +76,6 @@ h2 em{font-style:normal;color:var(--ac)}
 .harga .label{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
   border:1px solid var(--ac);color:var(--ac);border-radius:999px;padding:3px 12px}
 
-.angka{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:54px}
-@media(max-width:680px){.angka{grid-template-columns:repeat(2,1fr)}}
-.angka div{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:var(--r);
-  padding:18px 10px;text-align:center}
-.angka b{font-family:var(--disp);font-size:1.7rem;color:var(--ac);display:block}
-.angka span{font-size:.85rem;color:var(--muted)}
 
 .rumus{border:1.5px solid var(--line);border-radius:18px;background:var(--panel-2);
   padding:clamp(26px,5vw,42px);text-align:center;margin-top:38px}
@@ -90,16 +84,6 @@ h2 em{font-style:normal;color:var(--ac)}
 .rumus span{display:block;color:var(--muted);font-size:.95rem;margin-top:16px;
   font-family:var(--body);line-height:1.75}
 
-/* dua buku berdampingan */
-.duo{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:38px}
-@media(max-width:760px){.duo{grid-template-columns:1fr}}
-.buku{border:1px solid var(--line-soft);border-radius:16px;background:var(--panel-2);
-  padding:28px 26px;display:flex;flex-direction:column}
-.buku .no{font-family:var(--disp);font-weight:700;font-size:.76rem;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ac);margin-bottom:12px}
-.buku h3{font-family:var(--disp);font-weight:700;font-size:1.42rem;line-height:1.2;margin-bottom:6px}
-.buku .peran{color:var(--muted);font-size:.95rem;margin-bottom:18px}
-.buku .garis{height:4px;width:56px;background:var(--prisma);border-radius:99px;margin-bottom:18px}
 
 /* fitur + value */
 .fitur{list-style:none;margin-top:8px}
@@ -111,16 +95,7 @@ h2 em{font-style:normal;color:var(--ac)}
 .fitur span{display:block;font-size:.94rem;color:var(--muted);margin-top:3px}
 .fitur em{font-style:normal;color:var(--ac)}
 
-.sumber{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.sumber span{border:1px solid var(--line);border-radius:999px;padding:7px 16px;
-  font-size:.88rem;color:var(--muted)}
 
-.jujur{border:1.5px solid var(--ac);border-radius:var(--r);padding:28px 26px;margin-top:36px;
-  background:rgba(255,79,163,.05)}
-.jujur h3{font-family:var(--disp);color:var(--ac);font-size:1.05rem;letter-spacing:.08em;margin-bottom:12px}
-.jujur ul{list-style:none}
-.jujur li{padding-left:26px;position:relative;margin-bottom:10px;color:var(--muted);font-size:.98rem}
-.jujur li::before{content:"\00d7";position:absolute;left:2px;color:var(--ac);font-weight:700}
 
 .siapa{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:34px}
 @media(max-width:680px){.siapa{grid-template-columns:1fr}}
@@ -180,7 +155,7 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
   body{padding-bottom:80px}
   .bilah-beli{
     position:fixed;left:0;right:0;bottom:0;z-index:90;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    display:flex;align-items:center;justify-content:center;gap:14px;
     padding:10px 15px;padding-bottom:calc(10px + env(safe-area-inset-bottom));
     background:rgba(11,12,14,.95);
     -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -189,11 +164,7 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
     transform:translateY(125%);transition:transform .26s ease;
   }
   .bilah-beli.tampil{transform:translateY(0);pointer-events:auto}
-  .bb-harga{display:flex;flex-direction:column;line-height:1.2}
-  .bb-harga s{font-size:.76rem;color:#8B9096;text-decoration:line-through}
-  .bb-harga b{font-family:'Space Grotesk',system-ui,sans-serif;
-    font-weight:700;font-size:1.2rem;color:#FF4FA3}
-  .bb-btn{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
+  .bb-btn{flex:1;text-align:center;font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
     font-size:.98rem;line-height:1;white-space:nowrap;
     background:linear-gradient(100deg,#E11D8F 0%,#F97316 52%,#FBBF24 100%);
     color:#0B0C0E;padding:14px 24px;border-radius:999px}
@@ -212,24 +183,11 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
       detik pertama. Buku kedua membuat dia bertahan sampai detik terakhir.
       Dua masalah yang berbeda, dan hampir semua kreator cuma menggarap yang
       pertama.</p>
-      <div class="harga">
-        <span class="coret">Rp150.000</span>
-        <span class="kini">Rp99.000</span>
-        <span class="label">Dua buku sekaligus</span>
-      </div>
       <a class="btn" href="#beli">Ambil Paketnya</a>
       <p class="btn-note">275 halaman, dua berkas PDF, langsung dikirim.</p>
     </div>
     <div class="hero-cover"><img src="/ilmu-konten-cover.jpg"
       alt="Sampul Tiga Detik Pertama dan Satu Adegan" width="1200" height="1200"></div>
-  </div>
-  <div class="wrap">
-    <div class="angka">
-      <div><b>275</b><span>halaman</span></div>
-      <div><b>29</b><span>pola hook</span></div>
-      <div><b>14</b><span>bentuk kalimat</span></div>
-      <div><b>5</b><span>bedah naskah</span></div>
-    </div>
   </div>
 </section>
 
@@ -243,32 +201,6 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
     <div class="rumus">
       <p>Kalau penonton pergi di <b>detik 1 sampai 3</b>, masalahnya pembuka.<br>
       Kalau dia bertahan lewat detik 5 lalu pergi di tengah, <b>masalahnya struktur</b>.</p>
-      <span>Grafik retensi di aplikasi tempat kamu upload sudah menjawabnya.
-      Kebanyakan orang tidak pernah membukanya, lalu menebak, lalu mengganti
-      hal yang tidak rusak.</span>
-    </div>
-
-    <div class="duo">
-      <div class="buku">
-        <div class="no">Buku Satu</div>
-        <h3>Tiga Detik Pertama</h3>
-        <div class="garis"></div>
-        <div class="peran">Untuk penonton yang pergi sebelum kamu sempat bicara.
-        Isinya katalog: buka di tengah, ambil satu pola, pakai hari ini.</div>
-        <div class="sumber">
-          <span>135 halaman</span><span>29 pola</span><span>4 kelompok</span>
-        </div>
-      </div>
-      <div class="buku">
-        <div class="no">Buku Dua</div>
-        <h3>Satu Adegan</h3>
-        <div class="garis"></div>
-        <div class="peran">Untuk penonton yang sudah berhenti, lalu bosan di
-        tengah. Isinya tangga lima tingkat, dan boleh berhenti di tingkat tiga.</div>
-        <div class="sumber">
-          <span>140 halaman</span><span>19 bab</span><span>5 bedah</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -320,40 +252,6 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
         memeriksa hook sebelum diupload, satu untuk menyimpan bahan supaya
         kamu tidak mulai dari layar kosong tiap kali.</span></li>
     </ul>
-
-    <div class="sumber">
-      <span>Made to Stick</span><span>Story</span><span>Building a StoryBrand</span>
-      <span>Hooked</span><span>The Elements of Eloquence</span><span>Contagious</span>
-    </div>
-    <p class="sub" style="margin-top:14px;font-size:.92rem">Enam buku sumber, dan
-    tiap gagasan yang dipinjam disebut halaman berapa asalnya.</p>
-
-    <div class="jujur">
-      <h3>YANG TIDAK ADA DI SINI</h3>
-      <ul>
-        <li>Janji jumlah views atau penghasilan. Tidak ada satu pun.</li>
-        <li>Daftar template hook siap tempel. Buku satu justru punya satu bab
-        khusus soal kenapa daftar template membuat kamu buntu.</li>
-        <li>Cara mengakali algoritma, jam upload terbaik, atau tagar rahasia.</li>
-        <li>Cara editing, kamera, dan alat. Lingkupnya sengaja sempit: apa yang
-        kamu katakan, dan urutannya.</li>
-      </ul>
-    </div>
-
-    <div class="siapa">
-      <div class="a"><h3>Cocok kalau</h3><ul class="ya">
-        <li>Kamu sudah rutin upload dan angkanya jalan di tempat</li>
-        <li>Videomu bagus garapannya tapi ditinggal di detik awal</li>
-        <li>Kamu ingin tahu alasannya, bukan cuma diberi contekan</li>
-        <li>Kamu jualan atau mengajar lewat video pendek</li>
-      </ul></div>
-      <div><h3>Lewati kalau</h3><ul class="no">
-        <li>Kamu mencari cara cepat viral minggu ini</li>
-        <li>Kamu belum pernah upload satu video pun</li>
-        <li>Kamu ingin dibuatkan, bukan diajari</li>
-        <li>Kamu mencari materi soal iklan berbayar</li>
-      </ul></div>
-    </div>
   </div>
 </section>
 
@@ -364,11 +262,13 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
       <div class="eyebrow center-e">Ambil paketnya</div>
       <h2>Dua buku, satu kali bayar</h2>
       <ul class="isi-paket">
-        <li>Tiga Detik Pertama, 135 halaman (PDF)</li>
-        <li>Satu Adegan, 140 halaman (PDF)</li>
-        <li>Katalog 29 pola hook + 14 bentuk kalimat</li>
-        <li>Lima bedah naskah detik per detik</li>
-        <li>Alat diagnosa retensi + daftar cek sebelum upload</li>
+        <li><b>Dua buku, 275 halaman</b>, dua berkas PDF ukuran A5</li>
+        <li><b>Katalog 29 pola hook</b> dalam 4 kelompok, tiap pola lengkap dengan contoh sebelum, sesudah, dan kapan jangan dipakai</li>
+        <li><b>Alat diagnosa retensi</b>: satu tabel yang menunjukkan videomu mati di detik ke berapa, dan bagian mana yang perlu dibuka</li>
+        <li><b>14 bentuk kalimat</b> yang mengubah pola jadi satu baris siap diketik</li>
+        <li><b>5 bedah naskah</b> detik per detik, dengan kolom yang menyebut tiap baris sedang mengerjakan apa</li>
+        <li><b>Kelompok D</b>: empat pola yang angkanya naik hari ini dan menurunkan sebaran videomu berikutnya</li>
+        <li><b>Daftar cek sebelum upload</b> dan Bank Lubang, dua halaman yang dipakai berulang</li>
       </ul>
       <div class="harga">
         <span class="coret">Rp150.000</span>
@@ -481,7 +381,7 @@ footer .kontak a:hover{color:var(--ac);border-color:var(--ac)}
 
 <!-- bilah beli melayang (HP). Menggulung ke bagian harga, bukan ke checkout. -->
 <a class="bilah-beli" id="bilahBeli" href="#beli">
-  <span class="bb-harga"><s>Rp150.000</s><b>Rp99.000</b></span>
+
   <span class="bb-btn">Ambil Paketnya</span>
 </a>
 <script>

@@ -144,7 +144,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
   body{padding-bottom:80px}
   .bilah-beli{
     position:fixed;left:0;right:0;bottom:0;z-index:90;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    display:flex;align-items:center;justify-content:center;gap:14px;
     padding:10px 15px;padding-bottom:calc(10px + env(safe-area-inset-bottom));
     background:rgba(11,12,14,.95);
     -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -153,14 +153,16 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
     transform:translateY(125%);transition:transform .26s ease;
   }
   .bilah-beli.tampil{transform:translateY(0);pointer-events:auto}
-  .bb-harga{display:flex;flex-direction:column;line-height:1.2}
-  .bb-harga s{font-size:.76rem;color:#8B9096;text-decoration:line-through}
-  .bb-harga b{font-family:'Space Grotesk',system-ui,sans-serif;
-    font-weight:700;font-size:1.2rem;color:#D4AF37}
-  .bb-btn{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
+  .bb-btn{flex:1;text-align:center;font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
     font-size:.98rem;line-height:1;white-space:nowrap;
     background:#D4AF37;color:#0B0C0E;padding:14px 24px;border-radius:999px}
 }
+
+.isi-paket{list-style:none;margin:22px auto 26px;max-width:430px;text-align:left}
+.isi-paket li{font-size:.96rem;color:var(--muted);padding-left:28px;position:relative;
+  margin-bottom:10px;line-height:1.65}
+.isi-paket li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--ac);font-weight:700}
+.isi-paket li b{color:var(--text);font-family:var(--disp);font-weight:600}
 </style>
 </head>
 <body>
@@ -174,12 +176,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
         <p class="lede">Apa yang <strong>benar-benar</strong> dilakukan para pengusaha dunia
         saat usahanya nyaris mati. Bukan versi seminarnya. Versi lengkapnya,
         termasuk bagian yang tidak bisa kamu tiru.</p>
-        <div class="harga">
-          <span class="label">Harga Spesial</span>
-          <span class="coret">Rp100.000</span>
-          <span class="kini">Rp49.000</span>
-        </div>
-        <a class="btn" href="https://lynk.id/ikhlassyamri/gzwl999p70nv/checkout">Ambil E-Book Sekarang &rarr;</a>
+        <a class="btn" href="#beli">Ambil E-Book Sekarang &rarr;</a>
         <p class="btn-note">Sekali bayar &middot; PDF 146 halaman &middot; langsung terkirim setelah pembayaran</p>
       </div>
       <div class="hero-cover"><img src="/titiknol-cover.jpg" alt="Sampul e-book Bangkit dari Titik Nol" width="760" height="1076"></div>
@@ -277,6 +274,14 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
     <div class="co" id="beli">
       <span class="eyebrow center-e" style="justify-content:center">AMBIL SEKARANG</span>
       <h2>Satu kegagalan yang dicegah buku ini<br>nilainya jauh di atas <em>Rp49.000</em></h2>
+      <ul class="isi-paket">
+        <li><b>146 halaman</b>, 8 bab berurutan, satu berkas PDF</li>
+        <li><b>31 kisah nyata</b> pengusaha yang pernah ada di titik nol</li>
+        <li>Tiap kisah dibedah <b>dua kolom</b>: apa yang terjadi, dan apa yang bisa kamu tiru</li>
+        <li>Satu bab khusus soal <b>yang gagal bangkit</b>, bukan cuma yang berhasil</li>
+        <li>Tiap fakta dan angka <b>disebut sumbernya</b>, dari 20 buku</li>
+        <li>Tiap kisah ditutup <b>satu tugas kecil</b> yang bisa dikerjakan hari itu</li>
+      </ul>
       <div class="harga" style="margin-top:18px">
         <span class="coret">Rp100.000</span>
         <span class="kini">Rp49.000</span>
@@ -331,7 +336,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 
 <!-- bilah beli melayang (HP). Menggulung ke bagian harga, bukan ke checkout. -->
 <a class="bilah-beli" id="bilahBeli" href="#beli">
-  <span class="bb-harga"><s>Rp100.000</s><b>Rp49.000</b></span>
+
   <span class="bb-btn">Beli Sekarang</span>
 </a>
 <script>

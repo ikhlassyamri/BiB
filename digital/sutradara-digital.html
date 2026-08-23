@@ -48,7 +48,7 @@
   body{padding-bottom:80px}
   .bilah-beli{
     position:fixed;left:0;right:0;bottom:0;z-index:90;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    display:flex;align-items:center;justify-content:center;gap:14px;
     padding:10px 15px;padding-bottom:calc(10px + env(safe-area-inset-bottom));
     background:rgba(11,12,14,.95);
     -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -57,11 +57,7 @@
     transform:translateY(125%);transition:transform .26s ease;
   }
   .bilah-beli.tampil{transform:translateY(0);pointer-events:auto}
-  .bb-harga{display:flex;flex-direction:column;line-height:1.2}
-  .bb-harga s{font-size:.76rem;color:#8B9096;text-decoration:line-through}
-  .bb-harga b{font-family:'Space Grotesk',system-ui,sans-serif;
-    font-weight:700;font-size:1.2rem;color:#84CC16}
-  .bb-btn{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
+  .bb-btn{flex:1;text-align:center;font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
     font-size:.98rem;line-height:1;white-space:nowrap;
     background:#84CC16;color:#000000;padding:14px 24px;border-radius:999px}
 }
@@ -276,6 +272,17 @@ html{scroll-behavior:smooth}
                     <p class="text-gray-400 text-sm mt-2 font-normal">(Sekali bayar, akses selamanya. Bukan langganan!)</p>
                 </div>
 
+                <ul class="space-y-3 mb-8">
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span><b>92 halaman</b>, 6 bab berurutan, satu berkas PDF</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span>Cara <b>menggali skill dan pengalamanmu sendiri</b> jadi bahan e-book, walau merasa biasa saja</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span>Cara <b>membaca apa yang sebenarnya dibeli</b> target pembacamu</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span><b>Strategi harga</b>: kenapa e-book-mu bisa mahal, dan cara menentukan angkanya</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span><b>Alur produksi lengkap dengan bantuan AI</b>: dari premis, struktur, naskah, sampai file PDF jadi</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span>Cara membuat <b>judul, sampul utama, dan sampul tiap bab</b> yang konsisten</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span>Cara <b>mengakali AI yang ngeyel</b>, plus contoh studi kasus revisi naskah</span></li>
+                        <li class="flex gap-3 text-sm text-gray-300 font-normal"><span class="text-ikhlas-green font-bold flex-none">&#10003;</span><span><b>Gerbang monetisasi</b>: mengatur etalase, harga, dan mendatangkan pengunjung</span></li>
+                </ul>
+
                 <a href="http://lynk.id/ikhlassyamri/91lm69k8le4r/checkout" target="_blank" class="block w-full bg-ikhlas-green text-black text-center font-bold text-lg py-4 rounded-xl mb-4 hover:bg-lime-400 hover:scale-[1.02] transition-all">
                     👉 BELI E-BOOK SEKARANG
                 </a>
@@ -365,7 +372,7 @@ html{scroll-behavior:smooth}
 
 <!-- bilah beli melayang (HP). Menggulung ke bagian harga, bukan ke checkout. -->
 <a class="bilah-beli" id="bilahBeli" href="#checkout">
-  <span class="bb-harga"><s>Rp 150.000</s><b>Rp 49.000</b></span>
+
   <span class="bb-btn">Beli Sekarang</span>
 </a>
 <script>

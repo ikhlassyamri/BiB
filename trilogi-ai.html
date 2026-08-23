@@ -186,7 +186,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
   body{padding-bottom:80px}
   .bilah-beli{
     position:fixed;left:0;right:0;bottom:0;z-index:90;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    display:flex;align-items:center;justify-content:center;gap:14px;
     padding:10px 15px;padding-bottom:calc(10px + env(safe-area-inset-bottom));
     background:rgba(11,12,14,.95);
     -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -195,14 +195,16 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
     transform:translateY(125%);transition:transform .26s ease;
   }
   .bilah-beli.tampil{transform:translateY(0);pointer-events:auto}
-  .bb-harga{display:flex;flex-direction:column;line-height:1.2}
-  .bb-harga s{font-size:.76rem;color:#8B9096;text-decoration:line-through}
-  .bb-harga b{font-family:'Space Grotesk',system-ui,sans-serif;
-    font-weight:700;font-size:1.2rem;color:#22D3EE}
-  .bb-btn{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
+  .bb-btn{flex:1;text-align:center;font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;
     font-size:.98rem;line-height:1;white-space:nowrap;
     background:#22D3EE;color:#0B0C0E;padding:14px 24px;border-radius:999px}
 }
+
+.isi-paket{list-style:none;margin:22px auto 26px;max-width:430px;text-align:left}
+.isi-paket li{font-size:.96rem;color:var(--muted);padding-left:28px;position:relative;
+  margin-bottom:10px;line-height:1.65}
+.isi-paket li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--ac);font-weight:700}
+.isi-paket li b{color:var(--text);font-family:var(--disp);font-weight:600}
 </style>
 </head>
 <body>
@@ -227,23 +229,10 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
           </div>
         </div>
 
-        <div class="harga hanya-po">
-          <span class="label">Harga Pre-Order</span>
-          <span class="coret">Rp250.000</span>
-          <span class="kini">Rp149.000</span>
-        </div>
-        <div class="harga hanya-ls">
-          <span class="label">Harga Spesial</span>
-          <span class="coret">Rp350.000</span>
-          <span class="kini">Rp250.000</span>
-        </div>
-        <p class="hemat hanya-po">Hemat <b>Rp101.000</b> dari harga peluncuran. Ketiga buku sekaligus.</p>
-        <p class="hemat hanya-ls">Ketiga buku sekaligus. Tidak dijual satuan.</p>
+        <p class="hemat">Ketiga buku sekaligus. Tidak dijual satuan.</p>
 
-        <a class="btn hanya-po" href="https://wa.me/62895411449962?text=Hallo%20kak%20Ikhlas%2C%20saya%20mau%20beli%20ebook%20trilogi%20kecerdasan%20buatan">Ambil Harga Pre-Order &rarr;</a>
-        <a class="btn hanya-ls" href="https://lynk.id/ikhlassyamri/z8drk854mx8q/checkout">Ambil Ketiga Buku &rarr;</a>
-        <p class="btn-note hanya-po">Pesan lewat WhatsApp &middot; sekali bayar &middot; 3 file PDF, langsung dikirim setelah pembayaran</p>
-        <p class="btn-note hanya-ls">Pembayaran aman via Lynk.id &middot; QRIS, transfer bank, e-wallet &middot; file terkirim otomatis</p>
+        <a class="btn" href="#beli">Ambil Ketiga Buku &rarr;</a>
+        <p class="btn-note">3 file PDF, 442 halaman &middot; sekali bayar &middot; bisa dibaca di HP</p>
       </div>
       <div class="hero-visual">
         <img src="/trilogi-ai-cover.jpg" alt="Tiga sampul Trilogi Kecerdasan Buatan: Paham AI dari Nol, Prompt Engineering, dan AI Agent" width="1400" height="1400">
@@ -398,6 +387,15 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
       <span class="eyebrow tengah">AMBIL SEKARANG</span>
       <h2 class="hanya-po">Satu paket bertiga,<br>selama masa pre-order <em>Rp149.000</em></h2>
       <h2 class="hanya-ls">Satu paket bertiga,<br>442 halaman seharga <em>Rp250.000</em></h2>
+      <ul class="isi-paket">
+        <li><b>Tiga buku berurutan, 442 halaman</b>, tiga berkas PDF</li>
+        <li><b>Buku 1 Paham AI dari Nol</b>: dari tidak tahu apa-apa sampai paham cara kerjanya</li>
+        <li><b>Buku 2 Prompt Engineering</b>: cara menyuruh AI supaya hasilnya bukan jawaban umum</li>
+        <li><b>Buku 3 AI Agent</b>: merakit sesuatu yang bekerja sendiri tanpa kamu tungguin</li>
+        <li><b>35 gambar panduan</b>, langkahnya ditunjukkan, bukan cuma diceritakan</li>
+        <li>Semuanya bisa dikerjakan <b>dari HP, tanpa coding</b>, dan biaya alatnya <b>Rp0</b></li>
+        <li>Bersumber dari dokumen resmi <b>pembuat modelnya</b>, bukan tebakan</li>
+      </ul>
 
       <div class="mundur" id="mundur2" style="text-align:left">
         <div class="judul" id="mundur2-judul">Harga pre-order berakhir dalam</div>
@@ -526,7 +524,7 @@ footer img{height:26px;width:auto;margin:0 auto 14px}
 
 <!-- bilah beli melayang (HP). Menggulung ke bagian harga, bukan ke checkout. -->
 <a class="bilah-beli" id="bilahBeli" href="#beli">
-  <span class="bb-harga hanya-po"><s>Rp250.000</s><b>Rp149.000</b></span><span class="bb-harga hanya-ls"><s>Rp350.000</s><b>Rp250.000</b></span>
+
   <span class="bb-btn">Beli Sekarang</span>
 </a>
 <script>
