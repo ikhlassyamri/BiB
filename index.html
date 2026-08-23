@@ -40,6 +40,9 @@ document.documentElement.classList.add(Date.now() < NAIK_HARGA ? 'hn' : 'hb');
   --muted:#9AA1A9;
   --paper:#FFFFFF;
   --nv:#76B900;
+  /* merah khusus hitung mundur harga (5,73:1 di atas kartu harga).
+     #DC2626 sempat dicoba dan cuma 3,88:1, gagal WCAG AA. */
+  --merah:#FF4D4D;
   --wa:#25D366;
   --disp:'Space Grotesk',sans-serif;
   --body:'Inter',sans-serif;
@@ -291,11 +294,11 @@ html.hb .hanya-hn{display:none!important}
 html:not(.hn):not(.hb) .hanya-hb{display:none!important}
 html:not(.hn):not(.hb) .mundur{display:none!important}
 
-.mundur{border:1px solid var(--nv);border-radius:14px;
-  background:rgba(118,185,0,.06);padding:15px 16px;margin:22px auto 0;
+.mundur{border:1px solid var(--merah);border-radius:14px;
+  background:rgba(255,77,77,.07);padding:15px 16px;margin:22px auto 0;
   max-width:340px}
 .mundur .m-judul{font-family:var(--disp);font-weight:700;font-size:.72rem;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--nv);margin-bottom:10px}
+  letter-spacing:.16em;text-transform:uppercase;color:var(--merah);margin-bottom:10px}
 .jam{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .jam div{background:var(--panel-2);border:1px solid var(--line-soft);
   border-radius:9px;padding:8px 3px}
