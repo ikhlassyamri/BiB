@@ -53,6 +53,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#76B900;
+  --prisma:none;
   --ac-rgb:118,185,0;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
@@ -207,9 +208,21 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
   font-weight:600;background:var(--panel)}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
+/* ── PRISMA (topik berbranding spektrum, mis. Ilmu Konten) ──────────────
+   Halaman ini berlatar hitam, jadi judul besarnya AMAN digradien. Yang
+   kecil-kecil tetap memakai warna padat var(--ac).
+   @supports-nya wajib: tanpa dukungan background-clip:text, aturan
+   color:transparent membuat judulnya HILANG sama sekali. */
+.prisma .pita-prisma{display:block;height:4px;width:132px;border-radius:4px;
+  background:var(--prisma);margin:0 0 16px}
+.pita-prisma{display:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .prisma h1{background:var(--prisma);-webkit-background-clip:text;
+    background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+}
 </style>
 </head>
-<body>
+<body class="">
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
   <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
@@ -217,6 +230,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Clipper</span></nav>
+  <span class="pita-prisma" aria-hidden="true"></span>
   <h1>Kumpulan Ilmu Ngeklip dari Nol sampai Dibayar</h1>
 
   <p class="sub">Berisi cara memilih sumber, memotong momen, dan mengunggah klip. <span class="jml">(2 Chapter)</span></p>

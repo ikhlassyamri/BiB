@@ -63,6 +63,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#F97316;
+  --prisma:none;
   --ac-rgb:249,115,22;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
@@ -217,9 +218,21 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
   font-weight:600;background:var(--panel)}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
+/* ── PRISMA (topik berbranding spektrum, mis. Ilmu Konten) ──────────────
+   Halaman ini berlatar hitam, jadi judul besarnya AMAN digradien. Yang
+   kecil-kecil tetap memakai warna padat var(--ac).
+   @supports-nya wajib: tanpa dukungan background-clip:text, aturan
+   color:transparent membuat judulnya HILANG sama sekali. */
+.prisma .pita-prisma{display:block;height:4px;width:132px;border-radius:4px;
+  background:var(--prisma);margin:0 0 16px}
+.pita-prisma{display:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .prisma h1{background:var(--prisma);-webkit-background-clip:text;
+    background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+}
 </style>
 </head>
-<body>
+<body class="">
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
   <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
@@ -227,6 +240,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Ilmu Jualan</span></nav>
+  <span class="pita-prisma" aria-hidden="true"></span>
   <h1>Belajar Ilmu Jualan yang Dipakai Penjual Profesional</h1>
   <figure class="spanduk"><img src="/artikel/img-seri-jualan-1.jpg" alt="Dua tangan bertukar uang: satu menyodorkan beberapa lembar seratus ribu rupiah, satu lagi menerimanya, di bawah cahaya hangat" width="1440" height="810" loading="eager" decoding="async"></figure>
   <p class="sub">Berisi cara menawarkan, meyakinkan, dan Closing. <span class="jml">(5 Chapter)</span></p>
@@ -405,13 +419,13 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
       <img src="/tanya-harga-cover.jpg" alt="E-Book Setelah Dia Tanya Harga" width="92" height="138">
       <div>
         <div class="m-label">BUKAN KARENA KEMAHALAN</div>
-        <h3>Setelah Dia Tanya Harga</h3>
+        <h3>Dia Hilang Tepat Setelah Tanya Harga</h3>
         <p>Pembeli yang hilang setelah tanya harga belum pernah diajak melihat masalahnya sendiri, jadi yang dia bandingkan cuma angka. Urutan percakapannya dari sapaan pertama sampai dia bilang ya, dengan 27 contoh chat jadi.</p>
       </div>
     </div>
     <div class="m-baris">
-      <a class="btn-sm btn-notif" href="/tanya-harga">Lihat E-Booknya &rarr;</a>
-      <span class="m-kecil">Bukan janji penghasilan.</span>
+      <a class="btn-sm btn-notif" href="/tanya-harga">Contek 27 Chat Jadinya &rarr;</a>
+      <span class="m-kecil">Urutannya, bukan kata-kata ajaib.</span>
     </div>
   </div>
 </div>

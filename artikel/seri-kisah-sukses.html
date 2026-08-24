@@ -69,6 +69,7 @@
   --line:#272C33; --line-2:#343A43;
   --text:#F4F5F6; --muted:#A7AEB6; --dim:#7C848D;
   --ac:#D4AF37;
+  --prisma:none;
   --ac-rgb:212,175,55;
   --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
 }
@@ -223,9 +224,21 @@ h1{font-family:var(--disp);font-size:clamp(1.75rem,6vw,2.35rem);line-height:1.18
   font-weight:600;background:var(--panel)}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;
   color:var(--dim);font-size:.86rem}
+/* ── PRISMA (topik berbranding spektrum, mis. Ilmu Konten) ──────────────
+   Halaman ini berlatar hitam, jadi judul besarnya AMAN digradien. Yang
+   kecil-kecil tetap memakai warna padat var(--ac).
+   @supports-nya wajib: tanpa dukungan background-clip:text, aturan
+   color:transparent membuat judulnya HILANG sama sekali. */
+.prisma .pita-prisma{display:block;height:4px;width:132px;border-radius:4px;
+  background:var(--prisma);margin:0 0 16px}
+.pita-prisma{display:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .prisma h1{background:var(--prisma);-webkit-background-clip:text;
+    background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+}
 </style>
 </head>
-<body>
+<body class="">
 <header class="hdr">
   <a class="brand" href="/"><img src="/logo-white.png" alt="BiB"></a>
   <button class="btn-sm btn-notif" id="notifbtn" type="button">Nyalakan Notifikasi</button>
@@ -233,6 +246,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
 
 <main class="wrap">
   <nav class="crumb"><a href="/">Beranda</a> › <a href="/artikel">Artikel</a> › <span>Kisah Sukses</span></nav>
+  <span class="pita-prisma" aria-hidden="true"></span>
   <h1>Kumpulan Kisah Nyata Pengusaha &amp; Investor Sukses</h1>
   <figure class="spanduk"><img src="/artikel/img-seri-kisah-sukses-1.jpg" alt="Sepuluh pengusaha dan investor paling berpengaruh di dunia" width="1440" height="810" loading="eager" decoding="async"></figure>
   <p class="sub">Berisi ilmu dan pembelajaran dari orang-orang kaya di dunia. <span class="jml">(10 Chapter)</span></p>
@@ -519,13 +533,13 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;
       <img src="/titiknol-cover.jpg" alt="E-Book Bangkit dari Titik Nol" width="92" height="130">
       <div>
         <div class="m-label">YANG TIDAK BISA KAMU TIRU</div>
-        <h3>Bangkit dari Titik Nol</h3>
+        <h3>Mereka Bangkit Bukan Karena &#39;Semangat&#39;</h3>
         <p>Tiap kisah sukses punya bagian yang mustahil ditiru: modal, koneksi, zaman. Buku ini membedah keduanya berdampingan untuk 31 pengusaha, supaya kamu tidak menyalahkan diri sendiri untuk kegagalan yang bukan salahmu.</p>
       </div>
     </div>
     <div class="m-baris">
-      <a class="btn-sm btn-notif" href="/titiknol">Lihat E-Booknya &rarr;</a>
-      <span class="m-kecil">Bukan janji kaya instan.</span>
+      <a class="btn-sm btn-notif" href="/titiknol">Contek Keputusan Krusial Mereka &rarr;</a>
+      <span class="m-kecil">Bukan teori motivasi, dan bukan janji kaya instan.</span>
     </div>
   </div>
 </div>
