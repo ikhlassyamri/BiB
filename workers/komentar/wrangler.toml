@@ -1,8 +1,0 @@
-name = "komentar-artikel"
-main = "worker.js"
-compatibility_date = "2026-08-01"
-
-# Isi id-nya setelah membuat KV namespace (lihat README.md)
-[[kv_namespaces]]
-binding = "KOMENTAR"
-id = "GANTI-INI"
